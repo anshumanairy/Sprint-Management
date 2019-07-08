@@ -71,6 +71,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th>Sprint Name</th>
         <th>Topic</th>
         <th>Jira ID</th>
         <th>Status</th>
@@ -80,12 +81,19 @@
     <tbody>
       {% for d in data %}
       <tr>
+        <td></td>
         <td>{{ d.story_name }}</td>
         <td>{{ d.jira }}</td>
         <td>Live</td>
         <td>Feb 13th</td>
       </tr>
       {% endfor %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
 </div>
