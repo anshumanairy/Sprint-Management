@@ -659,10 +659,10 @@ def tasks(request):
             z='/prod/'
     id1 = request.session['id']
     pro = product.objects.all()
-    list1=[]
+    # list1=[]
     # for i in pro:
-    #     data = story.objects.filter(sprint_id=i.id)
-    #
+    data = story.objects.filter(sprint_id=id1)
+
     return(render(request,'tasks.html/',{'data':data,'z':z,'pro':pro}))
 
 def home(request):
