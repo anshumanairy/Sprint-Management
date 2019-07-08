@@ -232,15 +232,20 @@
   </div>
 </form>
 
-<!-- <script type="text/javascript">
-  $("button").click(function(){
-    $.ajax({ success: function(result){
-      $("#div1").html(result);
-    }});
-  });
-</script> -->
-
 <div id="m">
+
+<script type="text/javascript">
+  $("button").click(function(){
+    $.ajax({
+      type:'POST',
+      url:'product',
+      data: $('#f').serialize(),
+      success: function(data){
+        $("#m").html(data);
+      }
+    });
+  });
+</script>
 
 <script>
   function w4_open() {
