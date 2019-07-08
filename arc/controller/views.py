@@ -658,12 +658,23 @@ def tasks(request):
         else:
             z='/prod/'
     id1 = request.session['id']
-    pro = product.objects.all()
-    # list1=[]
-    # for i in pro:
     data = story.objects.filter(sprint_id=id1)
-
-    return(render(request,'tasks.html/',{'data':data,'z':z,'pro':pro}))
+    pro = product.objects.all()
+    list1=[]
+    k=0
+    for i in pro:
+        data1 = story.objects.filter(sprint_id=i.id)
+        list1.append([])
+        l=0
+        for j in data1:
+            list1[k].append([])
+            list1[k][l].append(i.name)
+            list1[k][l].append(j.story_name)
+            list1[k][l].append(j.jira)
+            l+=1
+        k+=1
+    print(list1)
+    return(render(request,'tasks.html/',{'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})

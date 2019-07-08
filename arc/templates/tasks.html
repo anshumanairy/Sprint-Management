@@ -79,14 +79,16 @@
       </tr>
     </thead>
     <tbody>
-        {% for d in data %}
+        {% for d in list1 %}
+          {% for d1 in d %}
         <tr>
-          <td></td>
-          <td>{{ d.story_name }}</td>
-          <td>{{ d.jira }}</td>
+          <td>{{ d1.0 }}</td>
+          <td>{{ d1.1 }}</td>
+          <td>{{ d1.2 }}</td>
           <td>Live</td>
           <td>Feb 13th</td>
         </tr>
+          {% endfor %}
         {% endfor %}
       <tr>
         <td></td>
