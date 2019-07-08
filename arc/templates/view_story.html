@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Story Management</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- CSS Files -->
+    {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
+
+    <style media="screen">
+        .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+      }
+      #spr{
+        padding-top: 70px;
+      }
+      input[type="text"]::placeholder,input[type="password"]::placeholder{
+        color:lightgrey;
+      }
+      #back{
+        background-color:   #f2f5f2;
+      }
+      #a{
+        background-color: white;
+        color:black;
+      }
+      #f{
+        width:550px;
+        padding-left: 15px;
+      }
+      #read{
+        background-color: lightgrey;
+      }
+    </style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  </head>
+  <body>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="{% url 'product' %}" class="w3-bar-item w3-button">Product Console</a>
+      <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
+      <a href="{% url 'allocation' %}" class="w3-bar-item w3-button">Allocation Dashboard</a>
+      <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Progress</a>
+      <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
+      <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">All Tasks</a>
+      <a href="{% url 'login' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
+    </div>
+
+    <div id="main">
+
+    <div class="w3-teal">
+      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      Sprint Management
+    </div>
+
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+
+    <div class="container-fluid">
+      <div class="col-md-2">
+        <a href="/prod/"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
+      </div>
+      <div class="col-md-2">
+        <a href="/bandwidth/"><button class="btn btn-primary btn-block" id="allocate"><small>Sprint Bandwidth</small></button></a>
+      </div>
+      <div class="col-md-2">
+        <a href="/allocation/"><button class="btn btn-primary btn-block" id="allocate"><small>ALlocation Dashboard</small></button></a>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-block"  onclick="w4_open()" id="allocate"><small>Add Story</small></button>
+      </div>
+    </div>
+
+{% if user.is_authenticated %}
+<form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
+  {% csrf_token %}
+  <div class="container">
+    <div class="col-sm-20">
+      <div class="card card-user" id="back">
+        <div class="card-header">
+          <h5 class="card-title">Add Story</h5>
+        </div>
+        <div class="card-body">
+          <form>
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Story Name</label>
+                  {{ form.story_name }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Description Link:</label>
+                  {{ form.description }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Jira ID</label>
+                  {{ form.jira }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <input type="submit" name="story_button" class="btn btn-primary btn-round" id="reg1" value="Create Story">
+              </div>
+            </div>
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <button class="btn btn-primary btn-block" onclick="w4_close()" id="story_close"><small>Close</small></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+    var frm = $('#f');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#re").html(data);
+            },
+            error: function(data) {
+                $("#MESSAGE-DIV").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+</script>
+
+<div id="m">
+
+<script>
+function w4_open() {
+  document.getElementById("m").style.marginTop = "0%";
+  document.getElementById("f").style.display = "block";
+  document.getElementById("allocate").style.display = 'none';
+}
+function w4_close() {
+  document.getElementById("m").style.marginTop = "0%";
+  document.getElementById("f").style.display = "none";
+  document.getElementById("allocate").style.display = "inline-block";
+}
+</script>
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table" id="tab2">
+              <thead class=" text-primary">
+                <!-- <th>Check</th> -->
+                <th>Story Name</th>
+                <th>Jira ID</th>
+                <th>Description</th>
+                <th>Action</th>
+              </thead>
+              <tbody>
+                {% for d in data %}
+                <tr class="w3-animate-top" style="display:none" id="e">
+                  <form method="get">
+                    <td><label>Story Name</label>
+                    <input type="text" name="s_name"></td>
+                    <td><label>Description Link</label>
+                    <input type="url" name="desc"></td>
+                    <td><label>Old Jira ID</label>
+                    <input type="text" name ="old_jira"></td>
+                    <td><label>New Jira ID</label>
+                    <input type="text" name="new_jira" placeholder="Enter New ID (Enter the same for no change.)"></td>
+                    <td>
+                      <input class ="btn-xs btn-info" type="submit" value="Submit" name="edit1">
+                      <input type="button" class="btn-xs btn-info" onclick="w5_close()" value="Dont Edit">
+                    </td>
+                  </form>
+                </tr>
+                <tr>
+                  <td>{{ d.story_name }}</td>
+                  <td>{{ d.jira }}</td>
+                  <td><a href="{{ d.description }}">{{ d.description }}</a></td>
+                  <td>
+                    <div id="re">
+                    <form method="get" id="del">
+                      <input type="hidden" name="delete_story" value="{{ d.id }}">
+                      <input type="submit" class="btn-xs btn-info" value="Delete">
+                    </form>
+                  </div>
+                    <input type="button" class="btn-xs btn-info" onclick="w5_open()" value="Edit" id="edit">
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var frm = $('#del');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                $("#re").html(data);
+            },
+            error: function(data) {
+                $("#MESSAGE-DIV").html("Something went wrong!");
+            }
+        });
+        return false;
+    });
+</script>
+
+<div id="n">
+
+<script>
+function w5_open() {
+  document.getElementById("n").style.marginTop = "0%";
+  document.getElementById("e").style.display = "block";
+  document.getElementById("edit").style.display = 'none';
+}
+function w5_close() {
+  document.getElementById("n").style.marginTop = "0%";
+  document.getElementById("e").style.display = "none";
+  document.getElementById("edit").style.display = "inline-block";
+}
+</script>
+
+{% endif %}
+  </body>
+</html>

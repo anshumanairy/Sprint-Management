@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Progress
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+  {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style media="screen">
+    body{
+      font-size: 10px;
+    }
+    .dev a {
+    background-color: Yellow !important;
+    color: Black !important;
+    }
+    .cr a {
+    background-color: Blue !important;
+    color: White !important;
+    }
+    .qa a {
+    background-color: Orange !important;
+    color: White !important;
+    }
+    .rel a {
+    background-color: Green !important;
+    color: White !important;
+    }
+    .box {
+      height: 10px;
+      width: 10px;
+      border: 1px solid grey;
+      margin-top: 1px;
+      clear: both;
+      float: left;
+    }
+    .red {
+      background-color: Blue !important;
+    }
+
+    .green {
+      background-color: Yellow !important;
+    }
+
+    .black {
+      background-color: Orange !important;
+    }
+    .purple {
+      background-color: Green !important;
+    }
+  </style>
+  </head>
+
+  <body>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Progress</a>
+      <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">All Tasks</a>
+      <a href="{% url 'login' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
+    </div>
+
+    <div id="main">
+
+    <div class="w3-teal">
+      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      Sprint Management
+    </div>
+
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+
+    <div class="container-fluid">
+      <div class="col-md-2">
+        <a href="{{ z }}"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="tab2">
+                  <thead class=" text-primary">
+                    <!-- <th>Check</th> -->
+                    <th>Name</th>
+                    <th>Jira ID</th>
+                    <th>Overall Status</th>
+                    <th>Estimate</th>
+                    <th>Actual</th>
+                    <th>Date</th>
+                    <th>Progress</th>
+                    <th>Check</th>
+                    <!-- <th>Check</th> -->
+                  </thead>
+                  <tbody>
+                    {% for i in data %}
+                    <tr>
+                      <td><b>{{ i.name }}</b></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                          <div class='box green'></div>-- Dev<br>
+                          <div class='box red'></div>-- CR Fix<br>
+                          <div class='box black'></div>-- QA Support<br>
+                          <div class='box purple'></div>-- Release Support<br>
+                      </td>
+                    </tr>
+                    {% for j in list1 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                        {% for k in j %}
+                    <form method="GET" id="se">
+                    <tr>
+                      <td>{{ k.0 }}</td>
+                      <td>{{ k.1 }}</td>
+                      <td>
+                        <select class="chosen" name="sel">
+                          <option>{{ k.3 }}</option>
+                          <option>Live</option>
+                          <option>In Progress</option>
+                          <option>HTML Done</option>
+                          <option>PHP Done</option>
+                          <option>API Done</option>
+                          <option>QA</option>
+                          <option>Pending Development</option>
+                          <option>Blocked</option>
+                          <option>BLocked on API</option>
+                          <option>Blocked on HTML</option>
+                          <option>Blocked on Mock</option>
+                          <option>Blocked on Spec</option>
+                          <option>Not Needed</option>
+                          <option>Next Sprint</option>
+                          <option>Duplicate</option>
+                          <option>CR</option>
+                        </select>
+                        <input type="hidden" name="jid" value="{{ k.1 }}">
+                        <input type="hidden" name="name1" value="{{ i.name }}">
+                        <input type="button" name="as" value="Assign">
+                      </td>
+                      <td>{{ k.2 }}</td>
+                      <td></td>
+                      <td><input type="text" name="startdate" placeholder="Start Date" class="datepicker">
+                          <input type="text" name="enddate" placeholder="End Date" class="datepicker"></td>
+                      <td>
+                        <select class="chosen" name="prg">
+                          <option>Dev</option>
+                          <option>CR Fix</option>
+                          <option>QA Support</option>
+                          <option>Release Support</option>
+                        </select>
+                        <input type="hidden" name="j1" value="{{ k.1 }}">
+                        <input type="hidden" name="name2" value="{{ i.name }}">
+                        <input type="submit" value="Submit">
+                      </td>
+                      <td><input type="text" placeholder="Check Status" class="datepicker1" id="datepicker{{k.5}}"></td>
+                      <script>
+                        $(document).ready(function() {
+                            var nDates = {};
+                            var data  = JSON.parse('{{ d1|escapejs }}');
+                            var stat = JSON.parse('{{ d2|escapejs }}');
+                            var jid = JSON.parse('{{ d3|escapejs }}');
+                            var arr1=[];
+                            var arr2=[];
+                            var arr3=[];
+                            var j_id=[];
+                            var dev_name=[];
+
+                              // alert(data);
+                            for(i in data){
+                              if(i=="{{i.name}}"){
+                                for(j in data[i]){
+                                  if(j=="{{k.5}}"){
+                                    for(k in data[i][j]){
+                                      if(data[i][j].hasOwnProperty(k)){
+                                          arr1.push(k);
+                                          arr2.push(data[i][j][k]);
+                                      }
+                                    }
+                                    dev_name.push(i);
+                                  }
+                                }
+                              }
+                            }
+                            // console.log(dev_name);
+
+                            for(i in stat){
+                              if(i=="{{i.name}}"){
+                                for(j in stat[i]){
+                                  if(j=="{{k.5}}"){
+                                    for(k in stat[i][j]){
+                                      if(stat[i][j].hasOwnProperty(k)){
+                                        arr3.push(stat[i][j][k]);
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                            // console.log(arr3);
+
+                          for(i in jid){
+                            if(i=="{{i.name}}"){
+                              for(j in jid[i]){
+                                if(j=="{{k.5}}"){
+                                  j_id.push(jid[i][j]);
+                                }
+                              }
+                            }
+                          }
+                          // console.log(j_id);
+
+                          for(var i =0 ;i<arr1.length;i++){
+                              var day = 1000*60*60*24;
+                              date1 = new Date(arr1[i]);
+                              date2 = new Date(arr2[i]);
+                              var diff = (date2.getTime()- date1.getTime())/day;
+                              for(var r=0;r<=diff; r++)
+                              {
+                                 var xx = date1.getTime()+day*r;
+                                 var yy = new Date(xx);
+                                 z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                                 if(arr3[i]=='Dev'){
+                                   nDates[new Date(z)] = 1;
+                                 }
+                                 if(arr3[i]=='CR Fix'){
+                                   nDates[new Date(z)] = 2;
+                                 }
+                                 if(arr3[i]=='QA Support'){
+                                   nDates[new Date(z)] = 3;
+                                 }
+                                 if(arr3[i]=='Release Support'){
+                                   nDates[new Date(z)] = 4;
+                                 }
+                              }
+                          }
+
+
+                          $("#datepicker{{k.5}}").datepicker({
+                              dateFormat: 'yy-mm-dd',
+                              minDate: new Date({{a}},{{b}}-1,{{c}}),
+                              maxDate: new Date({{d}},{{e}}-1,{{f}}),
+                              beforeShowDay: function (date) {
+                                  var dev1 = nDates[date];
+                                  var color="";
+                                  if (dev1) {
+                                      if(dev1==1)
+                                        color='dev';
+                                      if(dev1==2)
+                                        color='cr';
+                                      if(dev1==3)
+                                        color='qa';
+                                      if(dev1==4)
+                                        color='rel';
+                                      return [true, color, 'Tooltip text'];
+                                  }
+                                  else {
+                                      return [false, '', ''];
+                                  }
+                              }
+                          });
+                      });
+                    </script>
+
+                    </tr>
+                  </form>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+  $( function() {
+    $( ".datepicker" ).datepicker({
+      dateFormat: 'yy-mm-dd',
+      minDate: new Date({{a}},{{b}}-1,{{c}}),
+      maxDate: new Date({{d}},{{e}}-1,{{f}}),
+      beforeShowDay: $.datepicker.noWeekends
+    })
+  });
+</script>
+
+</body>
+
+</html>

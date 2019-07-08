@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Bandwidth
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+  <!-- Tempus Dominus Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- CSS Files -->
+  {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
+
+  <style media="screen">
+      .scrollable-menu {
+      height: auto;
+      max-height: 200px;
+      overflow-x: hidden;
+    }
+    #spr{
+      padding-top: 70px;
+    }
+    input[type="text"]::placeholder,input[type="password"]::placeholder{
+      color:lightgrey;
+    }
+    #back{
+      background-color:   #f2f5f2;
+    }
+    #a{
+      background-color: white;
+      color:black;
+    }
+    th{
+      color:grey;
+    }
+    #s{
+      width: 380px;
+      height: 300px;
+    }
+    #t{
+      border: 1px solid lightgrey;
+    }
+    td{
+      border : 1px solid lightgrey;
+    }
+    #tab2{
+      text-align: center;
+      font-size: 10px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+
+    <body class="">
+      <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+        <button class="w3-bar-item w3-button w3-large"
+        onclick="w3_close()">Close &times;</button>
+        <a href="{% url 'product' %}" class="w3-bar-item w3-button">Product Console</a>
+        <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
+        <a href="{% url 'allocation' %}" class="w3-bar-item w3-button">Allocation Dashboard</a>
+        <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Progress</a>
+        <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
+        <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">All Tasks</a>
+        <a href="{% url 'login' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
+      </div>
+
+    <div id="main">
+
+    <div class="w3-teal">
+      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      Sprint Management
+    </div>
+
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+
+    <div class="container-fluid">
+      <div class="col-md-2">
+        <a href="/prod/"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Bandwidth Calculator</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="tab2">
+                  <thead>
+                    <th>Name</th>
+                    <th>Skill</th>
+                    <th>Available Days</th>
+                    <th>Planned Leaves</th>
+                    <th>Unplanned Leaves</th>
+                    <th>Velocity Factor</th>
+                    <th>Available Bandwidth</th>
+                    <th>Story Points</th>
+                    <th>Assigned</th>
+                    <th>Delta</th>
+                  </thead>
+                  <tbody>
+                    {% for d22 in d2 %}{% for i in list1 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                        <tr id="t">
+                          <td>{{ d22.name }}</td>
+                          <td>JAVA</td>
+                          {% for b in band %}
+                          <td>{{ b.dev_working }}</td>
+                          {% endfor %}
+                          <td>
+                            {{ d22.planned }}
+                            <form method="get">
+                              <input type="number" name="leave1" min="0" value="0">
+                              <input type="hidden" value="{{ d22.id }}" name="leave2">
+                              <input type="hidden" value="java" name="leave3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td></td>
+                          <td>
+                            {{ d22.vfjava }}
+                            <form method="get">
+                              <input type="number" name="assign1" step="0.1" min="0" value="1">
+                              <input type="hidden" value="{{ d22.id }}" name="assign2">
+                              <input type="hidden" value="java" name="assign3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td>{{ d22.abjava }}</td>
+                          <td>{{ d22.spjava }}</td>
+                          <td>{{ i }}</td>
+                          <td>{{ d22.djava }}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}{% endfor %}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{ sjava }}</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    {% for d33 in d3 %}{% for i in list2 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                        <tr id="t">
+                          <td>{{ d33.name }}</td>
+                          <td>PHP</td>
+                          {% for b in band %}
+                          <td>{{ b.dev_working }}</td>
+                          {% endfor %}
+                          <td>
+                            {{ d33.planned }}
+                            <form method="get">
+                              <input type="number" name="leave1" min="0" value="0">
+                              <input type="hidden" value="{{ d33.id }}" name="leave2">
+                              <input type="hidden" value="php" name="leave3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td></td>
+                          <td>
+                            {{ d33.vfphp }}
+                            <form method="get">
+                              <input type="number" name="assign1" step="0.1" min="0" value="1">
+                              <input type="hidden" value="{{ d33.id }}" name="assign2">
+                              <input type="hidden" value="php" name="assign3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td>{{ d33.abphp }}</td>
+                          <td>{{ d33.spphp }}</td>
+                          <td>{{ i }}</td>
+                          <td>{{ d33.dphp }}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}{% endfor %}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{ sphp }}</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    {% for d44 in d4 %}{% for i in list3 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                        <tr id="t">
+                          <td>{{ d44.name }}</td>
+                          <td>HTML</td>
+                          {% for b in band %}
+                          <td>{{ b.dev_working }}</td>
+                          {% endfor %}
+                          <td>
+                            {{ d44.planned }}
+                            <form method="get">
+                              <input type="number" name="leave1" min="0" value="0">
+                              <input type="hidden" value="{{ d44.id }}" name="leave2">
+                              <input type="hidden" value="html" name="leave3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td></td>
+                          <td>
+                            {{ d44.vfhtml }}
+                            <form method="get">
+                              <input type="number" name="assign1" step="0.1" min="0" value="1">
+                              <input type="hidden" value="{{ d44.id }}" name="assign2">
+                              <input type="hidden" value="html" name="assign3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td>{{ d44.abhtml }}</td>
+                          <td>{{ d44.sphtml }}</td>
+                          <td>{{ i }}</td>
+                          <td>{{ d44.dhtml }}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}{% endfor %}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{ shtml }}</td>
+                      </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    {% for d55 in d5 %}{% for i in list4 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                        <tr id="t">
+                          <td>{{ d55.name }}</td>
+                          <td>QA</td>
+                          {% for b in band %}
+                          <td>{{ b.qa_working }}</td>
+                          {% endfor %}
+                          <td>
+                            {{ d55.planned }}
+                            <form method="get">
+                              <input type="number" name="leave1" min="0" value="0">
+                              <input type="hidden" value="{{ d55.id }}" name="leave2">
+                              <input type="hidden" value="qa" name="leave3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td></td>
+                          <td>
+                            {{ d55.vfqa }}
+                            <form method="get">
+                              <input type="number" name="assign1" step="0.1" min="0" value="1">
+                              <input type="hidden" value="{{ d55.id }}" name="assign2">
+                              <input type="hidden" value="qa" name="assign3">
+                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                            </form>
+                          </td>
+                          <td>{{ d55.abqa }}</td>
+                          <td>{{ d55.spqa }}</td>
+                          <td>{{ i }}</td>
+                          <td>{{ d55.dqa }}</td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}{% endfor %}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{ sqa }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="content" id="s">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Sprint Details</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="tab2" style="width:100%">
+                  <tbody>
+                    <tr>
+                      <th>Sprint Start Date</th>
+                      {% for b in band %}
+                        <td>{{ b.sprint_start_date }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <th>Sprint Dev End Date</th>
+                      {% for b in band %}
+                        <td>{{ b.sprint_dev_end_date }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <th>Sprint QA End Date</th>
+                      {% for b in band %}
+                        <td>{{ b.sprint_qa_end_date }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <th>Holidays</th>
+                      {% for b in band %}
+                        <td>{{ b.holidays }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <th>Dev Working Days</th>
+                      {% for b in band %}
+                        <td>{{ b.dev_working }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <th>QA Working Days</th>
+                      {% for b in band %}
+                        <td>{{ b.qa_working }}</td>
+                      {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {% load static %}
+      <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+      <script src="{% static '/jquery.min.js' %}"></script>
+      <script src="{% static '/popper.min.js' %}"></script>
+      <script src="{% static '/bootstrap.min.js' %}"></script>
+      <script src="{% static '/perfect-scrollbar.jquery.min.js' %}"></script>
+      <script src="{% static '/chartjs.min.js' %}"></script>
+      <script src="{% static '/bootstrap-notify.js' %}"></script>
+      <script src="{% static '/paper-dashboard.min.js' %}"></script>
+</body>
+</html>
