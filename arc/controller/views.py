@@ -32,7 +32,7 @@ def qaprg(request):
         z='/prod/'
     else:
         if register.objects.get(uname=request.user.username).roles=='dev':
-            z='qaprg'
+            z='prod'
         else:
             z='/prod/'
     id1 = request.session['id']
