@@ -198,7 +198,7 @@ function w4_close() {
               <tbody>
                 {% for d in data %}
                 <tr class="w3-animate-top" style="display:none" id="e">
-                  <form method="get">
+                  <form method="get" id='edit2'>
                     <td><label>Story Name</label>
                     <input type="text" name="s_name"></td>
                     <td><label>Description Link</label>
@@ -218,12 +218,12 @@ function w4_close() {
                   <td>{{ d.jira }}</td>
                   <td><a href="{{ d.description }}">{{ d.description }}</a></td>
                   <td>
-                    <div id="re">
                     <form method="get" id="del">
+                      {% csrf_token %}
                       <input type="hidden" name="delete_story" value="{{ d.id }}">
                       <input type="submit" class="btn-xs btn-info" value="Delete">
                     </form>
-                  </div>
+                    <form class="" action="index.html" method="post">
                     <input type="button" class="btn-xs btn-info" onclick="w5_open()" value="Edit" id="edit">
                   </td>
                 </tr>
@@ -238,18 +238,41 @@ function w4_close() {
 </div>
 
 <script type="text/javascript">
-    var frm = $('#f');
+    var frm = $('#f,#del,#edit2');
     frm.submit(function () {
-        $.ajax({
-            type: frm.attr('method'),
-            data: frm.serialize(),
-            success: function(data) {
-              $("#re").html(data);
-              alert('Story Created!');
-            },
-        });
-      return false;
+      if (this.id == 'f'){
+          $.ajax({
+              type: $('#f').attr('method'),
+              data: $('#f').serialize(),
+              success: function(data) {
+                $("#re").html(data);
+                $("#f")[0].reset();
+              },
+          });
+        return false;
+      }
+      else if (this.id == 'del'){
+          $.ajax({
+              type: $('#del').attr('method'),
+              data: $('#del').serialize(),
+              success: function(data) {
+                $("#re").html(data);
+              },
+          });
+        return false;
+      }
+      else if (this.id == 'edit2'){
+          $.ajax({
+              type: $('#edit2').attr('method'),
+              data: $('#edit2').serialize(),
+              success: function(data) {
+                $("#re").html(data);
+              },
+          });
+        return false;
+      }
     });
+</script>
 </script>
 
 <div id="n">

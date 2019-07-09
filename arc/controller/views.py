@@ -265,10 +265,10 @@ def view_story(request):
     data = story.objects.filter(sprint_id=id)
     form = storyform(request.POST or None)
     if request.method=='GET':
-        if 'delete_story' in request.GET:
+        if 'delete_story' in request.GET or request.is_ajax():
             x = request.GET.get('delete_story')
             story.objects.filter(sprint_id=id,id=x).delete()
-        if 'edit1' in request.GET:
+        if 'edit1' in request.GET or request.is_ajax():
             sn = request.GET.get('s_name')
             soj = request.GET.get('old_jira')
             snj = request.GET.get('new_jira')
@@ -278,6 +278,7 @@ def view_story(request):
             p.description = sd
             p.jira = snj
             p.save()
+
     if request.method=='POST':
         if 'story_button' in request.POST or request.is_ajax():
             if form.is_valid():
