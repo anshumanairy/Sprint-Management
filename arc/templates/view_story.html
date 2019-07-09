@@ -239,8 +239,7 @@ function w4_close() {
 
 <script type="text/javascript">
     var frm = $('#f');
-    frm.submit(function (e) {
-      e.preventDefault();
+    frm.submit(function () {
         $.ajax({
             type: frm.attr('method'),
             data: frm.serialize(),
@@ -249,6 +248,7 @@ function w4_close() {
               alert('Story Created!');
             },
         });
+      return false;
     });
 </script>
 

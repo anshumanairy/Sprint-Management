@@ -279,9 +279,9 @@ def view_story(request):
             p.jira = snj
             p.save()
     if request.method=='POST':
-        if 'story_button' in request.POST  or request.is_ajax():
-            form = storyform(request.POST)
+        if 'story_button' in request.POST or request.is_ajax():
             if form.is_valid():
+                form = storyform(request.POST)
                 form.instance.sprint_id=id
                 p = story.objects.filter(sprint_id=id)
                 for i in p:
