@@ -72,6 +72,9 @@
       padding-left: 15px;
       font:10px;
     }
+    .bootstrap-datetimepicker-widget.dropdown-menu{
+      width:20rem;
+    }
   </style>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
@@ -139,11 +142,13 @@
 <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
   {% csrf_token %}
   <div class="container">
+    <div class="col-sm-20">
       <div class="card card-user" id="back">
         <div class="card-header">
           <h5 class="card-title">Create Sprint</h5>
         </div>
 
+        <div class="card-body">
           <div class="row">
             <div class="col-md-6 pr-1">
               <div class="form-group">
@@ -154,7 +159,7 @@
           </div>
 
           <div class="row">
-              <div class='col-sm-7 pr-1'>
+              <div class='col-md-6 pr-1'>
                   <div class="form-group">
                       <label>Sprint Start Date</label>
                       <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -163,6 +168,15 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
+
+                      <script>
+                        $(function () {
+                          $("#datetimepicker1").datetimepicker({
+                            format: 'DD/MM/YYYY',
+                          });
+                        });
+                      </script>
+
                   </div>
               </div>
           </div>
@@ -177,6 +191,15 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
+
+                      <script>
+                        $(function () {
+                          $("#datetimepicker2").datetimepicker({
+                            format: 'DD/MM/YYYY',
+                          });
+                        });
+                      </script>
+
                   </div>
               </div>
           </div>
@@ -191,6 +214,15 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
+
+                      <script>
+                        $(function () {
+                          $("#datetimepicker3").datetimepicker({
+                            format: 'DD/MM/YYYY',
+                          });
+                        });
+                      </script>
+
                   </div>
               </div>
           </div>
@@ -216,7 +248,9 @@
             </div>
           </div>
 
+        </div>
       </div>
+    </div>
   </div>
 </form>
 
