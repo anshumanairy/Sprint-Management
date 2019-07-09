@@ -572,7 +572,7 @@ def allocation(request):
     d=sum(list4)
 
     if request.method=='GET':
-        if 'java_sel' in request.GET:
+        if 'java_sel' in request.GET or request.is_ajax():
             java_dev = request.GET.get('java_sel')
             p1 = request.GET.get('points1')
             storyname = request.GET.get('s_name')
@@ -590,7 +590,7 @@ def allocation(request):
                     list1.append(j.aggregate(Sum('javas'))['javas__sum'])
             a=sum(list1)
 
-        if 'php_sel' in request.GET:
+        if 'php_sel' in request.GET or request.is_ajax():
             php_dev = request.GET.get('php_sel')
             p2 = request.GET.get('points2')
             n = register.objects.get(name=php_dev)
@@ -607,7 +607,7 @@ def allocation(request):
                     list2.append(j.aggregate(Sum('phps'))['phps__sum'])
             b=sum(list2)
 
-        if 'html_sel' in request.GET:
+        if 'html_sel' in request.GET or request.is_ajax():
             html_dev = request.GET.get('html_sel')
             p3 = request.GET.get('points3')
             n = register.objects.get(name=html_dev)
@@ -624,7 +624,7 @@ def allocation(request):
                     list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
             c=sum(list3)
 
-        if 'qa_sel' in request.GET:
+        if 'qa_sel' in request.GET or request.is_ajax():
             qa_dev = request.GET.get('qa_sel')
             p4 = request.GET.get('points4')
             n = register.objects.get(name=qa_dev)
