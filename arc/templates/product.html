@@ -17,7 +17,27 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
-
+   <script>
+     $(function () {
+       $("#datetimepicker1").datetimepicker({
+         format: 'DD/MM/YYYY',
+       });
+     });
+   </script>
+   <script>
+     $(function () {
+       $("#datetimepicker2").datetimepicker({
+         format: 'DD/MM/YYYY',
+       });
+     });
+   </script>
+   <script>
+     $(function () {
+       $("#datetimepicker3").datetimepicker({
+         format: 'DD/MM/YYYY',
+       });
+     });
+   </script>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -50,8 +70,8 @@
     #f{
       width:550px;
       padding-left: 15px;
+      font:10px;
     }
-
   </style>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
@@ -119,13 +139,11 @@
 <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
   {% csrf_token %}
   <div class="container">
-    <div class="col-sm-20">
       <div class="card card-user" id="back">
         <div class="card-header">
           <h5 class="card-title">Create Sprint</h5>
         </div>
 
-        <div class="card-body">
           <div class="row">
             <div class="col-md-6 pr-1">
               <div class="form-group">
@@ -136,7 +154,7 @@
           </div>
 
           <div class="row">
-              <div class='col-md-6 pr-1'>
+              <div class='col-sm-7 pr-1'>
                   <div class="form-group">
                       <label>Sprint Start Date</label>
                       <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -145,15 +163,6 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
-
-                      <script>
-                        $(function () {
-                          $("#datetimepicker1").datetimepicker({
-                            format: 'DD/MM/YYYY',
-                          });
-                        });
-                      </script>
-
                   </div>
               </div>
           </div>
@@ -168,15 +177,6 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
-
-                      <script>
-                        $(function () {
-                          $("#datetimepicker2").datetimepicker({
-                            format: 'DD/MM/YYYY',
-                          });
-                        });
-                      </script>
-
                   </div>
               </div>
           </div>
@@ -191,15 +191,6 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
-
-                      <script>
-                        $(function () {
-                          $("#datetimepicker3").datetimepicker({
-                            format: 'DD/MM/YYYY',
-                          });
-                        });
-                      </script>
-
                   </div>
               </div>
           </div>
@@ -225,9 +216,7 @@
             </div>
           </div>
 
-        </div>
       </div>
-    </div>
   </div>
 </form>
 
