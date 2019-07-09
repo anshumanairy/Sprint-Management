@@ -221,7 +221,7 @@ def prod(request):
 
     if request.method=='POST':
         # productform condition where sprint_button is the name for submit button for sprint form
-        if 'sprint_button' in request.POST:
+        if 'sprint_button' in request.POST or request.is_ajax():
             if request.user.is_superuser:
                 if form.is_valid():
                     form = productform(request.POST)

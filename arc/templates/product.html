@@ -11,12 +11,16 @@
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script
+			  src="https://code.jquery.com/jquery-3.3.1.js"
+			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+			  crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
    <script>
      $(function () {
        $("#datetimepicker1").datetimepicker({
@@ -79,8 +83,7 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
 
-  <body>
-    <div id="re">
+  <body id="re">
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
@@ -238,7 +241,7 @@
 
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <input type="button" name="sprint_button" class="btn btn-primary btn-round" id="reg1" value="Create Sprint">
+              <input type="submit" name="sprint_button" class="btn btn-primary btn-round" id="reg1" value="Create Sprint">
             </div>
           </div>
 
@@ -254,23 +257,20 @@
   </div>
 </form>
 
-<!-- <script type="text/javascript">
-    $("#regform").submit(function(){
-      $.ajax({
-        type:'POST',
-        data: $('#f').serialize(),
-        success: function(data){
-          $("#re").html(data);
-          alert('done');
-        }
-      });
+<script type="text/javascript">
+    var frm = $('#f');
+    frm.submit(function (e) {
+      e.preventDefault();
+        $.ajax({
+            type: frm.attr('method'),
+            data: frm.serialize(),
+            success: function(data) {
+              $("#re").html(data);
+              alert('Sprint Created!');
+            },
+        });
     });
-</script> -->
-
-<!-- <script
-     src="https://code.jquery.com/jquery-3.4.1.min.js"
-     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-     crossorigin="anonymous"></script> -->
+</script>
 
 <div id="m">
 

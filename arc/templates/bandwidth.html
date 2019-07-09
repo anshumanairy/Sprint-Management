@@ -186,7 +186,7 @@
                           {% endfor %}
                           <td>
                             {{ d33.planned }}
-                            <form method="get" id="php">
+                            <form method="get" id="{{ d33.id }}">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
@@ -381,7 +381,7 @@
     </div>
 
     <script type="text/javascript">
-        var frm = $('#php');
+        var frm = $('#{{ d33.id }}');
         frm.submit(function () {
             $.ajax({
                 type: frm.attr('method'),
