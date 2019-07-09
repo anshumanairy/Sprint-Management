@@ -16,22 +16,6 @@
       integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
       crossorigin="anonymous"></script>
 
-      <script type="text/javascript">
-        $(function () {
-          $('#lv').on('submit',function (e) {
-            $.ajax({
-              type: 'get',
-              data: $('#lv').serialize(),
-              success: function (data) {
-               alert("Email has been sent!");
-              }
-            });
-            // e.preventDefault();
-            return false;
-          });
-        });
-      </script>
-
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -82,7 +66,7 @@
   </style>
   </head>
 
-    <body class="">
+    <body id="re">
       <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
         <button class="w3-bar-item w3-button w3-large"
         onclick="w3_close()">Close &times;</button>
@@ -155,7 +139,7 @@
                           {% endfor %}
                           <td>
                             {{ d22.planned }}
-                            <form method="get" id="lv">
+                            <form method="get" id="java">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d22.id }}" name="leave2">
                               <input type="hidden" value="java" name="leave3">
@@ -202,7 +186,7 @@
                           {% endfor %}
                           <td>
                             {{ d33.planned }}
-                            <form method="get">
+                            <form method="get" id="php">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
@@ -249,7 +233,7 @@
                           {% endfor %}
                           <td>
                             {{ d44.planned }}
-                            <form method="get">
+                            <form method="get" id="html">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d44.id }}" name="leave2">
                               <input type="hidden" value="html" name="leave3">
@@ -296,7 +280,7 @@
                           {% endfor %}
                           <td>
                             {{ d55.planned }}
-                            <form method="get">
+                            <form method="get" id="qa">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d55.id }}" name="leave2">
                               <input type="hidden" value="qa" name="leave3">
@@ -395,6 +379,20 @@
         </div>
       </div>
     </div>
+
+    <script type="text/javascript">
+        var frm = $('#php');
+        frm.submit(function () {
+            $.ajax({
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                success: function (data) {
+                    $("#re").html(data);
+                },
+            });
+            return false;
+        });
+    </script>
 
 </body>
 
