@@ -223,7 +223,6 @@ function w4_close() {
                       <input type="hidden" name="delete_story" value="{{ d.id }}">
                       <input type="submit" class="btn-xs btn-info" value="Delete">
                     </form>
-                    <form class="" action="index.html" method="post">
                     <input type="button" class="btn-xs btn-info" onclick="w5_open()" value="Edit" id="edit">
                   </td>
                 </tr>
@@ -261,16 +260,16 @@ function w4_close() {
           });
         return false;
       }
-      else if (this.id == 'edit2'){
-          $.ajax({
-              type: $('#edit2').attr('method'),
-              data: $('#edit2').serialize(),
-              success: function(data) {
-                $("#re").html(data);
-              },
-          });
-        return false;
-      }
+      // else if (this.id == 'edit2'){
+      //     $.ajax({
+      //         type: $('#edit2').attr('method'),
+      //         data: $('#edit2').serialize(),
+      //         success: function(data) {
+      //           $("#re").html(data);
+      //         },
+      //     });
+      //   return false;
+      // }
     });
 </script>
 </script>
