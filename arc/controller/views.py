@@ -28,13 +28,13 @@ def checkman(user):
 
 @login_required
 def qaprg(request):
-    if request.user.is_superuser:
-        z='/prod/'
-    else:
-        if register.objects.get(uname=request.user.username).roles=='dev':
-            z='prod'
-        else:
-            z='/prod/'
+    # if request.user.is_superuser:
+    #     z='/prod/'
+    # else:
+    #     if register.objects.get(uname=request.user.username).roles=='dev':
+    #         z='prod'
+    #     else:
+    #         z='/prod/'
     id1 = request.session['id']
     data = register.objects.filter(roles='dev')
     list1=[]
@@ -650,13 +650,13 @@ def allocation(request):
 
 @login_required
 def tasks(request):
-    if request.user.is_superuser:
-        z='/prod/'
-    else:
-        if register.objects.get(uname=request.user.username).roles=='dev':
-            z='/tasks/'
-        else:
-            z='/prod/'
+    # if request.user.is_superuser:
+    #     z='/prod/'
+    # else:
+    #     if register.objects.get(uname=request.user.username).roles=='dev':
+    #         z='/tasks/'
+    #     else:
+    #         z='/prod/'
     id1 = request.session['id']
     data = story.objects.filter(sprint_id=id1)
     pro = product.objects.all()
