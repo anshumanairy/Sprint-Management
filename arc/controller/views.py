@@ -282,8 +282,8 @@ def view_story(request):
 
     if request.method=='POST':
         if 'story_button' in request.POST or request.is_ajax():
-            form = storyform(request.POST)
             if form.is_valid():
+                form = storyform(request.POST)
                 form.instance.sprint_id=id
                 p = story.objects.all()
                 for i in p:
