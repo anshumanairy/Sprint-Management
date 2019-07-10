@@ -44,16 +44,12 @@
     #tab1{
       text-align: center;
       font-size: 10px;
-      /* width:1000px; */
       border: solid lightgrey .5px;
-      /* padding: 40px; */
     }
     #tab2{
       text-align: center;
       font-size: 10px;
-      /* width:1000px; */
       border: solid lightgrey .5px;
-      /* padding: 40px; */
     }
     .table{
       border: .5px solid lightgrey;
@@ -82,6 +78,7 @@
 </head>
 
 <body id="re">
+
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
     <button class="w3-bar-item w3-button w3-large"
     onclick="w3_close()">Close &times;</button>
@@ -121,7 +118,6 @@
     </div>
   </div>
 
-
 <div class="content">
   <div class="row">
     <div class="col-md-12">
@@ -147,7 +143,8 @@
                   <td>{{ dash.story_name }}</td>
                   <td>{{ dash.jira }}</td>
 
-                  <form method="GET" id="form_id">
+                  <form method="GET" id="form_id{{dash.jira}}">
+                    {% csrf_token %}
                     <td class="t">
                     <!-- dropdown developer -->
                       <select  name="java_sel" class="chosen">
@@ -196,8 +193,25 @@
                         <input type="number" name="points4" min="0" value="0" id="c">
                       </td>
 
-                    <td><input type="submit" class="btn-xs btn-info" id="reg1" value="Assign"></td>
+                    <td><input type="submit" name="assign_data" class="btn-xs btn-info" id="reg1" value="Assign"></td>
                     </form>
+
+                    <script type="text/javascript">
+                        var frm = $('#form_id{{dash.jira}}');
+                        frm.submit(function () {
+                          if (this.id == 'form_id{{dash.jira}}'){
+                              $.ajax({
+                                  type: $('#form_id{{dash.jira}}').attr('method'),
+                                  url: ('allocation'),
+                                  data: $('#form_id{{dash.jira}}').serialize(),
+                                  success: function(data) {
+                                    $("#re").html(data);                                  },
+                              });
+                            return false;
+                          }
+                        });
+                    </script>
+                    
                   </tr>
                 {% endfor %}
               </tbody>
@@ -300,23 +314,6 @@
     </div>
   </div>
 </div>
-
-
-<!-- <script type="text/javascript">
-    var frm = $('#form_id');
-    frm.submit(function () {
-      if (this.id == 'form_id'){
-          $.ajax({
-              type: $('#form_id').attr('method'),
-              data: $('#form_id').serialize(),
-              success: function(data) {
-                $("#re").html(data);
-              },
-          });
-        return false;
-      }
-    });
-</script> -->
 
 </body>
 </html>
