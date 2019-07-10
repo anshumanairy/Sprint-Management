@@ -212,21 +212,6 @@ function w4_close() {
                       <input type="button" class="btn-xs btn-info" onclick="w5_close()" value="Dont Edit">
                     </td>
                   </form>
-                  <script type="text/javascript">
-                      var frm = $('#edit2');
-                      frm.submit(function () {
-                        if (this.id == 'edit2'){
-                            $.ajax({
-                                type: $('#edit2').attr('method'),
-                                data: $('#edit2').serialize(),
-                                success: function(data) {
-                                  $("#re").html(data);
-                                },
-                            });
-                          return false;
-                        }
-                      });
-                  </script>
                 </tr>
                 <tr>
                   <td>{{ d.story_name }}</td>
