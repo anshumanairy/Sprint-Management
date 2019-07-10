@@ -242,7 +242,6 @@ function w4_close() {
                         var frm = $('#x{{d.id}}');
                         frm.submit(function () {
                           if (this.id == 'x{{d.id}}'){
-                            console.log('{{d.id}}');
                               $.ajax({
                                   type: $('#x{{d.id}}').attr('method'),
                                   data: $('#x{{d.id}}').serialize(),

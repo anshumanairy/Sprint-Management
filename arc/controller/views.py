@@ -573,15 +573,15 @@ def allocation(request):
     d=sum(list4)
 
     if request.method=='GET':
-        if 'java_sel' in request.GET or request.is_ajax():
+        if 'assign_data' in request.GET or request.is_ajax():
             java_dev = request.GET.get('java_sel')
             p1 = request.GET.get('points1')
             storyname = request.GET.get('s_name')
-            # n = register.objects.get(name=java_dev)
-            # p = story.objects.get(sprint_id=id1,story_name=storyname)
-            # p.dev_java = java_dev
-            # p.javas = int(p1)
-            # p.save()
+            n = register.objects.get(name=java_dev)
+            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p.dev_java = java_dev
+            p.javas = int(p1)
+            p.save()
             print(java_dev,p1,storyname)
             list1=[]
             for i in d1:
@@ -592,15 +592,14 @@ def allocation(request):
                     list1.append(j.aggregate(Sum('javas'))['javas__sum'])
             a=sum(list1)
 
-        if 'php_sel' in request.GET or request.is_ajax():
             php_dev = request.GET.get('php_sel')
             p2 = request.GET.get('points2')
             storyname = request.GET.get('s_name')
-            # n = register.objects.get(name=php_dev)
-            # p = story.objects.get(sprint_id=id1,story_name=storyname)
-            # p.dev_php = php_dev
-            # p.phps = int(p2)
-            # p.save()
+            n = register.objects.get(name=php_dev)
+            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p.dev_php = php_dev
+            p.phps = int(p2)
+            p.save()
             print(php_dev,p2,storyname)
             list2=[]
             for i in d1:
@@ -611,15 +610,14 @@ def allocation(request):
                     list2.append(j.aggregate(Sum('phps'))['phps__sum'])
             b=sum(list2)
 
-        if 'html_sel' in request.GET or request.is_ajax():
             html_dev = request.GET.get('html_sel')
             p3 = request.GET.get('points3')
             storyname = request.GET.get('s_name')
-            # n = register.objects.get(name=html_dev)
-            # p = story.objects.get(sprint_id=id1,story_name=storyname)
-            # p.dev_html = html_dev
-            # p.htmls = int(p3)
-            # p.save()
+            n = register.objects.get(name=html_dev)
+            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p.dev_html = html_dev
+            p.htmls = int(p3)
+            p.save()
             print(html_dev,p3,storyname)
             list3=[]
             for i in d1:
@@ -630,15 +628,14 @@ def allocation(request):
                     list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
             c=sum(list3)
 
-        if 'qa_sel' in request.GET or request.is_ajax():
             qa_dev = request.GET.get('qa_sel')
             p4 = request.GET.get('points4')
             storyname = request.GET.get('s_name')
-            # n = register.objects.get(name=qa_dev)
-            # p = story.objects.get(sprint_id=id1,story_name=storyname)
-            # p.dev_qa = qa_dev
-            # p.qas = int(p4)
-            # p.save()
+            n = register.objects.get(name=qa_dev)
+            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p.dev_qa = qa_dev
+            p.qas = int(p4)
+            p.save()
             print(qa_dev,p4,storyname)
             list4=[]
             for i in d1:
