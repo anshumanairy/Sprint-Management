@@ -267,8 +267,8 @@ def view_story(request):
     if request.method=='GET':
         if 'delete_story' in request.GET or request.is_ajax():
             x = request.GET.get('delete_story')
-            # story.objects.filter(sprint_id=id,id=x).delete()
-            print(x)
+            story.objects.filter(sprint_id=id,id=x).delete()
+            # print(x)
         if 'edit1' in request.GET:
             sn = request.GET.get('s_name')
             soj = request.GET.get('old_jira')
