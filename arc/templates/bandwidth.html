@@ -139,12 +139,27 @@
                           {% endfor %}
                           <td>
                             {{ d22.planned }}
-                            <form method="get" id="java">
+                            <form method="get" id="java{{d22.id}}">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d22.id }}" name="leave2">
                               <input type="hidden" value="java" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
                             </form>
+                            <script type="text/javascript">
+                                var frm = $('#java{{d22.id}}');
+                                frm.submit(function (){
+                                  if (this.id == 'java{{d22.id}}'){
+                                      $.ajax({
+                                          type: $('#java{{d22.id}}').attr('method'),
+                                          data: $('#java{{d22.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                            </script>
                           </td>
                           <td></td>
                           <td>
@@ -186,12 +201,28 @@
                           {% endfor %}
                           <td>
                             {{ d33.planned }}
-                            <form method="get" id="java">
+                            <form method="get" id="php{{d33.id}}">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                var frm = $('#php{{d33.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'php{{d33.id}}'){
+                                      $.ajax({
+                                          type: $('#php{{d33.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#php{{d33.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                            </script>
                           </td>
                           <td></td>
                           <td>
@@ -233,12 +264,28 @@
                           {% endfor %}
                           <td>
                             {{ d44.planned }}
-                            <form method="get" id="html">
+                            <form method="get" id="html{{d44.id}}">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d44.id }}" name="leave2">
                               <input type="hidden" value="html" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                var frm = $('#html{{d44.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'html{{d44.id}}'){
+                                      $.ajax({
+                                          type: $('#html{{d44.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#html{{d44.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                            </script>
                           </td>
                           <td></td>
                           <td>
@@ -280,12 +327,28 @@
                           {% endfor %}
                           <td>
                             {{ d55.planned }}
-                            <form method="get" id="qa">
+                            <form method="get" id="qa{{d55.id}}">
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d55.id }}" name="leave2">
                               <input type="hidden" value="qa" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                var frm = $('#qa{{d55.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'qa{{d55.id}}'){
+                                      $.ajax({
+                                          type: $('#qa{{d55.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#qa{{d55.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                            </script>
                           </td>
                           <td></td>
                           <td>
@@ -379,23 +442,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <script type="text/javascript">
-        var frm = $('#java');
-        frm.submit(function () {
-          if (this.id == 'java'){
-              $.ajax({
-                  type: $('#java').attr('method'),
-                  url: 'bandwidth/',
-                  data: $('#java').serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                  },
-              });
-            return false;
-          }
-        });
-    </script> -->
 
 </body>
 
