@@ -218,7 +218,7 @@ function w4_close() {
                   <td>{{ d.jira }}</td>
                   <td><a href="{{ d.description }}">{{ d.description }}</a></td>
                   <td>
-                    <form method="get" id="del">
+                    <form method="get" id="x{{d.id}}">
                       {% csrf_token %}
                       <input type="hidden" name="delete_story" value="{{ d.id }}">
                       <input type="submit" class="btn-xs btn-info" value="Delete">
@@ -237,7 +237,7 @@ function w4_close() {
 </div>
 
 <script type="text/javascript">
-    var frm = $('#f,#del,#edit2');
+    var frm = $('#f,#x{{d.id}}');
     frm.submit(function () {
       if (this.id == 'f'){
           $.ajax({
@@ -250,26 +250,16 @@ function w4_close() {
           });
         return false;
       }
-      else if (this.id == 'del'){
+      else if (this.id == 'x{{d.id}}'){
           $.ajax({
-              type: $('#del').attr('method'),
-              data: $('#del').serialize(),
+              type: $('#x{{d.id}}').attr('method'),
+              data: $('#x{{d.id}}').serialize(),
               success: function(data) {
                 $("#re").html(data);
               },
           });
         return false;
       }
-      // else if (this.id == 'edit2'){
-      //     $.ajax({
-      //         type: $('#edit2').attr('method'),
-      //         data: $('#edit2').serialize(),
-      //         success: function(data) {
-      //           $("#re").html(data);
-      //         },
-      //     });
-      //   return false;
-      // }
     });
 </script>
 

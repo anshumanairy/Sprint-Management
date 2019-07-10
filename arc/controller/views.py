@@ -267,7 +267,8 @@ def view_story(request):
     if request.method=='GET':
         if 'delete_story' in request.GET or request.is_ajax():
             x = request.GET.get('delete_story')
-            story.objects.filter(sprint_id=id,id=x).delete()
+            # story.objects.filter(sprint_id=id,id=x).delete()
+            print(x)
         if 'edit1' in request.GET:
             sn = request.GET.get('s_name')
             soj = request.GET.get('old_jira')
@@ -281,10 +282,10 @@ def view_story(request):
 
     if request.method=='POST':
         if 'story_button' in request.POST or request.is_ajax():
+            form = storyform(request.POST)
             if form.is_valid():
-                form = storyform(request.POST)
                 form.instance.sprint_id=id
-                p = story.objects.filter(sprint_id=id)
+                p = story.objects.all()
                 for i in p:
                     if form.instance.jira == i.jira:
                         return HttpResponse("Jira ID already exists! Please Choose another one!")
