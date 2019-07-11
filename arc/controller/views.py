@@ -265,15 +265,16 @@ def view_story(request):
     data = story.objects.filter(sprint_id=id)
     form = storyform(request.POST or None)
     if request.method=='GET':
-        if 'delete_story' in request.GET or request.is_ajax():
+        if 'delete_story' in request.GET:
             x = request.GET.get('delete_story')
             story.objects.filter(sprint_id=id,id=x).delete()
             # print(x)
-        if 'edit1' in request.GET:
+        if 's_name' in request.GET:
             sn = request.GET.get('s_name')
+            sd = request.GET.get('desc')
             soj = request.GET.get('old_jira')
             snj = request.GET.get('new_jira')
-            sd = request.GET.get('desc')
+            print(snj)
             p = story.objects.get(sprint_id=id,jira=soj)
             p.story_name = sn
             p.description = sd
@@ -281,18 +282,17 @@ def view_story(request):
             p.save()
 
     if request.method=='POST':
-        if 'story_button' in request.POST or request.is_ajax():
-            form = storyform(request.POST)
-            if form.is_valid():
-                form.instance.sprint_id=id
-                p = story.objects.all()
-                for i in p:
-                    if form.instance.jira == i.jira:
-                        return HttpResponse("Jira ID already exists! Please Choose another one!")
-                form.save()
-                return redirect('view_story')
-            else:
-                return HttpResponse("Data not stored!")
+        form = storyform(request.POST)
+        if form.is_valid():
+            form.instance.sprint_id=id
+            p = story.objects.all()
+            for i in p:
+                if form.instance.jira == i.jira:
+                    return HttpResponse("Jira ID already exists! Please Choose another one!")
+            form.save()
+            return redirect('view_story')
+        else:
+            return HttpResponse("Data not stored!")
     else:
         form = storyform()
     return render(request,'view_story.html/',{'form':form,'data':data})

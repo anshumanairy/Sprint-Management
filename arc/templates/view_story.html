@@ -15,11 +15,6 @@
   			  src="https://code.jquery.com/jquery-3.3.1.js"
   			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   			  crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -199,6 +194,7 @@ function w4_close() {
                 {% for d in data %}
                 <tr class="w3-animate-top" style="display:none" id="e">
                   <form method="get" id='edit2'>
+                    {% csrf_token %}
                     <td><label>Story Name</label>
                     <input type="text" name="s_name"></td>
                     <td><label>Description Link</label>
@@ -208,25 +204,29 @@ function w4_close() {
                     <td><label>New Jira ID</label>
                     <input type="text" name="new_jira" placeholder="Enter New ID (Enter the same for no change.)"></td>
                     <td>
-                      <input class ="btn-xs btn-info" type="submit" value="Submit" name="edit1">
+                      <input class ="btn-xs btn-info" type="submit" value="Submit">
                       <input type="button" class="btn-xs btn-info" onclick="w5_close()" value="Dont Edit">
                     </td>
                   </form>
-                  <!-- <script type="text/javascript">
-                      var frm = $('#edit2');
-                      frm.submit(function () {
-                        if (this.id == 'edit2'){
-                            $.ajax({
-                                type: $('#edit2').attr('method'),
-                                data: $('#edit2').serialize(),
-                                success: function(data) {
-                                  $("#re").html(data);
-                                },
-                            });
-                          return false;
-                        }
+
+                  <script type="text/javascript">
+                      jQuery(document).ready(function($){
+                        var frm = $('#edit2');
+                        frm.submit(function () {
+                          if (this.id == 'edit2'){
+                              $.ajax({
+                                  type: $('#edit2').attr('method'),
+                                  data: $('#edit2').serialize(),
+                                  success: function(data) {
+                                    $("#re").html(data);
+                                  },
+                              });
+                            return false;
+                          }
+                        });
                       });
-                  </script> -->
+                  </script>
+
                 </tr>
                 <tr>
                   <td>{{ d.story_name }}</td>
@@ -239,18 +239,20 @@ function w4_close() {
                       <input type="submit" class="btn-xs btn-info" value="Delete">
                     </form>
                     <script type="text/javascript">
-                        var frm = $('#x{{d.id}}');
-                        frm.submit(function () {
-                          if (this.id == 'x{{d.id}}'){
-                              $.ajax({
-                                  type: $('#x{{d.id}}').attr('method'),
-                                  data: $('#x{{d.id}}').serialize(),
-                                  success: function(data) {
-                                    $("#re").html(data);
-                                  },
-                              });
-                            return false;
-                          }
+                        jQuery(document).ready(function($){
+                          var frm = $('#x{{d.id}}');
+                          frm.submit(function () {
+                            if (this.id == 'x{{d.id}}'){
+                                $.ajax({
+                                    type: $('#x{{d.id}}').attr('method'),
+                                    data: $('#x{{d.id}}').serialize(),
+                                    success: function(data) {
+                                      $("#re").html(data);
+                                    },
+                                });
+                              return false;
+                            }
+                          });
                         });
                     </script>
                     <input type="button" class="btn-xs btn-info" onclick="w5_open()" value="Edit" id="edit">
@@ -267,19 +269,21 @@ function w4_close() {
 </div>
 
 <script type="text/javascript">
-    var frm = $('#f');
-    frm.submit(function () {
-      if (this.id == 'f'){
-          $.ajax({
-              type: $('#f').attr('method'),
-              data: $('#f').serialize(),
-              success: function(data) {
-                $("#re").html(data);
-                $("#f")[0].reset();
-              },
-          });
-        return false;
-      }
+    jQuery(document).ready(function($){
+      var frm = $('#f');
+      frm.submit(function () {
+        if (this.id == 'f'){
+            $.post({
+                type: $('#f').attr('method'),
+                data: $('#f').serialize(),
+                success: function(data) {
+                  $("#re").html(data);
+                  $("#f")[0].reset();
+                },
+            });
+          return false;
+        }
+      });
     });
 </script>
 
