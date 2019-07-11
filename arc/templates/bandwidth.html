@@ -146,30 +146,49 @@
                               <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
                             </form>
                             <script type="text/javascript">
-                                var frm = $('#java{{d22.id}}');
-                                frm.submit(function (){
-                                  if (this.id == 'java{{d22.id}}'){
-                                      $.ajax({
-                                          type: $('#java{{d22.id}}').attr('method'),
-                                          data: $('#java{{d22.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
+                                jQuery(document).ready(function($){
+                                  var frm = $('#java{{d22.id}}');
+                                  frm.submit(function (){
+                                    if (this.id == 'java{{d22.id}}'){
+                                        $.ajax({
+                                            type: $('#java{{d22.id}}').attr('method'),
+                                            data: $('#java{{d22.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
                                 });
                             </script>
                           </td>
                           <td></td>
                           <td>
                             {{ d22.vfjava }}
-                            <form method="get">
+                            <form method="get" id="java1{{d22.id}}">
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d22.id }}" name="assign2">
                               <input type="hidden" value="java" name="assign3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#java1{{d22.id}}');
+                                  frm.submit(function (){
+                                    if (this.id == 'java1{{d22.id}}'){
+                                        $.ajax({
+                                            type: $('#java1{{d22.id}}').attr('method'),
+                                            data: $('#java1{{d22.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
                           </td>
                           <td>{{ d22.abjava }}</td>
                           <td>{{ d22.spjava }}</td>
@@ -208,31 +227,51 @@
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
                             <script type="text/javascript">
-                                var frm = $('#php{{d33.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'php{{d33.id}}'){
-                                      $.ajax({
-                                          type: $('#php{{d33.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#php{{d33.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
+                                jQuery(document).ready(function($){
+                                  var frm = $('#php{{d33.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'php{{d33.id}}'){
+                                        $.ajax({
+                                            type: $('#php{{d33.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#php{{d33.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
                                 });
                             </script>
                           </td>
                           <td></td>
                           <td>
                             {{ d33.vfphp }}
-                            <form method="get">
+                            <form method="get" id="php1{{d33.id}}">
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d33.id }}" name="assign2">
                               <input type="hidden" value="php" name="assign3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#php1{{d33.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'php1{{d33.id}}'){
+                                        $.ajax({
+                                            type: $('#php1{{d33.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#php1{{d33.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
                           </td>
                           <td>{{ d33.abphp }}</td>
                           <td>{{ d33.spphp }}</td>
@@ -271,31 +310,51 @@
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
                             <script type="text/javascript">
-                                var frm = $('#html{{d44.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'html{{d44.id}}'){
-                                      $.ajax({
-                                          type: $('#html{{d44.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#html{{d44.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
+                                jQuery(document).ready(function($){
+                                  var frm = $('#html{{d44.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'html{{d44.id}}'){
+                                        $.ajax({
+                                            type: $('#html{{d44.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#html{{d44.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
                                 });
                             </script>
                           </td>
                           <td></td>
                           <td>
                             {{ d44.vfhtml }}
-                            <form method="get">
+                            <form method="get" id="html1{{d44.id}}">
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d44.id }}" name="assign2">
                               <input type="hidden" value="html" name="assign3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#html1{{d44.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'html1{{d44.id}}'){
+                                        $.ajax({
+                                            type: $('#html1{{d44.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#html1{{d44.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
                           </td>
                           <td>{{ d44.abhtml }}</td>
                           <td>{{ d44.sphtml }}</td>
@@ -334,31 +393,51 @@
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
                             <script type="text/javascript">
-                                var frm = $('#qa{{d55.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'qa{{d55.id}}'){
-                                      $.ajax({
-                                          type: $('#qa{{d55.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#qa{{d55.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
+                                jQuery(document).ready(function($){
+                                  var frm = $('#qa{{d55.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'qa{{d55.id}}'){
+                                        $.ajax({
+                                            type: $('#qa{{d55.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#qa{{d55.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
                                 });
                             </script>
                           </td>
                           <td></td>
                           <td>
                             {{ d55.vfqa }}
-                            <form method="get">
+                            <form method="get" id="qa1{{d55.id}}">
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d55.id }}" name="assign2">
                               <input type="hidden" value="qa" name="assign3">
                               <input type="submit" class="btn-xs btn-info" value="Assign">
                             </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#qa1{{d55.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'qa1{{d55.id}}'){
+                                        $.ajax({
+                                            type: $('#qa1{{d55.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#qa1{{d55.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
                           </td>
                           <td>{{ d55.abqa }}</td>
                           <td>{{ d55.spqa }}</td>

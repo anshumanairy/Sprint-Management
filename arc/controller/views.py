@@ -446,7 +446,7 @@ def bandwidth(request):
             return redirect('/bandwidth/')
 
 
-        if 'leave1' in request.GET or request.is_ajax():
+        if 'leave1' in request.GET:
             pl = request.GET.get('leave1')
             uid = request.GET.get('leave2')
             skill = request.GET.get('leave3')
