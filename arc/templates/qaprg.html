@@ -14,7 +14,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -69,11 +69,15 @@
   </style>
   </head>
 
-  <body>
+  <body id="re">
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
+      <a href="{% url 'product' %}" class="w3-bar-item w3-button">Product Console</a>
+      <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
+      <a href="{% url 'allocation' %}" class="w3-bar-item w3-button">Allocation Dashboard</a>
       <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Progress</a>
+      <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
       <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">All Tasks</a>
       <a href="{% url 'login' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
     </div>
@@ -99,11 +103,6 @@
     }
     </script>
 
-    <div class="container-fluid">
-      <div class="col-md-2">
-        <a href="/prod/"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
-      </div>
-    </div>
 
     <div class="content">
       <div class="row">
@@ -144,7 +143,7 @@
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                         {% for k in j %}
-                    <form method="GET" id="se">
+                    <form method="GET" id="a{{k.3}}">
                     <tr>
                       <td>{{ k.0 }}</td>
                       <td>{{ k.1 }}</td>
@@ -298,6 +297,25 @@
 
                     </tr>
                   </form>
+
+                  <!-- <script type="text/javascript">
+                      jQuery(document).ready(function($){
+                        var frm = $('#a{{k.3}}');
+                        frm.submit(function () {
+                          if (this.id == 'a{{k.3}}'){
+                              $.ajax({
+                                  type: $('#a{{k.3}}').attr('method'),
+                                  data: $('#a{{k.3}}').serialize(),
+                                  success: function(data) {
+                                    $("#re").html(data);
+                                  },
+                              });
+                            return false;
+                          }
+                        });
+                      });
+                  </script> -->
+
                         {% endfor %}
                       {% endif %}
                     {% endfor %}

@@ -23,7 +23,6 @@
   <!-- CSS Files -->
   {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -100,11 +99,6 @@
     }
     </script>
 
-    <div class="container-fluid">
-      <div class="col-md-2">
-        <a href="/prod/"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
-      </div>
-    </div>
 
     <div class="content">
       <div class="row">
@@ -198,16 +192,11 @@
                       {% endif %}
                     {% endfor %}{% endfor %}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td colspan="7"></td>
                       <td>{{ sjava }}</td>
                     </tr>
                     <tr>
+                      <td colspan="7"></td>
                       <td></td>
                     </tr>
                     {% for d33 in d3 %}{% for i in list2 %}
@@ -281,16 +270,11 @@
                       {% endif %}
                     {% endfor %}{% endfor %}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td colspan="7"></td>
                       <td>{{ sphp }}</td>
                     </tr>
                     <tr>
+                      <td colspan="7"></td>
                       <td></td>
                     </tr>
                     {% for d44 in d4 %}{% for i in list3 %}
@@ -364,16 +348,11 @@
                       {% endif %}
                     {% endfor %}{% endfor %}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td colspan="7"></td>
                       <td>{{ shtml }}</td>
                       </tr>
                     <tr>
+                      <td colspan="7"></td>
                       <td></td>
                     </tr>
                     {% for d55 in d5 %}{% for i in list4 %}
@@ -447,13 +426,7 @@
                       {% endif %}
                     {% endfor %}{% endfor %}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td colspan="7"></td>
                       <td>{{ sqa }}</td>
                     </tr>
                   </tbody>

@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     Allocation Dashboard
   </title>
@@ -110,12 +110,6 @@
   }
   </script>
 
-  <div class="container-fluid">
-    <div class="col-md-2">
-      <a href="/prod/"><button class="btn btn-primary btn-block" id="allocate"><small>Back to Product Console</small></button></a>
-    </div>
-  </div>
-
 <div class="content">
   <div class="row">
     <div class="col-md-12">
@@ -127,8 +121,8 @@
           <div class="table-responsive">
             <table class="table" id="tab1">
               <thead class=" text-primary">
-                <th>Title</th>
                 <th>Jira ID</th>
+                <th>Title</th>
                 <th>JAVA</th>
                 <th>PHP</th>
                 <th>HTML</th>
@@ -138,9 +132,11 @@
               <tbody>
                 {% for dash in dashboard %}
                 <tr>
-                  <td>{{ dash.story_name }}</td>
-                  <td>{{ dash.jira }}</td>
-
+                  <td><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
+                  <td colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
                   <form method="GET" id="form_id{{dash.jira}}">
                     {% csrf_token %}
                     <td class="t">
@@ -195,18 +191,19 @@
                     </form>
 
                     <script type="text/javascript">
-                        var frm = $('#form_id{{dash.jira}}');
-                        frm.submit(function () {
-                          if (this.id == 'form_id{{dash.jira}}'){
-                              $.ajax({
-                                  type: $('#form_id{{dash.jira}}').attr('method'),
-                                  url: ('allocation'),
-                                  data: $('#form_id{{dash.jira}}').serialize(),
-                                  success: function(data) {
-                                    $("#re").html(data);                                  },
-                              });
-                            return false;
-                          }
+                      jQuery(document).ready(function($){
+                          var frm = $('#form_id{{dash.jira}}');
+                          frm.submit(function () {
+                            if (this.id == 'form_id{{dash.jira}}'){
+                                $.ajax({
+                                    type: $('#form_id{{dash.jira}}').attr('method'),
+                                    data: $('#form_id{{dash.jira}}').serialize(),
+                                    success: function(data) {
+                                      $("#re").html(data);                                  },
+                                });
+                              return false;
+                            }
+                          });
                         });
                     </script>
 
