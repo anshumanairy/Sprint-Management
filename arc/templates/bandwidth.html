@@ -138,25 +138,25 @@
                               <input type="hidden" value="{{ d22.id }}" name="leave2">
                               <input type="hidden" value="java" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
-                            </form>
-                            <script type="text/javascript">
-                                jQuery(document).ready(function($){
-                                  var frm = $('#java{{d22.id}}');
-                                  frm.submit(function (){
-                                    if (this.id == 'java{{d22.id}}'){
-                                        $.ajax({
-                                            type: $('#java{{d22.id}}').attr('method'),
-                                            data: $('#java{{d22.id}}').serialize(),
-                                            success: function(data) {
-                                              $("#re").html(data);
-                                            },
-                                        });
-                                      return false;
-                                    }
-                                  });
-                                });
-                            </script>
                           </td>
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#java{{d22.id}}');
+                                frm.submit(function (){
+                                  if (this.id == 'java{{d22.id}}'){
+                                      $.ajax({
+                                          type: $('#java{{d22.id}}').attr('method'),
+                                          data: $('#java{{d22.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
                           <td></td>
                           <td>
                             {{ d22.vfjava }}
@@ -213,8 +213,9 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
-                            </form>
+                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                          </td>
+                          </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
                                   var frm = $('#php{{d33.id}}');
@@ -233,8 +234,7 @@
                                   });
                                 });
                             </script>
-                          </td>
-                          <td></td>
+                            <td></td>
                           <td>
                             {{ d33.vfphp }}
                             <form method="get" id="php1{{d33.id}}">
@@ -291,8 +291,9 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d44.id }}" name="leave2">
                               <input type="hidden" value="html" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
-                            </form>
+                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                          </td>
+                          </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
                                   var frm = $('#html{{d44.id}}');
@@ -311,8 +312,7 @@
                                   });
                                 });
                             </script>
-                          </td>
-                          <td></td>
+                            <td></td>
                           <td>
                             {{ d44.vfhtml }}
                             <form method="get" id="html1{{d44.id}}">
@@ -369,8 +369,9 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d55.id }}" name="leave2">
                               <input type="hidden" value="qa" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
-                            </form>
+                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                          </td>
+                          </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
                                   var frm = $('#qa{{d55.id}}');
@@ -389,8 +390,7 @@
                                   });
                                 });
                             </script>
-                          </td>
-                          <td></td>
+                            <td></td>
                           <td>
                             {{ d55.vfqa }}
                             <form method="get" id="qa1{{d55.id}}">

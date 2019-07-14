@@ -28,6 +28,7 @@ class register(models.Model):
     abqa = models.IntegerField(default=0)
 
     planned = models.IntegerField(default=0)
+    unplanned = models.IntegerField(default=0)
 
     spjava = models.IntegerField(default=0)
     spphp = models.IntegerField(default=0)

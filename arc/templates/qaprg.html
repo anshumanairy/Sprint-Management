@@ -229,7 +229,8 @@
                                 }
                               }
                             }
-                            console.log(arr1,arr2);
+                            // console.log(arr1,arr2);
+
                             for(i in stat){
                               if(i=="{{i.name}}"){
                                 for(j in stat[i]){
@@ -243,7 +244,7 @@
                                 }
                               }
                             }
-                            console.log(arr3);
+                            // console.log(arr3);
 
                           for(i in jid){
                             if(i=="{{i.name}}"){
@@ -267,7 +268,7 @@
                                  var yy = new Date(xx);
                                  z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
                                  if(yy.getDay()!=0 && yy.getDay()!=6){
-                                     console.log(yy.getDay());
+                                     // console.log(yy.getDay());
                                      if(arr3[i]=='Dev'){
                                        nDates[new Date(z)] = 1;
                                      }
@@ -307,7 +308,7 @@
                                       return [false, '', ''];
                                   }
                               }
-                          });
+                          }).attr('readonly','readonly');
                       });
                     </script>
 
