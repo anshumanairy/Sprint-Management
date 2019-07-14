@@ -158,7 +158,7 @@ def qaprg(request):
                 p.save()
                 return redirect('qaprg')
 
-            if 'startdate' in request.GET:
+            if 'as1' in request.GET:
                 stdate = request.GET.get('startdate')
                 endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
@@ -215,8 +215,6 @@ def qaprg(request):
                 jd3=json.dumps(list4)
 
                 return redirect('qaprg')
-
-            # return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
     else:
 
@@ -296,22 +294,22 @@ def qaprg(request):
             list1[j].append([])
             list1[j][k].append(r.story_name)
             list1[j][k].append(r.jira)
-            if r.dev_java==i.name:
+            if r.dev_java==name1:
                 list1[j][k].append(r.javas)
                 list1[j][k].append(r.jstat)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
-            elif r.dev_php==i.name:
+            elif r.dev_php==name1:
                 list1[j][k].append(r.phps)
                 list1[j][k].append(r.pstat)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
-            elif r.dev_html==i.name:
+            elif r.dev_html==name1:
                 list1[j][k].append(r.htmls)
                 list1[j][k].append(r.hstat)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
-            elif r.dev_qa==i.name:
+            elif r.dev_qa==name1:
                 list1[j][k].append(r.qas)
                 list1[j][k].append(r.qstat)
                 list1[j][k].append(name1)

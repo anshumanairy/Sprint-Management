@@ -3,15 +3,16 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     Progress
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -25,9 +26,9 @@
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <style media="screen">
-    /* body{
+    body{
       font-size: 10px;
-    } */
+    }
     .dev a {
     background-color: Yellow !important;
     color: Black !important;
@@ -127,12 +128,7 @@
                     {% for i in data %}
                     <tr>
                       <td><b>{{ i.name }}</b></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td colspan='6'></td>
                       <td>
                           <div class='box green'></div>-- Dev<br>
                           <div class='box red'></div>-- CR Fix<br>
@@ -143,10 +139,10 @@
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                         {% for k in j %}
-                    <form method="GET" id="a{{k.3}}">
                     <tr>
                       <td>{{ k.0 }}</td>
                       <td>{{ k.1 }}</td>
+                      <form method="GET" id="a{{k.1}}">
                       <td>
                         <select class="chosen" name="sel">
                           <option>{{ k.3 }}</option>
@@ -169,8 +165,27 @@
                         </select>
                         <input type="hidden" name="jid" value="{{ k.1 }}">
                         <input type="hidden" name="name1" value="{{ i.name }}">
-                        <input type="button" name="as" value="Assign">
+                        <input type="submit" name="as" value="Assign">
                       </td>
+                      </form>
+                      <!-- <script type="text/javascript">
+                          jQuery(document).ready(function($){
+                            var frm = $('#a{{k.1}}');
+                            frm.submit(function () {
+                              if (this.id == 'a{{k.1}}'){
+                                  $.ajax({
+                                      type: $('#a{{k.1}}').attr('method'),
+                                      data: $('#a{{k.1}}').serialize(),
+                                      success: function(data) {
+                                        $("#re").html(data);
+                                      },
+                                  });
+                                return false;
+                              }
+                            });
+                          });
+                      </script> -->
+                    <form method="GET">
                       <td>{{ k.2 }}</td>
                       <td></td>
                       <td><input type="text" name="startdate" placeholder="Start Date" class="datepicker">
@@ -184,7 +199,7 @@
                         </select>
                         <input type="hidden" name="j1" value="{{ k.1 }}">
                         <input type="hidden" name="name2" value="{{ i.name }}">
-                        <input type="submit" value="Submit">
+                        <input type="submit" name='as1' value="Submit">
                       </td>
                       <td><input type="text" placeholder="Check Status" class="datepicker1" id="datepicker{{k.5}}"></td>
                       <script>
@@ -199,7 +214,6 @@
                             var j_id=[];
                             var dev_name=[];
 
-                              // alert(data);
                             for(i in data){
                               if(i=="{{i.name}}"){
                                 for(j in data[i]){
@@ -215,8 +229,7 @@
                                 }
                               }
                             }
-                            // console.log(dev_name);
-
+                            console.log(arr1,arr2);
                             for(i in stat){
                               if(i=="{{i.name}}"){
                                 for(j in stat[i]){
@@ -230,7 +243,7 @@
                                 }
                               }
                             }
-                            // console.log(arr3);
+                            console.log(arr3);
 
                           for(i in jid){
                             if(i=="{{i.name}}"){
@@ -253,18 +266,21 @@
                                  var xx = date1.getTime()+day*r;
                                  var yy = new Date(xx);
                                  z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
-                                 if(arr3[i]=='Dev'){
-                                   nDates[new Date(z)] = 1;
-                                 }
-                                 if(arr3[i]=='CR Fix'){
-                                   nDates[new Date(z)] = 2;
-                                 }
-                                 if(arr3[i]=='QA Support'){
-                                   nDates[new Date(z)] = 3;
-                                 }
-                                 if(arr3[i]=='Release Support'){
-                                   nDates[new Date(z)] = 4;
-                                 }
+                                 if(yy.getDay()!=0 && yy.getDay()!=6){
+                                     console.log(yy.getDay());
+                                     if(arr3[i]=='Dev'){
+                                       nDates[new Date(z)] = 1;
+                                     }
+                                     if(arr3[i]=='CR Fix'){
+                                       nDates[new Date(z)] = 2;
+                                     }
+                                     if(arr3[i]=='QA Support'){
+                                       nDates[new Date(z)] = 3;
+                                     }
+                                     if(arr3[i]=='Release Support'){
+                                       nDates[new Date(z)] = 4;
+                                     }
+                                  }
                               }
                           }
 
@@ -297,25 +313,6 @@
 
                     </tr>
                   </form>
-
-                  <!-- <script type="text/javascript">
-                      jQuery(document).ready(function($){
-                        var frm = $('#a{{k.3}}');
-                        frm.submit(function () {
-                          if (this.id == 'a{{k.3}}'){
-                              $.ajax({
-                                  type: $('#a{{k.3}}').attr('method'),
-                                  data: $('#a{{k.3}}').serialize(),
-                                  success: function(data) {
-                                    $("#re").html(data);
-                                  },
-                              });
-                            return false;
-                          }
-                        });
-                      });
-                  </script> -->
-
                         {% endfor %}
                       {% endif %}
                     {% endfor %}
