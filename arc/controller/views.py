@@ -571,7 +571,7 @@ def bandwidth(request):
             if skill == 'java':
                 r = register.objects.get(id=uid, java='True')
                 r.vfjava = vf
-                ab = (float(vf) * (p.dev_working-r.planned))
+                ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                 r.abjava = int(ab)
                 r.spjava = r.abjava * 2
                 sjava = register.objects.aggregate(Sum('spjava'))['spjava__sum']
@@ -587,7 +587,7 @@ def bandwidth(request):
             if skill == 'php':
                 r = register.objects.get(id=uid, php='True')
                 r.vfphp = vf
-                ab = (float(vf) * (p.dev_working-r.planned))
+                ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                 r.abphp = int(ab)
                 r.spphp = r.abphp * 2
                 sphp = register.objects.aggregate(Sum('spphp'))['spphp__sum']
@@ -603,7 +603,7 @@ def bandwidth(request):
             if skill == 'html':
                 r = register.objects.get(id=uid, html='True')
                 r.vfhtml = vf
-                ab = (float(vf) * (p.dev_working-r.planned))
+                ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                 r.abhtml = int(ab)
                 r.sphtml = r.abhtml * 2
                 shtml = register.objects.aggregate(Sum('sphtml'))['sphtml__sum']
@@ -620,7 +620,7 @@ def bandwidth(request):
             if skill == 'qa':
                 r = register.objects.get(id=uid, qa='True')
                 r.vfqa = vf
-                ab = (float(vf) * (p.qa_working-r.planned))
+                ab = (float(vf) * (p.qa_working-r.planned-r.unplanned))
                 r.abqa = int(ab)
                 r.spqa = r.abqa * 2
                 sqa = register.objects.aggregate(Sum('spqa'))['spqa__sum']
@@ -634,6 +634,83 @@ def bandwidth(request):
 
             r.save()
             return redirect('/bandwidth/')
+
+
+        if 'uleave1' in request.GET:
+            pl = request.GET.get('uleave1')
+            uid = request.GET.get('uleave2')
+            skill = request.GET.get('uleave3')
+            r = register.objects.get(id=uid)
+            r.unplanned = int(pl)
+            p = product.objects.get(id=sprid)
+            d2 = register.objects.filter(roles='dev',java='True')
+            d3 = register.objects.filter(roles='dev',php='True')
+            d4 = register.objects.filter(roles='dev',html='True')
+            d5 = register.objects.filter(roles='dev',qa='True')
+            r.save()
+
+            if skill=='java':
+                r = register.objects.get(id=uid,java='True')
+                ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
+                r.abjava=ab
+                r.spjava = r.abjava * 2
+                sjava = register.objects.aggregate(Sum('spjava'))['spjava__sum']
+                j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
+                if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                    list1.append(0)
+                    r.djava = r.spjava
+                else:
+                    list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                    r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
+
+                    r.save()
+
+
+            if skill=='php':
+                r = register.objects.get(id=uid,php='True')
+                ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
+                r.abphp=ab
+                r.spphp = r.abphp * 2
+                sphp = register.objects.aggregate(Sum('spphp'))['spphp__sum']
+                j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
+                if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                    list1.append(0)
+                    r.dphp = r.spphp
+                else:
+                    list1.append(j.aggregate(Sum('phps'))['phps__sum'])
+                    r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
+                    r.save()
+
+
+            if skill=='html':
+                r = register.objects.get(id=uid,html='True')
+                ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
+                r.abhtml=ab
+                r.sphtml = r.abhtml * 2
+                shtml = register.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
+                if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                    list1.append(0)
+                    r.dhtml = r.sphtml
+                else:
+                    list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                    r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
+                    r.save()
+
+            if skill=='qa':
+                r = register.objects.get(id=uid,qa='True')
+                ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
+                r.abqa=ab
+                r.spqa = r.abqa * 2
+                sqa = register.objects.aggregate(Sum('spqa'))['spqa__sum']
+                j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                    list1.append(0)
+                    r.dqa = r.spqa
+                else:
+                    list1.append(j.aggregate(Sum('qas'))['qas__sum'])
+                    r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
+                    r.save()
 
 
         if 'leave1' in request.GET:
@@ -653,7 +730,7 @@ def bandwidth(request):
 
             if skill=='java':
                 r = register.objects.get(id=uid,java='True')
-                ab = (r.vfjava)*(p.dev_working-r.planned)
+                ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
                 r.abjava=ab
                 r.spjava = r.abjava * 2
                 sjava = register.objects.aggregate(Sum('spjava'))['spjava__sum']
@@ -670,7 +747,7 @@ def bandwidth(request):
 
             if skill=='php':
                 r = register.objects.get(id=uid,php='True')
-                ab = (r.vfphp)*(p.dev_working-r.planned)
+                ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
                 r.abphp=ab
                 r.spphp = r.abphp * 2
                 sphp = register.objects.aggregate(Sum('spphp'))['spphp__sum']
@@ -686,7 +763,7 @@ def bandwidth(request):
 
             if skill=='html':
                 r = register.objects.get(id=uid,html='True')
-                ab = (r.vfhtml)*(p.dev_working-r.planned)
+                ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
                 r.abhtml=ab
                 r.sphtml = r.abhtml * 2
                 shtml = register.objects.aggregate(Sum('sphtml'))['sphtml__sum']
@@ -701,7 +778,7 @@ def bandwidth(request):
 
             if skill=='qa':
                 r = register.objects.get(id=uid,qa='True')
-                ab = (r.vfqa)*(p.qa_working-r.planned)
+                ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
                 r.abqa=ab
                 r.spqa = r.abqa * 2
                 sqa = register.objects.aggregate(Sum('spqa'))['spqa__sum']

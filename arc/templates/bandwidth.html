@@ -138,26 +138,51 @@
                               <input type="hidden" value="{{ d22.id }}" name="leave2">
                               <input type="hidden" value="java" name="leave3">
                               <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                            </form>
+                              <script type="text/javascript">
+                                  jQuery(document).ready(function($){
+                                    var frm = $('#java{{d22.id}}');
+                                    frm.submit(function (){
+                                      if (this.id == 'java{{d22.id}}'){
+                                          $.ajax({
+                                              type: $('#java{{d22.id}}').attr('method'),
+                                              data: $('#java{{d22.id}}').serialize(),
+                                              success: function(data) {
+                                                $("#re").html(data);
+                                              },
+                                          });
+                                        return false;
+                                      }
+                                    });
+                                  });
+                              </script>
                           </td>
-                          </form>
-                          <script type="text/javascript">
-                              jQuery(document).ready(function($){
-                                var frm = $('#java{{d22.id}}');
-                                frm.submit(function (){
-                                  if (this.id == 'java{{d22.id}}'){
-                                      $.ajax({
-                                          type: $('#java{{d22.id}}').attr('method'),
-                                          data: $('#java{{d22.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
+                          <td>
+                              {{ d22.unplanned }}
+                              <form method="get" id="java1{{d22.id}}">
+                                <input type="number" name="uleave1" min="0" value="0">
+                                <input type="hidden" value="{{ d22.id }}" name="uleave2">
+                                <input type="hidden" value="java" name="uleave3">
+                                <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              </form>
+                                <script type="text/javascript">
+                                    jQuery(document).ready(function($){
+                                      var frm = $('#java1{{d22.id}}');
+                                      frm.submit(function (){
+                                        if (this.id == 'java1{{d22.id}}'){
+                                            $.ajax({
+                                                type: $('#java1{{d22.id}}').attr('method'),
+                                                data: $('#java1{{d22.id}}').serialize(),
+                                                success: function(data) {
+                                                  $("#re").html(data);
+                                                },
+                                            });
+                                          return false;
+                                        }
                                       });
-                                    return false;
-                                  }
-                                });
-                              });
-                          </script>
-                          <td></td>
+                                    });
+                                </script>
+                          </td>
                           <td>
                             {{ d22.vfjava }}
                             <form method="get" id="java1{{d22.id}}">
@@ -234,7 +259,34 @@
                                   });
                                 });
                             </script>
-                            <td></td>
+                            <td>
+                                {{ d33.unplanned }}
+                                <form method="get" id="php1{{d33.id}}">
+                                  <input type="number" name="uleave1" min="0" value="0">
+                                  <input type="hidden" value="{{ d33.id }}" name="uleave2">
+                                  <input type="hidden" value="php" name="uleave3">
+                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              </td>
+                              </form>
+                                <script type="text/javascript">
+                                    jQuery(document).ready(function($){
+                                      var frm = $('#php1{{d33.id}}');
+                                      frm.submit(function () {
+                                        if (this.id == 'php1{{d33.id}}'){
+                                            $.ajax({
+                                                type: $('#php1{{d33.id}}').attr('method'),
+                                                url: 'bandwidth/',
+                                                data: $('#php1{{d33.id}}').serialize(),
+                                                success: function(data) {
+                                                  $("#re").html(data);
+                                                },
+                                            });
+                                          return false;
+                                        }
+                                      });
+                                    });
+                                </script>
+                            </td>
                           <td>
                             {{ d33.vfphp }}
                             <form method="get" id="php1{{d33.id}}">
@@ -312,7 +364,34 @@
                                   });
                                 });
                             </script>
-                            <td></td>
+                            <td>
+                                {{ d44.unplanned }}
+                                <form method="get" id="html1{{d44.id}}">
+                                  <input type="number" name="uleave1" min="0" value="0">
+                                  <input type="hidden" value="{{ d44.id }}" name="uleave2">
+                                  <input type="hidden" value="html" name="uleave3">
+                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              </td>
+                              </form>
+                                <script type="text/javascript">
+                                    jQuery(document).ready(function($){
+                                      var frm = $('#html1{{d44.id}}');
+                                      frm.submit(function () {
+                                        if (this.id == 'html1{{d44.id}}'){
+                                            $.ajax({
+                                                type: $('#html1{{d44.id}}').attr('method'),
+                                                url: 'bandwidth/',
+                                                data: $('#html1{{d44.id}}').serialize(),
+                                                success: function(data) {
+                                                  $("#re").html(data);
+                                                },
+                                            });
+                                          return false;
+                                        }
+                                      });
+                                    });
+                                </script>
+                            </td>
                           <td>
                             {{ d44.vfhtml }}
                             <form method="get" id="html1{{d44.id}}">
@@ -390,7 +469,34 @@
                                   });
                                 });
                             </script>
-                            <td></td>
+                            <td>
+                                {{ d55.unplanned }}
+                                <form method="get" id="qa1{{d55.id}}">
+                                  <input type="number" name="uleave1" min="0" value="0">
+                                  <input type="hidden" value="{{ d55.id }}" name="uleave2">
+                                  <input type="hidden" value="qa" name="uleave3">
+                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              </td>
+                              </form>
+                                <script type="text/javascript">
+                                    jQuery(document).ready(function($){
+                                      var frm = $('#qa1{{d55.id}}');
+                                      frm.submit(function () {
+                                        if (this.id == 'qa1{{d55.id}}'){
+                                            $.ajax({
+                                                type: $('#qa1{{d55.id}}').attr('method'),
+                                                url: 'bandwidth/',
+                                                data: $('#qa1{{d55.id}}').serialize(),
+                                                success: function(data) {
+                                                  $("#re").html(data);
+                                                },
+                                            });
+                                          return false;
+                                        }
+                                      });
+                                    });
+                                </script>
+                            </td>
                           <td>
                             {{ d55.vfqa }}
                             <form method="get" id="qa1{{d55.id}}">
