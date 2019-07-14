@@ -26,83 +26,272 @@ def checkman(user):
         if register.objects.get(uname=user.username).roles=='man':
             return True
 
+def check(user):
+    if user.is_superuser:
+        return (0)
+    else:
+        if register.objects.get(uname=user.username).roles=='man':
+            return (0)
+        else:
+            return(1)
+
 @login_required
 def qaprg(request):
-    id1 = request.session['id']
-    data = register.objects.filter(roles='dev')
-    list1=[]
-    j=0
-    p = product.objects.get(id=id1)
-    x = p.sprint_start_date
-    y = p.sprint_dev_end_date
-    x=str(x)
-    a,b,c = x.split('-')
-    y=str(y)
-    d,e,f = y.split('-')
-    a=int(a)
-    b=int(b)
-    c=int(c)
-    d=int(d)
-    e=int(e)
-    f=int(f)
+    if check(request.user)==0:
+        id1 = request.session['id']
+        data = register.objects.filter(roles='dev')
+        list1=[]
+        j=0
+        p = product.objects.get(id=id1)
+        x = p.sprint_start_date
+        y = p.sprint_dev_end_date
+        x=str(x)
+        a,b,c = x.split('-')
+        y=str(y)
+        d,e,f = y.split('-')
+        a=int(a)
+        b=int(b)
+        c=int(c)
+        d=int(d)
+        e=int(e)
+        f=int(f)
 
-    list2={}
-    n=0
-    for i1 in data:
-        st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
-        list2[i1.name]={}
+        list2={}
+        n=0
+        for i1 in data:
+            st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+            list2[i1.name]={}
+            for j1 in st1:
+                if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                    list2[i1.name][n]={}
+                    for k1 in p1:
+                        list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                    n+=1
+                else:
+                    n+=1
+        jd1=json.dumps(list2)
+        # print(list2)
+
+        list3={}
+        n=0
+        for i2 in data:
+            st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+            list3[i2.name]={}
+            for j2 in st1:
+                if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                    r=0
+                    p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                    list3[i2.name][n]={}
+                    for k2 in p1:
+                        list3[i2.name][n][str(r)]=k2.status
+                        r+=1
+                        print(k2.status)
+                    n+=1
+                else:
+                    n+=1
+        jd2=json.dumps(list3)
+        # print(list3)
+
+        list4={}
+        n=0
+        for i2 in data:
+            st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+            list4[i2.name]={}
+            for j2 in st1:
+                if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                    p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                    for k2 in p1:
+                        list4[i2.name][n]=k2.jd
+                        n+=1
+                else:
+                    n+=1
+        jd3=json.dumps(list4)
+
+        count=0
+        for i in data:
+            list1.append([])
+            k=0
+            st = story.objects.filter(sprint_id=id1,dev_java=i.name) | story.objects.filter(sprint_id=id1,dev_php=i.name) | story.objects.filter(sprint_id=id1,dev_html=i.name) | story.objects.filter(sprint_id=id1,dev_qa=i.name)
+            for r in st:
+                list1[j].append([])
+                list1[j][k].append(r.story_name)
+                list1[j][k].append(r.jira)
+                if r.dev_java==i.name:
+                    list1[j][k].append(r.javas)
+                    list1[j][k].append(r.jstat)
+                    list1[j][k].append(i.name)
+                    list1[j][k].append(count)
+                elif r.dev_php==i.name:
+                    list1[j][k].append(r.phps)
+                    list1[j][k].append(r.pstat)
+                    list1[j][k].append(i.name)
+                    list1[j][k].append(count)
+                elif r.dev_html==i.name:
+                    list1[j][k].append(r.htmls)
+                    list1[j][k].append(r.hstat)
+                    list1[j][k].append(i.name)
+                    list1[j][k].append(count)
+                elif r.dev_qa==i.name:
+                    list1[j][k].append(r.qas)
+                    list1[j][k].append(r.qstat)
+                    list1[j][k].append(i.name)
+                    list1[j][k].append(count)
+                k+=1
+                count=count+1;
+            j+=1
+
+        if request.method=='GET':
+            if 'as' in request.GET:
+                s = request.GET.get('sel')
+                j = request.GET.get('jid')
+                n1 = request.GET.get('name1')
+                p = story.objects.get(sprint_id=id1,jira = j)
+                if p.dev_java == n1:
+                    p.jstat = s
+                elif p.dev_php == n1:
+                    p.pstat = s
+                elif p.dev_html == n1:
+                    p.hstat = s
+                elif p.dev_qa == n1:
+                    p.qstat = s
+                p.save()
+                return redirect('qaprg')
+
+            if 'startdate' in request.GET:
+                stdate = request.GET.get('startdate')
+                endate = request.GET.get('enddate')
+                prog = request.GET.get('prg')
+                j = request.GET.get('j1')
+                n2 = request.GET.get('name2')
+                day = np.busday_count(stdate,endate)
+                st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z.save()
+
+                list2={}
+                for i1 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                    n=0
+                    list2[i1.name]={}
+                    for j1 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                            for k1 in p1:
+                                list2[i1.name][n]={}
+                                list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                                n+=1
+
+                jd1=json.dumps(list2)
+
+                list3={}
+                m=0
+                for i2 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                    n=0
+                    list3[m]={}
+                    for j2 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            for k2 in p1:
+                                list3[m][n]=k2.status
+                                n+=1
+                    m+=1
+                jd2=json.dumps(list3)
+
+                list4={}
+                m=0
+                for i2 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                    n=0
+                    list4[m]={}
+                    for j2 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            for k2 in p1:
+                                list4[m][n]=k2.jd
+                                n+=1
+                    m+=1
+                jd3=json.dumps(list4)
+
+                return redirect('qaprg')
+
+            # return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+
+    else:
+
+        id1 = request.session['id']
+        list1=[]
+        j=0
+        p = product.objects.get(id=id1)
+        x = p.sprint_start_date
+        y = p.sprint_dev_end_date
+        x=str(x)
+        a,b,c = x.split('-')
+        y=str(y)
+        d,e,f = y.split('-')
+        a=int(a)
+        b=int(b)
+        c=int(c)
+        d=int(d)
+        e=int(e)
+        f=int(f)
+        x=request.user.username
+        name1 = register.objects.get(uname=x).name
+        data = register.objects.filter(roles='dev',name=name1)
+        list2={}
+        n=0
+        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        list2[name1]={}
         for j1 in st1:
-            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
-                list2[i1.name][n]={}
+            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
+                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
+                list2[name1][n]={}
                 for k1 in p1:
-                    list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                    list2[name1][n][str(k1.sdate)]=str(k1.edate)
                 n+=1
             else:
                 n+=1
-    jd1=json.dumps(list2)
-    # print(list2)
+        jd1=json.dumps(list2)
+        # print(list2)
 
-    list3={}
-    n=0
-    for i2 in data:
-        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-        list3[i2.name]={}
+        list3={}
+        n=0
+        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        list3[name1]={}
         for j2 in st1:
-            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
                 r=0
-                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
-                list3[i2.name][n]={}
+                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
+                list3[name1][n]={}
                 for k2 in p1:
-                    list3[i2.name][n][str(r)]=k2.status
+                    list3[name1][n][str(r)]=k2.status
                     r+=1
                     print(k2.status)
                 n+=1
             else:
-                n+=1
-    jd2=json.dumps(list3)
-    # print(list3)
+                    n+=1
+        jd2=json.dumps(list3)
+        # print(list3)
 
-    list4={}
-    n=0
-    for i2 in data:
-        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-        list4[i2.name]={}
+        list4={}
+        n=0
+        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        list4[name1]={}
         for j2 in st1:
-            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
+                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
                 for k2 in p1:
-                    list4[i2.name][n]=k2.jd
+                    list4[name1][n]=k2.jd
                     n+=1
             else:
                 n+=1
-    jd3=json.dumps(list4)
+        jd3=json.dumps(list4)
 
-    count=0
-    for i in data:
+        count=0
         list1.append([])
         k=0
-        st = story.objects.filter(sprint_id=id1,dev_java=i.name) | story.objects.filter(sprint_id=id1,dev_php=i.name) | story.objects.filter(sprint_id=id1,dev_html=i.name) | story.objects.filter(sprint_id=id1,dev_qa=i.name)
+        st = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
         for r in st:
             list1[j].append([])
             list1[j][k].append(r.story_name)
@@ -110,101 +299,101 @@ def qaprg(request):
             if r.dev_java==i.name:
                 list1[j][k].append(r.javas)
                 list1[j][k].append(r.jstat)
-                list1[j][k].append(i.name)
+                list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_php==i.name:
                 list1[j][k].append(r.phps)
                 list1[j][k].append(r.pstat)
-                list1[j][k].append(i.name)
+                list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_html==i.name:
                 list1[j][k].append(r.htmls)
                 list1[j][k].append(r.hstat)
-                list1[j][k].append(i.name)
+                list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_qa==i.name:
                 list1[j][k].append(r.qas)
                 list1[j][k].append(r.qstat)
-                list1[j][k].append(i.name)
+                list1[j][k].append(name1)
                 list1[j][k].append(count)
             k+=1
             count=count+1;
         j+=1
 
-    if request.method=='GET':
-        if 'as' in request.GET:
-            s = request.GET.get('sel')
-            j = request.GET.get('jid')
-            n1 = request.GET.get('name1')
-            p = story.objects.get(sprint_id=id1,jira = j)
-            if p.dev_java == n1:
-                p.jstat = s
-            elif p.dev_php == n1:
-                p.pstat = s
-            elif p.dev_html == n1:
-                p.hstat = s
-            elif p.dev_qa == n1:
-                p.qstat = s
-            p.save()
-            return redirect('qaprg')
+        if request.method=='GET':
+            if 'as' in request.GET:
+                s = request.GET.get('sel')
+                j = request.GET.get('jid')
+                n1 = request.GET.get('name1')
+                p = story.objects.get(sprint_id=id1,jira = j)
+                if p.dev_java == n1:
+                    p.jstat = s
+                elif p.dev_php == n1:
+                    p.pstat = s
+                elif p.dev_html == n1:
+                    p.hstat = s
+                elif p.dev_qa == n1:
+                    p.qstat = s
+                p.save()
+                return redirect('qaprg')
 
-        if 'startdate' in request.GET:
-            stdate = request.GET.get('startdate')
-            endate = request.GET.get('enddate')
-            prog = request.GET.get('prg')
-            j = request.GET.get('j1')
-            n2 = request.GET.get('name2')
-            day = np.busday_count(stdate,endate)
-            st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-            z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
-            z.save()
+            if 'startdate' in request.GET:
+                stdate = request.GET.get('startdate')
+                endate = request.GET.get('enddate')
+                prog = request.GET.get('prg')
+                j = request.GET.get('j1')
+                n2 = request.GET.get('name2')
+                day = np.busday_count(stdate,endate)
+                st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z.save()
 
-            list2={}
-            for i1 in data:
-                st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
-                n=0
-                list2[i1.name]={}
-                for j1 in st1:
-                    if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                        p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
-                        for k1 in p1:
-                            list2[i1.name][n]={}
-                            list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
-                            n+=1
+                list2={}
+                for i1 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                    n=0
+                    list2[i1.name]={}
+                    for j1 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                            for k1 in p1:
+                                list2[i1.name][n]={}
+                                list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                                n+=1
 
-            jd1=json.dumps(list2)
+                jd1=json.dumps(list2)
 
-            list3={}
-            m=0
-            for i2 in data:
-                st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                n=0
-                list3[m]={}
-                for j2 in st1:
-                    if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                        p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
-                        for k2 in p1:
-                            list3[m][n]=k2.status
-                            n+=1
-                m+=1
-            jd2=json.dumps(list3)
+                list3={}
+                m=0
+                for i2 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                    n=0
+                    list3[m]={}
+                    for j2 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            for k2 in p1:
+                                list3[m][n]=k2.status
+                                n+=1
+                    m+=1
+                jd2=json.dumps(list3)
 
-            list4={}
-            m=0
-            for i2 in data:
-                st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                n=0
-                list4[m]={}
-                for j2 in st1:
-                    if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                        p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
-                        for k2 in p1:
-                            list4[m][n]=k2.jd
-                            n+=1
-                m+=1
-            jd3=json.dumps(list4)
+                list4={}
+                m=0
+                for i2 in data:
+                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                    n=0
+                    list4[m]={}
+                    for j2 in st1:
+                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            for k2 in p1:
+                                list4[m][n]=k2.jd
+                                n+=1
+                    m+=1
+                jd3=json.dumps(list4)
 
-            return redirect('qaprg')
+                return redirect('qaprg')
 
     return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
