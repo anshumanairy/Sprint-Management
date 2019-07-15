@@ -156,7 +156,7 @@ def qaprg(request):
                 elif p.dev_qa == n1:
                     p.qstat = s
                 p.save()
-                return redirect('qaprg')
+                return redirect('progress')
 
             if 'as1' in request.GET:
                 stdate = request.GET.get('startdate')
@@ -214,7 +214,7 @@ def qaprg(request):
                     m+=1
                 jd3=json.dumps(list4)
 
-                return redirect('qaprg')
+                return redirect('progress')
 
     else:
 
@@ -333,7 +333,7 @@ def qaprg(request):
                 elif p.dev_qa == n1:
                     p.qstat = s
                 p.save()
-                return redirect('qaprg')
+                return redirect('progress')
 
             if 'startdate' in request.GET:
                 stdate = request.GET.get('startdate')
@@ -391,7 +391,7 @@ def qaprg(request):
                     m+=1
                 jd3=json.dumps(list4)
 
-                return redirect('qaprg')
+                return redirect('progress')
 
     return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
@@ -438,7 +438,7 @@ def prod(request):
                 return redirect('view_story')
             else:
                 if register.objects.get(uname=request.user.username).roles=='dev':
-                    return redirect('qaprg')
+                    return redirect('progress')
                 else:
                     return redirect('view_story')
     else:
@@ -446,7 +446,7 @@ def prod(request):
     return(render(request,'product.html/',context={'form':form,'data':data}))
 
 @login_required
-@user_passes_test(checkman,login_url='qaprg')
+@user_passes_test(checkman,login_url='progress')
 def view_story(request):
     id = request.session['id']
     data = story.objects.filter(sprint_id=id)
@@ -498,7 +498,7 @@ def view_story(request):
     return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4})
 
 @login_required
-@user_passes_test(checkman,login_url='qaprg')
+@user_passes_test(checkman,login_url='progress')
 def bandwidth(request):
     sjava = register.objects.aggregate(Sum('spjava'))['spjava__sum']
     sphp = register.objects.aggregate(Sum('spphp'))['spphp__sum']
@@ -805,7 +805,7 @@ def bandwidth(request):
 
 
 @login_required
-@user_passes_test(checkman,login_url='qaprg')
+@user_passes_test(checkman,login_url='progress')
 def allocation(request):
     id1 = request.session['id']
     d1 = register.objects.filter(roles='dev')
