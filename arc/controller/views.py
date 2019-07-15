@@ -3,6 +3,7 @@ from arc.forms.register_forms import registerform,UserForm
 from arc.forms.prod_forms import productform
 from arc.forms.story_forms import storyform
 from arc.models.register_mod import register
+from arc.models.project_mod import project
 from arc.models.story_mod import story
 from arc.models.prod_mod import product
 from arc.models.prg_mod import prg
@@ -56,7 +57,7 @@ def qaprg(request):
         e=int(e)
         f=int(f)
 
-        
+
         list2={}
         n=0
         for i1 in data:
@@ -404,15 +405,18 @@ def user_logout(request):
 
 @login_required
 def prod(request):
-    data = product.objects.all()
+    pid2 = request.session['pid']
+    data = product.objects.filter(pid=pid2)
+    n = project.objects.all()
     form = productform(request.POST or None)
 
     if request.method=='POST':
         # productform condition where sprint_button is the name for submit button for sprint form
-        if 'sprint_button' in request.POST or request.is_ajax():
+        if 'sprint_button' in request.POST:
             if request.user.is_superuser:
                 if form.is_valid():
                     form = productform(request.POST)
+                    form.instance.pid = pid2
                     form.save()
                     return redirect('product')
                 else:
@@ -421,6 +425,7 @@ def prod(request):
                 if register.objects.get(uname=request.user.username).roles=='man':
                     if form.is_valid():
                         form = productform(request.POST)
+                        form.instance.pid = pid2
                         form.save()
                         return redirect('product')
                     else:
@@ -428,7 +433,7 @@ def prod(request):
                 else:
                     return HttpResponse('You are not Authorized')
         #select sprint get value and redirect
-        elif 'submit_sprint' in request.POST:
+        if 'submit_sprint' in request.POST:
             select = request.POST.get('select_sprint')
             for i in data:
                 if select in i.name:
@@ -442,9 +447,28 @@ def prod(request):
                     return redirect('qaprg')
                 else:
                     return redirect('view_story')
+
+        if 'project_button' in request.POST:
+            name1 = request.POST.get('pname')
+            n = project.objects.all()
+            a=0
+            for i in n:
+                if name1==i.name:
+                    a+=1
+                    return HttpResponse("Project Name already taken. Please Choose another one!")
+            if a==0:
+                z = project(name = name1)
+                z.save()
+
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return(redirect('product'))
+
     else:
         form = productform()
-    return(render(request,'product.html/',context={'form':form,'data':data}))
+    return(render(request,'product.html/',context={'form':form,'data':data,'n':n}))
 
 @login_required
 @user_passes_test(checkman,login_url='progress')

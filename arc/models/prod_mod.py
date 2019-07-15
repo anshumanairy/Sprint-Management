@@ -10,6 +10,7 @@ class product(models.Model):
     sprint_qa_end_date=models.DateField(blank=False,default=date.today)
     dev_working=models.IntegerField(default=0)
     qa_working=models.IntegerField(default=0)
+    pid=models.IntegerField() 
 
     def __str__(self):
         return str(self.name)
