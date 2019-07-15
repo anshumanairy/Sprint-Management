@@ -23,5 +23,10 @@ class story(models.Model):
     hstat = models.CharField(max_length=20)
     qstat = models.CharField(max_length=20)
 
+    jactual = models.IntegerField(default=0)
+    pactual = models.IntegerField(default=0)
+    hactual = models.IntegerField(default=0)
+    qactual = models.IntegerField(default=0)
+
     def __str__(self):
         return str(self.jira)
