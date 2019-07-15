@@ -861,9 +861,9 @@ def allocation(request):
         if 'java_sel' in request.GET:
             java_dev = request.GET.get('java_sel')
             p1 = request.GET.get('points1')
-            storyname = request.GET.get('s_name')
+            idy = request.GET.get('idx')
             n = register.objects.get(name=java_dev)
-            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p = story.objects.get(sprint_id=id1,id=idy)
             p.dev_java = java_dev
             p.javas = int(p1)
             p.save()
@@ -879,8 +879,9 @@ def allocation(request):
         if 'php_sel' in request.GET:
             php_dev = request.GET.get('php_sel')
             p2 = request.GET.get('points2')
+            idy = request.GET.get('idx')
             n = register.objects.get(name=php_dev)
-            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p = story.objects.get(sprint_id=id1,id=idy)
             p.dev_php = php_dev
             p.phps = int(p2)
             p.save()
@@ -896,8 +897,9 @@ def allocation(request):
         if 'html_sel' in request.GET:
             html_dev = request.GET.get('html_sel')
             p3 = request.GET.get('points3')
+            idy = request.GET.get('idx')
             n = register.objects.get(name=html_dev)
-            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p = story.objects.get(sprint_id=id1,id=idy)
             p.dev_html = html_dev
             p.htmls = int(p3)
             p.save()
@@ -913,8 +915,9 @@ def allocation(request):
         if 'qa_sel' in request.GET:
             qa_dev = request.GET.get('qa_sel')
             p4 = request.GET.get('points4')
+            idy = request.GET.get('idx')
             n = register.objects.get(name=qa_dev)
-            p = story.objects.get(sprint_id=id1,story_name=storyname)
+            p = story.objects.get(sprint_id=id1,id=idy)
             p.dev_qa = qa_dev
             p.qas = int(p4)
             p.save()

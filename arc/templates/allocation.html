@@ -147,7 +147,7 @@
                         {% endfor %}
                       </select>
                   <!-- point selector -->
-                      <input type="hidden" name="s_name" value="{{ dash.story_name }}">
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points1" min="0" value="0" id="c">
                     </td>
 
@@ -159,7 +159,7 @@
                         {% endfor %}
                       </select>
                 <!-- point selector -->
-                      <input type="hidden" name="s_name" value="{{ dash.story_name }}">
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points2" min="0" value="0" id="c">
                     </td>
 
@@ -171,7 +171,7 @@
                         {% endfor %}
                       </select>
                 <!-- point selector -->
-                      <input type="hidden" name="s_name" value="{{ dash.story_name }}">
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points3" min="0" value="0" id="c">
                     </td>
 
@@ -183,14 +183,14 @@
                           {% endfor %}
                         </select>
                   <!-- point selector -->
-                        <input type="hidden" name="s_name" value="{{ dash.story_name }}">
+                        <input type="hidden" name="idx" value="{{ dash.id }}">
                         <input type="number" name="points4" min="0" value="0" id="c">
                       </td>
 
                     <td><input type="submit" name="assign_data" class="btn-xs btn-info" id="reg1" value="Assign"></td>
                     </form>
 
-                    <script type="text/javascript">
+                    <!-- <script type="text/javascript">
                       jQuery(document).ready(function($){
                           var frm = $('#form_id{{dash.jira}}');
                           frm.submit(function () {
@@ -199,13 +199,14 @@
                                     type: $('#form_id{{dash.jira}}').attr('method'),
                                     data: $('#form_id{{dash.jira}}').serialize(),
                                     success: function(data) {
-                                      $("#re").html(data);                                  },
+                                      $("#re").html(data);
+                                    },
                                 });
                               return false;
                             }
                           });
                         });
-                    </script>
+                    </script> -->
 
                   </tr>
                 {% endfor %}
