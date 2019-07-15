@@ -148,7 +148,8 @@ def qaprg(request):
                 k+=1
                 count=count+1;
             j+=1
-        print(list1)
+        # print(list1)
+        
         if request.method=='GET':
             if 'as' in request.GET:
                 s = request.GET.get('sel')
