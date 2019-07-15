@@ -187,9 +187,13 @@
                       </script> -->
                     <form method="GET" id="a{{k.1}}">
                       <td>{{ k.2 }}</td>
-                      <td></td>
-                      <td><input type="text" name="startdate" placeholder="Start Date" class="datepicker">
-                          <input type="text" name="enddate" placeholder="End Date" class="datepicker"></td>
+                      <td>
+                        <input type="number" min="0" value="0" name="act">
+                      </td>
+                      <td>
+                        <input type="text" name="startdate" placeholder="Start Date" class="datepicker">
+                        <input type="text" name="enddate" placeholder="End Date" class="datepicker">
+                      </td>
                       <td>
                         <select class="chosen" name="prg">
                           <option>Dev</option>

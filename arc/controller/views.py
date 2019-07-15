@@ -56,6 +56,7 @@ def qaprg(request):
         e=int(e)
         f=int(f)
 
+
         list2={}
         n=0
         for i1 in data:
@@ -162,11 +163,12 @@ def qaprg(request):
                 stdate = request.GET.get('startdate')
                 endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
+                act1 = request.GET.get('act')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2,actual=act1)
                 z.save()
 
                 list2={}
@@ -339,11 +341,12 @@ def qaprg(request):
                 stdate = request.GET.get('startdate')
                 endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
+                act1 = request.GET.get('act')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2,actual='act1')
                 z.save()
 
                 list2={}
@@ -821,8 +824,6 @@ def allocation(request):
     shtml = register.objects.aggregate(Sum('sphtml'))['sphtml__sum']
     sqa = register.objects.aggregate(Sum('spqa'))['spqa__sum']
 
-    # s1 = story.objects.filter()
-
     list1=[]
     for i in d1:
         j = story.objects.filter(sprint_id=id1, dev_java=i.name)
@@ -931,7 +932,7 @@ def allocation(request):
                 else:
                     list4.append(j.aggregate(Sum('qas'))['qas__sum'])
             d=sum(list4)
-
+            return(redirect('allocation'))
     return render(request,'allocation.html/',{'dashboard':dashboard,'d1':d1,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4,'a':a,'b':b,'c':c,'d':d})
 
 @login_required

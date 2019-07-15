@@ -9,15 +9,11 @@
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <script
         src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -135,10 +131,10 @@
                   <td><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
                   <td colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
                 </tr>
+                <form method="GET" id="form_id{{dash.id}}">
+                  {% csrf_token %}
                 <tr>
                   <td colspan="2"></td>
-                  <form method="GET" id="form_id{{dash.jira}}">
-                    {% csrf_token %}
                     <td class="t">
                     <!-- dropdown developer -->
                       <select  name="java_sel" class="chosen">
@@ -192,27 +188,25 @@
                       </td>
 
                     <td><input type="submit" name="assign_data" class="btn-xs btn-info" id="reg1" value="Assign"></td>
+                    </tr>
                     </form>
-
-                    <script type="text/javascript">
+                    <!-- <script type="text/javascript">
                       jQuery(document).ready(function($){
-                          var frm = $('#form_id{{dash.jira}}');
+                          var frm = $('#form_id{{dash.id}}');
                           frm.submit(function () {
-                            if (this.id == 'form_id{{dash.jira}}'){
+                            if (this.id == 'form_id{{dash.id}}'){
                                 $.ajax({
-                                    type: $('#form_id{{dash.jira}}').attr('method'),
-                                    data: $('#form_id{{dash.jira}}').serialize(),
+                                    type: $('#form_id{{dash.id}}').attr('method'),
+                                    data: $('#form_id{{dash.id}}').serialize(),
                                     success: function(data) {
-                                      $("#re").html(data);
+                                      // $("#re").html(data);
                                     },
                                 });
                               return false;
                             }
                           });
                         });
-                    </script>
-
-                  </tr>
+                    </script> -->
                 {% endfor %}
               </tbody>
             </table>
@@ -223,7 +217,13 @@
   </div>
 </div>
 
-<div class="content-fluid">
+<div class="container-fluid">
+  <div class="col-md-3">
+    <button class="btn btn-primary btn-block"  onclick="w4_open()" id="check"><small>Check Available Developers</small></button>
+  </div>
+</div>
+
+<div class="content-fluid" id="f" style="display:none">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -308,6 +308,9 @@
                 </tr>
               </tbody>
             </table>
+            <div class="update ml-auto mr-auto">
+              <button class="btn btn-primary btn-block" onclick="w4_close()"><small>Close</small></button>
+            </div>
           </div>
         </div>
       </div>
@@ -315,5 +318,20 @@
   </div>
 </div>
 
-</body>
+<div id="m">
+
+<script>
+function w4_open() {
+  document.getElementById("m").style.marginTop = "0%";
+  document.getElementById("f").style.display = "block";
+  document.getElementById("check").style.display = 'none';
+}
+function w4_close() {
+  document.getElementById("m").style.marginTop = "0%";
+  document.getElementById("f").style.display = "none";
+  document.getElementById("check").style.display = "inline-block";
+}
+
+</script>
+  </body>
 </html>

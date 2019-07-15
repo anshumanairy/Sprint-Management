@@ -10,6 +10,7 @@ class prg(models.Model):
     status = models.CharField(max_length = 15)
     dname = models.CharField(max_length=20)
     days = models.IntegerField()
+    actual = models.IntegerField()
 
     def __str__(self):
         return str(self.jd)
