@@ -19,6 +19,7 @@ from django.db.models import Sum
 from datetime import datetime
 import numpy as np
 import json
+import csv, io
 
 def checkman(user):
     if user.is_superuser:
@@ -523,6 +524,7 @@ def view_story(request):
         if 'delete_story' in request.GET:
             x = request.GET.get('delete_story')
             story.objects.filter(sprint_id=id,id=x).delete()
+            return(redirect('view_story'))
             # print(x)
         if 's_name' in request.GET:
             sn = request.GET.get('s_name')
@@ -534,21 +536,51 @@ def view_story(request):
             p.description = sd
             p.jira = snj
             p.save()
+            return(redirect('view_story'))
 
     if request.method=='POST':
-        form = storyform(request.POST)
-        if form.is_valid():
-            form.instance.sprint_id=id
-            p = story.objects.all()
-            for i in p:
-                if form.instance.jira == i.jira:
-                    return HttpResponse("Jira ID already exists! Please Choose another one!")
-            form.save()
-            return redirect('view_story')
+        if 'csv_button' in request.POST:
+            csv_file = request.FILES['file1']
+            if not csv_file.name.endswith('.csv'):
+                return HttpResponse('Not a CSV File!')
+            data_set = csv_file.read().decode('UTF-8')
+            lines = data_set.split("\n")
+            firstline = True
+            try:
+                for line in lines:
+                    if firstline == True:
+                        firstline = False
+                        continue
+                    else:
+                        fields = line.split(",")
+                        stx = story.objects.filter(sprint_id=id)
+                        l=0
+                        print(fields[2])
+                        for i in stx:
+                            if fields[2]==i.jira:
+                                l+=1
+                        if l==0:
+                            z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
+                            z1.save()
+            except:
+                pass
+            return(redirect('view_story'))
+
+        if 'spr1' in request.POST:
+            form = storyform(request.POST)
+            if form.is_valid():
+                form.instance.sprint_id=id
+                p = story.objects.all()
+                for i in p:
+                    if form.instance.jira == i.jira:
+                        return HttpResponse("Jira ID already exists! Please Choose another one!")
+                form.save()
+                return redirect('view_story')
+            else:
+                return HttpResponse("Data not stored!")
         else:
-            return HttpResponse("Data not stored!")
-    else:
-        form = storyform()
+            form = storyform()
+
     return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4})
 
 @login_required
