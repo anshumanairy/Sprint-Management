@@ -555,7 +555,6 @@ def view_story(request):
                         fields = line.split(",")
                         stx = story.objects.filter(sprint_id=id)
                         l=0
-                        print(fields[2])
                         for i in stx:
                             if fields[2]==i.jira:
                                 l+=1
