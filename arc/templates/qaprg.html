@@ -142,7 +142,7 @@
                     <tr>
                       <td>{{ k.0 }}</td>
                       <td>{{ k.1 }}</td>
-                      <form method="GET" id="a{{k.1}}">
+                      <form method="GET">
                       <td>
                         <select class="chosen" name="sel">
                           <option>{{ k.3 }}</option>
@@ -185,7 +185,7 @@
                             });
                           });
                       </script> -->
-                    <form method="GET">
+                    <form method="GET" id="a{{k.1}}">
                       <td>{{ k.2 }}</td>
                       <td></td>
                       <td><input type="text" name="startdate" placeholder="Start Date" class="datepicker">
@@ -314,6 +314,23 @@
 
                     </tr>
                   </form>
+                  <!-- <script type="text/javascript">
+                      jQuery(document).ready(function($){
+                        var frm = $('#a{{k.1}}');
+                        frm.submit(function () {
+                          if (this.id == 'a{{k.1}}'){
+                              $.ajax({
+                                  type: $('#a{{k.1}}').attr('method'),
+                                  data: $('#a{{k.1}}').serialize(),
+                                  success: function(data) {
+                                    $("#re").html(data);
+                                  },
+                              });
+                            return false;
+                          }
+                        });
+                      });
+                  </script> -->
                         {% endfor %}
                       {% endif %}
                     {% endfor %}

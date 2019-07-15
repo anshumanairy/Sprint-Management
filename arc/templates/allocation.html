@@ -142,55 +142,59 @@
                     <td class="t">
                     <!-- dropdown developer -->
                       <select  name="java_sel" class="chosen">
+                        <option>{{ dash.dev_java }}</option>
                         {% for d22 in d2 %}
                           <option>{{ d22.name }}</option>
                         {% endfor %}
                       </select>
                   <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
-                      <input type="number" name="points1" min="0" value="0" id="c">
+                      <input type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
                     </td>
 
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="php_sel" class="chosen">
+                        <option>{{ dash.dev_php }}</option>
                         {% for d33 in d3 %}
                           <option>{{ d33.name }}</option>
                         {% endfor %}
                       </select>
                 <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
-                      <input type="number" name="points2" min="0" value="0" id="c">
+                      <input type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
                     </td>
 
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="html_sel" class="chosen">
+                        <option>{{ dash.dev_html }}</option>
                         {% for d44 in d4 %}
                           <option>{{ d44.name }}</option>
                         {% endfor %}
                       </select>
                 <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
-                      <input type="number" name="points3" min="0" value="0" id="c">
+                      <input type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
                     </td>
 
                       <td class="t">
                       <!-- dropdown developer -->
                         <select name="qa_sel" class="chosen">
+                          <option>{{ dash.dev_qa }}</option>
                           {% for d55 in d5 %}
                             <option>{{ d55.name }}</option>
                           {% endfor %}
                         </select>
                   <!-- point selector -->
                         <input type="hidden" name="idx" value="{{ dash.id }}">
-                        <input type="number" name="points4" min="0" value="0" id="c">
+                        <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
                       </td>
 
                     <td><input type="submit" name="assign_data" class="btn-xs btn-info" id="reg1" value="Assign"></td>
                     </form>
 
-                    <!-- <script type="text/javascript">
+                    <script type="text/javascript">
                       jQuery(document).ready(function($){
                           var frm = $('#form_id{{dash.jira}}');
                           frm.submit(function () {
@@ -206,7 +210,7 @@
                             }
                           });
                         });
-                    </script> -->
+                    </script>
 
                   </tr>
                 {% endfor %}

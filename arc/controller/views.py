@@ -156,7 +156,7 @@ def qaprg(request):
                 elif p.dev_qa == n1:
                     p.qstat = s
                 p.save()
-                return redirect('progress')
+                return redirect('qaprg')
 
             if 'as1' in request.GET:
                 stdate = request.GET.get('startdate')
@@ -214,7 +214,7 @@ def qaprg(request):
                     m+=1
                 jd3=json.dumps(list4)
 
-                return redirect('progress')
+                return redirect('qaprg')
 
     else:
 
@@ -333,7 +333,7 @@ def qaprg(request):
                 elif p.dev_qa == n1:
                     p.qstat = s
                 p.save()
-                return redirect('progress')
+                return redirect('qaprg')
 
             if 'startdate' in request.GET:
                 stdate = request.GET.get('startdate')
@@ -391,7 +391,7 @@ def qaprg(request):
                     m+=1
                 jd3=json.dumps(list4)
 
-                return redirect('progress')
+                return redirect('qaprg')
 
     return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
@@ -438,7 +438,7 @@ def prod(request):
                 return redirect('view_story')
             else:
                 if register.objects.get(uname=request.user.username).roles=='dev':
-                    return redirect('progress')
+                    return redirect('qaprg')
                 else:
                     return redirect('view_story')
     else:
@@ -821,6 +821,8 @@ def allocation(request):
     shtml = register.objects.aggregate(Sum('sphtml'))['sphtml__sum']
     sqa = register.objects.aggregate(Sum('spqa'))['spqa__sum']
 
+    # s1 = story.objects.filter()
+
     list1=[]
     for i in d1:
         j = story.objects.filter(sprint_id=id1, dev_java=i.name)
@@ -955,10 +957,6 @@ def tasks(request):
 
 def home(request):
     return render(request,'home.html/',{})
-
-@login_required
-def progress(request):
-    return(render(request,'progress.html/'))
 
 def reg(request):
     total=story.objects.all().count()
