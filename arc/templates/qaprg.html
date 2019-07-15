@@ -188,15 +188,11 @@
 
                       <td>{{ k.2 }}</td>
                       <form method="GET">
-                        <td>
-                          <!-- <input type="number" min="0" value="0" name="act">
-                          <input type="submit" value="Submit"> -->
-                        </td>
+                        <td>{{ k.6 }}</td>
                       </form>
                       <form method="GET" id="a{{k.1}}">
                       <td>
                         <input type="text" name="startdate" placeholder="Start Date" class="datepicker">
-                        <input type="text" name="enddate" placeholder="End Date" class="datepicker">
                       </td>
                       <td>
                         <select class="chosen" name="prg">
@@ -217,7 +213,6 @@
                             var stat = JSON.parse('{{ d2|escapejs }}');
                             var jid = JSON.parse('{{ d3|escapejs }}');
                             var arr1=[];
-                            var arr2=[];
                             var arr3=[];
                             var j_id=[];
                             var dev_name=[];
@@ -229,7 +224,6 @@
                                     for(k in data[i][j]){
                                       if(data[i][j].hasOwnProperty(k)){
                                           arr1.push(k);
-                                          arr2.push(data[i][j][k]);
                                       }
                                     }
                                     dev_name.push(i);
@@ -237,7 +231,7 @@
                                 }
                               }
                             }
-                            // console.log(arr1,arr2);
+                            // console.log(arr1);
 
                             for(i in stat){
                               if(i=="{{i.name}}"){
@@ -268,15 +262,10 @@
                           for(var i =0 ;i<arr1.length;i++){
                               var day = 1000*60*60*24;
                               date1 = new Date(arr1[i]);
-                              date2 = new Date(arr2[i]);
-                              var diff = (date2.getTime()- date1.getTime())/day;
-                              for(var r=0;r<=diff; r++)
-                              {
-                                 var xx = date1.getTime()+day*r;
+                                 var xx = date1.getTime();
                                  var yy = new Date(xx);
                                  z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
                                  if(yy.getDay()!=0 && yy.getDay()!=6){
-                                     // console.log(yy.getDay());
                                      if(arr3[i]=='Dev'){
                                        nDates[new Date(z)] = 1;
                                      }
@@ -289,7 +278,6 @@
                                      if(arr3[i]=='Release Support'){
                                        nDates[new Date(z)] = 4;
                                      }
-                                  }
                               }
                           }
 
@@ -322,23 +310,6 @@
 
                     </tr>
                   </form>
-                  <!-- <script type="text/javascript">
-                      jQuery(document).ready(function($){
-                        var frm = $('#a{{k.1}}');
-                        frm.submit(function () {
-                          if (this.id == 'a{{k.1}}'){
-                              $.ajax({
-                                  type: $('#a{{k.1}}').attr('method'),
-                                  data: $('#a{{k.1}}').serialize(),
-                                  success: function(data) {
-                                    $("#re").html(data);
-                                  },
-                              });
-                            return false;
-                          }
-                        });
-                      });
-                  </script> -->
                         {% endfor %}
                       {% endif %}
                     {% endfor %}

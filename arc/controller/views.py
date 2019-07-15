@@ -56,8 +56,6 @@ def qaprg(request):
         d=int(d)
         e=int(e)
         f=int(f)
-
-
         list2={}
         n=0
         for i1 in data:
@@ -68,12 +66,11 @@ def qaprg(request):
                     p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                     list2[i1.name][n]={}
                     for k1 in p1:
-                        list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                        list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
                     n+=1
                 else:
                     n+=1
         jd1=json.dumps(list2)
-        # print(list2)
 
         list3={}
         n=0
@@ -88,7 +85,7 @@ def qaprg(request):
                     for k2 in p1:
                         list3[i2.name][n][str(r)]=k2.status
                         r+=1
-                        print(k2.status)
+                        # print(k2.status)
                     n+=1
                 else:
                     n+=1
@@ -139,10 +136,19 @@ def qaprg(request):
                     list1[j][k].append(r.qstat)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
+                listb=[]
+                if prg.objects.filter(s_id=id1,jd=r.jira,dname=i.name).exists()==True:
+                    p1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=i.name)
+                    for k1 in p1:
+                        listb.append(k1.sdate)
+                        listb=list(set(listb))
+                    list1[j][k].append(len(listb)*2)
+                else:
+                    list1[j][k].append(0)
                 k+=1
                 count=count+1;
             j+=1
-
+        print(list1)
         if request.method=='GET':
             if 'as' in request.GET:
                 s = request.GET.get('sel')
@@ -162,13 +168,11 @@ def qaprg(request):
 
             if 'as1' in request.GET:
                 stdate = request.GET.get('startdate')
-                endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
-                day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
                 z.save()
 
                 list2={}
@@ -181,7 +185,7 @@ def qaprg(request):
                             p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                             for k1 in p1:
                                 list2[i1.name][n]={}
-                                list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                                list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
                                 n+=1
 
                 jd1=json.dumps(list2)
@@ -239,19 +243,36 @@ def qaprg(request):
         x=request.user.username
         name1 = register.objects.get(uname=x).name
         data = register.objects.filter(roles='dev',name=name1)
+
+        # list2={}
+        # n=0
+        # st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        # list2[name1]={}
+        # for j1 in st1:
+        #     if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
+        #         p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
+        #         list2[name1][n]={}
+        #         for k1 in p1:
+        #             list2[name1][n][str(k1.sdate)]=str(k1.sdate)
+        #         n+=1
+        #     else:
+        #         n+=1
+        # jd1=json.dumps(list2)
+
         list2={}
         n=0
-        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
-        list2[name1]={}
-        for j1 in st1:
-            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
-                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
-                list2[name1][n]={}
-                for k1 in p1:
-                    list2[name1][n][str(k1.sdate)]=str(k1.edate)
-                n+=1
-            else:
-                n+=1
+        for i1 in data:
+            st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+            list2[name1]={}
+            for j1 in st1:
+                if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
+                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
+                    list2[name1][n]={}
+                    for k1 in p1:
+                        list2[name1][n][str(k1.sdate)]=str(k1.sdate)
+                    n+=1
+                else:
+                    n+=1
         jd1=json.dumps(list2)
         # print(list2)
 
@@ -316,6 +337,15 @@ def qaprg(request):
                 list1[j][k].append(r.qstat)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
+            listb=[]
+            if prg.objects.filter(s_id=id1,jd=r.jira,dname=name1).exists()==True:
+                p1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=name1)
+                for k1 in p1:
+                    listb.append(k1.sdate)
+                    listb=list(set(listb))
+                list1[j][k].append(len(listb)*2)
+            else:
+                list1[j][k].append(0)
             k+=1
             count=count+1;
         j+=1
@@ -339,13 +369,11 @@ def qaprg(request):
 
             if 'startdate' in request.GET:
                 stdate = request.GET.get('startdate')
-                endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
-                day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
+                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
                 z.save()
 
                 list2={}
@@ -358,7 +386,7 @@ def qaprg(request):
                             p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                             for k1 in p1:
                                 list2[i1.name][n]={}
-                                list2[i1.name][n][str(k1.sdate)]=str(k1.edate)
+                                list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
                                 n+=1
 
                 jd1=json.dumps(list2)
