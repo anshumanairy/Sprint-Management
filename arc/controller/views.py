@@ -56,7 +56,7 @@ def qaprg(request):
         e=int(e)
         f=int(f)
 
-
+        
         list2={}
         n=0
         for i1 in data:
@@ -163,12 +163,11 @@ def qaprg(request):
                 stdate = request.GET.get('startdate')
                 endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
-                act1 = request.GET.get('act')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2,actual=act1)
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
                 z.save()
 
                 list2={}
@@ -341,12 +340,11 @@ def qaprg(request):
                 stdate = request.GET.get('startdate')
                 endate = request.GET.get('enddate')
                 prog = request.GET.get('prg')
-                act1 = request.GET.get('act')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 day = np.busday_count(stdate,endate)
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2,actual='act1')
+                z = prg(s_id=id1,jd=j,sdate=stdate,edate=endate,days=day,status=prog,dname=n2)
                 z.save()
 
                 list2={}
