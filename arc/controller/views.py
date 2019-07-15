@@ -149,7 +149,7 @@ def qaprg(request):
                 count=count+1;
             j+=1
         # print(list1)
-        
+
         if request.method=='GET':
             if 'as' in request.GET:
                 s = request.GET.get('sel')
@@ -916,74 +916,79 @@ def allocation(request):
             java_dev = request.GET.get('java_sel')
             p1 = request.GET.get('points1')
             idy = request.GET.get('idx')
-            n = register.objects.get(name=java_dev)
-            p = story.objects.get(sprint_id=id1,id=idy)
-            p.dev_java = java_dev
-            p.javas = int(p1)
-            p.save()
-            list1=[]
-            for i in d1:
-                j = story.objects.filter(sprint_id=id1, dev_java=i.name)
-                if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                    list1.append(0)
-                else:
-                    list1.append(j.aggregate(Sum('javas'))['javas__sum'])
-            a=sum(list1)
+            if int(p1)>0:
+                n = register.objects.get(name=java_dev)
+                p = story.objects.get(sprint_id=id1,id=idy)
+                p.dev_java = java_dev
+                p.javas = int(p1)
+                p.save()
+                list1=[]
+                for i in d1:
+                    j = story.objects.filter(sprint_id=id1, dev_java=i.name)
+                    if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                        list1.append(0)
+                    else:
+                        list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                a=sum(list1)
 
         if 'php_sel' in request.GET:
             php_dev = request.GET.get('php_sel')
             p2 = request.GET.get('points2')
             idy = request.GET.get('idx')
-            n = register.objects.get(name=php_dev)
-            p = story.objects.get(sprint_id=id1,id=idy)
-            p.dev_php = php_dev
-            p.phps = int(p2)
-            p.save()
-            list2=[]
-            for i in d1:
-                j = story.objects.filter(sprint_id=id1, dev_php=i.name)
-                if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                    list2.append(0)
-                else:
-                    list2.append(j.aggregate(Sum('phps'))['phps__sum'])
-            b=sum(list2)
+            if int(p2)>0:
+                n = register.objects.get(name=php_dev)
+                p = story.objects.get(sprint_id=id1,id=idy)
+                p.dev_php = php_dev
+                p.phps = int(p2)
+                p.save()
+                list2=[]
+                for i in d1:
+                    j = story.objects.filter(sprint_id=id1, dev_php=i.name)
+                    if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                        list2.append(0)
+                    else:
+                        list2.append(j.aggregate(Sum('phps'))['phps__sum'])
+                b=sum(list2)
 
         if 'html_sel' in request.GET:
             html_dev = request.GET.get('html_sel')
             p3 = request.GET.get('points3')
             idy = request.GET.get('idx')
-            n = register.objects.get(name=html_dev)
-            p = story.objects.get(sprint_id=id1,id=idy)
-            p.dev_html = html_dev
-            p.htmls = int(p3)
-            p.save()
-            list3=[]
-            for i in d1:
-                j = story.objects.filter(sprint_id=id1, dev_html=i.name)
-                if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                    list3.append(0)
-                else:
-                    list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
-            c=sum(list3)
+            if int(p3)>0:
+                n = register.objects.get(name=html_dev)
+                p = story.objects.get(sprint_id=id1,id=idy)
+                p.dev_html = html_dev
+                p.htmls = int(p3)
+                p.save()
+                list3=[]
+                for i in d1:
+                    j = story.objects.filter(sprint_id=id1, dev_html=i.name)
+                    if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                        list3.append(0)
+                    else:
+                        list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                c=sum(list3)
 
         if 'qa_sel' in request.GET:
             qa_dev = request.GET.get('qa_sel')
             p4 = request.GET.get('points4')
             idy = request.GET.get('idx')
-            n = register.objects.get(name=qa_dev)
-            p = story.objects.get(sprint_id=id1,id=idy)
-            p.dev_qa = qa_dev
-            p.qas = int(p4)
-            p.save()
-            list4=[]
-            for i in d1:
-                j = story.objects.filter(sprint_id=id1, dev_qa=i.name)
-                if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                    list4.append(0)
-                else:
-                    list4.append(j.aggregate(Sum('qas'))['qas__sum'])
-            d=sum(list4)
+            if int(p4)>0:
+                n = register.objects.get(name=qa_dev)
+                p = story.objects.get(sprint_id=id1,id=idy)
+                p.dev_qa = qa_dev
+                p.qas = int(p4)
+                p.save()
+                list4=[]
+                for i in d1:
+                    j = story.objects.filter(sprint_id=id1, dev_qa=i.name)
+                    if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                        list4.append(0)
+                    else:
+                        list4.append(j.aggregate(Sum('qas'))['qas__sum'])
+                d=sum(list4)
             return(redirect('allocation'))
+
     return render(request,'allocation.html/',{'dashboard':dashboard,'d1':d1,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4,'a':a,'b':b,'c':c,'d':d})
 
 @login_required
