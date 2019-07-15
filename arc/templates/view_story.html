@@ -3,18 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Story Management</title>
-    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
-    <!-- <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script
   			  src="https://code.jquery.com/jquery-3.3.1.js"
   			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   			  crossorigin="anonymous"></script>
+    <!-- <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -185,13 +180,13 @@ function w4_close() {
                   <form method="get" id='edit2'>
                     {% csrf_token %}
                     <td><label>Story Name</label>
-                    <input type="text" name="s_name"></td>
+                    <input type="text" name="s_name" value="" id="a1"></td>
                     <td><label>Description Link</label>
-                    <input type="url" name="desc"></td>
+                    <input type="url" name="desc" value="" id="b1"></td>
                     <td><label>Old Jira ID</label>
-                    <input type="text" name ="old_jira"></td>
+                    <input type="text" name ="old_jira" value="" id="c1"></td>
                     <td><label>New Jira ID</label>
-                    <input type="text" name="new_jira" placeholder="Enter New ID"></td>
+                    <input type="text" name="new_jira" value="" id="d1"></td>
                     <td>
                       <input class ="btn-xs btn-info" type="submit" value="Submit">
                       <input type="button" class="btn-xs btn-info" onclick="w5_close()" value="Dont Edit">
@@ -244,10 +239,9 @@ function w4_close() {
                           });
                         });
                     </script>
-                    <form method="get">
-                      <input type="hidden" name="edit_button" value="{{d.id}}">
-                      <input type="button" class="btn-xs btn-info" onclick="w5_open()" value="Edit" id="edit">
-                    </form>
+                    <!-- <form method="GET"> -->
+                      <input type="button" class="btn-xs btn-info" onclick="w5_open({{d.id}})" value="Edit" id="edit">
+                    <!-- </form> -->
                   </td>
                 </tr>
                 {% endfor %}
@@ -280,13 +274,35 @@ function w4_close() {
 </script>
 
 <div id="n">
-
 <script>
-function w5_open() {
+function w5_open(e) {
   document.getElementById("n").style.marginTop = "0%";
   document.getElementById("e").style.display = "block";
   document.getElementById("edit").style.display = 'none';
+  // console.log(e);
+  $(document).ready(function() {
+    var d1  = JSON.parse('{{ jd1|escapejs }}');
+    var d2  = JSON.parse('{{ jd2|escapejs }}');
+    var d3  = JSON.parse('{{ jd3|escapejs }}');
+    var d4  = JSON.parse('{{ jd4|escapejs }}');
+    var a=""
+    var b=""
+    var c=""
+    for(i in d1){
+      if(e==d1[i]){
+        a=d2[i];
+        b=d3[i];
+        c=d4[i];
+        break;
+      }
+    }
+    document.getElementById('a1').value = a;
+    document.getElementById('b1').value = b;
+    document.getElementById('c1').value = c;
+    document.getElementById('d1').value = c;
+  });
 }
+
 function w5_close() {
   document.getElementById("n").style.marginTop = "0%";
   document.getElementById("e").style.display = "none";

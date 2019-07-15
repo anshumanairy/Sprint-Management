@@ -451,6 +451,20 @@ def view_story(request):
     id = request.session['id']
     data = story.objects.filter(sprint_id=id)
     form = storyform(request.POST or None)
+    list1=[]
+    list2=[]
+    list3=[]
+    list4=[]
+    for i in data:
+        list1.append(i.id)
+        list2.append(i.story_name)
+        list3.append(i.description)
+        list4.append(i.jira)
+    jd1=json.dumps(list1)
+    jd2=json.dumps(list2)
+    jd3=json.dumps(list3)
+    jd4=json.dumps(list4)
+
     if request.method=='GET':
         if 'delete_story' in request.GET:
             x = request.GET.get('delete_story')
@@ -461,15 +475,11 @@ def view_story(request):
             sd = request.GET.get('desc')
             soj = request.GET.get('old_jira')
             snj = request.GET.get('new_jira')
-            print(snj)
             p = story.objects.get(sprint_id=id,jira=soj)
             p.story_name = sn
             p.description = sd
             p.jira = snj
             p.save()
-        if 'edit_button' in request.GET:
-            x = request.GET.get('edit_button')
-            print(x)
 
     if request.method=='POST':
         form = storyform(request.POST)
@@ -485,7 +495,7 @@ def view_story(request):
             return HttpResponse("Data not stored!")
     else:
         form = storyform()
-    return render(request,'view_story.html/',{'form':form,'data':data})
+    return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4})
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
