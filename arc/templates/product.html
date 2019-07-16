@@ -116,7 +116,7 @@
       document.getElementById("openNav").style.display = "inline-block";
     }
     </script>
-
+<div id="hid">
     <div class="container-fluid" id="spr">
       <div class="col-md-2">
         <button class="btn btn-primary btn-block" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
@@ -136,10 +136,10 @@
           </div>
           <div class="container-fluid">
               <button class="btn btn-primary btn-block col-md-2" type="submit" name="submit_project"><small>Select Project</small></button>
-              <p>*Select a project and then select a sprint</p>
           </div>
       </div>
     </form>
+</div>
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -151,7 +151,8 @@
                   data: frm.serialize(),
                   success: function(data) {
                     $("#re").html(data);
-                    alert("Project Selected!");
+                    document.getElementById('hid').style.display = 'none';
+                    document.getElementById('hid1').style.display = 'block';
                   },
               });
           });
@@ -226,7 +227,7 @@
         document.getElementById("project_btn").style.display = "inline-block";
       }
     </script>
-
+<div id='hid1' style="display:none">
   <div class="container-fluid" id="spr">
     <div class="col-md-2">
       <button class="btn btn-primary btn-block" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
@@ -395,7 +396,7 @@
     document.getElementById("sprint_btn").style.display = "inline-block";
   }
 </script>
-
+</div>
 
 </body>
 

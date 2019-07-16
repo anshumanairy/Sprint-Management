@@ -435,7 +435,9 @@ def user_logout(request):
 
 @login_required
 def prod(request):
+    # pid=3
     pid2 = request.session['pid']
+    # pid2=3
     data = product.objects.filter(pid=pid2)
     n = project.objects.all()
     form = productform(request.POST or None)
@@ -482,13 +484,17 @@ def prod(request):
             name1 = request.POST.get('pname')
             n = project.objects.all()
             a=0
-            for i in n:
-                if name1==i.name:
-                    a+=1
-                    return HttpResponse("Project Name already taken. Please Choose another one!")
-            if a==0:
-                z = project(name = name1)
-                z.save()
+            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+                for i in n:
+                    if name1==i.name:
+                        a+=1
+                        return HttpResponse("Project Name already taken. Please Choose another one!")
+                if a==0:
+                    z = project(name = name1)
+                    z.save()
+            else:
+                return HttpResponse('You are not Authorized!')
+
             return(redirect('product'))
 
         if 'select_project' in request.POST:
@@ -1085,10 +1091,12 @@ def log(request):
         if user:
             if user.is_superuser:
                 login(request,user)
+                request.session['pid'] = 3
                 return redirect('product')
 
             if user.is_active:
                 login(request,user)
+                request.session['pid'] = 3
                 return redirect('product')
             else:
                 return HttpResponse("Account not active!!")
