@@ -560,14 +560,38 @@ def view_story(request):
                         continue
                     else:
                         fields = line.split(",")
+                        print(fields)
                         stx = story.objects.filter(sprint_id=id)
                         l=0
                         for i in stx:
                             if fields[2]==i.jira:
                                 l+=1
                         if l==0:
-                            z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
-                            z1.save()
+                            k=0
+                            for i3 in register.objects.all():
+                                if fields[3]==i3.name:
+                                    k+=1
+                                if fields[5]==i3.name:
+                                    k+=1
+                                if fields[7]==i3.name:
+                                    k+=1
+                                if fields[9]==i3.name:
+                                    k+=1
+                            if fields[3]=='':
+                                k+=1
+                            if fields[5]=='':
+                                k+=1
+                            if fields[7]=='':
+                                k+=1
+                            if fields[9]=='':
+                                k+=1
+                                
+                            if k==4:
+                                for i2 in range(4,11,2):
+                                    if fields[i2] in ['null', 'None', '','None ',' ']:
+                                        fields[i2] = 0
+                                z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]))
+                                z1.save()
             except:
                 pass
             return(redirect('view_story'))
