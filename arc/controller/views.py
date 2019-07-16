@@ -119,22 +119,22 @@ def qaprg(request):
                 list1[j][k].append(r.jira)
                 if r.dev_java==i.name:
                     list1[j][k].append(r.javas)
-                    list1[j][k].append(r.jstat)
+                    list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                 elif r.dev_php==i.name:
                     list1[j][k].append(r.phps)
-                    list1[j][k].append(r.pstat)
+                    list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                 elif r.dev_html==i.name:
                     list1[j][k].append(r.htmls)
-                    list1[j][k].append(r.hstat)
+                    list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                 elif r.dev_qa==i.name:
                     list1[j][k].append(r.qas)
-                    list1[j][k].append(r.qstat)
+                    list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                 listb=[]
@@ -157,15 +157,9 @@ def qaprg(request):
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
                 p = story.objects.get(sprint_id=id1,jira = j)
-                if p.dev_java == n1:
-                    p.jstat = s
-                elif p.dev_php == n1:
-                    p.pstat = s
-                elif p.dev_html == n1:
-                    p.hstat = s
-                elif p.dev_qa == n1:
-                    p.qstat = s
+                p.ostatus=s
                 p.save()
+                print(p.ostatus)
                 return redirect('qaprg')
 
             if 'as1' in request.GET:
@@ -321,22 +315,22 @@ def qaprg(request):
             list1[j][k].append(r.jira)
             if r.dev_java==name1:
                 list1[j][k].append(r.javas)
-                list1[j][k].append(r.jstat)
+                list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_php==name1:
                 list1[j][k].append(r.phps)
-                list1[j][k].append(r.pstat)
+                list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_html==name1:
                 list1[j][k].append(r.htmls)
-                list1[j][k].append(r.hstat)
+                list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
             elif r.dev_qa==name1:
                 list1[j][k].append(r.qas)
-                list1[j][k].append(r.qstat)
+                list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
             listb=[]
@@ -358,14 +352,7 @@ def qaprg(request):
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
                 p = story.objects.get(sprint_id=id1,jira = j)
-                if p.dev_java == n1:
-                    p.jstat = s
-                elif p.dev_php == n1:
-                    p.pstat = s
-                elif p.dev_html == n1:
-                    p.hstat = s
-                elif p.dev_qa == n1:
-                    p.qstat = s
+                p.ostatus=s
                 p.save()
                 return redirect('qaprg')
 

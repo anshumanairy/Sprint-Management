@@ -18,10 +18,7 @@ class story(models.Model):
     htmls = models.IntegerField(default=0)
     qas = models.IntegerField(default=0)
 
-    jstat = models.CharField(max_length=20)
-    pstat = models.CharField(max_length=20)
-    hstat = models.CharField(max_length=20)
-    qstat = models.CharField(max_length=20)
+    ostatus = models.CharField(max_length=20)
 
     jactual = models.IntegerField(default=0)
     pactual = models.IntegerField(default=0)
