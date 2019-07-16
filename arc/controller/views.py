@@ -426,6 +426,7 @@ def prod(request):
     pid2 = request.session['pid']
     data = product.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
     form = productform(request.POST or None)
 
     if request.method=='POST':
@@ -449,18 +450,21 @@ def prod(request):
         #select sprint get value and redirect
         if 'submit_sprint' in request.POST:
             select = request.POST.get('select_sprint')
-            for i in data:
-                if select in i.name:
-                    id=i.id
-                    request.session['id'] = id
-                    break
-            if request.user.is_superuser:
-                return redirect('view_story')
+            if select==None:
+                return HttpResponse('Please select a Valid Sprint!')
             else:
-                if register.objects.get(uname=request.user.username).roles=='dev':
-                    return redirect('qaprg')
-                else:
+                for i in data:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                if request.user.is_superuser:
                     return redirect('view_story')
+                else:
+                    if register.objects.get(uname=request.user.username).roles=='dev':
+                        return redirect('qaprg')
+                    else:
+                        return redirect('view_story')
 
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
@@ -482,17 +486,24 @@ def prod(request):
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
-            request.session['pid'] = proid
+            if proid==0:
+                return HttpResponse('Please choose a valid Project!')
+            else:
+                request.session['pid'] = proid
             return(redirect('product'))
 
     else:
         form = productform()
-    return(render(request,'product.html/',context={'form':form,'data':data,'n':n}))
+    return(render(request,'product.html/',context={'form':form,'data':data,'n':n,'nx':nx}))
 
 @login_required
 @user_passes_test(checkman,login_url='progress')
 def view_story(request):
     id = request.session['id']
+    pid2 = request.session['pid']
+    data1 = product.objects.filter(pid=pid2)
+    n = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
     data = story.objects.filter(sprint_id=id)
     form = storyform(request.POST or None)
     list1=[]
@@ -528,6 +539,30 @@ def view_story(request):
             return(redirect('view_story'))
 
     if request.method=='POST':
+        # if 'submit_sprint' in request.POST:
+        #     select = request.POST.get('select_sprint')
+        #     if select==None:
+        #         return HttpResponse('Please select a Valid Sprint!')
+        #     else:
+        #         for i in data:
+        #             if select in i.name:
+        #                 id=i.id
+        #                 request.session['id'] = id
+        #                 break
+        #         if request.user.is_superuser:
+        #             return redirect('view_story')
+        #         else:
+        #             if register.objects.get(uname=request.user.username).roles=='dev':
+        #                 return redirect('qaprg')
+        #             else:
+        #                 return redirect('view_story')
+
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return redirect('view_story')
+
         if 'csv_button' in request.POST:
             csv_file = request.FILES['file1']
             if not csv_file.name.endswith('.csv'):
@@ -596,7 +631,7 @@ def view_story(request):
         else:
             form = storyform()
 
-    return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4})
+    return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1})
 
 @login_required
 @user_passes_test(checkman,login_url='progress')

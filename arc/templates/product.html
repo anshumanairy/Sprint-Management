@@ -133,7 +133,7 @@
       <div class="container-fluid">
           <div class="col-md-12">
               <select class="chosen" name="select_project">
-                  <!-- <option></option> -->
+                  <option>{{ nx }}</option>
                 {% for n1 in n %}
                   <option>{{ n1.name }}</option>
                 {% endfor %}
@@ -146,7 +146,23 @@
     </form>
   </div>
 
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
+    $(document).ready(function() {
+        var frm = $('#h');
+        frm.submit(function (e) {
+          e.preventDefault();
+            $.ajax({
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                success: function(data) {
+                  $("#re").html(data);
+                },
+            });
+        });
+      });
+  </script> -->
+
+  <!-- <script type="text/javascript">
     $(document).ready(function() {
         var frm = $('#hid');
         frm.submit(function (e) {
@@ -161,7 +177,7 @@
             });
         });
       });
-  </script>
+  </script> -->
 
     <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
       {% csrf_token %}
@@ -232,7 +248,7 @@
       }
     </script>
 
-<div id='hid1' style="display:none">
+<div id='hid1' >
 
   <div class="container-fluid" id="spr">
     <div class="col-md-2">

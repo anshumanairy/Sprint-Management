@@ -51,6 +51,7 @@
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
+  
   <body id="re">
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
@@ -69,53 +70,6 @@
     <div class="w3-teal">
       <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
       Sprint Management
-      <div id="hx">
-        <form class="post-form" method='POST' id="hid">
-          {% csrf_token %}
-          <div class="container-fluid" >
-              <div class="col-md-12">
-                  <select class="chosen" name="select_project">
-                    {% for n1 in n %}
-                      <option>{{ n1.name }}</option>
-                    {% endfor %}
-                  </select>
-                  <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
-              </div>
-          </div>
-        </form>
-
-        <script type="text/javascript">
-          $(document).ready(function() {
-              var frm = $('#hid');
-              frm.submit(function (e) {
-                e.preventDefault();
-                  $.ajax({
-                      type: frm.attr('method'),
-                      data: frm.serialize(),
-                      success: function(data) {
-                        document.getElementById('hid').style.display = 'none';
-                        document.getElementById('hid1').style.display = 'block';
-                      },
-                  });
-              });
-            });
-        </script>
-
-        <form class="post-form" method='POST' style="display:none" id='hid1'>
-          {% csrf_token %}
-          <div class="container-fluid" >
-              <div class="col-md-12">
-                <select class="chosen" name="select_sprint">
-                  {% for product in data %}
-                  <option> {{ product.name }}</option>
-                    {% endfor %}
-                </select>
-                <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
-              </div>
-          </div>
-        </form>
-
-      </div>
     </div>
 
     <script>
@@ -132,17 +86,52 @@
     }
     </script>
 
+    <div id="hx">
+      <form class="post-form" method='POST' id="hid">
+        {% csrf_token %}
+        <div class="container-fluid" >
+            <div class="col-md-12">
+                <select class="chosen" name="select_project">
+                    <option>{{ nx }}</option>
+                  {% for n1 in n %}
+                    <option>{{ n1.name }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+            </div>
+        </div>
+      </form>
+
+      <form class="post-form" method='POST' id='hid1'>
+        {% csrf_token %}
+        <div class="container-fluid" >
+            <div class="col-md-12">
+              <select class="chosen" name="select_sprint">
+                {% for product in data1 %}
+                <option>{{ product.name }}</option>
+                  {% endfor %}
+              </select>
+              <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+            </div>
+        </div>
+      </form>
+    </div>
+
+  <div id="hid2">
+
     <div class="container-fluid">
       <div class="col-md-2">
-        <button class="btn btn-primary btn-block"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
+        <button class="btn btn-primary"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
       </div>
     </div>
 
     <div class="container-fluid">
       <div class="col-md-2">
-        <button class="btn btn-primary btn-block"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
+        <button class="btn btn-primary"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
       </div>
     </div>
+
+  </div>
 
 <form style="display:none" method="POST" enctype="multipart/form-data" id="h">
   {% csrf_token %}
