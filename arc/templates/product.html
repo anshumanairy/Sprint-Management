@@ -79,6 +79,11 @@
     .bootstrap-datetimepicker-widget.dropdown-menu{
       width:20rem;
     }
+    #change{
+      color:lightblue;
+      padding-left: 15px;
+      padding-top: 5px;
+    }
   </style>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
@@ -227,6 +232,7 @@
         document.getElementById("project_btn").style.display = "inline-block";
       }
     </script>
+
 <div id='hid1' style="display:none">
   <div class="container-fluid" id="spr">
     <div class="col-md-2">
@@ -247,6 +253,7 @@
       <div class="container-fluid">
           <button class="btn btn-primary btn-block col-md-2" type="submit" name="submit_sprint"><small>View Stories</small></button>
       </div>
+      <a href="{% url 'product' %}" id="change">Different Project?</a>
   </div>
 </form>
 
