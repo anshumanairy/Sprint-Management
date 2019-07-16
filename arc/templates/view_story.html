@@ -51,7 +51,7 @@
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
-  
+
   <body id="re">
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
@@ -107,6 +107,7 @@
         <div class="container-fluid" >
             <div class="col-md-12">
               <select class="chosen" name="select_sprint">
+                <option>{{ nx1 }}</option>
                 {% for product in data1 %}
                 <option>{{ product.name }}</option>
                   {% endfor %}

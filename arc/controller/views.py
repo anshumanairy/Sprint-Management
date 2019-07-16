@@ -42,6 +42,11 @@ def check(user):
 def qaprg(request):
     if check(request.user)==0:
         id1 = request.session['id']
+        pid2 = request.session['pid']
+        data1 = product.objects.filter(pid=pid2)
+        n0 = project.objects.all().exclude(id=0)
+        nx = project.objects.get(id=pid2)
+        nx1 = product.objects.get(id = id1).name
         data = cregister.objects.filter(roles='dev',sprint_id=id1)
         list1=[]
         j=0
@@ -216,12 +221,33 @@ def qaprg(request):
                                 n+=1
                     m+=1
                 jd3=json.dumps(list4)
-
                 return redirect('qaprg')
+
+        if request.method=='POST':
+            if 'submit_sprint' in request.POST:
+                select = request.POST.get('select_sprint')
+                for i in data1:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                return redirect('qaprg')
+
+            if 'select_project' in request.POST:
+                name1 = request.POST.get('select_project')
+                proid = project.objects.get(name=name1).id
+                request.session['pid'] = proid
+                return redirect('qaprg')
+
 
     else:
 
         id1 = request.session['id']
+        pid2 = request.session['pid']
+        data1 = product.objects.filter(pid=pid2)
+        n0 = project.objects.all().exclude(id=0)
+        nx = project.objects.get(id=pid2)
+        nx1 = product.objects.get(id = id1).name
         list1=[]
         j=0
         p = product.objects.get(id=id1)
@@ -240,21 +266,6 @@ def qaprg(request):
         x=request.user.username
         name1 = register.objects.get(uname=x).name
         data = cregister.objects.filter(roles='dev',name=name1,sprint_id=id1)
-
-        # list2={}
-        # n=0
-        # st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
-        # list2[name1]={}
-        # for j1 in st1:
-        #     if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
-        #         p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
-        #         list2[name1][n]={}
-        #         for k1 in p1:
-        #             list2[name1][n][str(k1.sdate)]=str(k1.sdate)
-        #         n+=1
-        #     else:
-        #         n+=1
-        # jd1=json.dumps(list2)
 
         list2={}
         n=0
@@ -410,10 +421,25 @@ def qaprg(request):
                                 n+=1
                     m+=1
                 jd3=json.dumps(list4)
-
                 return redirect('qaprg')
 
-    return(render(request,'qaprg.html/',{'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+        if request.method=='POST':
+            if 'submit_sprint' in request.POST:
+                select = request.POST.get('select_sprint')
+                for i in data1:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                return redirect('qaprg')
+
+            if 'select_project' in request.POST:
+                name1 = request.POST.get('select_project')
+                proid = project.objects.get(name=name1).id
+                request.session['pid'] = proid
+                return redirect('qaprg')
+
+    return(render(request,'qaprg.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
 @login_required
 def user_logout(request):
@@ -504,6 +530,7 @@ def view_story(request):
     data1 = product.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
+    nx1 = product.objects.get(id = id).name
     data = story.objects.filter(sprint_id=id)
     form = storyform(request.POST or None)
     list1=[]
@@ -622,12 +649,17 @@ def view_story(request):
         else:
             form = storyform()
 
-    return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1})
+    return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
 
 @login_required
 @user_passes_test(checkman,login_url='progress')
 def bandwidth(request):
     sprid = request.session['id']
+    pid2 = request.session['pid']
+    data1 = product.objects.filter(pid=pid2)
+    n0 = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
+    nx1 = product.objects.get(id = sprid).name
     sjava = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spjava'))['spjava__sum']
     sphp = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spphp'))['spphp__sum']
     shtml = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('sphtml'))['sphtml__sum']
@@ -925,13 +957,34 @@ def bandwidth(request):
                     r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
                     r.save()
 
-    return(render(request,'bandwidth.html/',{'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
+    if request.method=='POST':
+        if 'submit_sprint' in request.POST:
+            select = request.POST.get('select_sprint')
+            for i in data1:
+                if select in i.name:
+                    id=i.id
+                    request.session['id'] = id
+                    break
+            return redirect('bandwidth')
+
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return redirect('bandwidth')
+
+    return(render(request,'bandwidth.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
 
 
 @login_required
 @user_passes_test(checkman,login_url='progress')
 def allocation(request):
     id1 = request.session['id']
+    pid2 = request.session['pid']
+    data1 = product.objects.filter(pid=pid2)
+    n = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
+    nx1 = product.objects.get(id = id1).name
     d1 = cregister.objects.filter(roles='dev',sprint_id=id1)
     dashboard = story.objects.filter(sprint_id=id1)
 
@@ -1059,7 +1112,23 @@ def allocation(request):
                 d=sum(list4)
             return(redirect('allocation'))
 
-    return render(request,'allocation.html/',{'dashboard':dashboard,'d1':d1,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4,'a':a,'b':b,'c':c,'d':d})
+    if request.method=='POST':
+        if 'submit_sprint' in request.POST:
+            select = request.POST.get('select_sprint')
+            for i in data1:
+                if select in i.name:
+                    id=i.id
+                    request.session['id'] = id
+                    break
+            return redirect('allocation')
+
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return redirect('allocation')
+
+    return render(request,'allocation.html/',{'data1':data1,'n':n,'nx':nx,'nx1':nx1,'dashboard':dashboard,'d1':d1,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4,'a':a,'b':b,'c':c,'d':d})
 
 @login_required
 def tasks(request):

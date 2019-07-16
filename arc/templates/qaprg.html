@@ -104,6 +104,37 @@
     }
     </script>
 
+    <div id="hx">
+      <form class="post-form" method='POST' id="hid">
+        {% csrf_token %}
+        <div class="container-fluid" >
+            <div class="col-md-12">
+                <select class="chosen" name="select_project">
+                    <option>{{ nx }}</option>
+                  {% for n1 in n0 %}
+                    <option>{{ n1.name }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+            </div>
+        </div>
+      </form>
+
+      <form class="post-form" method='POST' id='hid1'>
+        {% csrf_token %}
+        <div class="container-fluid" >
+            <div class="col-md-12">
+              <select class="chosen" name="select_sprint">
+                <option>{{ nx1 }}</option>
+                {% for product in data1 %}
+                <option>{{ product.name }}</option>
+                  {% endfor %}
+              </select>
+              <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+            </div>
+        </div>
+      </form>
+    </div>
 
     <div class="content">
       <div class="row">

@@ -89,7 +89,7 @@
 
   <div class="w3-teal">
     <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-    Sprint Management
+    Allocation Dashboard
   </div>
 
   <script>
@@ -106,15 +106,44 @@
   }
   </script>
 
-<div class="content">
+  <div id="hx">
+    <form class="post-form" method='POST' id="hid">
+      {% csrf_token %}
+      <div class="container-fluid" >
+          <div class="col-md-12">
+              <select class="chosen" name="select_project">
+                  <option>{{ nx }}</option>
+                {% for n1 in n %}
+                  <option>{{ n1.name }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+          </div>
+      </div>
+    </form>
+
+    <form class="post-form" method='POST' id='hid1'>
+      {% csrf_token %}
+      <div class="container-fluid" >
+          <div class="col-md-12">
+            <select class="chosen" name="select_sprint">
+              <option>{{ nx1 }}</option>
+              {% for product in data1 %}
+              <option>{{ product.name }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+          </div>
+      </div>
+    </form>
+  </div>
+
+<div class="content-fluid">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title"><b><u>Allocation Dashboard</u></b></h4>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
+        <div class="card-body" id="con">
+          <div class="table-responsive" id="con">
             <table class="table" id="tab1">
               <thead class=" text-primary">
                 <th>Jira ID</th>
