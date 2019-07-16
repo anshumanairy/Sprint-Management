@@ -156,8 +156,8 @@
                   data: frm.serialize(),
                   success: function(data) {
                     $("#re").html(data);
-                    document.getElementById('hid').style.display = 'none';
-                    document.getElementById('hid1').style.display = 'block';
+                    // document.getElementById('hid').style.display = 'none';
+                    // document.getElementById('hid1').style.display = 'block';
                   },
               });
           });
@@ -233,7 +233,7 @@
       }
     </script>
 
-<div id='hid1' style="display:none">
+<!-- <div id='hid1' style="display:none"> -->
   <div class="container-fluid" id="spr">
     <div class="col-md-2">
       <button class="btn btn-primary btn-block" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
@@ -371,7 +371,7 @@
     </div>
   </div>
 </form>
-
+<!-- </div> -->
 <!-- <script type="text/javascript">
   $(document).ready(function() {
       var frm = $('#f');
@@ -403,7 +403,6 @@
     document.getElementById("sprint_btn").style.display = "inline-block";
   }
 </script>
-</div>
 
 </body>
 
