@@ -45,6 +45,9 @@
       #read{
         background-color: lightgrey;
       }
+      #hx{
+        float:right;
+      }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
@@ -66,6 +69,53 @@
     <div class="w3-teal">
       <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
       Sprint Management
+      <div id="hx">
+        <form class="post-form" method='POST' id="hid">
+          {% csrf_token %}
+          <div class="container-fluid" >
+              <div class="col-md-12">
+                  <select class="chosen" name="select_project">
+                    {% for n1 in n %}
+                      <option>{{ n1.name }}</option>
+                    {% endfor %}
+                  </select>
+                  <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+              </div>
+          </div>
+        </form>
+
+        <script type="text/javascript">
+          $(document).ready(function() {
+              var frm = $('#hid');
+              frm.submit(function (e) {
+                e.preventDefault();
+                  $.ajax({
+                      type: frm.attr('method'),
+                      data: frm.serialize(),
+                      success: function(data) {
+                        document.getElementById('hid').style.display = 'none';
+                        document.getElementById('hid1').style.display = 'block';
+                      },
+                  });
+              });
+            });
+        </script>
+
+        <form class="post-form" method='POST' style="display:none" id='hid1'>
+          {% csrf_token %}
+          <div class="container-fluid" >
+              <div class="col-md-12">
+                <select class="chosen" name="select_sprint">
+                  {% for product in data %}
+                  <option> {{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+              </div>
+          </div>
+        </form>
+
+      </div>
     </div>
 
     <script>

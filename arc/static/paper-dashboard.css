@@ -385,7 +385,7 @@ Copyright (c) 2015 Daniel Eden
   border: none;
   margin: 10px 1px;
   border-radius: 3px;
-  padding: 11px 22px;
+  /* padding: 11px 22px; */
   cursor: pointer;
   background-color: #66615B;
   color: #FFFFFF;
@@ -2950,7 +2950,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar .navbar-nav .nav-link.btn {
-  padding: 11px 22px;
+  /* padding: 11px 22px; */
 }
 
 .navbar .navbar-nav .nav-link.btn.btn-lg {
