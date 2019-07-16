@@ -8,12 +8,11 @@
     Product Console
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <script
 			  src="https://code.jquery.com/jquery-3.3.1.js"
 			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 			  crossorigin="anonymous"></script>
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -25,8 +24,30 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
 
   {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
+
+    <script>
+      $(function () {
+        $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY',
+        });
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#datetimepicker2").datetimepicker({
+          format: 'DD/MM/YYYY',
+        });
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#datetimepicker3").datetimepicker({
+          format: 'DD/MM/YYYY',
+        });
+      });
+    </script>
 
   <style media="screen">
       .scrollable-menu {
@@ -41,7 +62,7 @@
       color:lightgrey;
     }
     #back{
-      background-color:   #f2f5f2;
+      background-color: #f2f5f2;
     }
     #a{
       background-color: white;
@@ -127,14 +148,13 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
-        var frm = $('#h');
+        var frm = $('#hid');
         frm.submit(function (e) {
           e.preventDefault();
             $.ajax({
                 type: frm.attr('method'),
                 data: frm.serialize(),
-                success: function(data) {
-                  $("#re").html(data);
+                success: function() {
                   document.getElementById('hid').style.display = 'none';
                   document.getElementById('hid1').style.display = 'block';
                 },
