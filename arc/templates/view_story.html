@@ -284,7 +284,7 @@ function w4_close() {
                 <tr>
                   <td>{{ d.story_name }}</td>
                   <td>{{ d.jira }}</td>
-                  <td><a href="{{ d.description }}">{{ d.description }}</a></td>
+                  <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                   <td>
                     <form method="get" id="x{{d.id}}">
                       {% csrf_token %}
