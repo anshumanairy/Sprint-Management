@@ -128,6 +128,7 @@
       <div class="container-fluid">
           <div class="col-md-12">
               <select class="chosen" name="select_project">
+                  <!-- <option></option> -->
                 {% for n1 in n %}
                   <option>{{ n1.name }}</option>
                 {% endfor %}
@@ -135,15 +136,102 @@
           </div>
           <div class="container-fluid">
               <button class="btn btn-primary btn-block col-md-2" type="submit" name="submit_project"><small>Select Project</small></button>
+              <p>*Select a project and then select a sprint</p>
           </div>
       </div>
     </form>
 
-    <div class="container-fluid">
-      <div class="col-md-2">
-        <button class="btn btn-primary btn-block" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var frm = $('#h');
+          frm.submit(function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                    alert("Project Selected!");
+                  },
+              });
+          });
+        });
+    </script>
+
+    <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
+      {% csrf_token %}
+      <div class="container">
+        <div class="col-sm-20">
+          <div class="card card-user" id="back">
+            <div class="card-header">
+              <h5 class="card-title">Create Project</h5>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" name="pname" placeholder="Project Name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="update ml-auto mr-auto">
+                  <input type="submit" name="project_button" class="btn btn-primary btn-round" id="reg1" value="Create Project">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="update ml-auto mr-auto">
+                  <button class="btn btn-primary btn-block" onclick="w6_close()" id="project_close">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
+    </form>
+
+    <!-- <script type="text/javascript">
+      $(document).ready(function() {
+          var frm = $('#g');
+          frm.submit(function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                    alert("Project Created!");
+                  },
+              });
+          });
+        });
+    </script> -->
+
+    <div id="m1">
+
+    <script>
+      function w6_open() {
+        document.getElementById("m1").style.marginTop = "0%";
+        document.getElementById("g").style.display = "block";
+        document.getElementById("project_btn").style.display = 'none';
+      }
+      function w6_close() {
+        document.getElementById("m1").style.marginTop = "0%";
+        document.getElementById("g").style.display = "none";
+        document.getElementById("project_btn").style.display = "inline-block";
+      }
+    </script>
+
+  <div class="container-fluid" id="spr">
+    <div class="col-md-2">
+      <button class="btn btn-primary btn-block" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
     </div>
+  </div>
 
 <form class="post-form" method='POST'>
   {% csrf_token %}
@@ -160,58 +248,6 @@
       </div>
   </div>
 </form>
-
-<form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
-  {% csrf_token %}
-  <div class="container">
-    <div class="col-sm-20">
-      <div class="card card-user" id="back">
-        <div class="card-header">
-          <h5 class="card-title">Create Project</h5>
-        </div>
-
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Project Name</label>
-                <input type="text" name="pname" placeholder="Project Name">
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="update ml-auto mr-auto">
-              <input type="submit" name="project_button" class="btn btn-primary btn-round" id="reg1" value="Create Project">
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="update ml-auto mr-auto">
-              <button class="btn btn-primary btn-block" onclick="w6_close()" id="project_close">Close</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-
-<div id="m1">
-
-<script>
-  function w6_open() {
-    document.getElementById("m1").style.marginTop = "0%";
-    document.getElementById("g").style.display = "block";
-    document.getElementById("project_btn").style.display = 'none';
-  }
-  function w6_close() {
-    document.getElementById("m1").style.marginTop = "0%";
-    document.getElementById("g").style.display = "none";
-    document.getElementById("project_btn").style.display = "inline-block";
-  }
-</script>
 
 <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
   {% csrf_token %}

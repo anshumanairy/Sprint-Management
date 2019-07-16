@@ -489,6 +489,7 @@ def prod(request):
             if a==0:
                 z = project(name = name1)
                 z.save()
+            return(redirect('product'))
 
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
