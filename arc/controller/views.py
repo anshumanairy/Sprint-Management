@@ -547,7 +547,7 @@ def view_story(request):
                         continue
                     else:
                         fields = line.split(",")
-                        print(fields)
+                        # print(fields)
                         stx = story.objects.filter(sprint_id=id)
                         l=0
                         for i in stx:
@@ -572,14 +572,15 @@ def view_story(request):
                                 k+=1
                             if fields[9]=='':
                                 k+=1
-
-                            if k==4:
+                            if fields[10] in ['Live','In Progress','HTML Done','PHP Done','API Done','QA','Pending Development','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','Not Needed','Next Sprint','Duplicate','CR','',' ']:
+                                k+=1
+                            if k==5:
                                 for i2 in range(4,11,2):
                                     if fields[i2] in ['null', 'None', '','None ',' ']:
                                         fields[i2] = 0
                                     if int(fields[i2])<0:
                                         fields[i2] = 0
-                                z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]))
+                                z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]),ostatus=fields[11])
                                 z1.save()
             except:
                 pass
