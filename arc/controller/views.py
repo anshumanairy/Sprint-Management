@@ -426,7 +426,7 @@ def prod(request):
     pid2 = request.session['pid']
     # pid2=3
     data = product.objects.filter(pid=pid2)
-    n = project.objects.all()
+    n = project.objects.all().exclude(id=0)
     form = productform(request.POST or None)
 
     if request.method=='POST':
@@ -469,7 +469,7 @@ def prod(request):
 
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
-            n = project.objects.all()
+            n = project.objects.all().exclude(id=0)
             a=0
             if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
                 for i in n:
@@ -1105,12 +1105,12 @@ def log(request):
         if user:
             if user.is_superuser:
                 login(request,user)
-                request.session['pid'] = 3
+                request.session['pid'] = 0
                 return redirect('product')
 
             if user.is_active:
                 login(request,user)
-                request.session['pid'] = 3
+                request.session['pid'] = 0
                 return redirect('product')
             else:
                 return HttpResponse("Account not active!!")
