@@ -539,23 +539,14 @@ def view_story(request):
             return(redirect('view_story'))
 
     if request.method=='POST':
-        # if 'submit_sprint' in request.POST:
-        #     select = request.POST.get('select_sprint')
-        #     if select==None:
-        #         return HttpResponse('Please select a Valid Sprint!')
-        #     else:
-        #         for i in data:
-        #             if select in i.name:
-        #                 id=i.id
-        #                 request.session['id'] = id
-        #                 break
-        #         if request.user.is_superuser:
-        #             return redirect('view_story')
-        #         else:
-        #             if register.objects.get(uname=request.user.username).roles=='dev':
-        #                 return redirect('qaprg')
-        #             else:
-        #                 return redirect('view_story')
+        if 'submit_sprint' in request.POST:
+            select = request.POST.get('select_sprint')
+            for i in data1:
+                if select in i.name:
+                    id=i.id
+                    request.session['id'] = id
+                    break
+            return redirect('view_story')
 
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
