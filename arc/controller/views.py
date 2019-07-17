@@ -1200,6 +1200,7 @@ def tasks(request):
             else:
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('other')
+            list1[k][l].append(j.description)
             l+=1
         k+=1
     print(list1)

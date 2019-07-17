@@ -162,6 +162,7 @@
                     <th>Estimate</th>
                     <th>Actual</th>
                     <th>Date</th>
+                    <th>Estimate/Day</th>
                     <th>Progress</th>
                     <th>Check</th>
                     <!-- <th>Check</th> -->
@@ -170,7 +171,7 @@
                     {% for i in data %}
                     <tr>
                       <td><b>{{ i.name }}</b></td>
-                      <td colspan='6'></td>
+                      <td colspan='7'></td>
                       <td>
                           <div class='box green'></div>-- Dev<br>
                           <div class='box red'></div>-- CR Fix<br>
@@ -234,6 +235,7 @@
                       <td>
                         <input type="text" name="startdate" placeholder="Work Date" class="datepicker">
                       </td>
+                      <td></td>
                       <td>
                         <select class="chosen" name="prg">
                           <option>Dev</option>
