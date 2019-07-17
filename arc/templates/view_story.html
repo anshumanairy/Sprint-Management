@@ -46,9 +46,27 @@
       #read{
         background-color: lightgrey;
       }
+      #hid2,#hx{
+        padding-top: 20px;
+      }
       #hx{
         float:right;
       }
+      #devs{
+        padding-top: 10px;
+      }
+      .example_c {
+      color: black;
+      background: lightgrey;
+      border: 1px solid lightgrey;
+      transition: all 0.4s ease 0s;
+      }
+      .example_c:hover {
+      background: #303D39;
+      border: 1px solid #303D39;
+      transition: all 0.4s ease 0s;
+      }
+
     </style>
 
   </head>
@@ -70,7 +88,7 @@
 
     <div class="w3-teal">
       <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-      Sprint Management
+      Story Console
     </div>
 
     <script>
@@ -98,7 +116,7 @@
                     <option>{{ n1.name }}</option>
                   {% endfor %}
                 </select>
-                <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+                <button class="btn example_c" type="submit" name="submit_project" id="bt1"><small>Select Project </small></button>
             </div>
         </div>
       </form>
@@ -113,7 +131,7 @@
                 <option>{{ product.name }}</option>
                   {% endfor %}
               </select>
-              <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+              <button class="btn example_c" type="submit" name="submit_sprint"><small>View Stories</small></button>
             </div>
         </div>
       </form>
@@ -123,13 +141,13 @@
 
     <div class="container-fluid">
       <div class="col-md-2">
-        <button class="btn btn-primary"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
+        <button class="btn example_c"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
       </div>
     </div>
 
     <div class="container-fluid">
       <div class="col-md-2">
-        <button class="btn btn-primary"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
+        <button class="btn example_c"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
       </div>
     </div>
 
@@ -151,11 +169,11 @@
             </div>
           </div>
 
-          <button type="submit" name="csv_button" class="btn btn-primary btn-round" id="reg1"><small>Submit</small></button>
+          <button type="submit" name="csv_button" class="btn example_c" id="reg1"><small>Submit</small></button>
 
           <div class="row">
             <div class="update ml-auto mr-auto">
-                <input type="button" class="btn btn-primary btn-block" value="Close" onclick="w6_close()">
+                <input type="button" class="btn example_c" value="Close" onclick="w6_close()">
             </div>
           </div>
         </div>
@@ -239,13 +257,13 @@ function w6_close() {
             <div class="row">
               <div class="update ml-auto mr-auto">
                 <input type="hidden" name="spr1" value="1">
-                <input type="submit" name="story_button" class="btn btn-primary btn-round" id="reg1" value="Create Story">
+                <input type="submit" name="story_button" class="btn example_c" id="reg1" value="Create Story">
               </div>
             </div>
 
             <div class="row">
               <div class="update ml-auto mr-auto">
-                <button class="btn btn-primary btn-block" onclick="w4_close()" id="story_close"><small>Close</small></button>
+                <button class="btn example_c" onclick="w4_close()" id="story_close"><small>Close</small></button>
               </div>
             </div>
           </form>
@@ -270,14 +288,14 @@ function w4_close() {
 }
 </script>
 
-<div class="content">
+<div class="content" id="devs">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
           <div class="table-responsive">
             <table class="table" id="tab2">
-              <thead class=" text-primary">
+              <thead class="text-primary">
                 <!-- <th>Check</th> -->
                 <th>Story Name</th>
                 <th>Jira ID</th>
@@ -327,10 +345,14 @@ function w4_close() {
                   <td>{{ d.jira }}</td>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                   <td>
+                    <!-- <form method="GET"> -->
+                      <input type="button" class="btn example_c" onclick="w5_open({{d.id}})" value="Edit" id="edit">
+                    <!-- </form> -->
+                    <p></p>
                     <form method="get" id="x{{d.id}}">
                       {% csrf_token %}
                       <input type="hidden" name="delete_story" value="{{ d.id }}">
-                      <input type="submit" class="btn-xs btn-info" value="Delete">
+                      <input type="submit" class="btn example_c" value="Delete" id="delete">
                     </form>
                     <script type="text/javascript">
                         jQuery(document).ready(function($){
@@ -349,9 +371,6 @@ function w4_close() {
                           });
                         });
                     </script>
-                    <!-- <form method="GET"> -->
-                      <input type="button" class="btn-xs btn-info" onclick="w5_open({{d.id}})" value="Edit" id="edit">
-                    <!-- </form> -->
                   </td>
                 </tr>
                 {% endfor %}

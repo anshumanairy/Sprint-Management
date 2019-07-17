@@ -64,7 +64,17 @@
     #d{
       padding-left: 20px;
     }
-
+    .example_c {
+    color: black;
+    background: lightgrey;
+    border: 1px solid lightgrey;
+    transition: all 0.4s ease 0s;
+    }
+    .example_c:hover {
+    background: #303D39;
+    border: 1px solid #303D39;
+    transition: all 0.4s ease 0s;
+    }
   </style>
 
 </head>
@@ -115,7 +125,7 @@
                   <option>{{ n1.name }}</option>
                 {% endfor %}
               </select>
-              <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+              <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
           </div>
       </div>
     </form>
@@ -130,7 +140,7 @@
               <option>{{ product.name }}</option>
                 {% endfor %}
             </select>
-            <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+            <button class="btn example_c" type="submit" name="submit_sprint"><small>View Stories</small></button>
           </div>
       </div>
     </form>
@@ -215,7 +225,7 @@
                         <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
                       </td>
 
-                    <td><input type="submit" name="assign_data" class="btn-xs btn-info" id="reg1" value="Assign"></td>
+                    <td><input type="submit" name="assign_data" class="btn example_c" id="reg1" value="Assign"></td>
                     </tr>
                     </form>
                   </tr>
@@ -248,7 +258,7 @@
 
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn btn-primary btn-block"  onclick="w4_open()" id="check"><small>Check Available Developers</small></button>
+    <button class="btn example_c"  onclick="w4_open()" id="check"><small>Check Available Developers</small></button>
   </div>
 </div>
 
@@ -262,7 +272,7 @@
         <div class="card-body" id="con">
           <div class="table-responsive" id="con">
             <table class="table" id="tab2">
-              <thead class=" text-primary">
+              <thead class="text-primary">
                 <th></th>
                 <th>DEV</th>
                 <th>Total</th>
@@ -338,7 +348,7 @@
               </tbody>
             </table>
             <div class="update ml-auto mr-auto">
-              <button class="btn btn-primary btn-block" onclick="w4_close()"><small>Close</small></button>
+              <button class="btn example_c" onclick="w4_close()"><small>Close</small></button>
             </div>
           </div>
         </div>

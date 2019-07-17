@@ -45,9 +45,6 @@
       background-color: white;
       color:black;
     }
-    th{
-      color:grey;
-    }
     #s{
       width: 380px;
       height: 300px;
@@ -61,6 +58,17 @@
     #tab2{
       text-align: center;
       font-size: 10px;
+    }
+    .example_c {
+    color: black;
+    background: lightgrey;
+    border: 1px solid lightgrey;
+    transition: all 0.4s ease 0s;
+    }
+    .example_c:hover {
+    background: #303D39;
+    border: 1px solid #303D39;
+    transition: all 0.4s ease 0s;
     }
   </style>
   </head>
@@ -110,7 +118,7 @@
                     <option>{{ n1.name }}</option>
                   {% endfor %}
                 </select>
-                <button class="btn btn-primary" type="submit" name="submit_project"><small>Select Project</small></button>
+                <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
             </div>
         </div>
       </form>
@@ -125,7 +133,7 @@
                 <option>{{ product.name }}</option>
                   {% endfor %}
               </select>
-              <button class="btn btn-primary" type="submit" name="submit_sprint"><small>View Stories</small></button>
+              <button class="btn example_c" type="submit" name="submit_sprint"><small>View Stories</small></button>
             </div>
         </div>
       </form>
@@ -138,7 +146,7 @@
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table" id="tab2">
-                  <thead>
+                  <thead class="text-primary">
                     <th>Name</th>
                     <th>Skill</th>
                     <th>Available Days</th>
@@ -165,7 +173,7 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d22.id }}" name="leave2">
                               <input type="hidden" value="java" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                             </form>
                               <script type="text/javascript">
                                   jQuery(document).ready(function($){
@@ -191,7 +199,7 @@
                                 <input type="number" name="uleave1" min="0" value="0">
                                 <input type="hidden" value="{{ d22.id }}" name="uleave2">
                                 <input type="hidden" value="java" name="uleave3">
-                                <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                                <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </form>
                                 <script type="text/javascript">
                                     jQuery(document).ready(function($){
@@ -217,7 +225,7 @@
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d22.id }}" name="assign2">
                               <input type="hidden" value="java" name="assign3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                              <input type="submit" class="btn example_c" value="Assign">
                             </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
@@ -266,7 +274,7 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                           </td>
                           </form>
                             <script type="text/javascript">
@@ -293,7 +301,7 @@
                                   <input type="number" name="uleave1" min="0" value="0">
                                   <input type="hidden" value="{{ d33.id }}" name="uleave2">
                                   <input type="hidden" value="php" name="uleave3">
-                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </td>
                               </form>
                                 <script type="text/javascript">
@@ -321,7 +329,7 @@
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d33.id }}" name="assign2">
                               <input type="hidden" value="php" name="assign3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                              <input type="submit" class="btn example_c" value="Assign">
                             </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
@@ -371,7 +379,7 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d44.id }}" name="leave2">
                               <input type="hidden" value="html" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                           </td>
                           </form>
                             <script type="text/javascript">
@@ -398,7 +406,7 @@
                                   <input type="number" name="uleave1" min="0" value="0">
                                   <input type="hidden" value="{{ d44.id }}" name="uleave2">
                                   <input type="hidden" value="html" name="uleave3">
-                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </td>
                               </form>
                                 <script type="text/javascript">
@@ -426,7 +434,7 @@
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d44.id }}" name="assign2">
                               <input type="hidden" value="html" name="assign3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                              <input type="submit" class="btn example_c" value="Assign">
                             </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
@@ -476,7 +484,7 @@
                               <input type="number" name="leave1" min="0" value="0">
                               <input type="hidden" value="{{ d55.id }}" name="leave2">
                               <input type="hidden" value="qa" name="leave3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                              <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                           </td>
                           </form>
                             <script type="text/javascript">
@@ -503,7 +511,7 @@
                                   <input type="number" name="uleave1" min="0" value="0">
                                   <input type="hidden" value="{{ d55.id }}" name="uleave2">
                                   <input type="hidden" value="qa" name="uleave3">
-                                  <input type="submit" class="btn-xs btn-info" value="Assign" id="lvsub">
+                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </td>
                               </form>
                                 <script type="text/javascript">
@@ -531,7 +539,7 @@
                               <input type="number" name="assign1" step="0.1" min="0" value="1">
                               <input type="hidden" value="{{ d55.id }}" name="assign2">
                               <input type="hidden" value="qa" name="assign3">
-                              <input type="submit" class="btn-xs btn-info" value="Assign">
+                              <input type="submit" class="btn example_c" value="Assign">
                             </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
