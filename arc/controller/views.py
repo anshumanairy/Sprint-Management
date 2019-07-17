@@ -129,30 +129,25 @@ def qaprg(request):
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
+                    list1[j][k].append(r.jactual)
                 elif r.dev_php==i.name:
                     list1[j][k].append(r.phps)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
+                    list1[j][k].append(r.pactual)
                 elif r.dev_html==i.name:
                     list1[j][k].append(r.htmls)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
+                    list1[j][k].append(r.hactual)
                 elif r.dev_qa==i.name:
                     list1[j][k].append(r.qas)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
-                listb=[]
-                if prg.objects.filter(s_id=id1,jd=r.jira,dname=i.name).exists()==True:
-                    p1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=i.name)
-                    for k1 in p1:
-                        listb.append(k1.sdate)
-                        listb=list(set(listb))
-                    list1[j][k].append(len(listb)*2)
-                else:
-                    list1[j][k].append(0)
+                    list1[j][k].append(r.qactual)
                 k+=1
                 count=count+1;
             j+=1
@@ -174,9 +169,30 @@ def qaprg(request):
                 prog = request.GET.get('prg')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
+                frac = request.GET.get('fraction')
+                frac1=0
+                if frac=='Quarter Day':
+                    frac1=.5
+                elif frac=='Half Day':
+                    frac1=1
+                elif frac=='Three Quarters Day':
+                    frac1=1.5
+                else:
+                    frac1=2
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                for ix in st:
+                    if ix.dev_java==n2:
+                        ix.jactual = ix.jactual + frac1
+                    elif ix.dev_php==n2:
+                        ix.pactual = ix.pactual + frac1
+                    elif ix.dev_html==n2:
+                        ix.hactual = ix.hactual + frac1
+                    else:
+                        ix.qactual = ix.qactual + frac1
+                    ix.save()
                 z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
                 z.save()
+
 
                 list2={}
                 for i1 in data:

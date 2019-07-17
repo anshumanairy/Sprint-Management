@@ -20,10 +20,10 @@ class story(models.Model):
 
     ostatus = models.CharField(max_length=20)
 
-    # jactual = models.FloatField(default=0.0)
-    # pactual = models.FloatField(default=0.0)
-    # hactual = models.FloatField(default=0.0)
-    # qactual = models.FloatField(default=0.0)
+    jactual = models.FloatField(default=0.0)
+    pactual = models.FloatField(default=0.0)
+    hactual = models.FloatField(default=0.0)
+    qactual = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.jira)
