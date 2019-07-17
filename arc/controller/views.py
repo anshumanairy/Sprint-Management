@@ -722,10 +722,14 @@ def bandwidth(request):
         r.save()
 
     x = product.objects.get(id=sprid)
-    y = (x.sprint_dev_end_date - x.sprint_start_date)
-    z = (x.sprint_qa_end_date - x.sprint_start_date)
-    y = y.days - x.holidays
-    z = z.days - x.holidays
+    day1 = (x.sprint_start_date + timedelta(x1 + 1) for x1 in range((x.sprint_dev_end_date - x.sprint_start_date).days))
+    y = sum(1 for day in day1 if day.weekday() < 5)
+
+    day2 = (x.sprint_start_date + timedelta(x1 + 1) for x1 in range((x.sprint_qa_end_date - x.sprint_start_date).days))
+    z = sum(1 for day in day2 if day.weekday() < 5)
+    
+    y = y - x.holidays
+    z = z - x.holidays
     x.dev_working = y
     x.qa_working = z
     x.save()
