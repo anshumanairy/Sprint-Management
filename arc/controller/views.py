@@ -1063,6 +1063,9 @@ def allocation(request):
                         list1.append(0)
                     else:
                         list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                        if p.ostatus in [None,'']:
+                            p.ostatus='Live'
+                        p.save()
                 a=sum(list1)
 
         if 'php_sel' in request.GET:
@@ -1082,6 +1085,9 @@ def allocation(request):
                         list2.append(0)
                     else:
                         list2.append(j.aggregate(Sum('phps'))['phps__sum'])
+                        if p.ostatus in [None,'']:
+                            p.ostatus='Live'
+                        p.save()
                 b=sum(list2)
 
         if 'html_sel' in request.GET:
@@ -1101,6 +1107,9 @@ def allocation(request):
                         list3.append(0)
                     else:
                         list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                        if p.ostatus in [None,'']:
+                            p.ostatus='Live'
+                        p.save()
                 c=sum(list3)
 
         if 'qa_sel' in request.GET:
@@ -1120,6 +1129,9 @@ def allocation(request):
                         list4.append(0)
                     else:
                         list4.append(j.aggregate(Sum('qas'))['qas__sum'])
+                        if p.ostatus in [None,'']:
+                            p.ostatus='Live'
+                        p.save()
                 d=sum(list4)
             return(redirect('allocation'))
 
