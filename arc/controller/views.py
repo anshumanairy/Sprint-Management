@@ -1144,8 +1144,12 @@ def allocation(request):
 @login_required
 def tasks(request):
     id1 = request.session['id']
-    data = story.objects.filter(sprint_id=id1)
-    pro = product.objects.all()
+    pid2 = request.session['pid']
+    data1 = product.objects.filter(pid=pid2)
+    n0 = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
+    nx1 = product.objects.get(id = id1).name
+    pro = product.objects.filter(pid=pid2)
     list1=[]
     k=0
     for i in pro:
@@ -1157,10 +1161,24 @@ def tasks(request):
             list1[k][l].append(i.name)
             list1[k][l].append(j.story_name)
             list1[k][l].append(j.jira)
+            if j.ostatus==None or j.ostatus=='':
+                list1[k][l].append('Unassigned')
+                list1[k][l].append('red')
+            else:
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('green')
             l+=1
         k+=1
     print(list1)
-    return(render(request,'tasks.html/',{'list1':list1}))
+
+    if request.method=='POST':
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return redirect('tasks')
+
+    return(render(request,'tasks.html/',{'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})

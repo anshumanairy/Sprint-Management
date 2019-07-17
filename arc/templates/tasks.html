@@ -27,8 +27,33 @@
     #spr{
       padding-top: 70px;
     }
+    #red{
+      background-color: red;
+      color:white;
+    }
+    #green{
+      background-color: #1ea84c;
+      color: white;
+    }
+    td,th{
+      text-align: center;
+    }
+    #una{
+      text-align: left;
+    }
+    .example_c {
+    color: black;
+    background: lightgrey;
+    border: 1px solid lightgrey;
+    transition: all 0.4s ease 0s;
+    }
+    .example_c:hover {
+    background: #303D39;
+    border: 1px solid #303D39;
+    transition: all 0.4s ease 0s;
+    }
   </style>
-  
+
 </head>
 
   <body class="">
@@ -65,27 +90,43 @@
     }
     </script>
 
+    <div id="hx">
+      <form class="post-form" method='POST' id="hid">
+        {% csrf_token %}
+        <div class="container-fluid" >
+            <div class="col-md-12">
+                <select class="chosen" name="select_project">
+                    <option>{{ nx }}</option>
+                  {% for n1 in n0 %}
+                    <option>{{ n1.name }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
+            </div>
+        </div>
+      </form>
+    </div>
 
 <div class="container-fluid">
   <table class="table">
     <thead>
       <tr>
-        <th>Sprint Name</th>
+        <th id="una">Sprint Name</th>
         <th>Topic</th>
         <th>Jira ID</th>
         <th>Status</th>
-        <th>Date</th>
+        <!-- <th>Date</th> -->
       </tr>
     </thead>
     <tbody>
         {% for d in list1 %}
           {% for d1 in d %}
         <tr>
-          <td>{{ d1.0 }}</td>
+          <td class="col-md-2" id="una">{{ d1.0 }}</td>
           <td>{{ d1.1 }}</td>
           <td>{{ d1.2 }}</td>
-          <td>Live</td>
-          <td>Feb 13th</td>
+          <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
+          <!-- <td>Feb 13th</td> -->
         </tr>
           {% endfor %}
         {% endfor %}
