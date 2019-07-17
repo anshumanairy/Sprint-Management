@@ -24,9 +24,13 @@
       max-height: 200px;
       overflow-x: hidden;
     }
-    body{
-      font-size: 11px;
+    #tab2{
+      font-size: 14px;
     }
+    body{
+      font-family: Montserrat;
+    }
+
     #spr{
       padding-top: 70px;
     }
@@ -92,6 +96,17 @@
     border: 1px solid #303D39;
     transition: all 0.4s ease 0s;
     }
+    #hid{
+      float: right;
+      padding-right: 10px;
+    }
+    #hid1,#hid3{
+      display: inline-block;
+    }
+    .chosen,#bt1{
+      font-size: 10px;
+    }
+
   </style>
 
 </head>
@@ -111,10 +126,25 @@
 
     <div id="main">
 
-    <div class="w3-teal">
-      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-      Sprint Management
-    </div>
+      <div class="w3-teal" id="hx1">
+        <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+        All Tasks Dashboard
+        <div id="hid">
+          <div id="hid3">
+            <form method='POST'>
+              {% csrf_token %}
+              <select class="chosen" name="select_project">
+                  <option>{{ nx }}</option>
+                {% for n1 in n0 %}
+                  <option>{{ n1.name }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn example_c" type="submit" name="submit_project" id="bt1"><small>Select Project </small></button>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
 
     <script>
     function w3_open() {
@@ -130,25 +160,8 @@
     }
     </script>
 
-    <div id="hx">
-      <form class="post-form" method='POST' id="hid">
-        {% csrf_token %}
-        <div class="container-fluid" >
-            <div class="col-md-12">
-                <select class="chosen" name="select_project">
-                    <option>{{ nx }}</option>
-                  {% for n1 in n0 %}
-                    <option>{{ n1.name }}</option>
-                  {% endfor %}
-                </select>
-                <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
-            </div>
-        </div>
-      </form>
-    </div>
-
 <div class="container-fluid">
-  <table class="table">
+  <table class="table" id="tab2">
     <thead>
       <tr>
         <th id="una">Sprint Name</th>

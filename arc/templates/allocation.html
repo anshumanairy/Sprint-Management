@@ -25,7 +25,7 @@
 
   <style media="screen">
     body{
-      font-size: 10px;
+      font-family: Montserrat;
     }
       .scrollable-menu {
       height: auto;
@@ -75,6 +75,17 @@
     border: 1px solid #303D39;
     transition: all 0.4s ease 0s;
     }
+    #hid{
+      float: right;
+      padding-right: 10px;
+    }
+    #hid1,#hid3{
+      display: inline-block;
+    }
+    .chosen,#bt1{
+      font-size: 10px;
+    }
+
   </style>
 
 </head>
@@ -95,10 +106,36 @@
 
   <div id="main">
 
-  <div class="w3-teal">
-    <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-    Allocation Dashboard
-  </div>
+    <div class="w3-teal" id="hx1">
+      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+      Allocation Dashboard
+      <div id="hid">
+        <div id="hid3">
+          <form method='POST'>
+            {% csrf_token %}
+            <select class="chosen" name="select_project">
+                <option>{{ nx }}</option>
+              {% for n1 in n %}
+                <option>{{ n1.name }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn example_c" type="submit" name="submit_project" id="bt1"><small>Select Project </small></button>
+          </form>
+        </div>
+        <div id="hid1">
+          <form method='POST'>
+            {% csrf_token %}
+            <select class="chosen" name="select_sprint">
+              <option>{{ nx1 }}</option>
+              {% for product in data1 %}
+              <option>{{ product.name }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn example_c" type="submit" name="submit_sprint" id="bt1"><small>VIEW STORIES</small></button>
+          </form>
+        </div>
+      </div>
+    </div>
 
   <script>
   function w3_open() {
@@ -114,37 +151,6 @@
   }
   </script>
 
-  <div id="hx">
-    <form class="post-form" method='POST' id="hid">
-      {% csrf_token %}
-      <div class="container-fluid" >
-          <div class="col-md-12">
-              <select class="chosen" name="select_project">
-                  <option>{{ nx }}</option>
-                {% for n1 in n %}
-                  <option>{{ n1.name }}</option>
-                {% endfor %}
-              </select>
-              <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
-          </div>
-      </div>
-    </form>
-
-    <form class="post-form" method='POST' id='hid1'>
-      {% csrf_token %}
-      <div class="container-fluid" >
-          <div class="col-md-12">
-            <select class="chosen" name="select_sprint">
-              <option>{{ nx1 }}</option>
-              {% for product in data1 %}
-              <option>{{ product.name }}</option>
-                {% endfor %}
-            </select>
-            <button class="btn example_c" type="submit" name="submit_sprint"><small>View Stories</small></button>
-          </div>
-      </div>
-    </form>
-  </div>
 
 <div class="content-fluid">
   <div class="row">
