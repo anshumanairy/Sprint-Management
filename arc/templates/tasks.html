@@ -24,16 +24,56 @@
       max-height: 200px;
       overflow-x: hidden;
     }
+    body{
+      font-size: 11px;
+    }
     #spr{
       padding-top: 70px;
+    }
+    #black{
+      background-color: black;
+      color:white;
+      border: 2px solid black;
     }
     #red{
       background-color: red;
       color:white;
+      border: 2px solid red;
+    }
+    #yellow{
+      background-color: yellow;
+      color:black;
+      border: 2px solid yellow;
     }
     #green{
       background-color: #1ea84c;
       color: white;
+      border: 2px solid #1ea84c;
+    }
+    #purple{
+      background-color: purple;
+      color: white;
+      border: 2px solid purple;
+    }
+    #white{
+      background-color: white;
+      color: black;
+      border: 2px solid black;
+    }
+    #blue{
+      background-color: blue;
+      color: white;
+      border: 2px solid blue;
+    }
+    #pd{
+      background-color: lightgreen;
+      color: black;
+      border: 2px solid lightgreen;
+    }
+    #other{
+      background-color: brown;
+      color: white;
+      border: 2px solid brown;
     }
     td,th{
       text-align: center;
@@ -115,7 +155,7 @@
         <th>Topic</th>
         <th>Jira ID</th>
         <th>Status</th>
-        <!-- <th>Date</th> -->
+        <th>Assign</th>
       </tr>
     </thead>
     <tbody>
@@ -126,7 +166,13 @@
           <td>{{ d1.1 }}</td>
           <td>{{ d1.2 }}</td>
           <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
-          <!-- <td>Feb 13th</td> -->
+          <td>
+            {% if d1.3 == 'Unassigned' %}
+              <button class="btn example_c" type="submit" name="assign_story"><small>Assign</small></button>
+            {% else %}
+            <button class="btn example_c" type="submit" name="assign_story" disabled><small>Assign</small></button>
+            {% endif %}
+          </td>
         </tr>
           {% endfor %}
         {% endfor %}

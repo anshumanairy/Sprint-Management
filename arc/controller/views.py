@@ -1163,10 +1163,31 @@ def tasks(request):
             list1[k][l].append(j.jira)
             if j.ostatus==None or j.ostatus=='':
                 list1[k][l].append('Unassigned')
+                list1[k][l].append('black')
+            elif j.ostatus in ['Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec']:
+                list1[k][l].append(j.ostatus)
                 list1[k][l].append('red')
-            else:
+            elif j.ostatus=='Live':
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('green')
+            elif j.ostatus=='In Progress':
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('yellow')
+            elif j.ostatus=='Next Sprint':
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('purple')
+            elif j.ostatus in ['HTML Done','PHP Done','API Done','CR']:
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('white')
+            elif j.ostatus=='QA':
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('blue')
+            elif j.ostatus=='Pending Deployment':
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('pd')
+            else:
+                list1[k][l].append(j.ostatus)
+                list1[k][l].append('other')
             l+=1
         k+=1
     print(list1)
