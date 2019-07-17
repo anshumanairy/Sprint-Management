@@ -208,6 +208,23 @@
                 </div>
               </div>
 
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Select Admin</label>
+                      <div>
+                        <select class="chosen" name="select_admin">
+                          {% for n2 in list11 %}
+                            <option>{{ n2 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="update ml-auto mr-auto">
                   <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">

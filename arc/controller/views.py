@@ -10,6 +10,7 @@ from arc.models.prg_mod import prg
 from arc.models.reg_mod import cregister
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login,authenticate,logout,get_user_model
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -454,6 +455,11 @@ def prod(request):
     n = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
     form = productform(request.POST or None)
+    list11=[]
+    z1 = User.objects.all()
+    for i11 in z1:
+        if i11.is_superuser:
+            list11.append(i11.username)
 
     if request.method=='POST':
         # productform condition where sprint_button is the name for submit button for sprint form
@@ -494,9 +500,10 @@ def prod(request):
 
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
+            user1 = request.POST.get('select_admin')
             n = project.objects.all().exclude(id=0)
             a=0
-            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+            if request.user.is_superuser and request.user.username == user1:
                 for i in n:
                     if name1==i.name:
                         a+=1
@@ -520,7 +527,7 @@ def prod(request):
 
     else:
         form = productform()
-    return(render(request,'product.html/',context={'form':form,'data':data,'n':n,'nx':nx}))
+    return(render(request,'product.html/',context={'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
 @user_passes_test(checkman,login_url='progress')
@@ -727,7 +734,7 @@ def bandwidth(request):
 
     day2 = (x.sprint_start_date + timedelta(x1 + 1) for x1 in range((x.sprint_qa_end_date - x.sprint_start_date).days))
     z = sum(1 for day in day2 if day.weekday() < 5)
-    
+
     y = y - x.holidays
     z = z - x.holidays
     x.dev_working = y
