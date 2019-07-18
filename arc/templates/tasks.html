@@ -136,7 +136,7 @@
             <form method='POST' id="pros">
               {% csrf_token %}
               <select class="chosen" name="select_project">
-                  <option>{{ nx }}</option>
+                  <option disabled>{{ nx }}</option>
                 {% for n1 in n0 %}
                   <option>{{ n1.name }}</option>
                 {% endfor %}

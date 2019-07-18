@@ -115,7 +115,7 @@
           <form method='POST'>
             {% csrf_token %}
             <select class="chosen" name="select_project">
-                <option>{{ nx }}</option>
+                <option disabled>{{ nx }}</option>
               {% for n1 in n %}
                 <option>{{ n1.name }}</option>
               {% endfor %}
@@ -127,7 +127,7 @@
           <form method='POST'>
             {% csrf_token %}
             <select class="chosen" name="select_sprint">
-              <option>{{ nx1 }}</option>
+              <option disabled>{{ nx1 }}</option>
               {% for product in data1 %}
               <option>{{ product.name }}</option>
                 {% endfor %}
@@ -183,7 +183,7 @@
                     <td class="t">
                     <!-- dropdown developer -->
                       <select  name="java_sel" class="chosen">
-                        <option>{{ dash.dev_java }}</option>
+                        <option disabled>{{ dash.dev_java }}</option>
                         {% for d22 in d2 %}
                           <option>{{ d22.name }}</option>
                         {% endfor %}
@@ -196,7 +196,7 @@
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="php_sel" class="chosen">
-                        <option>{{ dash.dev_php }}</option>
+                        <option disabled>{{ dash.dev_php }}</option>
                         {% for d33 in d3 %}
                           <option>{{ d33.name }}</option>
                         {% endfor %}
@@ -209,7 +209,7 @@
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="html_sel" class="chosen">
-                        <option>{{ dash.dev_html }}</option>
+                        <option disabled>{{ dash.dev_html }}</option>
                         {% for d44 in d4 %}
                           <option>{{ d44.name }}</option>
                         {% endfor %}
@@ -222,7 +222,7 @@
                       <td class="t">
                       <!-- dropdown developer -->
                         <select name="qa_sel" class="chosen">
-                          <option>{{ dash.dev_qa }}</option>
+                          <option disabled>{{ dash.dev_qa }}</option>
                           {% for d55 in d5 %}
                             <option>{{ d55.name }}</option>
                           {% endfor %}
