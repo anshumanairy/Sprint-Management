@@ -122,7 +122,8 @@
         <div class="card-footer">
           <hr>
           <div class="stats" style="text-align:right;">
-            <a href="{% url 'register' %}">Update Now</a>
+            <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
+            <a href="{% url 'register' %}">Refresh</a>
           </div>
         </div>
       </div>
@@ -146,7 +147,8 @@
         <div class="card-footer ">
           <hr>
           <div class="stats" style="text-align:right;">
-            <a href="{% url 'register' %}">Last Day</a>
+            <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
+            <a href="{% url 'register' %}">Refresh</a>
           </div>
         </div>
       </div>
@@ -198,16 +200,6 @@
         return false;
     });
 </script>
-
-{% load static %}
-  <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
-  <script src="{% static '/jquery.min.js' %}"></script>
-  <script src="{% static '/popper.min.js' %}"></script>
-  <script src="{% static '/bootstrap.min.js' %}"></script>
-  <script src="{% static '/perfect-scrollbar.jquery.min.js' %}"></script>
-  <script src="{% static '/chartjs.min.js' %}"></script>
-  <script src="{% static '/bootstrap-notify.js' %}"></script>
-  <script src="{% static '/paper-dashboard.min.js' %}"></script>
 
 </body>
 
