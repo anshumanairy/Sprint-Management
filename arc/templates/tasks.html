@@ -110,7 +110,13 @@
     }
 
   </style>
-
+  {% if messages %}
+    <script>
+      {% for message in messages %}
+        alert("{{ message }}");
+      {% endfor %}
+    </script>
+  {% endif %}
 </head>
 
   <body id="re">

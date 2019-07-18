@@ -22,6 +22,7 @@ from datetime import datetime
 import numpy as np
 import json
 import csv, io
+from django.contrib import messages
 
 def checkman(user):
     if user.is_superuser:
@@ -161,7 +162,6 @@ def qaprg(request):
                 p = story.objects.get(sprint_id=id1,jira = j)
                 p.ostatus=s
                 p.save()
-                print(p.ostatus)
                 return redirect('qaprg')
 
             if 'as1' in request.GET:
@@ -347,30 +347,25 @@ def qaprg(request):
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
+                list1[j][k].append(r.jactual)
             elif r.dev_php==name1:
                 list1[j][k].append(r.phps)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
+                list1[j][k].append(r.pactual)
             elif r.dev_html==name1:
                 list1[j][k].append(r.htmls)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
+                list1[j][k].append(r.hactual)
             elif r.dev_qa==name1:
                 list1[j][k].append(r.qas)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
-            listb=[]
-            if prg.objects.filter(s_id=id1,jd=r.jira,dname=name1).exists()==True:
-                p1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=name1)
-                for k1 in p1:
-                    listb.append(k1.sdate)
-                    listb=list(set(listb))
-                list1[j][k].append(len(listb)*2)
-            else:
-                list1[j][k].append(0)
+                list1[j][k].append(r.qactual)
             k+=1
             count=count+1;
         j+=1
@@ -390,7 +385,27 @@ def qaprg(request):
                 prog = request.GET.get('prg')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
+                frac = request.GET.get('fraction')
+                frac1=0
+                if frac=='Quarter Day':
+                    frac1=.5
+                elif frac=='Half Day':
+                    frac1=1
+                elif frac=='Three Quarters Day':
+                    frac1=1.5
+                else:
+                    frac1=2
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                for ix in st:
+                    if ix.dev_java==n2:
+                        ix.jactual = ix.jactual + frac1
+                    elif ix.dev_php==n2:
+                        ix.pactual = ix.pactual + frac1
+                    elif ix.dev_html==n2:
+                        ix.hactual = ix.hactual + frac1
+                    else:
+                        ix.qactual = ix.qactual + frac1
+                    ix.save()
                 z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
                 z.save()
 
@@ -492,14 +507,17 @@ def prod(request):
                         x2.save()
                     return redirect('product')
                 else:
-                    return HttpResponse("Data not stored!")
+                    messages.info(request, 'Data Not Stored!')
+                    return redirect('product')
             else:
-                return HttpResponse('You are not Authorized')
+                messages.info(request, 'You are not Authorized!')
+                return redirect('product')
         #select sprint get value and redirect
         if 'submit_sprint' in request.POST:
             select = request.POST.get('select_sprint')
             if select==None:
-                return HttpResponse('Please select a Valid Sprint!')
+                messages.info(request, 'Please select a Valid Sprint!')
+                return redirect('product')
             else:
                 for i in data:
                     if select in i.name:
@@ -523,12 +541,14 @@ def prod(request):
                 for i in n:
                     if name1==i.name:
                         a+=1
-                        return HttpResponse("Project Name already taken. Please Choose another one!")
+                        messages.info(request, 'Project Name already taken. Please choose another one!')
+                        return redirect('product')
                 if a==0:
                     z = project(name = name1)
                     z.save()
             else:
-                return HttpResponse('You are not Authorized!')
+                messages.info(request, 'You are not Authorized!')
+                return redirect('product')
 
             return(redirect('product'))
 
@@ -536,7 +556,8 @@ def prod(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             if proid==0:
-                return HttpResponse('Please choose a valid Project!')
+                messages.info(request, 'Please Choose a Valid Project!')
+                return redirect('product')
             else:
                 request.session['pid'] = proid
             return(redirect('product'))
@@ -607,7 +628,8 @@ def view_story(request):
         if 'csv_button' in request.POST:
             csv_file = request.FILES['file1']
             if not csv_file.name.endswith('.csv'):
-                return HttpResponse('Not a CSV File!')
+                messages.info(request, 'Please choose a CSV File!')
+                return redirect('view_story')
             data_set = csv_file.read().decode('UTF-8')
             lines = data_set.split("\n")
             firstline = True
@@ -664,11 +686,13 @@ def view_story(request):
                 p = story.objects.all()
                 for i in p:
                     if form.instance.jira == i.jira:
-                        return HttpResponse("Jira ID already exists! Please Choose another one!")
+                        messages.info(request, 'Jira ID already exists. Please choose another one!')
+                        return redirect('view_story')
                 form.save()
                 return redirect('view_story')
             else:
-                return HttpResponse("Data not stored!")
+                messages.info(request, 'Data Not Stored!')
+                return redirect('view_story')
         else:
             form = storyform()
 
@@ -1279,10 +1303,10 @@ def log(request):
                 request.session['pid'] = 0
                 return redirect('product')
             else:
-                return HttpResponse("Account not active!!")
+                messages.info(request, 'Account not active!')
+                return redirect('login')
         else:
-            print("Someone tried to login and falied!")
-            print("Username : {} and Password : {}".format(username,password))
-            return HttpResponse("Invalid credentials!")
+            messages.info(request, 'Invalid Credentials!')
+            return redirect('login')
     else:
         return render(request,'login.html/',{})
