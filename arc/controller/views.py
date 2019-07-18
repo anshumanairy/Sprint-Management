@@ -1091,7 +1091,7 @@ def allocation(request):
             p1 = request.GET.get('points1')
             idy = request.GET.get('idx')
             if int(p1)>0:
-                n = cregister.objects.get(name=java_dev,sprint_id=id1)
+                # n = cregister.objects.get(name=java_dev,sprint_id=id1)
                 p = story.objects.get(sprint_id=id1,id=idy)
                 p.dev_java = java_dev
                 p.javas = int(p1)
@@ -1113,7 +1113,7 @@ def allocation(request):
             p2 = request.GET.get('points2')
             idy = request.GET.get('idx')
             if int(p2)>0:
-                n = cregister.objects.get(name=php_dev,sprint_id=id1)
+                # n = cregister.objects.get(name=php_dev,sprint_id=id1)
                 p = story.objects.get(sprint_id=id1,id=idy)
                 p.dev_php = php_dev
                 p.phps = int(p2)
@@ -1135,7 +1135,7 @@ def allocation(request):
             p3 = request.GET.get('points3')
             idy = request.GET.get('idx')
             if int(p3)>0:
-                n = cregister.objects.get(name=html_dev,sprint_id=id1)
+                # n = cregister.objects.get(name=html_dev,sprint_id=id1)
                 p = story.objects.get(sprint_id=id1,id=idy)
                 p.dev_html = html_dev
                 p.htmls = int(p3)
@@ -1157,7 +1157,7 @@ def allocation(request):
             p4 = request.GET.get('points4')
             idy = request.GET.get('idx')
             if int(p4)>0:
-                n = cregister.objects.get(name=qa_dev,sprint_id=id1)
+                # n = cregister.objects.get(name=qa_dev,sprint_id=id1)
                 p = story.objects.get(sprint_id=id1,id=idy)
                 p.dev_qa = qa_dev
                 p.qas = int(p4)
