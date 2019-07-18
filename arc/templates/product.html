@@ -21,7 +21,8 @@
 
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
   {% load static %}
     <!-- <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}"> -->
@@ -97,6 +98,10 @@
     border: 1px solid #303D39;
     transition: all 0.4s ease 0s;
     }
+    .js-example-basic-single{
+      width: 20%;
+    }
+
   </style>
 
   {% if messages %}
@@ -130,6 +135,12 @@
     </div>
 
     <script>
+      $(document).ready(function() {
+          $('.js-example-basic-single').select2();
+        });
+    </script>
+
+    <script>
     function w3_open() {
       document.getElementById("main").style.marginLeft = "25%";
       document.getElementById("mySidebar").style.width = "25%";
@@ -154,7 +165,7 @@
       {% csrf_token %}
       <div class="container-fluid">
           <div class="col-md-12">
-              <select class="chosen" name="select_project">
+              <select class="js-example-basic-single" name="select_project">
                   <option selected="true" disabled>{{ nx }}</option>
                 {% for n1 in n %}
                   <option>{{ n1.name }}</option>
@@ -226,7 +237,7 @@
                     <div class="form-group">
                       <label>Select Admin</label>
                       <div>
-                        <select class="chosen" name="select_admin">
+                        <select class="js-example-basic-single" name="select_admin">
                           {% for n2 in list11 %}
                             <option>{{ n2 }}</option>
                           {% endfor %}
@@ -299,7 +310,7 @@
     {% csrf_token %}
     <div class="container-fluid">
         <div class="col-md-12" >
-            <select class="chosen" name="select_sprint">
+            <select class="js-example-basic-single" name="select_sprint">
               {% for product in data %}
               <option> {{ product.name }}</option>
                 {% endfor %}
