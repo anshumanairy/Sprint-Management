@@ -1219,7 +1219,7 @@ def tasks(request):
             list1[k][l].append(j.description)
             l+=1
         k+=1
-    print(list1)
+    # print(list1)
 
     if request.method=='POST':
         if 'select_project' in request.POST:
