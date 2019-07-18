@@ -24,22 +24,13 @@
       color:lightgrey;
     }
     body{
+      background :#F3F3F3;
+    }
+    body{
       font-family: Montserrat;
     }
     .dropdown{
       display: inline-block;
-    }
-    #reg{
-      padding-left: 10px;
-      padding-top: 5px;
-    }
-    #reg1{
-      background-color:  #4ebe4b;
-    }
-    #reg2{
-      color:lightblue;
-      padding-left: 15px;
-      padding-top: 5px;
     }
     .container{
       padding-top: 20px;
@@ -54,6 +45,13 @@
     background: #303D39;
     border: 1px solid #303D39;
     transition: all 0.4s ease 0s;
+    }
+    #x1{
+      padding-top: 100px;
+      position: relative;
+      left: 29%;
+      margin:0 auto;
+
     }
   </style>
   </head>
@@ -87,50 +85,46 @@
       document.getElementById("openNav").style.display = "inline-block";
     }
     </script>
-<!-- action="/prod/" -->
 
 
-<form class="post-form" action="{% url 'login' %}"  method="POST" id="log">
-  {% csrf_token %}
-<div class="container">
-<div class="col-sm-8" >
-  <div class="card card-user" id="back">
-    <div class="card-header">
-      <h5 class="card-title">Login</h5>
-    </div>
-    <div class="card-body">
-      <form>
-        <div class="row">
-          <div class="col-md-6 pr-1">
-            <div class="form-group">
+<div class="container-fluid" id="x1">
+  <div class="col-sm-5" >
+    <form class="post-form" action="{% url 'login' %}"  method="POST" id="log">
+      {% csrf_token %}
+      <div class="card card-user">
+        <div class="card-header" style="text-align:center;">
+          <h5 class="card-title">Login</h5>
+        </div>
+        <div class="card-body">
+
+            <div style="text-align:center;">
               <label>Username</label>
-              <input type="text" name="username" placeholder="Username">
+                <div>
+                  <input type="text" name="username" placeholder="Username">
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 pr-1">
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" name="password" placeholder="Password">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div id="reg">
-            <input type="submit" class="btn example_c" value="Login">
 
-            <div class="row" id="reg2">
+            <div style="text-align:center;padding-top:5px;">
+                <label>Password</label>
+                <div>
+                  <input type="password" name="password" placeholder="Password">
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+              <input type="submit" class="btn example_c" value="Login">
+            </div>
+
+            <div style="text-align:center;">
               <a href="{% url 'register' %}">Not Yet Registered? Register</a>
             </div>
-          </div>
+
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>
-</div>
-</form>
+
 
 </body>
 

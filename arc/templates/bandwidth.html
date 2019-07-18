@@ -18,7 +18,6 @@
 
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- CSS Files -->
   {% load static %}
@@ -34,6 +33,7 @@
     }
     body{
       font-family: Montserrat;
+      background :#F3F3F3;
     }
     #spr{
       padding-top: 70px;
@@ -106,7 +106,7 @@
         Bandwidth Calculator
         <div id="hid">
           <div id="hid3">
-            <form method='POST'>
+            <form method='POST' id="pros1">
               {% csrf_token %}
               <select class="chosen" name="select_project">
                   <option>{{ nx }}</option>
@@ -118,7 +118,7 @@
             </form>
           </div>
           <div id="hid1">
-            <form method='POST'>
+            <form method='POST' id=pros2>
               {% csrf_token %}
               <select class="chosen" name="select_sprint">
                 <option>{{ nx1 }}</option>
@@ -131,6 +131,33 @@
           </div>
         </div>
       </div>
+
+      <!-- <script type="text/javascript">
+          var frm = $('#pros1');
+          frm.submit(function () {
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function (data) {
+                      $("#re").html(data);
+                  },
+              });
+              return false;
+          });
+      </script>
+      <script type="text/javascript">
+          var frm = $('#pros2');
+          frm.submit(function () {
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function (data) {
+                      $("#re").html(data);
+                  },
+              });
+              return false;
+          });
+      </script> -->
 
     <script>
     function w3_open() {
