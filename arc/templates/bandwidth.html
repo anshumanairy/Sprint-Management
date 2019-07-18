@@ -116,7 +116,7 @@
             <form method='POST' id="pros1">
               {% csrf_token %}
               <select class="chosen" name="select_project">
-                  <option disabled>{{ nx }}</option>
+                  <option selected="true" disabled>{{ nx }}</option>
                 {% for n1 in n0 %}
                   <option>{{ n1.name }}</option>
                 {% endfor %}
@@ -128,7 +128,7 @@
             <form method='POST' id=pros2>
               {% csrf_token %}
               <select class="chosen" name="select_sprint">
-                <option disabled>{{ nx1 }}</option>
+                <option selected="true" disabled>{{ nx1 }}</option>
                 {% for product in data1 %}
                 <option>{{ product.name }}</option>
                   {% endfor %}
