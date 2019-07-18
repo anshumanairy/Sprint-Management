@@ -567,7 +567,7 @@ def prod(request):
     return(render(request,'product.html/',context={'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
-@user_passes_test(checkman,login_url='progress')
+@user_passes_test(checkman,login_url='qaprg')
 def view_story(request):
     id = request.session['id']
     pid2 = request.session['pid']
@@ -699,7 +699,7 @@ def view_story(request):
     return render(request,'view_story.html/',{'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
 
 @login_required
-@user_passes_test(checkman,login_url='progress')
+@user_passes_test(checkman,login_url='qaprg')
 def bandwidth(request):
     sprid = request.session['id']
     pid2 = request.session['pid']
@@ -1028,7 +1028,7 @@ def bandwidth(request):
 
 
 @login_required
-@user_passes_test(checkman,login_url='progress')
+@user_passes_test(checkman,login_url='qaprg')
 def allocation(request):
     id1 = request.session['id']
     pid2 = request.session['pid']
