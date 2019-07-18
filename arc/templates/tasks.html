@@ -108,7 +108,9 @@
     .chosen,#bt1{
       font-size: 10px;
     }
-
+    td,th{
+      border: 1px solid lightgrey;
+    }
   </style>
   {% if messages %}
     <script>
@@ -173,7 +175,7 @@
       document.getElementById("main").style.marginLeft = "25%";
       document.getElementById("mySidebar").style.width = "25%";
       document.getElementById("mySidebar").style.display = "block";
-      document.getElementById("openNav").style.display = 'none';
+      // document.getElementById("openNav").style.display = 'none';
     }
     function w3_close() {
       document.getElementById("main").style.marginLeft = "0%";
@@ -211,12 +213,6 @@
         </tr>
           {% endfor %}
         {% endfor %}
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
     </tbody>
   </table>
 </div>
