@@ -18,7 +18,7 @@ from django.views.generic import TemplateView, ListView
 from django.template.response import TemplateResponse
 from datetime import timedelta
 from django.db.models import Sum
-from datetime import datetime
+import datetime
 import numpy as np
 import json
 import csv, io
@@ -190,9 +190,8 @@ def qaprg(request):
                     else:
                         ix.qactual = ix.qactual + frac1
                     ix.save()
-                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
-                z.save()
-
+                    z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1)
+                    z.save()
 
                 list2={}
                 for i1 in data:
@@ -406,7 +405,7 @@ def qaprg(request):
                     else:
                         ix.qactual = ix.qactual + frac1
                     ix.save()
-                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2)
+                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1)
                 z.save()
 
                 list2={}
@@ -482,6 +481,83 @@ def user_logout(request):
 @login_required
 def prod(request):
     pid2 = request.session['pid']
+    id = request.session['id']
+
+    # used to calculate all dates for burndown graph
+    list3=[]
+    list4=[]
+    p1 = product.objects.get(id=id,pid=pid2)
+    start = p1.sprint_start_date
+    if p1.sprint_dev_end_date>=p1.sprint_qa_end_date:
+        end = p1.sprint_dev_end_date
+    else:
+        end = p1.sprint_qa_end_date
+    def daterange(date1, date2):
+        for n in range(int ((date2 - date1).days)+1):
+            yield date1 + timedelta(n)
+    for dt in daterange(start, end):
+        list3.append(dt.strftime("%Y-%m-%d"))
+        p2 = prg.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
+        s2=0
+        for i2 in p2:
+            s2+=i2.actual
+        list4.append(s2)
+    jd1=json.dumps(list3)
+
+    # calculation of total story points assigned in the given sprint
+    # list5 stores points in decreasing order and list6 is the average
+    list5=[]
+    list6=[]
+    list7=[0,0,0,0]
+    s1 = story.objects.filter(sprint_id=id)
+    sum1=0
+    for i1 in s1:
+        sum1 += i1.javas + i1.phps + i1.htmls + i1.qas
+        if i1.ostatus in['QA']:
+            list7[1]+=1
+        if i1.ostatus in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+            list7[2]+=1
+        if i1.ostatus in['Pending Deployment']:
+            list7[0]+=1
+        else:
+            list7[3]+=1
+    list5.append(sum1)
+    list6.append(sum1)
+    for i3 in list4:
+        sum1-=i3
+        list5.append(sum1)
+        list6.append(sum(list5)/len(list5))
+    jd5 = json.dumps(list5)
+    jd6 = json.dumps(list6)
+    jd7 = json.dumps(list7)
+
+    user3 = request.session['user2']
+    s22 = cregister.objects.filter(sprint_id=id)
+    s2 = cregister.objects.get(sprint_id=id,name=user3)
+    s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
+    list8=[]
+    sp=0
+    sc=0
+    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+    for i4 in s3:
+        if i4.dev_java==user3:
+            sp+=i4.javas
+            sc+=i4.jactual
+        elif i4.dev_php==user3:
+            sp+=i4.phps
+            sc+=i4.pactual
+        elif i4.dev_html==user3:
+            sp+=i4.htmls
+            sc+=i4.hactual
+        elif i4.dev_qa==user3:
+            sp+=i4.qas
+            sc+=i4.qactual
+    list8.append(ab)
+    list8.append(sp)
+    list8.append(sc)
+    jd8 = json.dumps(list8)
+
+
     data = product.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
@@ -492,26 +568,8 @@ def prod(request):
         if i11.is_superuser:
             list11.append(i11.username)
 
+
     if request.method=='POST':
-        # productform condition where sprint_button is the name for submit button for sprint form
-        if 'sprint_button' in request.POST:
-            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
-                if form.is_valid():
-                    form = productform(request.POST)
-                    form.instance.pid = pid2
-                    form.save()
-                    x = form.instance.id
-                    x1 = register.objects.all()
-                    for i1 in x1:
-                        x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                        x2.save()
-                    return redirect('product')
-                else:
-                    messages.info(request, 'Data Not Stored!')
-                    return redirect('product')
-            else:
-                messages.info(request, 'You are not Authorized!')
-                return redirect('product')
         #select sprint get value and redirect
         if 'submit_sprint' in request.POST:
             select = request.POST.get('select_sprint')
@@ -524,13 +582,20 @@ def prod(request):
                         id=i.id
                         request.session['id'] = id
                         break
-                if request.user.is_superuser:
+                if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+                    list3=[]
+                    p1 = product.objects.get(id=id,pid=pid2)
+                    start = p1.sprint_start_date
+                    end = p1.sprint_dev_end_date
+                    def daterange(date1, date2):
+                        for n in range(int ((date2 - date1).days)+1):
+                            yield date1 + timedelta(n)
+                    for dt in daterange(start, end):
+                        list3.append(dt.strftime("%Y-%m-%d"))
+                    jd1=json.dumps(list3)
                     return redirect('view_story')
                 else:
-                    if register.objects.get(uname=request.user.username).roles=='dev':
-                        return redirect('qaprg')
-                    else:
-                        return redirect('view_story')
+                    return redirect('qaprg')
 
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
@@ -562,9 +627,57 @@ def prod(request):
                 request.session['pid'] = proid
             return(redirect('product'))
 
-    else:
-        form = productform()
-    return(render(request,'product.html/',context={'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+        if 'select_user' in request.POST:
+            user1 = request.POST.get('select_user')
+            request.session['user2'] = user1
+            s2 = cregister.objects.get(sprint_id=id,name=user1)
+            s3 = story.objects.filter(sprint_id=id,dev_java=user1) or story.objects.filter(sprint_id=id,dev_php=user1) or story.objects.filter(sprint_id=id,dev_html=user1) or story.objects.filter(sprint_id=id,dev_qa=user1)
+            list8=[]
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==user1:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==user1:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==user1:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==user1:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list8.append(ab)
+            list8.append(sp)
+            list8.append(sc)
+            jd8 = json.dumps(list8)
+            return(redirect('product'))
+
+        # productform condition where sprint_button is the name for submit button for sprint form
+        if 'sprint_button' in request.POST:
+            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+                if form.is_valid():
+                    form = productform(request.POST)
+                    form.instance.pid = pid2
+                    form.save()
+                    x = form.instance.id
+                    x1 = register.objects.all()
+                    for i1 in x1:
+                        x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
+                        x2.save()
+                    return redirect('product')
+                else:
+                    messages.info(request, 'Data Not Stored!')
+                    return redirect('product')
+            else:
+                messages.info(request, 'You are not Authorized!')
+                return redirect('product')
+        else:
+            form = productform()
+
+    return(render(request,'product.html/',context={'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
@@ -1295,12 +1408,16 @@ def log(request):
         if user:
             if user.is_superuser:
                 login(request,user)
-                request.session['pid'] = 0
+                request.session['pid'] = 3
+                request.session['user2'] = 'Mark'
+                request.session['id'] = 20
                 return redirect('product')
 
             if user.is_active:
                 login(request,user)
-                request.session['pid'] = 0
+                request.session['pid'] = 3
+                request.session['user2'] = 'Mark'
+                request.session['id'] = 20
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')

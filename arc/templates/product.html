@@ -13,6 +13,9 @@
 			  src="https://code.jquery.com/jquery-3.3.1.js"
 			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 			  crossorigin="anonymous"></script>
+   <!-- Cdn for chart.js -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script> -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -469,6 +472,180 @@
     document.getElementById("f").style.display = "none";
     document.getElementById("sprint_btn").style.display = "inline-block";
   }
+</script>
+
+<div class="container-fluid" id="spr">
+  <div class="col-md-3">
+    <button class="btn example_c"><small>Developer Overview Chart</small></button>
+  </div>
+  <div class="col-md">
+    <form method='POST'>
+      {% csrf_token %}
+      <select class="js-example-basic-single" name="select_user" style="width:10%;">
+          <option selected="true" disabled></option>
+        {% for n1 in s22 %}
+          <option>{{ n1.name }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn example_c" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
+    </form>
+  </div>
+</div>
+
+<div style="width:900px;"><canvas id="myChart1"></canvas></div>
+<script>
+var ctx = document.getElementById('myChart1');
+var data8  = JSON.parse('{{ jd8|escapejs }}');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+        datasets: [{
+          label: 'Developers Chart',
+            data: data8,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.4)',
+                'rgba(54, 162, 235, 0.4)',
+                'rgba(255, 206, 86, 0.4)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
+<div class="container-fluid" id="spr">
+  <div class="col-md-2">
+    <button class="btn example_c"><small>Sprint Overview Chart</small></button>
+  </div>
+</div>
+
+
+<!-- burndown chart -->
+<script>
+    function showBurnDown(elementId, burndownData, newdata) {
+      var speedCanvas = document.getElementById(elementId);
+      Chart.defaults.global.defaultFontFamily = "Montserrat";
+      Chart.defaults.global.defaultFontSize = 10;
+      var data1  = JSON.parse('{{ jd1|escapejs }}');
+      // console.log(data1);
+      var speedData = {
+        labels: data1,
+        datasets: [
+          {
+            label: "Points Per Day",
+            data: burndownData,
+            fill: false,
+            borderColor: "green",
+            backgroundColor: "green",
+            lineTension: 0,
+          },
+          {
+            label: "Average",
+            data: newdata,
+            fill: false,
+            borderColor: "blue",
+            backgroundColor: "blue",
+            lineTension: 0,
+          },
+        ]
+      };
+
+      var chartOptions = {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 30,
+            fontColor: 'black'
+          }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: Math.round(burndownData[0] * 1.1)
+                }
+            }]
+        }
+      };
+
+      var lineChart = new Chart(speedCanvas, {
+        type: 'line',
+        data: speedData,
+        options: chartOptions
+      });
+
+    }
+</script>
+
+<div style="width:900px;"><canvas id="burndown43"></canvas></div>
+<script>
+  var data2  = JSON.parse('{{ jd5|escapejs }}');
+  var data3  = JSON.parse('{{ jd6|escapejs }}');
+  showBurnDown (
+    "burndown43",
+    data2, // burndown data
+    data3
+  );
+</script>
+
+<div class="container-fluid" id="spr">
+  <div class="col-md-2">
+    <button class="btn example_c"><small>Story Overview Chart</small></button>
+  </div>
+</div>
+
+<div style="width:900px;"><canvas id="myChart"></canvas></div>
+<script>
+var ctx = document.getElementById('myChart');
+var data7  = JSON.parse('{{ jd7|escapejs }}');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Completed','QA','In Progress','Unassigned'],
+        datasets: [{
+            data: data7,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.4)',
+                'rgba(54, 162, 235, 0.4)',
+                'rgba(255, 206, 86, 0.4)',
+                'rgba(255, 99, 132, 0.4)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
 </script>
 
 </body>

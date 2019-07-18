@@ -8,6 +8,7 @@ class prg(models.Model):
     jd = models.CharField(max_length=20)
     status = models.CharField(max_length = 15)
     dname = models.CharField(max_length=20)
+    actual = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.jd)
