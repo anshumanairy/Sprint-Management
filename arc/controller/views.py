@@ -520,7 +520,7 @@ def prod(request):
             list7[1]+=1
         if i1.ostatus in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
             list7[2]+=1
-        if i1.ostatus in['Pending Deployment']:
+        if i1.ostatus in['Pending Deployment','Complete']:
             list7[0]+=1
         else:
             list7[3]+=1
@@ -830,7 +830,7 @@ def view_story(request):
                                 k+=1
                             if fields[9]=='':
                                 k+=1
-                            if fields[10] in ['Live','In Progress','HTML Done','PHP Done','API Done','QA','Pending Development','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','Not Needed','Next Sprint','Duplicate','CR','',' ']:
+                            if fields[10] in ['Complete','Live','In Progress','HTML Done','PHP Done','API Done','QA','Pending Deployment','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','Not Needed','Next Sprint','Duplicate','CR','',' ']:
                                 k+=1
                             if k==5:
                                 for i2 in range(4,11,2):
@@ -1363,6 +1363,21 @@ def tasks(request):
     id1 = request.session['id']
     pid2 = request.session['pid']
     data1 = product.objects.filter(pid=pid2)
+    data3 = product.objects.filter(pid=pid2).exclude(id=id1)
+    listse=[]
+    k1 = project.objects.all().exclude(id=0)
+    n=0
+    for k2 in k1:
+        listse.append([])
+        k3 = product.objects.filter(pid=k2.id).exclude(id=id1)
+        m=0
+        for k4 in k3:
+            listse[n].append([])
+            listse[n][m].append(k4.name)
+            listse[n][m].append(k4.id)
+            m+=1
+        n+=1
+
     n0 = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
     nx1 = product.objects.get(id = id1).name
@@ -1378,18 +1393,23 @@ def tasks(request):
     repo.append(sum3)
     sum1=0
     sum2=0
+    nextspr=[]
     c2 = story.objects.filter(sprint_id=id1)
     for i4 in c2:
         sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
         sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
+        if i4.ostatus not in ['Pending Deployment','Complete']:
+            nextspr.append(i4.id)
+
     repo.append(sum1)
     repo.append(sum1-sum2)
     repo.append(sum2)
+
     for i in pro:
-        data1 = story.objects.filter(sprint_id=i.id)
+        data2 = story.objects.filter(sprint_id=i.id)
         list1.append([])
         l=0
-        for j in data1:
+        for j in data2:
             list1[k].append([])
             list1[k][l].append(i.name)
             list1[k][l].append(j.story_name)
@@ -1415,7 +1435,7 @@ def tasks(request):
             elif j.ostatus=='QA':
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('blue')
-            elif j.ostatus=='Pending Deployment':
+            elif j.ostatus in ['Pending Deployment','Complete']:
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('pd')
             else:
@@ -1444,7 +1464,20 @@ def tasks(request):
                     break
             return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+        if 'move_story' in request.POST:
+            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+                ss = request.POST.get('select_spr')
+                st1 = story.objects.filter(sprint_id=id1)
+                for i1 in st1:
+                    if i1.ostatus not in ['Pending Deployment','Complete']:
+                        x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
+                        x1.save()
+                return redirect('tasks')
+            else:
+                messages.info(request, 'You are not Authorized!')
+                return redirect('tasks')
+
+    return(render(request,'tasks.html/',{'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})
