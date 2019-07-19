@@ -486,7 +486,10 @@ def prod(request):
     # used to calculate all dates for burndown graph
     list3=[]
     list4=[]
-    p1 = product.objects.get(id=id,pid=pid2)
+    if product.objects.filter(id=id,pid=pid2).exists()==True:
+        p1 = product.objects.get(id=id,pid=pid2)
+    else:
+        p1 = product.objects.get(id=0,pid=0)
     start = p1.sprint_start_date
     if p1.sprint_dev_end_date>=p1.sprint_qa_end_date:
         end = p1.sprint_dev_end_date
@@ -532,8 +535,13 @@ def prod(request):
     jd7 = json.dumps(list7)
 
     user3 = request.session['user2']
-    s22 = cregister.objects.filter(sprint_id=id)
-    s2 = cregister.objects.get(sprint_id=id,name=user3)
+    hx1 = user3
+    hx2 = product.objects.get(id=id).name
+    s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
+    if cregister.objects.filter(sprint_id=id,name=user3).exists()==True:
+        s2 = cregister.objects.get(sprint_id=id,name=user3)
+    else:
+        s2 = cregister.objects.get(sprint_id=0,name='')
     s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
     list8=[]
     sp=0
@@ -721,7 +729,7 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
@@ -1479,16 +1487,16 @@ def log(request):
         if user:
             if user.is_superuser:
                 login(request,user)
-                request.session['pid'] = 3
-                request.session['user2'] = 'Mark'
-                request.session['id'] = 20
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
                 return redirect('product')
 
             if user.is_active:
                 login(request,user)
-                request.session['pid'] = 3
-                request.session['user2'] = 'Mark'
-                request.session['id'] = 20
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')

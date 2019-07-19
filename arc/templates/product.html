@@ -323,6 +323,7 @@
     <div class="container-fluid">
         <div class="col-md-12" >
             <select class="js-example-basic-single" name="select_sprint">
+              <option selected="true" disabled>{{ hx2 }}</option>
               {% for product in data %}
               <option> {{ product.name }}</option>
                 {% endfor %}
@@ -492,16 +493,31 @@
 
 <div class="container-fluid w3-animate-left" style="display:None;width:900px;" id="f1">
   <div class="col-md">
-    <form method='POST'>
+    <form method='POST' id="f4">
       {% csrf_token %}
       <select class="js-example-basic-single" name="select_user" style="width:10%;">
-          <option selected="true" disabled></option>
+          <option selected="true" disabled>{{ hx1 }}</option>
         {% for n1 in s22 %}
           <option>{{ n1.name }}</option>
         {% endfor %}
       </select>
       <button class="btn example_d" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
     </form>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var frm = $('#f4');
+          frm.submit(function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                  },
+              });
+          });
+        });
+    </script>
   </div>
 
   <canvas id="myChart1"></canvas>
