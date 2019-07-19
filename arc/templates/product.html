@@ -474,18 +474,15 @@
   }
 </script>
 
-
-
-<!-- <div class="container-fluid">
-  <div class="col-md-2">
-    <a href="{% url 'tasks' %}l"><button class="btn example_c"><small>End Sprint Report</small></button></a>
-  </div>
-</div> -->
+<!-- bar graph Developer specific -->
 
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn example_c"><small>Developer Overview Chart</small></button>
+    <button class="btn example_c" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
   </div>
+</div>
+
+<div class="container-fluid w3-animate-left" style="display:None;width:900px;" id="f1">
   <div class="col-md">
     <form method='POST'>
       {% csrf_token %}
@@ -498,9 +495,15 @@
       <button class="btn example_c" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
     </form>
   </div>
-</div>
 
-<div style="width:900px;"><canvas id="myChart1"></canvas></div>
+  <canvas id="myChart1"></canvas>
+
+  <div class="row">
+    <div class="update ml-auto mr-auto">
+      <button class="btn example_c" onclick="w9_close()" id="bdc_close">Close</button>
+    </div>
+  </div>
+</div>
 <script>
 var ctx = document.getElementById('myChart1');
 var data8  = JSON.parse('{{ jd8|escapejs }}');
@@ -535,16 +538,30 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+<div id="mx">
+<script>
+  function w9_open() {
+    document.getElementById("mx").style.marginTop = "0%";
+    document.getElementById("f1").style.display = "block";
+    document.getElementById("bdc").style.display = 'none';
+  }
+  function w9_close() {
+    document.getElementById("mx").style.marginTop = "0%";
+    document.getElementById("f1").style.display = "none";
+    document.getElementById("bdc").style.display = "inline-block";
+  }
+</script>
 
+
+
+<!-- burndown graph -->
 
 <div class="container-fluid">
-  <div class="col-md-2">
-    <button class="btn example_c"><small>Sprint Overview Chart</small></button>
+  <div class="col-md-3">
+    <button class="btn example_c" onclick="w10_open()" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
   </div>
 </div>
 
-
-<!-- burndown chart -->
 <script>
     function showBurnDown(elementId, burndownData, newdata) {
       var speedCanvas = document.getElementById(elementId);
@@ -602,24 +619,52 @@ var myChart = new Chart(ctx, {
     }
 </script>
 
-<div style="width:900px;"><canvas id="burndown43"></canvas></div>
-<script>
-  var data2  = JSON.parse('{{ jd5|escapejs }}');
-  var data3  = JSON.parse('{{ jd6|escapejs }}');
-  showBurnDown (
-    "burndown43",
-    data2, // burndown data
-    data3
-  );
-</script>
-
-<div class="container-fluid">
-  <div class="col-md-2">
-    <button class="btn example_c"><small>Story Overview Chart</small></button>
+<div class="container-fluid w3-animate-left" style="display:None; width:900px;" id="f2">
+  <canvas id="burndown43"></canvas>
+  <div class="row">
+    <div class="update ml-auto mr-auto">
+      <button class="btn example_c" onclick="w10_close()" id="bdc1_close">Close</button>
+    </div>
   </div>
 </div>
 
-<div style="width:900px;"><canvas id="myChart"></canvas></div>
+<script>
+  var data2  = JSON.parse('{{ jd5|escapejs }}');
+  var data3  = JSON.parse('{{ jd6|escapejs }}');
+  showBurnDown ("burndown43",data2,data3);
+</script>
+<div id="nx">
+<script>
+  function w10_open() {
+    document.getElementById("nx").style.marginTop = "0%";
+    document.getElementById("f2").style.display = "block";
+    document.getElementById("bdc1").style.display = 'none';
+  }
+  function w10_close() {
+    document.getElementById("nx").style.marginTop = "0%";
+    document.getElementById("f2").style.display = "none";
+    document.getElementById("bdc1").style.display = "inline-block";
+  }
+</script>
+
+
+<!-- Pie Chart -->
+
+<div class="container-fluid">
+  <div class="col-md-2">
+    <button class="btn example_c" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
+  </div>
+</div>
+
+<div class="container-fluid w3-animate-left" style="display:None; width:900px;" id="f3">
+  <canvas id="myChart"></canvas>
+  <div class="row">
+    <div class="update ml-auto mr-auto">
+      <button class="btn example_c" onclick="w11_close()" id="bdc2_close">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
 var ctx = document.getElementById('myChart');
 var data7  = JSON.parse('{{ jd7|escapejs }}');
@@ -654,6 +699,19 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+</script>
+<div id="nx1">
+<script>
+  function w11_open() {
+    document.getElementById("nx1").style.marginTop = "0%";
+    document.getElementById("f3").style.display = "block";
+    document.getElementById("bdc2").style.display = 'none';
+  }
+  function w11_close() {
+    document.getElementById("nx1").style.marginTop = "0%";
+    document.getElementById("f3").style.display = "none";
+    document.getElementById("bdc2").style.display = "inline-block";
+  }
 </script>
 
 </body>
