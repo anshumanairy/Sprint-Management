@@ -114,7 +114,7 @@
     td,th{
       border: 1px solid lightgrey;
     }
-    #js-example-basic-single{
+    .js-example-basic-single{
       width: 40%;
     }
   </style>
@@ -149,7 +149,7 @@
           <div id="hid3">
             <form method='POST' id="pros">
               {% csrf_token %}
-              <select id="js-example-basic-single" name="select_project">
+              <select class="js-example-basic-single" name="select_project">
                   <option selected="true" disabled>{{ nx }}</option>
                 {% for n1 in n0 %}
                   <option>{{ n1.name }}</option>
@@ -158,13 +158,24 @@
               <button class="btn example_c" type="submit" name="submit_project" id="bt1"><small>Select Project </small></button>
             </form>
           </div>
+          <div id="hid1">
+            <form method='POST'>
+              {% csrf_token %}
+              <select class="js-example-basic-single" name="select_sprint">
+                <option selected="true" disabled>{{ nx1 }}</option>
+                {% for product in data1 %}
+                  <option>{{ product.name }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn example_c" type="submit" name="submit_sprint" id="bt1"><small>VIEW STORIES</small></button>
+            </form>
           </div>
-        </div>
+          </div>
       </div>
 
       <script>
       $(document).ready(function() {
-          $('#js-example-basic-single').select2();
+          $('.js-example-basic-single').select2();
         });
       </script>
 
@@ -196,6 +207,36 @@
     }
     </script>
 
+    <div class="content-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title"><b><u>End Sprint Report</u></b></h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="tab2">
+                  <thead class="text-primary">
+                    <th>Total Available Bandwidth</th>
+                    <th>Total Story Points Assigned</th>
+                    <th>Total Completed Story Points</th>
+                    <th>Total Pending Story Points</th>
+                  </thead>
+                  <tbody>
+                    {% for i in repo %}
+                      <td>{{ i }}</td>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <div class="container-fluid">
   <table class="table" id="tab2">
     <thead>
@@ -203,6 +244,8 @@
         <th id="una">Sprint Name</th>
         <th>Topic</th>
         <th>Jira ID</th>
+        <th>Assigned SP</th>
+        <th>Pending SP</th>
         <th>Status</th>
         <th>Assign</th>
       </tr>
@@ -214,6 +257,8 @@
           <td class="col-md-2" id="una">{{ d1.0 }}</td>
           <td>{{ d1.1 }}</td>
           <td><a href="{{d1.5}}" target='_blank'>{{ d1.2 }}</a></td>
+          <td>{{ d1.6 }}</td>
+          <td>{{ d1.7 }}</td>
           <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
           <td>
             {% if d1.3 == 'Unassigned' %}

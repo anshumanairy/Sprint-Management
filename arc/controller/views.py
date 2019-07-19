@@ -1315,8 +1315,24 @@ def tasks(request):
     nx = project.objects.get(id=pid2)
     nx1 = product.objects.get(id = id1).name
     pro = product.objects.filter(pid=pid2)
+
     list1=[]
     k=0
+    repo=[]
+    c1 = cregister.objects.filter(sprint_id=id1,roles='dev')
+    sum3=0
+    for i3 in c1:
+        sum3+=i3.abjava + i3.abphp + i3.abhtml + i3.abqa
+    repo.append(sum3)
+    sum1=0
+    sum2=0
+    c2 = story.objects.filter(sprint_id=id1)
+    for i4 in c2:
+        sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
+        sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
+    repo.append(sum1)
+    repo.append(sum1-sum2)
+    repo.append(sum2)
     for i in pro:
         data1 = story.objects.filter(sprint_id=i.id)
         list1.append([])
@@ -1354,6 +1370,8 @@ def tasks(request):
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('other')
             list1[k][l].append(j.description)
+            list1[k][l].append(j.javas + j.phps + j.htmls + j.qas)
+            list1[k][l].append((j.javas + j.phps + j.htmls + j.qas)-(j.jactual + j.pactual + j.hactual + j.qactual))
             l+=1
         k+=1
     # print(list1)
@@ -1365,7 +1383,16 @@ def tasks(request):
             request.session['pid'] = proid
             return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'n0':n0,'nx':nx,'list1':list1}))
+        if 'submit_sprint' in request.POST:
+            select = request.POST.get('select_sprint')
+            for i in data1:
+                if select in i.name:
+                    id=i.id
+                    request.session['id'] = id
+                    break
+            return redirect('tasks')
+
+    return(render(request,'tasks.html/',{'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})
