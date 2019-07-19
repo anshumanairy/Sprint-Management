@@ -104,8 +104,16 @@
     .js-example-basic-single{
       width: 20%;
     }
-    #hid{
-
+    .example_d {
+    color: white;
+    background: black;
+    border: 1px solid black;
+    transition: all 0.4s ease 0s;
+    }
+    .example_d:hover {
+    background: white;
+    border: 1px solid white;
+    transition: all 0.4s ease 0s;
     }
 
   </style>
@@ -478,7 +486,7 @@
 
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn example_c" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
+    <button class="btn example_d" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
   </div>
 </div>
 
@@ -492,7 +500,7 @@
           <option>{{ n1.name }}</option>
         {% endfor %}
       </select>
-      <button class="btn example_c" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
+      <button class="btn example_d" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
     </form>
   </div>
 
@@ -558,7 +566,7 @@ var myChart = new Chart(ctx, {
 
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn example_c" onclick="w10_open()" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
+    <button class="btn example_d" onclick="w10_open()" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
   </div>
 </div>
 
@@ -569,6 +577,8 @@ var myChart = new Chart(ctx, {
       Chart.defaults.global.defaultFontSize = 10;
       var data1  = JSON.parse('{{ jd1|escapejs }}');
       // console.log(data1);
+      var ctx = document.getElementById('burndown43').getContext("2d");
+      var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.4)");gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.4)");
       var speedData = {
         labels: data1,
         datasets: [
@@ -576,17 +586,18 @@ var myChart = new Chart(ctx, {
             label: "Points Per Day",
             data: burndownData,
             fill: false,
-            borderColor: "green",
-            backgroundColor: "green",
+            borderColor: "rgba(72,42,156,.4)",
+            backgroundColor: "rgba(72,42,156,.5)",
             lineTension: 0,
           },
           {
             label: "Average",
             data: newdata,
-            fill: false,
-            borderColor: "blue",
-            backgroundColor: "blue",
+            fill: true,
+            // fillColor: gradient,
+            borderColor: gradientFill,
             lineTension: 0,
+            backgroundColor: gradientFill,
           },
         ]
       };
@@ -623,7 +634,7 @@ var myChart = new Chart(ctx, {
   <canvas id="burndown43"></canvas>
   <div class="row">
     <div class="update ml-auto mr-auto">
-      <button class="btn example_c" onclick="w10_close()" id="bdc1_close">Close</button>
+      <button class="btn example_d" onclick="w10_close()" id="bdc1_close">Close</button>
     </div>
   </div>
 </div>
@@ -652,7 +663,7 @@ var myChart = new Chart(ctx, {
 
 <div class="container-fluid">
   <div class="col-md-2">
-    <button class="btn example_c" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
+    <button class="btn example_d" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
   </div>
 </div>
 
@@ -660,7 +671,7 @@ var myChart = new Chart(ctx, {
   <canvas id="myChart"></canvas>
   <div class="row">
     <div class="update ml-auto mr-auto">
-      <button class="btn example_c" onclick="w11_close()" id="bdc2_close">Close</button>
+      <button class="btn example_d" onclick="w11_close()" id="bdc2_close">Close</button>
     </div>
   </div>
 </div>
@@ -669,7 +680,7 @@ var myChart = new Chart(ctx, {
 var ctx = document.getElementById('myChart');
 var data7  = JSON.parse('{{ jd7|escapejs }}');
 var myChart = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: ['Completed','QA','In Progress','Unassigned'],
         datasets: [{
