@@ -104,6 +104,9 @@
     .js-example-basic-single{
       width: 20%;
     }
+    #hid{
+
+    }
 
   </style>
 
@@ -180,7 +183,6 @@
           </div>
       </div>
     </form>
-  </div>
 
   <!-- <script type="text/javascript">
     $(document).ready(function() {
@@ -268,7 +270,7 @@
         </div>
       </div>
     </form>
-
+</div>
     <!-- <script type="text/javascript">
       $(document).ready(function() {
           var frm = $('#g');
@@ -301,9 +303,8 @@
       }
     </script>
 
-<div id='hid1' >
 
-  <div class="container-fluid" id="spr">
+  <div class="container-fluid">
     <div class="col-md-2">
       <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
     </div>
@@ -322,11 +323,10 @@
         <div class="container-fluid">
           <button class="btn example_c" type="submit" name="submit_sprint" value="0"><small>View Stories</small></button>
           <button class="btn example_c" type="submit" name="submit_sprint" value="1"><small>View Graphs</small></button>
+          <button class="btn example_c" type="submit" name="submit_sprint" value="2"><small>End Sprint Report</small></button>
         </div>
     </div>
   </form>
-
-</div>
 
   <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
     {% csrf_token %}
@@ -442,7 +442,6 @@
       </div>
     </div>
   </form>
-
 <!-- <script type="text/javascript">
   $(document).ready(function() {
       var frm = $('#f');
@@ -475,13 +474,15 @@
   }
 </script>
 
-<div class="container-fluid" id="spr">
+
+
+<!-- <div class="container-fluid">
   <div class="col-md-2">
     <a href="{% url 'tasks' %}l"><button class="btn example_c"><small>End Sprint Report</small></button></a>
   </div>
-</div>
+</div> -->
 
-<div class="container-fluid" id="spr">
+<div class="container-fluid">
   <div class="col-md-3">
     <button class="btn example_c"><small>Developer Overview Chart</small></button>
   </div>
@@ -536,7 +537,7 @@ var myChart = new Chart(ctx, {
 </script>
 
 
-<div class="container-fluid" id="spr">
+<div class="container-fluid">
   <div class="col-md-2">
     <button class="btn example_c"><small>Sprint Overview Chart</small></button>
   </div>
@@ -612,7 +613,7 @@ var myChart = new Chart(ctx, {
   );
 </script>
 
-<div class="container-fluid" id="spr">
+<div class="container-fluid">
   <div class="col-md-2">
     <button class="btn example_c"><small>Story Overview Chart</small></button>
   </div>
