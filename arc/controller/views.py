@@ -672,11 +672,11 @@ def prod(request):
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
-            if proid==0:
-                messages.info(request, 'Please Choose a Valid Project!')
-                return redirect('product')
-            else:
-                request.session['pid'] = proid
+            # if proid==0:
+            #     messages.info(request, 'Please Choose a Valid Project!')
+            #     return redirect('product')
+            # else:
+            request.session['pid'] = proid
             return(redirect('product'))
 
         if 'select_user' in request.POST:

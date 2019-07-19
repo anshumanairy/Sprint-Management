@@ -8,27 +8,24 @@
     Product Console
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <script
-			  src="https://code.jquery.com/jquery-3.3.1.js"
-			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-			  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.js"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
    <!-- Cdn for chart.js -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script> -->
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
 
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
   {% load static %}
-    <!-- <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
 
@@ -37,17 +34,9 @@
         $("#datetimepicker1").datetimepicker({
           format: 'DD/MM/YYYY',
         });
-      });
-    </script>
-    <script>
-      $(function () {
         $("#datetimepicker2").datetimepicker({
           format: 'DD/MM/YYYY',
         });
-      });
-    </script>
-    <script>
-      $(function () {
         $("#datetimepicker3").datetimepicker({
           format: 'DD/MM/YYYY',
         });
@@ -179,6 +168,7 @@
       {% csrf_token %}
       <div class="container-fluid">
           <div class="col-md-12">
+            <!-- onchange="myFunction(this.value)" -->
               <select class="js-example-basic-single" name="select_project">
                   <option selected="true" disabled>{{ nx }}</option>
                 {% for n1 in n %}
@@ -186,44 +176,24 @@
                 {% endfor %}
               </select>
           </div>
-          <div class="container-fluid">
-              <button class="btn example_c" type="submit" name="submit_project"><small>Select Project</small></button>
-          </div>
       </div>
     </form>
 
-  <!-- <script type="text/javascript">
-    $(document).ready(function() {
-        var frm = $('#h');
-        frm.submit(function (e) {
-          e.preventDefault();
-            $.ajax({
-                type: frm.attr('method'),
-                data: frm.serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                },
-            });
+    <script>
+      $(document).ready(function() {
+          var frm = $('#h');
+          frm.on('change',function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                  },
+              });
+          });
         });
-      });
-  </script> -->
-
-  <!-- <script type="text/javascript">
-    $(document).ready(function() {
-        var frm = $('#hid');
-        frm.submit(function (e) {
-          e.preventDefault();
-            $.ajax({
-                type: frm.attr('method'),
-                data: frm.serialize(),
-                success: function() {
-                  document.getElementById('hid').style.display = 'none';
-                  document.getElementById('hid1').style.display = 'block';
-                },
-            });
-        });
-      });
-  </script> -->
+    </script>
 
     <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
       {% csrf_token %}
@@ -279,22 +249,6 @@
       </div>
     </form>
 </div>
-    <!-- <script type="text/javascript">
-      $(document).ready(function() {
-          var frm = $('#g');
-          frm.submit(function (e) {
-            e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                    alert("Project Created!");
-                  },
-              });
-          });
-        });
-    </script> -->
 
     <div id="m1">
 
@@ -312,13 +266,13 @@
     </script>
 
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="spr">
     <div class="col-md-2">
       <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
     </div>
   </div>
 
-  <form class="post-form" method='POST'>
+  <form class="post-form" method='POST' id="f5">
     {% csrf_token %}
     <div class="container-fluid">
         <div class="col-md-12" >
@@ -367,14 +321,6 @@
                           </div>
                         </div>
 
-                        <script>
-                          $(function () {
-                            $("#datetimepicker1").datetimepicker({
-                              format: 'DD/MM/YYYY',
-                            });
-                          });
-                        </script>
-
                     </div>
                 </div>
             </div>
@@ -390,14 +336,6 @@
                           </div>
                         </div>
 
-                        <script>
-                          $(function () {
-                            $("#datetimepicker2").datetimepicker({
-                              format: 'DD/MM/YYYY',
-                            });
-                          });
-                        </script>
-
                     </div>
                 </div>
             </div>
@@ -412,14 +350,6 @@
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                           </div>
                         </div>
-
-                        <script>
-                          $(function () {
-                            $("#datetimepicker3").datetimepicker({
-                              format: 'DD/MM/YYYY',
-                            });
-                          });
-                        </script>
 
                     </div>
                 </div>
@@ -451,22 +381,6 @@
       </div>
     </div>
   </form>
-<!-- <script type="text/javascript">
-  $(document).ready(function() {
-      var frm = $('#f');
-      frm.submit(function (e) {
-        e.preventDefault();
-          $.ajax({
-              type: frm.attr('method'),
-              data: frm.serialize(),
-              success: function(data) {
-                $("#re").html(data);
-                alert('Sprint Created!');
-              },
-          });
-      });
-    });
-</script> -->
 
 <div id="m">
 
@@ -491,7 +405,7 @@
   </div>
 </div>
 
-<div class="container-fluid w3-animate-left" style="display:None;width:900px;" id="f1">
+<div class="container-fluid w3-animate-left" style="width:900px;" id="f1">
   <div class="col-md">
     <form method='POST' id="f4">
       {% csrf_token %}
@@ -503,6 +417,7 @@
       </select>
       <button class="btn example_d" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
     </form>
+
     <script type="text/javascript">
       $(document).ready(function() {
           var frm = $('#f4');
@@ -518,16 +433,11 @@
           });
         });
     </script>
-  </div>
 
-  <canvas id="myChart1"></canvas>
-
-  <div class="row">
-    <div class="update ml-auto mr-auto">
-      <button class="btn example_c" onclick="w9_close()" id="bdc_close">Close</button>
-    </div>
-  </div>
 </div>
+  <canvas id="myChart1"></canvas>
+</div>
+
 <script>
 var ctx = document.getElementById('myChart1');
 var data8  = JSON.parse('{{ jd8|escapejs }}');
@@ -562,20 +472,6 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-<div id="mx">
-<script>
-  function w9_open() {
-    document.getElementById("mx").style.marginTop = "0%";
-    document.getElementById("f1").style.display = "block";
-    document.getElementById("bdc").style.display = 'none';
-  }
-  function w9_close() {
-    document.getElementById("mx").style.marginTop = "0%";
-    document.getElementById("f1").style.display = "none";
-    document.getElementById("bdc").style.display = "inline-block";
-  }
-</script>
-
 
 
 <!-- burndown graph -->
@@ -646,32 +542,14 @@ var myChart = new Chart(ctx, {
     }
 </script>
 
-<div class="container-fluid w3-animate-left" style="display:None; width:900px;" id="f2">
+<div class="container-fluid w3-animate-left" style=" width:900px;" id="f2">
   <canvas id="burndown43"></canvas>
-  <div class="row">
-    <div class="update ml-auto mr-auto">
-      <button class="btn example_d" onclick="w10_close()" id="bdc1_close">Close</button>
-    </div>
-  </div>
 </div>
 
 <script>
   var data2  = JSON.parse('{{ jd5|escapejs }}');
   var data3  = JSON.parse('{{ jd6|escapejs }}');
   showBurnDown ("burndown43",data2,data3);
-</script>
-<div id="nx">
-<script>
-  function w10_open() {
-    document.getElementById("nx").style.marginTop = "0%";
-    document.getElementById("f2").style.display = "block";
-    document.getElementById("bdc1").style.display = 'none';
-  }
-  function w10_close() {
-    document.getElementById("nx").style.marginTop = "0%";
-    document.getElementById("f2").style.display = "none";
-    document.getElementById("bdc1").style.display = "inline-block";
-  }
 </script>
 
 
@@ -683,13 +561,8 @@ var myChart = new Chart(ctx, {
   </div>
 </div>
 
-<div class="container-fluid w3-animate-left" style="display:None; width:900px;" id="f3">
+<div class="container-fluid w3-animate-left" style="width:900px;" id="f3">
   <canvas id="myChart"></canvas>
-  <div class="row">
-    <div class="update ml-auto mr-auto">
-      <button class="btn example_d" onclick="w11_close()" id="bdc2_close">Close</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -727,19 +600,7 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-<div id="nx1">
-<script>
-  function w11_open() {
-    document.getElementById("nx1").style.marginTop = "0%";
-    document.getElementById("f3").style.display = "block";
-    document.getElementById("bdc2").style.display = 'none';
-  }
-  function w11_close() {
-    document.getElementById("nx1").style.marginTop = "0%";
-    document.getElementById("f3").style.display = "none";
-    document.getElementById("bdc2").style.display = "inline-block";
-  }
-</script>
+
 
 </body>
 
