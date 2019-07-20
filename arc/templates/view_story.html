@@ -28,6 +28,10 @@
         max-height: 200px;
         overflow-x: hidden;
       }
+      #c{
+        height:40px;
+        width:55px;
+      }
       body{
         font-family: Montserrat;
         background :#F3F3F3;
@@ -83,7 +87,9 @@
         width: 40%;
       }
       #tab2{
-        font-size: 14px;
+        text-align: center;
+        font-size: 12px;
+        border: solid lightgrey .5px;
       }
       #black{
         background-color: black;
@@ -133,6 +139,11 @@
       .ec,.dc{
         display: inline-block;
       }
+      #tab1{
+        text-align: center;
+        font-size: 10px;
+        border: solid lightgrey .5px;
+      }
     </style>
 
     {% if messages %}
@@ -151,7 +162,6 @@
       onclick="w3_close()">Close &times;</button>
       <a href="{% url 'product' %}" class="w3-bar-item w3-button">Product Console</a>
       <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
-      <a href="{% url 'allocation' %}" class="w3-bar-item w3-button">Allocation Dashboard</a>
       <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Progress</a>
       <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
       <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">All Tasks</a>
@@ -543,6 +553,235 @@ function w5_close() {
   document.getElementById("n").style.marginTop = "0%";
   document.getElementById("e").style.display = "none";
   document.getElementById("edit").style.display = "inline-block";
+}
+</script>
+
+<!-- allocation dashboard -->
+
+<div class="content-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body" id="con">
+          <div class="table-responsive" id="con">
+            <table class="table" id="tab1">
+              <thead class=" text-primary">
+                <th>Jira ID</th>
+                <!-- <th>Title</th> -->
+                <th>JAVA</th>
+                <th>PHP</th>
+                <th>HTML</th>
+                <th>QA</th>
+                <th>Assign</th>
+              </thead>
+              <tbody>
+                {% for dash in dashboard %}
+                <tr id="br">
+                <tr>
+                  <td><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
+                  <td colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
+                </tr>
+                <form method="GET" id="form_id{{dash.id}}">
+                  {% csrf_token %}
+                <tr>
+                  <td></td>
+                    <td class="t">
+                    <!-- dropdown developer -->
+                      <select  name="java_sel" class="js-example-basic-single">
+                        <option selected="true" disabled>{{ dash.dev_java }}</option>
+                        {% for d22 in d2 %}
+                          <option>{{ d22.name }}</option>
+                        {% endfor %}
+                      </select>
+                  <!-- point selector -->
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
+                      <input type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
+                    </td>
+
+                    <td class="t">
+                      <!-- dropdown developer -->
+                      <select name="php_sel" class="js-example-basic-single">
+                        <option selected="true" disabled>{{ dash.dev_php }}</option>
+                        {% for d33 in d3 %}
+                          <option>{{ d33.name }}</option>
+                        {% endfor %}
+                      </select>
+                <!-- point selector -->
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
+                      <input type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
+                    </td>
+
+                    <td class="t">
+                      <!-- dropdown developer -->
+                      <select name="html_sel" class="js-example-basic-single">
+                        <option selected="true" disabled>{{ dash.dev_html }}</option>
+                        {% for d44 in d4 %}
+                          <option>{{ d44.name }}</option>
+                        {% endfor %}
+                      </select>
+                <!-- point selector -->
+                      <input type="hidden" name="idx" value="{{ dash.id }}">
+                      <input type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
+                    </td>
+
+                      <td class="t">
+                      <!-- dropdown developer -->
+                        <select name="qa_sel" class="js-example-basic-single">
+                          <option selected="true" disabled>{{ dash.dev_qa }}</option>
+                          {% for d55 in d5 %}
+                            <option>{{ d55.name }}</option>
+                          {% endfor %}
+                        </select>
+                  <!-- point selector -->
+                        <input type="hidden" name="idx" value="{{ dash.id }}">
+                        <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
+                      </td>
+
+                    <td><input type="submit" name="assign_data" class="btn example_c" id="reg1" value="Assign"></td>
+                    </tr>
+                    </form>
+                  </tr>
+                    <!-- <script type="text/javascript">
+                      jQuery(document).ready(function($){
+                          var frm = $('#form_id{{dash.id}}');
+                          frm.submit(function () {
+                            if (this.id == 'form_id{{dash.id}}'){
+                                $.ajax({
+                                    type: $('#form_id{{dash.id}}').attr('method'),
+                                    data: $('#form_id{{dash.id}}').serialize(),
+                                    success: function(data) {
+                                      // $("#re").html(data);
+                                    },
+                                });
+                              return false;
+                            }
+                          });
+                        });
+                    </script> -->
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- check developers -->
+<div class="container-fluid">
+  <div class="col-md-3">
+    <button class="btn example_c"  onclick="w7_open()" id="check1"><small>Check Available Developers</small></button>
+  </div>
+</div>
+
+<div class="content-fluid w3-animate-left" id="f5" style="display:none">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"><b><u>Available Developers</u></b></h4>
+        </div>
+        <div class="card-body" id="con">
+          <div class="table-responsive" id="con">
+            <table class="table" id="tab2">
+              <thead class="text-primary">
+                <th></th>
+                <th>DEV</th>
+                <th>Total</th>
+                {% for d in d1 %}
+                  <th>{{ d.name }}</th>
+                {% endfor %}
+              </thead>
+              <tbody>
+                <tr>
+                  <td>JAVA</td>
+                  <td>Bandwidth</td>
+                  <td>{{ sjava }}</td>
+                  {% for d in d1 %}
+                    <td>{{ d.spjava }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>Story Points</td>
+                  <td>{{ a }}</td>
+                  {% for i in list11 %}
+                    <td>{{ i }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td>PHP</td>
+                  <td>Bandwidth</td>
+                  <td>{{ sphp }}</td>
+                  {% for d in d1 %}
+                    <td>{{ d.spphp }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>Story Points</td>
+                  <td>{{ b }}</td>
+                  {% for i in list21 %}
+                    <td>{{ i }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td>HTML</td>
+                  <td>Bandwidth</td>
+                  <td>{{ shtml }}</td>
+                  {% for d in d1 %}
+                    <td>{{ d.sphtml }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>Story Points</td>
+                  <td>{{ c }}</td>
+                  {% for i in list31 %}
+                    <td>{{ i }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td>QA</td>
+                  <td>Bandwidth</td>
+                  <td>{{ sqa }}</td>
+                  {% for d in d1 %}
+                    <td>{{ d.spqa }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>Story Points</td>
+                  <td>{{ d }}</td>
+                  {% for i in list41 %}
+                    <td>{{ i }}</td>
+                  {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+            <div class="update ml-auto mr-auto">
+              <button class="btn example_c" onclick="w7_close()"><small>Close</small></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="m3">
+
+<script>
+function w7_open() {
+  document.getElementById("m3").style.marginTop = "0%";
+  document.getElementById("f5").style.display = "block";
+  document.getElementById("check1").style.display = 'none';
+}
+function w7_close() {
+  document.getElementById("m3").style.marginTop = "0%";
+  document.getElementById("f5").style.display = "none";
+  document.getElementById("check1").style.display = "inline-block";
 }
 </script>
 

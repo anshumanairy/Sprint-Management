@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^login/',views.log,name="login"),
     url(r'^product/',views.prod,name="product"),
     url(r'^view_story/',views.view_story,name="view_story"),
-    url(r'^allocation/',views.allocation,name="allocation"),
     url(r'^progress/',views.qaprg,name="qaprg"),
     url(r'^bandwidth/',views.bandwidth,name="bandwidth"),
     url(r'^tasks/',views.tasks,name="tasks"),
