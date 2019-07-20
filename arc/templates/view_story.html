@@ -85,6 +85,54 @@
       #tab2{
         font-size: 14px;
       }
+      #black{
+        background-color: black;
+        color:white;
+        border: 2px solid black;
+      }
+      #red{
+        background-color: red;
+        color:white;
+        border: 2px solid red;
+      }
+      #yellow{
+        background-color: yellow;
+        color:black;
+        border: 2px solid yellow;
+      }
+      #green{
+        background-color: #1ea84c;
+        color: white;
+        border: 2px solid #1ea84c;
+      }
+      #purple{
+        background-color: purple;
+        color: white;
+        border: 2px solid purple;
+      }
+      #white{
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+      }
+      #blue{
+        background-color: blue;
+        color: white;
+        border: 2px solid blue;
+      }
+      #pd{
+        background-color: lightgreen;
+        color: black;
+        border: 2px solid lightgreen;
+      }
+      #other{
+        background-color: brown;
+        color: white;
+        border: 2px solid brown;
+      }
+      .ec,.dc{
+        display: inline-block;
+      }
     </style>
 
     {% if messages %}
@@ -373,17 +421,46 @@ function w4_close() {
                   <td>{{ d.story_name }}</td>
                   <td>{{ d.jira }}</td>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
-                  <td>{{ d.ostatus }}</td>
+                  {% if d.ostatus == 'Live' %}
+                    <td id="green">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'In Progress' %}
+                    <td id="yellow">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'HTML Done' or d.ostatus == 'PHP Done' or d.ostatus == 'API Done' or d.ostatus == 'CR' %}
+                    <td id="white">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == '' %}
+                    <td id="black">Unassigned</td>
+                  {% endif %}
+                  {% if d.ostatus == 'Blocked' or d.ostatus == 'Blocked on API' or d.ostatus == 'Blocked on HTML' or d.ostatus == 'Blocked on Mock' or d.ostatus == 'Spec' %}
+                    <td id="red">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'Pending Deployment' or d.ostatus == 'Complete' %}
+                    <td id="pd">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'QA' %}
+                    <td id="blue">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'Next Sprint' %}
+                    <td id="purple">{{ d.ostatus }}</td>
+                  {% endif %}
+                  {% if d.ostatus == 'Not Needed' or d.ostatus == 'Duplicate' %}
+                    <td id="other">{{ d.ostatus }}</td>
+                  {% endif %}
                   <td>
                     <!-- <form method="GET"> -->
-                      <input type="button" class="btn example_c" onclick="w5_open({{d.id}})" value="Edit" id="edit">
+                    <div class="ec">
+                      <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:40px;height:40px;">
+                    </div>
                     <!-- </form> -->
-                    <p></p>
-                    <form method="get" id="x{{d.id}}">
-                      {% csrf_token %}
-                      <input type="hidden" name="delete_story" value="{{ d.id }}">
-                      <input type="submit" class="btn example_c" value="Delete" id="delete">
-                    </form>
+                    <div class="dc">
+                      <form method="get" id="x{{d.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_story" value="{{ d.id }}">
+                        <input type="image" src="{% static '/delete1.png' %}" style="width:40px;height:40px;" id="delete">
+                      </form>
+                    </div>
                     <script type="text/javascript">
                         jQuery(document).ready(function($){
                           var frm = $('#x{{d.id}}');
