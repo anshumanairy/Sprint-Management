@@ -588,7 +588,7 @@ function w5_close() {
                     <td class="t">
                     <!-- dropdown developer -->
                       <select  name="java_sel" class="js-example-basic-single">
-                        <option selected="true" disabled>{{ dash.dev_java }}</option>
+                        <option>{{ dash.dev_java }}</option>
                         {% for d22 in d2 %}
                           <option>{{ d22.name }}</option>
                         {% endfor %}
@@ -601,7 +601,7 @@ function w5_close() {
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="php_sel" class="js-example-basic-single">
-                        <option selected="true" disabled>{{ dash.dev_php }}</option>
+                        <option>{{ dash.dev_php }}</option>
                         {% for d33 in d3 %}
                           <option>{{ d33.name }}</option>
                         {% endfor %}
@@ -614,7 +614,7 @@ function w5_close() {
                     <td class="t">
                       <!-- dropdown developer -->
                       <select name="html_sel" class="js-example-basic-single">
-                        <option selected="true" disabled>{{ dash.dev_html }}</option>
+                        <option>{{ dash.dev_html }}</option>
                         {% for d44 in d4 %}
                           <option>{{ d44.name }}</option>
                         {% endfor %}
@@ -627,7 +627,7 @@ function w5_close() {
                       <td class="t">
                       <!-- dropdown developer -->
                         <select name="qa_sel" class="js-example-basic-single">
-                          <option selected="true" disabled>{{ dash.dev_qa }}</option>
+                          <option>{{ dash.dev_qa }}</option>
                           {% for d55 in d5 %}
                             <option>{{ d55.name }}</option>
                           {% endfor %}
@@ -641,23 +641,6 @@ function w5_close() {
                     </tr>
                     </form>
                   </tr>
-                    <!-- <script type="text/javascript">
-                      jQuery(document).ready(function($){
-                          var frm = $('#form_id{{dash.id}}');
-                          frm.submit(function () {
-                            if (this.id == 'form_id{{dash.id}}'){
-                                $.ajax({
-                                    type: $('#form_id{{dash.id}}').attr('method'),
-                                    data: $('#form_id{{dash.id}}').serialize(),
-                                    success: function(data) {
-                                      // $("#re").html(data);
-                                    },
-                                });
-                              return false;
-                            }
-                          });
-                        });
-                    </script> -->
                 {% endfor %}
               </tbody>
             </table>

@@ -745,6 +745,10 @@ def view_story(request):
     # allcation part
     dashboard = story.objects.filter(sprint_id=id)
     d1 = cregister.objects.filter(roles='dev',sprint_id=id)
+    d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=id)
+    d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=id)
+    d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=id)
+    d5 = cregister.objects.filter(roles='dev',qa='True',sprint_id=id)
     sjava = cregister.objects.aggregate(Sum('spjava'))['spjava__sum']
     sphp = cregister.objects.aggregate(Sum('spphp'))['spphp__sum']
     shtml = cregister.objects.aggregate(Sum('sphtml'))['sphtml__sum']
@@ -818,19 +822,20 @@ def view_story(request):
             p.save()
             return(redirect('view_story'))
 
-        if 'java_sel' in request.GET:
+        if 'assign_data' in request.GET:
             java_dev = request.GET.get('java_sel')
+            print(java_dev,'hiro')
             p1 = request.GET.get('points1')
             idy = request.GET.get('idx')
             if int(p1)>0:
                 # n = cregister.objects.get(name=java_dev,sprint_id=id1)
-                p = story.objects.get(sprint_id=id1,id=idy)
+                p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_java = java_dev
                 p.javas = int(p1)
                 p.save()
                 list1=[]
                 for i in d1:
-                    j = story.objects.filter(sprint_id=id1, dev_java=i.name)
+                    j = story.objects.filter(sprint_id=id, dev_java=i.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
                     else:
@@ -846,13 +851,13 @@ def view_story(request):
             idy = request.GET.get('idx')
             if int(p2)>0:
                 # n = cregister.objects.get(name=php_dev,sprint_id=id1)
-                p = story.objects.get(sprint_id=id1,id=idy)
+                p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_php = php_dev
                 p.phps = int(p2)
                 p.save()
                 list2=[]
                 for i in d1:
-                    j = story.objects.filter(sprint_id=id1, dev_php=i.name)
+                    j = story.objects.filter(sprint_id=id, dev_php=i.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list2.append(0)
                     else:
@@ -868,13 +873,13 @@ def view_story(request):
             idy = request.GET.get('idx')
             if int(p3)>0:
                 # n = cregister.objects.get(name=html_dev,sprint_id=id1)
-                p = story.objects.get(sprint_id=id1,id=idy)
+                p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_html = html_dev
                 p.htmls = int(p3)
                 p.save()
                 list3=[]
                 for i in d1:
-                    j = story.objects.filter(sprint_id=id1, dev_html=i.name)
+                    j = story.objects.filter(sprint_id=id, dev_html=i.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list3.append(0)
                     else:
@@ -890,13 +895,13 @@ def view_story(request):
             idy = request.GET.get('idx')
             if int(p4)>0:
                 # n = cregister.objects.get(name=qa_dev,sprint_id=id1)
-                p = story.objects.get(sprint_id=id1,id=idy)
+                p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_qa = qa_dev
                 p.qas = int(p4)
                 p.save()
                 list4=[]
                 for i in d1:
-                    j = story.objects.filter(sprint_id=id1, dev_qa=i.name)
+                    j = story.objects.filter(sprint_id=id, dev_qa=i.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list4.append(0)
                     else:
@@ -905,7 +910,9 @@ def view_story(request):
                             p.ostatus='Live'
                         p.save()
                 d=sum(list4)
-            return(redirect('view_story'))
+
+        return(redirect('view_story'))
+
 
     if request.method=='POST':
         if 'submit_sprint' in request.POST:
@@ -994,7 +1001,7 @@ def view_story(request):
         else:
             form = storyform()
 
-    return render(request,'view_story.html/',{'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
+    return render(request,'view_story.html/',{'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
