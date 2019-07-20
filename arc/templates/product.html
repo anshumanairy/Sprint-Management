@@ -282,13 +282,31 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="container-fluid">
-          <button class="btn example_c" type="submit" name="submit_sprint" value="0"><small>View Stories</small></button>
-          <button class="btn example_c" type="submit" name="submit_sprint" value="1"><small>View Graphs</small></button>
-          <button class="btn example_c" type="submit" name="submit_sprint" value="2"><small>End Sprint Report</small></button>
-        </div>
     </div>
   </form>
+
+  <script>
+    $(document).ready(function() {
+        var frm = $('#f5');
+        frm.on('change',function (e) {
+          e.preventDefault();
+            $.ajax({
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                success: function(data) {
+                  $("#re").html(data);
+                },
+            });
+        });
+      });
+  </script>
+
+  <div class="container-fluid">
+    <div class="col-md-12" >
+      <a href="{% url 'view_story' %}"><button class="btn example_c"><small>View Stories</small></button></a>
+      <a href="{% url 'tasks' %}"><button class="btn example_c"><small>End Sprint Report</small></button></a>
+    </div>
+  </div>
 
   <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
     {% csrf_token %}

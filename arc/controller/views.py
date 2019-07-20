@@ -579,75 +579,29 @@ def prod(request):
 
     if request.method=='POST':
         #select sprint get value and redirect
-        if 'submit_sprint' in request.POST:
+        if 'select_sprint' in request.POST:
             select = request.POST.get('select_sprint')
-            se = request.POST.get('submit_sprint')
-            if se=='0':
-                if select==None:
-                    messages.info(request, 'Please select a Valid Sprint!')
-                    return redirect('product')
-                else:
-                    for i in data:
-                        if select in i.name:
-                            id=i.id
-                            request.session['id'] = id
-                            break
-                    if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
-                        list3=[]
-                        p1 = product.objects.get(id=id,pid=pid2)
-                        start = p1.sprint_start_date
-                        end = p1.sprint_dev_end_date
-                        def daterange(date1, date2):
-                            for n in range(int ((date2 - date1).days)+1):
-                                yield date1 + timedelta(n)
-                        for dt in daterange(start, end):
-                            list3.append(dt.strftime("%Y-%m-%d"))
-                        jd1=json.dumps(list3)
-                        return redirect('view_story')
-                    else:
-                        return redirect('qaprg')
-            elif se=='1':
-                if select==None:
-                    messages.info(request, 'Please select a Valid Sprint!')
-                    return redirect('product')
-                else:
-                    for i in data:
-                        if select in i.name:
-                            id=i.id
-                            request.session['id'] = id
-                            break
-                    list3=[]
-                    p1 = product.objects.get(id=id,pid=pid2)
-                    start = p1.sprint_start_date
-                    end = p1.sprint_dev_end_date
-                    def daterange(date1, date2):
-                        for n in range(int ((date2 - date1).days)+1):
-                            yield date1 + timedelta(n)
-                    for dt in daterange(start, end):
-                        list3.append(dt.strftime("%Y-%m-%d"))
-                    jd1=json.dumps(list3)
-                    return redirect('product')
+
+            if select==None:
+                messages.info(request, 'Please select a Valid Sprint!')
+                return redirect('product')
             else:
-                if select==None:
-                    messages.info(request, 'Please select a Valid Sprint!')
-                    return redirect('product')
-                else:
-                    for i in data:
-                        if select in i.name:
-                            id=i.id
-                            request.session['id'] = id
-                            break
-                    list3=[]
-                    p1 = product.objects.get(id=id,pid=pid2)
-                    start = p1.sprint_start_date
-                    end = p1.sprint_dev_end_date
-                    def daterange(date1, date2):
-                        for n in range(int ((date2 - date1).days)+1):
-                            yield date1 + timedelta(n)
-                    for dt in daterange(start, end):
-                        list3.append(dt.strftime("%Y-%m-%d"))
-                    jd1=json.dumps(list3)
-                    return redirect('tasks')
+                for i in data:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                list3=[]
+                p1 = product.objects.get(id=id,pid=pid2)
+                start = p1.sprint_start_date
+                end = p1.sprint_dev_end_date
+                def daterange(date1, date2):
+                    for n in range(int ((date2 - date1).days)+1):
+                        yield date1 + timedelta(n)
+                for dt in daterange(start, end):
+                    list3.append(dt.strftime("%Y-%m-%d"))
+                jd1=json.dumps(list3)
+                return redirect('product')
 
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
@@ -910,9 +864,7 @@ def view_story(request):
                             p.ostatus='Live'
                         p.save()
                 d=sum(list4)
-
-        return(redirect('view_story'))
-
+            return(redirect('view_story'))
 
     if request.method=='POST':
         if 'submit_sprint' in request.POST:
