@@ -17,15 +17,43 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
+    <!-- tablesorting -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/static/tablesorter.js"></script>
+
+    <!-- tablesorting themes -->
+    <link rel="stylesheet" type="text/css" href="/static/animate.css">
+    <link rel="stylesheet" type="text/css" href="/static/util.css">
+  	<link rel="stylesheet" type="text/css" href="/static/main.css">
+    <script src="/static/main.js"></script>
+
+    <script>
+      $(document).ready(function(){
+        $('#tab1').tablesorter();
+      });
+    </script>
+    <script>
+      $(document).ready(function(){
+        $('#tab2').tablesorter();
+      });
+    </script>
+    <script>
+      $(document).ready(function(){
+        $('#tab3').tablesorter();
+      });
+    </script>
 
     <!-- CSS Files -->
     {% load static %}
-      <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
       <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
       <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
     <style media="screen">
-        .scrollable-menu {
+      th{
+        cursor: pointer;
+      }
+      .scrollable-menu {
         height: auto;
         max-height: 200px;
         overflow-x: hidden;
@@ -89,6 +117,11 @@
         width: 40%;
       }
       #tab2{
+        text-align: center;
+        font-size: 12px;
+        border: solid lightgrey .5px;
+      }
+      #tab3{
         text-align: center;
         font-size: 12px;
         border: solid lightgrey .5px;
@@ -371,20 +404,21 @@ function w4_close() {
 }
 </script>
 
+
 <div class="content" id="devs">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table" id="tab2">
+          <div class="table100 ver3">
+            <table class="table" id="tab2" data-vertable="ver1">
               <thead class="text-primary">
                 <!-- <th>Check</th> -->
-                <th>Story Name</th>
-                <th>Jira ID</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th class="th-sm">Story Name</th>
+                <th class="th-sm">Jira ID</th>
+                <th class="th-sm">Description</th>
+                <th class="th-sm">Status</th>
+                <th class="th-sm">Action</th>
               </thead>
               <tbody>
                 {% for d in data %}
@@ -425,7 +459,7 @@ function w4_close() {
                   </script>
 
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td>{{ d.story_name }}</td>
                   <td>{{ d.jira }}</td>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
@@ -491,6 +525,7 @@ function w4_close() {
                 {% endfor %}
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
@@ -537,14 +572,14 @@ function w5_close() {
 
 <!-- allocation dashboard -->
 
-<div class="content-fluid">
+<div class="content">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-body" id="con">
-          <div class="table-responsive" id="con">
-            <table class="table" id="tab1">
-              <thead class=" text-primary">
+          <div class="table100 ver3">
+            <table class="table" id="tab1" data-vertable="ver1">
+              <thead class="text-primary">
                 <th>Jira ID</th>
                 <!-- <th>Title</th> -->
                 <th>JAVA</th>
@@ -555,14 +590,14 @@ function w5_close() {
               </thead>
               <tbody>
                 {% for dash in dashboard %}
-                <tr id="br">
-                <tr>
+                <tr id="br"class="row100 head">
+                <trclass="row100 head">
                   <td><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
                   <td colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
                 </tr>
                 <form method="GET" id="form_id{{dash.id}}">
                   {% csrf_token %}
-                <tr>
+                <trclass="row100 head">
                   <td></td>
                     <td class="t">
                     <!-- dropdown developer -->
@@ -997,8 +1032,8 @@ function w5_close() {
           <h4 class="card-title"><b><u>Available Developers</u></b></h4>
         </div>
         <div class="card-body" id="con">
-          <div class="table-responsive" id="con">
-            <table class="table" id="tab2">
+          <div class="table100 ver3">
+            <table class="table" id="tab3" data-vertable="ver1">
               <thead class="text-primary">
                 <th></th>
                 <th>DEV</th>
@@ -1008,7 +1043,7 @@ function w5_close() {
                 {% endfor %}
               </thead>
               <tbody>
-                <tr>
+                <tr class="row100 head">
                   <td>JAVA</td>
                   <td>Bandwidth</td>
                   <td>{{ sjava }}</td>
@@ -1016,7 +1051,7 @@ function w5_close() {
                     <td>{{ d.spjava }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td></td>
                   <td>Story Points</td>
                   <td>{{ a }}</td>
@@ -1024,7 +1059,7 @@ function w5_close() {
                     <td>{{ i }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td>PHP</td>
                   <td>Bandwidth</td>
                   <td>{{ sphp }}</td>
@@ -1032,7 +1067,7 @@ function w5_close() {
                     <td>{{ d.spphp }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td></td>
                   <td>Story Points</td>
                   <td>{{ b }}</td>
@@ -1040,7 +1075,7 @@ function w5_close() {
                     <td>{{ i }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td>HTML</td>
                   <td>Bandwidth</td>
                   <td>{{ shtml }}</td>
@@ -1048,7 +1083,7 @@ function w5_close() {
                     <td>{{ d.sphtml }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td></td>
                   <td>Story Points</td>
                   <td>{{ c }}</td>
@@ -1056,7 +1091,7 @@ function w5_close() {
                     <td>{{ i }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td>QA</td>
                   <td>Bandwidth</td>
                   <td>{{ sqa }}</td>
@@ -1064,7 +1099,7 @@ function w5_close() {
                     <td>{{ d.spqa }}</td>
                   {% endfor %}
                 </tr>
-                <tr>
+                <tr class="row100 head">
                   <td></td>
                   <td>Story Points</td>
                   <td>{{ d }}</td>

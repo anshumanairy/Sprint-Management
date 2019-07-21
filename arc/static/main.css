@@ -1,0 +1,258 @@
+/*==================================================================
+[ Ver1 ]*/
+.table100.ver1 td {
+  color: #808080;
+}
+
+.table100.ver1 th {
+  color: #fff;
+  background-color: #36304a;
+}
+
+.table100.ver1 .row100:hover {
+  background-color: #f2f2f2;
+}
+
+.table100.ver1 .hov-column-ver1 {
+  background-color: #f2f2f2;
+}
+
+.table100.ver1 .hov-column-head-ver1 {
+  background-color: #484848 !important;
+}
+
+.table100.ver1 .row100 td:hover {
+  background-color: #6c7ae0;
+  color: #fff;
+}
+
+/*==================================================================
+[ Ver2 ]*/
+.table100.ver2 td {
+  color: #808080;
+  line-height: 1.4;
+}
+
+.table100.ver2 th {
+  color: #fff;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  background-color: #333333;
+}
+
+.table100.ver2 .row100:hover td {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table100.ver2 .hov-column-ver2 {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table100.ver2 .hov-column-head-ver2 {
+  background-color: #484848 !important;
+}
+
+.table100.ver2 .row100 td:hover {
+  background-color: #57b846;
+  color: #fff;
+}
+
+/*==================================================================
+[ Ver2 ]*/
+.table100.ver2 tbody tr:nth-child(even) {
+  background-color: #eaf8e6;
+}
+
+.table100.ver3 td {
+  color: #808080;
+}
+
+.table100.ver2 th {
+  color: #fff;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  background-color: #333333;
+}
+
+.table100.ver2 .row100:hover td {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table100.ver2 .hov-column-ver2 {
+  background-color: #83d160;
+  color: #fff;
+}
+
+.table100.ver2 .hov-column-head-ver2 {
+  background-color: #484848 !important;
+}
+
+.table100.ver2 .row100 td:hover {
+  background-color: #57b846;
+  color: #fff;
+}
+
+/*==================================================================
+[ Ver3 ]*/
+.table100.ver3 tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.table100.ver3 td {
+  color: #808080;
+  border: 1px solid lightgrey;
+  line-height: 1.4;
+}
+
+.table100.ver3 th {
+  color: black;
+  border: 1px solid lightgrey;
+}
+
+.table100.ver3 .row100:hover{
+  background-color: #f2f2f2;
+}
+
+
+.table100.ver3 .hov-column-ver3{
+  background-color: #f2f2f2;
+}
+
+.table100.ver3 .hov-column-head-ver3{
+  background-color: #484848 !important;
+}
+
+.table100.ver3 .row100 td:hover, th:hover{
+  background-color: #6c7ae0;
+  color: #fff;
+}
+
+/*==================================================================
+[ Ver4 ]*/
+
+.table100.ver4 td {
+  color: #808080;
+  line-height: 1.4;
+}
+
+.table100.ver4 th {
+  color: #fff;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  background-color: #fa4251;
+}
+
+.table100.ver4 .row100:hover td {
+  color: #fa4251;
+}
+
+.table100.ver4 .hov-column-ver4 {
+  background-color: #ffebed;
+}
+
+.table100.ver4 .hov-column-head-ver4 {
+  background-color: #f95462 !important;
+}
+
+.table100.ver4 .row100 td:hover {
+  background-color: #ffebed;
+  color: #fa4251;
+}
+
+/*==================================================================
+[ Ver5 ]*/
+.table100.ver5 tbody tr:nth-child(even) {
+  background-color: #e9faff;
+}
+
+.table100.ver5 td {
+  color: #808080;
+  position: relative;
+}
+
+.table100.ver5 th {
+  color: black;
+}
+
+.table100.ver5 .row100:hover td {
+  color: black;
+}
+
+.table100.ver5 .hov-column-ver5 {color: black;}
+.table100.ver5 .hov-column-ver5::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-left: 1px solid #f2f2f2;
+  border-right: 1px solid #f2f2f2;
+}
+
+.table100.ver5 .hov-column-head-ver5 {
+  background-color: #1a3f48 !important;
+  color: black;
+}
+
+.table100.ver5 .row100 td:hover {
+  color: black;
+}
+
+.table100.ver5 .row100 td:hover:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border: 1px solid black;
+}
+
+/*==================================================================
+[ Ver6 ]*/
+
+.table100.ver6 {
+  border-radius: 1px;
+  overflow: hidden;
+  background: #7918f2;
+  background: -webkit-linear-gradient(-68deg, #ac32e4 , #4801ff);
+  background: -o-linear-gradient(-68deg, #ac32e4 , #4801ff);
+  background: -moz-linear-gradient(-68deg, #ac32e4 , #4801ff);
+  background: linear-gradient(-68deg, #ac32e4 , #4801ff);
+}
+
+.table100.ver6 table {
+  background-color: transparent;
+}
+
+.table100.ver6 td {
+  color: #fff;
+}
+
+.table100.ver6 th {
+  color: #fff;
+  background-color: rgba(255,255,255,0.32);
+}
+
+.table100.ver6 .row100:hover td {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.table100.ver6 .hov-column-ver6 {
+  background-color: rgba(255,255,255,0.1);
+}
+
+
+.table100.ver6 .row100 td:hover {
+  background-color: rgba(255,255,255,0.2);
+}

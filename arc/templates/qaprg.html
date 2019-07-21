@@ -21,12 +21,34 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
+
+  <!-- from product page -->
+  <!-- tablesorting -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="/static/tablesorter.js"></script>
+
+  <!-- tablesorting themes -->
+  <link rel="stylesheet" type="text/css" href="/static/animate.css">
+  <link rel="stylesheet" type="text/css" href="/static/util.css">
+  <link rel="stylesheet" type="text/css" href="/static/main.css">
+  <script src="/static/main.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#tab2').tablesorter();
+    });
+  </script>
+
+
   {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
   <style media="screen">
+    th{
+      cursor: pointer;
+    }
     body{
       font-family: Montserrat;
       background :#F3F3F3;
@@ -175,8 +197,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table" id="tab2">
+              <div class="table100 ver3">
+                <table class="table" id="tab2" data-vertable="ver1">
                   <thead class=" text-primary">
                     <!-- <th>Check</th> -->
                     <th>Name</th>
@@ -192,7 +214,7 @@
                   </thead>
                   <tbody>
                     {% for i in data %}
-                    <tr>
+                    <tr class="row100 head">
                       <td><b>{{ i.name }}</b></td>
                       <td colspan='7'></td>
                       <td>
@@ -205,7 +227,7 @@
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                         {% for k in j %}
-                    <tr>
+                    <tr class="row100 head">
                       <td>{{ k.0 }}</td>
                       <td>{{ k.1 }}</td>
                       <form method="GET">
