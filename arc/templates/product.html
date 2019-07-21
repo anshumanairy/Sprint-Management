@@ -432,13 +432,12 @@
           <option>{{ n1.name }}</option>
         {% endfor %}
       </select>
-      <button class="btn example_d" type="submit" name="submit_user" id="bt1"><small>Select Developer</small></button>
     </form>
 
-    <script type="text/javascript">
+    <script>
       $(document).ready(function() {
           var frm = $('#f4');
-          frm.submit(function (e) {
+          frm.on('change',function (e) {
             e.preventDefault();
               $.ajax({
                   type: frm.attr('method'),
