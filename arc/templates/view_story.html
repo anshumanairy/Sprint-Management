@@ -578,8 +578,8 @@ function w5_close() {
                       {% if dash.javas == 0 %}
                       {% else %}
 
-                      <!-- <img src="{% static '/calendar.png' %}" style="width:30px;height:30px;"> -->
-                        <input type="text" class="datepicker1" id="java{{forloop.counter0}}">
+                      <img src="{% static '/calendar.png' %}" class="java{{forloop.counter0}}" style="width:30px;height:30px;">
+                        <input type="text" id="java{{forloop.counter0}}" style="width:1px;border:1px solid white;">
                       {% endif %}
                     </td>
 
@@ -659,6 +659,9 @@ function w5_close() {
                                 }
                             }
                         }).attr('readonly','readonly');
+                        $('.java{{forloop.counter0}}').click(function() {
+                          $("#java{{forloop.counter0}}").focus();
+                        });
                     });
                   </script>
 
@@ -676,8 +679,8 @@ function w5_close() {
                       <input type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
                       {% if dash.phps == 0 %}
                       {% else %}
-
-                        <input type="text" class="datepicker1" id="php{{forloop.counter0}}">
+                      <img src="{% static '/calendar.png' %}" class="php{{forloop.counter0}}" style="width:30px;height:30px;">
+                        <input type="text" id="php{{forloop.counter0}}" style="width:1px;border:1px solid white;">
                       {% endif %}
                     </td>
 
@@ -757,6 +760,9 @@ function w5_close() {
                                 }
                             }
                         }).attr('readonly','readonly');
+                        $('.php{{forloop.counter0}}').click(function() {
+                          $("#php{{forloop.counter0}}").focus();
+                        });
                     });
                   </script>
 
@@ -774,8 +780,8 @@ function w5_close() {
                       <input type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
                       {% if dash.htmls == 0 %}
                       {% else %}
-
-                        <input type="text" class="datepicker1" id="html{{forloop.counter0}}">
+                      <img src="{% static '/calendar.png' %}" class="html{{forloop.counter0}}" style="width:30px;height:30px;">
+                        <input type="text" id="html{{forloop.counter0}}" style="width:1px;border:1px solid white;">
                       {% endif %}
                     </td>
 
@@ -855,6 +861,9 @@ function w5_close() {
                                 }
                             }
                         }).attr('readonly','readonly');
+                        $('.html{{forloop.counter0}}').click(function() {
+                          $("#html{{forloop.counter0}}").focus();
+                        });
                     });
                   </script>
 
@@ -871,7 +880,8 @@ function w5_close() {
                         <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
                         {% if dash.qas == 0 %}
                         {% else %}
-                          <input type="text" class="datepicker1" id="qa{{forloop.counter0}}">
+                        <img src="{% static '/calendar.png' %}" class="qa{{forloop.counter0}}" style="width:30px;height:30px;">
+                          <input type="text" id="qa{{forloop.counter0}}" style="width:1px;border:1px solid white;">
                         {% endif %}
                       </td>
 
@@ -951,6 +961,9 @@ function w5_close() {
                                   }
                               }
                           }).attr('readonly','readonly');
+                          $('.qa{{forloop.counter0}}').click(function() {
+                            $("#qa{{forloop.counter0}}").focus();
+                          });
                       });
                     </script>
 

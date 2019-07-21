@@ -775,7 +775,6 @@ def view_story(request):
     jd6x=json.dumps(list7x)
     jd7x=json.dumps(list8x)
     jd8x=json.dumps(list9x)
-    print(list6x)
 
     px = product.objects.get(id=id)
     xx = px.sprint_start_date
