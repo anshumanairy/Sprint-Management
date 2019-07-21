@@ -8,7 +8,9 @@
   			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   			  crossorigin="anonymous"></script>
     <!-- <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -144,6 +146,22 @@
         font-size: 10px;
         border: solid lightgrey .5px;
       }
+      .dev a {
+      background-color: Yellow !important;
+      color: Black !important;
+      }
+      .cr a {
+      background-color: Blue !important;
+      color: White !important;
+      }
+      .qa a {
+      background-color: Orange !important;
+      color: White !important;
+      }
+      .rel a {
+      background-color: Green !important;
+      color: White !important;
+      }
     </style>
 
     {% if messages %}
@@ -213,7 +231,6 @@
       document.getElementById("main").style.marginLeft = "25%";
       document.getElementById("mySidebar").style.width = "25%";
       document.getElementById("mySidebar").style.display = "block";
-      // document.getElementById("openNav").style.display = 'none';
     }
     function w3_close() {
       document.getElementById("main").style.marginLeft = "0%";
@@ -266,25 +283,6 @@
     </div>
   </div>
 </form>
-
-<!-- <script type="text/javascript">
-    jQuery(document).ready(function($){
-      var frm = $('#h');
-      frm.submit(function () {
-        if (this.id == 'h'){
-            $.post({
-                type: $('#h').attr('method'),
-                data: $('#h').serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                  $("#h")[0].reset();
-                },
-            });
-          return false;
-        }
-      });
-    });
-</script> -->
 
 <div id="m2">
 
@@ -500,25 +498,6 @@ function w4_close() {
   </div>
 </div>
 
-<!-- <script type="text/javascript">
-    jQuery(document).ready(function($){
-      var frm = $('#f');
-      frm.submit(function () {
-        if (this.id == 'f'){
-            $.post({
-                type: $('#f').attr('method'),
-                data: $('#f').serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                  $("#f")[0].reset();
-                },
-            });
-          return false;
-        }
-      });
-    });
-</script> -->
-
 <div id="n">
 <script>
 function w5_open(e) {
@@ -596,7 +575,93 @@ function w5_close() {
                   <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
+                      {% if dash.javas == 0 %}
+                      {% else %}
+
+                      <!-- <img src="{% static '/calendar.png' %}" style="width:30px;height:30px;"> -->
+                        <input type="text" class="datepicker1" id="java{{forloop.counter0}}">
+                      {% endif %}
                     </td>
+
+                    <script>
+                      $(document).ready(function() {
+                          var nDates = {};
+                          var data  = JSON.parse('{{ jd1x|escapejs }}');
+                          var stat  = JSON.parse('{{ jd2x|escapejs }}');
+                          var arr1=[];
+                          var arr3=[]
+
+                          for(i in data){
+                            for(j in data[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in data[i][j]){
+                                  arr1.push(data[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+
+                          // console.log(arr1);
+
+                          for(i in stat){
+                            for(j in stat[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in stat[i][j]){
+                                  arr3.push(stat[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+                          // console.log(arr3);
+
+                        for(var i =0 ;i<arr1.length;i++){
+                            var day = 1000*60*60*24;
+                            date1 = new Date(arr1[i]);
+                               var xx = date1.getTime();
+                               var yy = new Date(xx);
+                               z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                               if(yy.getDay()!=0 && yy.getDay()!=6){
+                                   if(arr3[i]=='Dev'){
+                                     nDates[new Date(z)] = 1;
+                                   }
+                                   if(arr3[i]=='CR Fix'){
+                                     nDates[new Date(z)] = 2;
+                                   }
+                                   if(arr3[i]=='QA Support'){
+                                     nDates[new Date(z)] = 3;
+                                   }
+                                   if(arr3[i]=='Release Support'){
+                                     nDates[new Date(z)] = 4;
+                                   }
+                            }
+                        }
+
+                        $("#java{{forloop.counter0}}").datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date({{aa}},{{bb}}-1,{{cc}}),
+                            maxDate: new Date({{dd}},{{ee}}-1,{{ff}}),
+                            beforeShowDay: function (date) {
+                                var dev1 = nDates[date];
+                                var color="";
+                                if (dev1) {
+                                    if(dev1==1)
+                                      color='dev';
+                                    if(dev1==2)
+                                      color='cr';
+                                    if(dev1==3)
+                                      color='qa';
+                                    if(dev1==4)
+                                      color='rel';
+                                    return [true, color, 'Tooltip text'];
+                                }
+                                else {
+                                    return [false, '', ''];
+                                }
+                            }
+                        }).attr('readonly','readonly');
+                    });
+                  </script>
+
 
                     <td class="t">
                       <!-- dropdown developer -->
@@ -609,7 +674,92 @@ function w5_close() {
                 <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
+                      {% if dash.phps == 0 %}
+                      {% else %}
+
+                        <input type="text" class="datepicker1" id="php{{forloop.counter0}}">
+                      {% endif %}
                     </td>
+
+                    <script>
+                      $(document).ready(function() {
+                          var nDates = {};
+                          var data  = JSON.parse('{{ jd3x|escapejs }}');
+                          var stat  = JSON.parse('{{ jd4x|escapejs }}');
+                          var arr1=[];
+                          var arr3=[]
+
+                          for(i in data){
+                            for(j in data[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in data[i][j]){
+                                  arr1.push(data[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+
+                          // console.log(arr1);
+
+                          for(i in stat){
+                            for(j in stat[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in stat[i][j]){
+                                  arr3.push(stat[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+                          // console.log(arr3);
+
+                        for(var i =0 ;i<arr1.length;i++){
+                            var day = 1000*60*60*24;
+                            date1 = new Date(arr1[i]);
+                               var xx = date1.getTime();
+                               var yy = new Date(xx);
+                               z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                               if(yy.getDay()!=0 && yy.getDay()!=6){
+                                   if(arr3[i]=='Dev'){
+                                     nDates[new Date(z)] = 1;
+                                   }
+                                   if(arr3[i]=='CR Fix'){
+                                     nDates[new Date(z)] = 2;
+                                   }
+                                   if(arr3[i]=='QA Support'){
+                                     nDates[new Date(z)] = 3;
+                                   }
+                                   if(arr3[i]=='Release Support'){
+                                     nDates[new Date(z)] = 4;
+                                   }
+                            }
+                        }
+
+                        $("#php{{forloop.counter0}}").datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date({{aa}},{{bb}}-1,{{cc}}),
+                            maxDate: new Date({{dd}},{{ee}}-1,{{ff}}),
+                            beforeShowDay: function (date) {
+                                var dev1 = nDates[date];
+                                var color="";
+                                if (dev1) {
+                                    if(dev1==1)
+                                      color='dev';
+                                    if(dev1==2)
+                                      color='cr';
+                                    if(dev1==3)
+                                      color='qa';
+                                    if(dev1==4)
+                                      color='rel';
+                                    return [true, color, 'Tooltip text'];
+                                }
+                                else {
+                                    return [false, '', ''];
+                                }
+                            }
+                        }).attr('readonly','readonly');
+                    });
+                  </script>
+
 
                     <td class="t">
                       <!-- dropdown developer -->
@@ -622,7 +772,91 @@ function w5_close() {
                 <!-- point selector -->
                       <input type="hidden" name="idx" value="{{ dash.id }}">
                       <input type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
+                      {% if dash.htmls == 0 %}
+                      {% else %}
+
+                        <input type="text" class="datepicker1" id="html{{forloop.counter0}}">
+                      {% endif %}
                     </td>
+
+                    <script>
+                      $(document).ready(function() {
+                          var nDates = {};
+                          var data  = JSON.parse('{{ jd5x|escapejs }}');
+                          var stat  = JSON.parse('{{ jd6x|escapejs }}');
+                          var arr1=[];
+                          var arr3=[]
+
+                          for(i in data){
+                            for(j in data[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in data[i][j]){
+                                  arr1.push(data[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+
+                          // console.log(arr1);
+
+                          for(i in stat){
+                            for(j in stat[i]){
+                              if(j=="{{forloop.counter0}}"){
+                                for(k in stat[i][j]){
+                                  arr3.push(stat[i][j][k]);
+                                }
+                              }
+                            }
+                          }
+                          // console.log(arr3);
+
+                        for(var i =0 ;i<arr1.length;i++){
+                            var day = 1000*60*60*24;
+                            date1 = new Date(arr1[i]);
+                               var xx = date1.getTime();
+                               var yy = new Date(xx);
+                               z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                               if(yy.getDay()!=0 && yy.getDay()!=6){
+                                   if(arr3[i]=='Dev'){
+                                     nDates[new Date(z)] = 1;
+                                   }
+                                   if(arr3[i]=='CR Fix'){
+                                     nDates[new Date(z)] = 2;
+                                   }
+                                   if(arr3[i]=='QA Support'){
+                                     nDates[new Date(z)] = 3;
+                                   }
+                                   if(arr3[i]=='Release Support'){
+                                     nDates[new Date(z)] = 4;
+                                   }
+                            }
+                        }
+
+                        $("#html{{forloop.counter0}}").datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date({{aa}},{{bb}}-1,{{cc}}),
+                            maxDate: new Date({{dd}},{{ee}}-1,{{ff}}),
+                            beforeShowDay: function (date) {
+                                var dev1 = nDates[date];
+                                var color="";
+                                if (dev1) {
+                                    if(dev1==1)
+                                      color='dev';
+                                    if(dev1==2)
+                                      color='cr';
+                                    if(dev1==3)
+                                      color='qa';
+                                    if(dev1==4)
+                                      color='rel';
+                                    return [true, color, 'Tooltip text'];
+                                }
+                                else {
+                                    return [false, '', ''];
+                                }
+                            }
+                        }).attr('readonly','readonly');
+                    });
+                  </script>
 
                       <td class="t">
                       <!-- dropdown developer -->
@@ -635,9 +869,93 @@ function w5_close() {
                   <!-- point selector -->
                         <input type="hidden" name="idx" value="{{ dash.id }}">
                         <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
+                        {% if dash.qas == 0 %}
+                        {% else %}
+                          <input type="text" class="datepicker1" id="qa{{forloop.counter0}}">
+                        {% endif %}
                       </td>
 
+                      <script>
+                        $(document).ready(function() {
+                            var nDates = {};
+                            var data  = JSON.parse('{{ jd7x|escapejs }}');
+                            var stat  = JSON.parse('{{ jd8x|escapejs }}');
+                            var arr1=[];
+                            var arr3=[]
+
+                            for(i in data){
+                              for(j in data[i]){
+                                if(j=="{{forloop.counter0}}"){
+                                  for(k in data[i][j]){
+                                    arr1.push(data[i][j][k]);
+                                  }
+                                }
+                              }
+                            }
+
+                            // console.log(arr1);
+
+                            for(i in stat){
+                              for(j in stat[i]){
+                                if(j=="{{forloop.counter0}}"){
+                                  for(k in stat[i][j]){
+                                    arr3.push(stat[i][j][k]);
+                                  }
+                                }
+                              }
+                            }
+                            // console.log(arr3);
+
+                          for(var i =0 ;i<arr1.length;i++){
+                              var day = 1000*60*60*24;
+                              date1 = new Date(arr1[i]);
+                                 var xx = date1.getTime();
+                                 var yy = new Date(xx);
+                                 z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                                 if(yy.getDay()!=0 && yy.getDay()!=6){
+                                     if(arr3[i]=='Dev'){
+                                       nDates[new Date(z)] = 1;
+                                     }
+                                     if(arr3[i]=='CR Fix'){
+                                       nDates[new Date(z)] = 2;
+                                     }
+                                     if(arr3[i]=='QA Support'){
+                                       nDates[new Date(z)] = 3;
+                                     }
+                                     if(arr3[i]=='Release Support'){
+                                       nDates[new Date(z)] = 4;
+                                     }
+                              }
+                          }
+
+                          $("#qa{{forloop.counter0}}").datepicker({
+                              dateFormat: 'yy-mm-dd',
+                              minDate: new Date({{aa}},{{bb}}-1,{{cc}}),
+                              maxDate: new Date({{dd}},{{ee}}-1,{{ff}}),
+                              beforeShowDay: function (date) {
+                                  var dev1 = nDates[date];
+                                  var color="";
+                                  if (dev1) {
+                                      if(dev1==1)
+                                        color='dev';
+                                      if(dev1==2)
+                                        color='cr';
+                                      if(dev1==3)
+                                        color='qa';
+                                      if(dev1==4)
+                                        color='rel';
+                                      return [true, color, 'Tooltip text'];
+                                  }
+                                  else {
+                                      return [false, '', ''];
+                                  }
+                              }
+                          }).attr('readonly','readonly');
+                      });
+                    </script>
+
                     <td><input type="submit" name="assign_data" class="btn example_c" id="reg1" value="Assign"></td>
+
                     </tr>
                     </form>
                   </tr>

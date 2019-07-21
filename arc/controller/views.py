@@ -696,7 +696,103 @@ def view_story(request):
     nx1 = product.objects.get(id = id).name
     data = story.objects.filter(sprint_id=id)
 
-    # allcation part
+    #progress part
+    datax = cregister.objects.filter(roles='dev',sprint_id=id)
+    list2x={}
+    list3x={}
+    list4x={}
+    list5x={}
+    list6x={}
+    list7x={}
+    list8x={}
+    list9x={}
+    ny=-1
+    py=-1
+    hy=-1
+    qy=-1
+    for i1 in data:
+        ny+=1
+        if i1.dev_java not in ['',None]:
+            list2x[i1.jira]={}
+            list3x[i1.jira]={}
+            if prg.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira).exists()==True:
+                st1 = prg.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira)
+                list2x[i1.jira][ny]={}
+                list3x[i1.jira][ny]={}
+                xy=0
+                for i2 in st1:
+                    list2x[i1.jira][ny][str(xy)]=str(i2.sdate)
+                    list3x[i1.jira][ny][str(xy)]=i2.status
+                    xy+=1
+
+        py+=1
+        if i1.dev_php not in ['',None]:
+            list4x[i1.jira]={}
+            list5x[i1.jira]={}
+            if prg.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira).exists()==True:
+                st1 = prg.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira)
+                list4x[i1.jira][py]={}
+                list5x[i1.jira][py]={}
+                xy=0
+                for i2 in st1:
+                    list4x[i1.jira][py][str(xy)]=str(i2.sdate)
+                    list5x[i1.jira][py][str(xy)]=i2.status
+                    xy+=1
+
+        hy+=1
+        if i1.dev_html not in ['',None]:
+            list6x[i1.jira]={}
+            list7x[i1.jira]={}
+            if prg.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira).exists()==True:
+                st1 = prg.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira)
+                list6x[i1.jira][hy]={}
+                list7x[i1.jira][hy]={}
+                xy=0
+                for i2 in st1:
+                    list6x[i1.jira][hy][str(xy)]=str(i2.sdate)
+                    list7x[i1.jira][hy][str(xy)]=i2.status
+                    xy+=1
+
+        qy+=1
+        if i1.dev_qa not in ['',None]:
+            list8x[i1.jira]={}
+            list9x[i1.jira]={}
+            if prg.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira).exists()==True:
+                st1 = prg.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira)
+                list8x[i1.jira][qy]={}
+                list9x[i1.jira][qy]={}
+                xy=0
+                for i2 in st1:
+                    list8x[i1.jira][qy][str(xy)]=str(i2.sdate)
+                    list9x[i1.jira][qy][str(xy)]=i2.status
+                    xy+=1
+
+    jd1x=json.dumps(list2x)
+    jd2x=json.dumps(list3x)
+    jd3x=json.dumps(list4x)
+    jd4x=json.dumps(list5x)
+    jd5x=json.dumps(list6x)
+    jd6x=json.dumps(list7x)
+    jd7x=json.dumps(list8x)
+    jd8x=json.dumps(list9x)
+    print(list6x)
+
+    px = product.objects.get(id=id)
+    xx = px.sprint_start_date
+    yy = px.sprint_dev_end_date
+    xx=str(xx)
+    aa,bb,cc = xx.split('-')
+    yy=str(yy)
+    dd,ee,ff = yy.split('-')
+    aa=int(aa)
+    bb=int(bb)
+    cc=int(cc)
+    dd=int(dd)
+    ee=int(ee)
+    ff=int(ff)
+
+
+    # allocation part
     dashboard = story.objects.filter(sprint_id=id)
     d1 = cregister.objects.filter(roles='dev',sprint_id=id)
     d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=id)
@@ -953,7 +1049,7 @@ def view_story(request):
         else:
             form = storyform()
 
-    return render(request,'view_story.html/',{'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
+    return render(request,'view_story.html/',{'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
