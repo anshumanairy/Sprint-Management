@@ -44,6 +44,9 @@
     </script>
 
   <style media="screen">
+    .chartjs-render-monitor {
+      animation: chartjs-render-animation .05s;
+    }
       .scrollable-menu {
       height: auto;
       max-height: 200px;
@@ -564,7 +567,7 @@ else{
 
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn example_d" onclick="w10_open()" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
+    <button class="btn example_d" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
   </div>
 </div>
 
@@ -629,6 +632,35 @@ else{
 </script>
 
 <div class="container-fluid w3-animate-left" style=" width:900px;" id="f2">
+  <form class="post-form" method='POST' id="fz">
+    {% csrf_token %}
+    <div class="container-fluid">
+        <div class="col-md-12" >
+            <select class="js-example-basic-single" name="select_sprint">
+              <option selected="true" disabled>{{ hx2 }}</option>
+              {% for product in data %}
+              <option> {{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+  </form>
+
+  <script>
+    $(document).ready(function() {
+        var frm = $('#fz');
+        frm.on('change',function (e) {
+          e.preventDefault();
+            $.ajax({
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                success: function(data) {
+                  $("#re").html(data);
+                },
+            });
+        });
+      });
+  </script>
   <canvas id="burndown43"></canvas>
 </div>
 
@@ -648,6 +680,35 @@ else{
 </div>
 
 <div class="container-fluid w3-animate-left" style="width:900px;" id="f3">
+  <form class="post-form" method='POST' id="fy">
+    {% csrf_token %}
+    <div class="container-fluid">
+        <div class="col-md-12" >
+            <select class="js-example-basic-single" name="select_sprint">
+              <option selected="true" disabled>{{ hx2 }}</option>
+              {% for product in data %}
+              <option> {{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+  </form>
+
+  <script>
+    $(document).ready(function() {
+        var frm = $('#fy');
+        frm.on('change',function (e) {
+          e.preventDefault();
+            $.ajax({
+                type: frm.attr('method'),
+                data: frm.serialize(),
+                success: function(data) {
+                  $("#re").html(data);
+                },
+            });
+        });
+      });
+  </script>
   <canvas id="myChart"></canvas>
 </div>
 
