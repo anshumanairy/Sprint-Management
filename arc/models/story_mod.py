@@ -20,6 +20,8 @@ class story(models.Model):
 
     ostatus = models.CharField(max_length=20)
 
+    comments = models.TextField(max_length=10000)
+
     jactual = models.FloatField(default=0.0)
     pactual = models.FloatField(default=0.0)
     hactual = models.FloatField(default=0.0)
