@@ -216,13 +216,7 @@
                     {% for i in data %}
                     <tr class="row100 head">
                       <td><b>{{ i.name }}</b></td>
-                      <td colspan='7'></td>
-                      <td>
-                          <div class='box green'></div>-- Dev<br>
-                          <div class='box red'></div>-- CR Fix<br>
-                          <div class='box black'></div>-- QA Support<br>
-                          <div class='box purple'></div>-- Release Support<br>
-                      </td>
+                      <td colspan='8'></td>
                     </tr>
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
@@ -411,6 +405,13 @@
     })
   });
 </script>
+
+<div class="col-md-12">
+  <div class='box green'></div><small>-- Dev</small><br>
+  <div class='box red'></div><small>-- CR Fix</small><br>
+  <div class='box black'></div><small>-- QA Support</small><br>
+  <div class='box purple'></div><small>-- Release Support</small><br>
+</div>
 
 </body>
 

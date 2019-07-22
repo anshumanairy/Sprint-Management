@@ -106,7 +106,6 @@
 .table100.ver3 td {
   color: #808080;
   border: 1px solid lightgrey;
-  line-height: 1.4;
 }
 
 .table100.ver3 th {
@@ -128,8 +127,8 @@
 }
 
 .table100.ver3 .row100 td:hover, th:hover{
-  background-color: #6c7ae0;
-  color: #fff;
+  background-color: #d4d4d4;
+  color: black;
 }
 
 /*==================================================================

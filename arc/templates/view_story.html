@@ -59,8 +59,7 @@
         overflow-x: hidden;
       }
       #c{
-        height:40px;
-        width:55px;
+        width:40px;
       }
       body{
         font-family: Montserrat;
@@ -74,14 +73,11 @@
       }
       #back{
         background-color:   #f2f5f2;
+        width:500px;
       }
       #a{
         background-color: white;
         color:black;
-      }
-      #f,#h{
-        width:550px;
-        padding-left: 15px;
       }
       #read{
         background-color: lightgrey;
@@ -195,6 +191,9 @@
       background-color: Green !important;
       color: White !important;
       }
+      /* #allocate1,#csv1{
+        display: inline-block;
+      } */
     </style>
 
     {% if messages %}
@@ -273,19 +272,17 @@
     </script>
 
   <div id="hid2">
-
-    <div class="container-fluid">
+    <div id="allocate1">
       <div class="col-md-2">
         <button class="btn example_c"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div id="csv1">
       <div class="col-md-2">
         <button class="btn example_c"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
       </div>
     </div>
-
   </div>
 
 <form style="display:none" method="POST" enctype="multipart/form-data" id="h">
@@ -493,14 +490,14 @@ function w4_close() {
                   <td>
                     <!-- <form method="GET"> -->
                     <div class="ec">
-                      <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:40px;height:40px;">
+                      <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:30px;height:30px;">
                     </div>
                     <!-- </form> -->
                     <div class="dc">
                       <form method="get" id="x{{d.id}}">
                         {% csrf_token %}
                         <input type="hidden" name="delete_story" value="{{ d.id }}">
-                        <input type="image" src="{% static '/delete1.png' %}" style="width:40px;height:40px;" id="delete">
+                        <input type="image" src="{% static '/delete1.png' %}" style="width:30px;height:30px;" id="delete">
                       </form>
                     </div>
                     <script type="text/javascript">
