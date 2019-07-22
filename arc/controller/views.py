@@ -244,7 +244,7 @@ def qaprg(request):
                 return redirect('qaprg')
 
         if request.method=='POST':
-            if 'submit_sprint' in request.POST:
+            if 'select_sprint' in request.POST:
                 select = request.POST.get('select_sprint')
                 for i in data1:
                     if select in i.name:
@@ -1301,7 +1301,7 @@ def view_story(request):
             return(redirect('view_story'))
 
     if request.method=='POST':
-        if 'submit_sprint' in request.POST:
+        if 'select_sprint' in request.POST:
             select = request.POST.get('select_sprint')
             for i in data1:
                 if select in i.name:
@@ -1700,7 +1700,7 @@ def bandwidth(request):
                     r.save()
 
     if request.method=='POST':
-        if 'submit_sprint' in request.POST:
+        if 'select_sprint' in request.POST:
             select = request.POST.get('select_sprint')
             for i in data1:
                 if select in i.name:
@@ -1894,7 +1894,7 @@ def tasks(request):
             request.session['pid'] = proid
             return redirect('tasks')
 
-        if 'submit_sprint' in request.POST:
+        if 'select_sprint' in request.POST:
             select = request.POST.get('select_sprint')
             for i in data1:
                 if select in i.name:

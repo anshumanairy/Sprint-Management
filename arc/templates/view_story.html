@@ -223,28 +223,68 @@
       Story Console
       <div id="hid">
         <div id="hid3">
-          <form method='POST'>
+          <form class="post-form" method='POST' id="h">
             {% csrf_token %}
-            <select class="js-example-basic-single" name="select_project">
-                <option selected="true" disabled>{{ nx }}</option>
-              {% for n1 in n %}
-                <option>{{ n1.name }}</option>
-              {% endfor %}
-            </select>
-            <button class="btn example_c" type="submit" name="submit_project" id="bt1"><small>Select Project </small></button>
+            <div class="container-fluid">
+                <div class="col-md-12">
+                  <!-- onchange="myFunction(this.value)" -->
+                    <select class="js-example-basic-single" name="select_project">
+                        <option selected="true" disabled>{{ nx }}</option>
+                      {% for n1 in n %}
+                        <option>{{ n1.name }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+            </div>
           </form>
+
+          <script>
+            $(document).ready(function() {
+                var frm = $('#h');
+                frm.on('change',function (e) {
+                  e.preventDefault();
+                    $.ajax({
+                        type: frm.attr('method'),
+                        data: frm.serialize(),
+                        success: function(data) {
+                          $("#re").html(data);
+                        },
+                    });
+                });
+              });
+          </script>
         </div>
+
         <div id="hid1">
-          <form method='POST'>
+          <form class="post-form" method='POST' id="f5">
             {% csrf_token %}
-            <select class="js-example-basic-single" name="select_sprint">
-              <option selected="true" disabled>{{ nx1 }}</option>
-              {% for product in data1 %}
-              <option>{{ product.name }}</option>
-                {% endfor %}
-            </select>
-            <button class="btn example_c" type="submit" name="submit_sprint" id="bt1"><small>VIEW STORIES</small></button>
+            <div class="container-fluid">
+                <div class="col-md-12" >
+                    <select class="js-example-basic-single" name="select_sprint">
+                      <option selected="true" disabled>{{ nx1 }}</option>
+                      {% for product in data1 %}
+                      <option> {{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
           </form>
+
+          <script>
+            $(document).ready(function() {
+                var frm = $('#f5');
+                frm.on('change',function (e) {
+                  e.preventDefault();
+                    $.ajax({
+                        type: frm.attr('method'),
+                        data: frm.serialize(),
+                        success: function(data) {
+                          $("#re").html(data);
+                        },
+                    });
+                });
+              });
+          </script>
         </div>
       </div>
     </div>
