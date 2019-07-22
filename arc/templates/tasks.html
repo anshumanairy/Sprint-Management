@@ -17,12 +17,26 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
+  <!-- tablesorting -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="/static/tablesorter.js"></script>
+
+  <!-- tablesorting themes -->
+  <link rel="stylesheet" type="text/css" href="/static/animate.css">
+  <link rel="stylesheet" type="text/css" href="/static/util.css">
+  <link rel="stylesheet" type="text/css" href="/static/main.css">
+  <script src="/static/main.js"></script>
+
   {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
   <style media="screen">
+    th{
+      cursor: pointer;
+    }
       .scrollable-menu {
       height: auto;
       max-height: 200px;
@@ -261,72 +275,74 @@
     </div>
 
 <div class="container-fluid">
-  <table class="table" id="tab2">
-    <thead>
-      <tr>
-        <th id="una">Sprint Name</th>
-        <th>Topic</th>
-        <th>Jira ID</th>
-        <th>Assigned SP</th>
-        <th>Pending SP</th>
-        <th>Status</th>
-        <th>Assign</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for d in list1 %}
-          {% for d1 in d %}
-
-        <tr class="w3-animate-left" id="e" style="display:none">
-          <form method="GET" id="edit2">
-            {% csrf_token %}
-            <td>
-              <label>Sprint Name</label>
-              <input type="text" name="sprint_name" id="a1" value="" readonly>
-            </td>
-            <td>
-              <label>JIRA ID</label>
-              <input type="text" name="jira" id="b1" value="" readonly>
-            </td>
-            <td>
-              <label>Skills Available</label>
-              <input type="text" id="j1" value="" disabled>
-            </td>
-            <td>
-              <label>Pick Skill</label>
-              <input type="text" name="skill">
-            </td>
-            <td>
-              <label>Points</label>
-              <input type="number" name="points" min="0" value="0">
-            </td>
-            <td>
-              <input class ="btn example_c" type="submit" value="Assign">
-              <p></p>
-              <input type="button" class="btn example_c" onclick="w5_close()" value="Dont Assign">
-            </td>
-          </form>
-
-        </tr>
-
+  <div class="table100 ver3">
+    <table class='table' id="tab2" data-vertable="ver1">
+      <thead>
         <tr>
-          <td class="col-md-2" id="una">{{ d1.0 }}</td>
-          <td>{{ d1.1 }}</td>
-          <td><a href="{{d1.5}}" target='_blank'>{{ d1.2 }}</a></td>
-          <td>{{ d1.6 }}</td>
-          <td>{{ d1.7 }}</td>
-          <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
-          <td>
-            {% if d1.3 == 'Unassigned' %}
-              <button class="btn example_c" type="submit" name="assign_story" onclick="w5_open({{d1.8}})" id="edit"><small>Assign</small></button>
-            {% else %}
-            {% endif %}
-          </td>
+          <th id="una">Sprint Name</th>
+          <th>Topic</th>
+          <th>Jira ID</th>
+          <th>Assigned SP</th>
+          <th>Pending SP</th>
+          <th>Status</th>
+          <th>Assign</th>
         </tr>
+      </thead>
+      <tbody>
+          {% for d in list1 %}
+            {% for d1 in d %}
+
+          <tr class="w3-animate-left" id="e" style="display:none">
+            <form method="GET" id="edit2">
+              {% csrf_token %}
+              <td>
+                <label>Sprint Name</label>
+                <input type="text" name="sprint_name" id="a1" value="" readonly>
+              </td>
+              <td>
+                <label>JIRA ID</label>
+                <input type="text" name="jira" id="b1" value="" readonly>
+              </td>
+              <td>
+                <label>Skills Available</label>
+                <input type="text" id="j1" value="" disabled>
+              </td>
+              <td>
+                <label>Pick Skill</label>
+                <input type="text" name="skill">
+              </td>
+              <td>
+                <label>Points</label>
+                <input type="number" name="points" min="0" value="0">
+              </td>
+              <td>
+                <input class ="btn example_c" type="submit" value="Assign">
+                <p></p>
+                <input type="button" class="btn example_c" onclick="w5_close()" value="Dont Assign">
+              </td>
+            </form>
+
+          </tr>
+
+          <tr class="row100 head">
+            <td class="col-md-2" id="una">{{ d1.0 }}</td>
+            <td>{{ d1.1 }}</td>
+            <td><a href="{{d1.5}}" target='_blank'>{{ d1.2 }}</a></td>
+            <td>{{ d1.6 }}</td>
+            <td>{{ d1.7 }}</td>
+            <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
+            <td>
+              {% if d1.3 == 'Unassigned' %}
+                <button class="btn example_c" type="submit" name="assign_story" onclick="w5_open({{d1.8}})" id="edit"><small>Assign</small></button>
+              {% else %}
+              {% endif %}
+            </td>
+          </tr>
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div id="n">
