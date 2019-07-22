@@ -1696,6 +1696,33 @@ def tasks(request):
     pid2 = request.session['pid']
     data1 = product.objects.filter(pid=pid2)
     data3 = product.objects.filter(pid=pid2).exclude(id=id1)
+
+    list1x=[]
+    list2x=[]
+    list3x=[]
+
+    if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+        pass
+    else:
+        u1 = register.objects.get(uname=request.user.username)
+        for i in data1:
+            st = story.objects.filter(sprint_id=i.id)
+            for j in st:
+                list1x.append(i.name)
+                list2x.append(j.jira)
+        if u1.java==True:
+            list3x.append('Java')
+        if u1.php==True:
+            list3x.append('PHP')
+        if u1.html==True:
+            list3x.append('HTML')
+        if u1.qa==True:
+            list3x.append('QA')
+
+    jd1x=json.dumps(list1x)
+    jd2x=json.dumps(list2x)
+    jd3x=json.dumps(list3x)
+
     listse=[]
     k1 = project.objects.all().exclude(id=0)
     n=0
@@ -1715,7 +1742,7 @@ def tasks(request):
     nx1 = product.objects.get(id = id1).name
     pro = product.objects.filter(pid=pid2)
 
-    list1=[]
+
     k=0
     repo=[]
     c1 = cregister.objects.filter(sprint_id=id1,roles='dev')
@@ -1737,6 +1764,8 @@ def tasks(request):
     repo.append(sum1-sum2)
     repo.append(sum2)
 
+    list1=[]
+    xx=0
     for i in pro:
         data2 = story.objects.filter(sprint_id=i.id)
         list1.append([])
@@ -1776,9 +1805,59 @@ def tasks(request):
             list1[k][l].append(j.description)
             list1[k][l].append(j.javas + j.phps + j.htmls + j.qas)
             list1[k][l].append((j.javas + j.phps + j.htmls + j.qas)-(j.jactual + j.pactual + j.hactual + j.qactual))
+            list1[k][l].append(xx)
+            xx+=1
             l+=1
         k+=1
-    # print(list1)
+
+    if request.method=='GET':
+        if 'sprint_name' in request.GET:
+            sprname = request.GET.get('sprint_name')
+            jd = request.GET.get('jira')
+            skill = request.GET.get('skill')
+            skill = skill.lower()
+            pt = request.GET.get('points')
+            if request.user.is_superuser or register.objects.get(uname=request.user.username).roles=='man':
+                messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
+            else:
+                if skill in ['java','php','html','qa']:
+                    pro = product.objects.get(name=sprname,pid=pid2).id
+                    st = story.objects.get(sprint_id=pro,jira=jd)
+                    listz=[]
+                    u1 = register.objects.get(uname=request.user.username)
+                    if u1.java==True:
+                        listz.append('java')
+                    if u1.php==True:
+                        listz.append('php')
+                    if u1.html==True:
+                        listz.append('html')
+                    if u1.qa==True:
+                        listz.append('qa')
+                    if skill in listz:
+                        st.ostatus='Live'
+                        if skill=='java':
+                            st.dev_java=u1.name
+                            st.javas=int(pt)
+                        elif skill=='php':
+                            st.dev_php=u1.name
+                            st.phps=int(pt)
+                        elif skill=='html':
+                            st.dev_html=u1.name
+                            st.htmls=int(pt)
+                        elif skill=='qa':
+                            st.dev_qa=u1.name
+                            st.qas=int(pt)
+                        if int(pt)>0:
+                            st.save()
+                        else:
+                            messages.info(request, 'Unable to allocate these points! Please select valid points!')
+                    else:
+                        messages.info(request, 'Wrong Skill Selected! Please select from available skills provided!')
+                else:
+                    messages.info(request, 'Skill Typo! Please retry!')
+
+            return(redirect('tasks'))
+
 
     if request.method=='POST':
         if 'select_project' in request.POST:
@@ -1809,7 +1888,7 @@ def tasks(request):
                 messages.info(request, 'You are not Authorized!')
                 return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+    return(render(request,'tasks.html/',{'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})
