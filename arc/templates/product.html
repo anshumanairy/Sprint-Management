@@ -433,9 +433,10 @@
       {% csrf_token %}
       <select class="js-example-basic-single" name="select_user" style="width:10%;">
           <option selected="true" disabled>{{ hx1 }}</option>
-        {% for n1 in s22 %}
-          <option>{{ n1.name }}</option>
-        {% endfor %}
+          {% for n1 in s22 %}
+            <option>{{ n1.name }}</option>
+          {% endfor %}
+          <option>All Users</option>
       </select>
     </form>
 
@@ -461,37 +462,95 @@
 
 <script>
 var ctx = document.getElementById('myChart1');
-var data8  = JSON.parse('{{ jd8|escapejs }}');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
-        datasets: [{
-          label: 'Developers Chart',
-            data: data8,
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.4)',
-                'rgba(54, 162, 235, 0.4)',
-                'rgba(255, 206, 86, 0.4)'
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
+var data6  = JSON.parse('{{ jd8|escapejs }}');
+var val1  = JSON.parse('{{ val|escapejs }}');
+var nval1  = JSON.parse('{{ nval|escapejs }}');
+
+if(val1=='Single'){
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+
+      data: {
+          labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+          datasets: [{
+            label: 'Developers Chart',
+              data: data6,
+              backgroundColor: [
+                  'rgba(75, 192, 192, 0.4)',
+                  'rgba(54, 162, 235, 0.4)',
+                  'rgba(255, 206, 86, 0.4)'
+              ],
+              borderColor: [
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+}
+
+else{
+  data7=[]
+  data8=[]
+  data9=[]
+  data10=[]
+  for(let i=0;i<Object.keys(data6).length;i+=3){
+     data8.push(data6[i])
+     data9.push(data6[i+1])
+     data10.push(data6[i+2])
+ }
+ for(let i=0;i<Object.keys(nval1).length;i++){
+    data7.push(nval1[i])
+}
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: data7,
+          datasets: [{
+            label: 'Available Bandwidth',
+              data: data8,
+              backgroundColor: 'rgba(75, 192, 192, 0.4)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+          },
+          {
+            label: 'Story Points Assigned',
+              data: data9,
+              backgroundColor: 'rgba(54, 162, 235, 0.4)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+          },
+          {
+            label: 'Story Points Completed',
+              data: data10,
+              backgroundColor: 'rgba(255, 206, 86, 0.4)',
+              borderColor: 'rgba(255, 206, 86, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+}
 </script>
 
 
@@ -516,7 +575,7 @@ var myChart = new Chart(ctx, {
         labels: data1,
         datasets: [
           {
-            label: "Points Per Day",
+            label: "Points Left",
             data: burndownData,
             fill: false,
             borderColor: "rgba(72,42,156,.4)",
@@ -524,7 +583,7 @@ var myChart = new Chart(ctx, {
             lineTension: 0,
           },
           {
-            label: "Average",
+            label: "Average Points Left",
             data: newdata,
             fill: true,
             // fillColor: gradient,

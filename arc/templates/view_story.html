@@ -285,9 +285,9 @@
     </div>
   </div>
 
-<form style="display:none" method="POST" enctype="multipart/form-data" id="h">
+<form class="w3-animate-left" style="display:none" method="POST" enctype="multipart/form-data" id="h">
   {% csrf_token %}
-  <div class="jumbotron">
+  <div class="container-fluid">
     <div class="col-sm-20">
       <div class="card card-user" id="back">
         <div class="card-header">
@@ -329,9 +329,9 @@ function w6_close() {
 }
 </script>
 
-<form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
+<form class="post-form w3-animate-left" style="display:none" method='POST' id="f">
   {% csrf_token %}
-  <div class="jumbotron">
+  <div class="container-fluid">
     <div class="col-sm-20">
       <div class="card card-user" id="back">
         <div class="card-header">
@@ -598,7 +598,7 @@ function w5_close() {
                   <td></td>
                     <td class="t">
                     <!-- dropdown developer -->
-                      <select  name="java_sel" class="js-example-basic-single">
+                      <select  name="java_sel" class="js-example-basic-single" style="width:110px;">
                         <option>{{ dash.dev_java }}</option>
                         {% for d22 in d2 %}
                           <option>{{ d22.name }}</option>
@@ -700,7 +700,7 @@ function w5_close() {
 
                     <td class="t">
                       <!-- dropdown developer -->
-                      <select name="php_sel" class="js-example-basic-single">
+                      <select name="php_sel" class="js-example-basic-single" style="width:110px;">
                         <option>{{ dash.dev_php }}</option>
                         {% for d33 in d3 %}
                           <option>{{ d33.name }}</option>
@@ -801,7 +801,7 @@ function w5_close() {
 
                     <td class="t">
                       <!-- dropdown developer -->
-                      <select name="html_sel" class="js-example-basic-single">
+                      <select name="html_sel" class="js-example-basic-single" style="width:110px;">
                         <option>{{ dash.dev_html }}</option>
                         {% for d44 in d4 %}
                           <option>{{ d44.name }}</option>
@@ -901,7 +901,7 @@ function w5_close() {
 
                       <td class="t">
                       <!-- dropdown developer -->
-                        <select name="qa_sel" class="js-example-basic-single">
+                        <select name="qa_sel" class="js-example-basic-single" style="width:110px;">
                           <option>{{ dash.dev_qa }}</option>
                           {% for d55 in d5 %}
                             <option>{{ d55.name }}</option>

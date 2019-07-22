@@ -535,36 +535,69 @@ def prod(request):
     jd7 = json.dumps(list7)
 
     user3 = request.session['user2']
-    hx1 = user3
-    hx2 = product.objects.get(id=id).name
+    userxx = request.session['userx']
     s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
-    if cregister.objects.filter(sprint_id=id,name=user3).exists()==True:
-        s2 = cregister.objects.get(sprint_id=id,name=user3)
-    else:
-        s2 = cregister.objects.get(sprint_id=0,name='')
-    s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
-    list8=[]
-    sp=0
-    sc=0
-    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
-    for i4 in s3:
-        if i4.dev_java==user3:
-            sp+=i4.javas
-            sc+=i4.jactual
-        elif i4.dev_php==user3:
-            sp+=i4.phps
-            sc+=i4.pactual
-        elif i4.dev_html==user3:
-            sp+=i4.htmls
-            sc+=i4.hactual
-        elif i4.dev_qa==user3:
-            sp+=i4.qas
-            sc+=i4.qactual
-    list8.append(ab)
-    list8.append(sp)
-    list8.append(sc)
-    jd8 = json.dumps(list8)
+    hx2 = product.objects.get(id=id).name
+    if userxx == user3:
+        hx1 = user3
+        if cregister.objects.filter(sprint_id=id,name=user3).exists()==True:
+            s2 = cregister.objects.get(sprint_id=id,name=user3)
+        else:
+            s2 = cregister.objects.get(sprint_id=0,name='')
 
+        s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
+        list8=[]
+        sp=0
+        sc=0
+        ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+        for i4 in s3:
+            if i4.dev_java==user3:
+                sp+=i4.javas
+                sc+=i4.jactual
+            elif i4.dev_php==user3:
+                sp+=i4.phps
+                sc+=i4.pactual
+            elif i4.dev_html==user3:
+                sp+=i4.htmls
+                sc+=i4.hactual
+            elif i4.dev_qa==user3:
+                sp+=i4.qas
+                sc+=i4.qactual
+        list8.append(ab)
+        list8.append(sp)
+        list8.append(sc)
+        jd8 = json.dumps(list8)
+        val=json.dumps('Single')
+        nval=json.dumps('')
+    else:
+        hx1 = userxx
+        list9=[]
+        list10=[]
+        for s2 in s22:
+            s3 = story.objects.filter(sprint_id=id,dev_java=s2.name) or story.objects.filter(sprint_id=id,dev_php=s2.name) or story.objects.filter(sprint_id=id,dev_html=s2.name) or story.objects.filter(sprint_id=id,dev_qa=s2.name)
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==s2.name:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==s2.name:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==s2.name:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==s2.name:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list9.append(ab)
+            list9.append(sp)
+            list9.append(sc)
+            list10.append(s2.name)
+        jd8 = json.dumps(list9)
+        val=json.dumps('All Users')
+        nval=json.dumps(list10)
 
     data = product.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
@@ -626,39 +659,70 @@ def prod(request):
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
-            # if proid==0:
-            #     messages.info(request, 'Please Choose a Valid Project!')
-            #     return redirect('product')
-            # else:
             request.session['pid'] = proid
             return(redirect('product'))
 
         if 'select_user' in request.POST:
             user1 = request.POST.get('select_user')
-            request.session['user2'] = user1
-            s2 = cregister.objects.get(sprint_id=id,name=user1)
-            s3 = story.objects.filter(sprint_id=id,dev_java=user1) or story.objects.filter(sprint_id=id,dev_php=user1) or story.objects.filter(sprint_id=id,dev_html=user1) or story.objects.filter(sprint_id=id,dev_qa=user1)
-            list8=[]
-            sp=0
-            sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
-            for i4 in s3:
-                if i4.dev_java==user1:
-                    sp+=i4.javas
-                    sc+=i4.jactual
-                elif i4.dev_php==user1:
-                    sp+=i4.phps
-                    sc+=i4.pactual
-                elif i4.dev_html==user1:
-                    sp+=i4.htmls
-                    sc+=i4.hactual
-                elif i4.dev_qa==user1:
-                    sp+=i4.qas
-                    sc+=i4.qactual
-            list8.append(ab)
-            list8.append(sp)
-            list8.append(sc)
-            jd8 = json.dumps(list8)
+            if user1 !='All Users':
+                request.session['user2'] = user1
+                request.session['userx'] = user1
+                s2 = cregister.objects.get(sprint_id=id,name=user1)
+                s3 = story.objects.filter(sprint_id=id,dev_java=user1) or story.objects.filter(sprint_id=id,dev_php=user1) or story.objects.filter(sprint_id=id,dev_html=user1) or story.objects.filter(sprint_id=id,dev_qa=user1)
+                list8=[]
+                sp=0
+                sc=0
+                ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                for i4 in s3:
+                    if i4.dev_java==user1:
+                        sp+=i4.javas
+                        sc+=i4.jactual
+                    elif i4.dev_php==user1:
+                        sp+=i4.phps
+                        sc+=i4.pactual
+                    elif i4.dev_html==user1:
+                        sp+=i4.htmls
+                        sc+=i4.hactual
+                    elif i4.dev_qa==user1:
+                        sp+=i4.qas
+                        sc+=i4.qactual
+                list8.append(ab)
+                list8.append(sp)
+                list8.append(sc)
+                jd8 = json.dumps(list8)
+                nval=json.dumps('')
+                val=json.dumps('Single')
+            else:
+                request.session['userx'] = 'All Users'
+                s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
+                list9=[]
+                list10=[]
+                for s2 in s22:
+                    s3 = story.objects.filter(sprint_id=id,dev_java=s2.name) or story.objects.filter(sprint_id=id,dev_php=s2.name) or story.objects.filter(sprint_id=id,dev_html=s2.name) or story.objects.filter(sprint_id=id,dev_qa=s2.name)
+                    sp=0
+                    sc=0
+                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    for i4 in s3:
+                        if i4.dev_java==s2.name:
+                            sp+=i4.javas
+                            sc+=i4.jactual
+                        elif i4.dev_php==s2.name:
+                            sp+=i4.phps
+                            sc+=i4.pactual
+                        elif i4.dev_html==s2.name:
+                            sp+=i4.htmls
+                            sc+=i4.hactual
+                        elif i4.dev_qa==s2.name:
+                            sp+=i4.qas
+                            sc+=i4.qactual
+                    list9.append(ab)
+                    list9.append(sp)
+                    list9.append(sc)
+                    list10.append(s2.name)
+                    jd8 = json.dumps(list9)
+                    val=json.dumps('All Users')
+                    nval=json.dumps(list10)
+
             return(redirect('product'))
 
         # productform condition where sprint_button is the name for submit button for sprint form
@@ -669,7 +733,7 @@ def prod(request):
                     form.instance.pid = pid2
                     form.save()
                     x = form.instance.id
-                    x1 = register.objects.all()
+                    x1 = register.objects.all().exclude(roles='man')
                     for i1 in x1:
                         x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                         x2.save()
@@ -683,7 +747,7 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
@@ -1544,6 +1608,7 @@ def log(request):
                 request.session['pid'] = 0
                 request.session['user2'] = ''
                 request.session['id'] = 0
+                request.session['userx'] = ''
                 return redirect('product')
 
             if user.is_active:
@@ -1551,6 +1616,7 @@ def log(request):
                 request.session['pid'] = 0
                 request.session['user2'] = ''
                 request.session['id'] = 0
+                request.session['userx'] = ''
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')
