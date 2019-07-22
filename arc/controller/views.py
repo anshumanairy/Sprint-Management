@@ -41,6 +41,11 @@ def check(user):
             return(1)
 
 @login_required
+def blog(request):
+    return render(request,'blog.html/',{})
+
+
+@login_required
 def qaprg(request):
     if check(request.user)==0:
         id1 = request.session['id']
@@ -244,7 +249,7 @@ def qaprg(request):
                     jd3=json.dumps(list4)
                 else:
                     messages.info(request, 'Please select a Valid Date!')
-                    
+
                 return redirect('qaprg')
 
         if request.method=='POST':
