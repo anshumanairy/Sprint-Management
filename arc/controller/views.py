@@ -569,10 +569,12 @@ def prod(request):
         jd8 = json.dumps(list8)
         val=json.dumps('Single')
         nval=json.dumps('')
-    else:
-        hx1 = userxx
+
+    elif userxx=='Users':
+        hx1 = 'All Developers'
         list9=[]
         list10=[]
+        userxx = request.session['userx']
         for s2 in s22:
             s3 = story.objects.filter(sprint_id=id,dev_java=s2.name) or story.objects.filter(sprint_id=id,dev_php=s2.name) or story.objects.filter(sprint_id=id,dev_html=s2.name) or story.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
@@ -596,7 +598,131 @@ def prod(request):
             list9.append(sc)
             list10.append(s2.name)
         jd8 = json.dumps(list9)
-        val=json.dumps('All Users')
+        val=json.dumps('All Developers')
+        nval=json.dumps(list10)
+
+    elif userxx=='Java':
+        hx1 = 'Java Dev'
+        list9=[]
+        list10=[]
+        s22 = cregister.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
+        for s2 in s22:
+            s3 = story.objects.filter(sprint_id=id,dev_java=s2.name)
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==s2.name:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==s2.name:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==s2.name:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==s2.name:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list9.append(ab)
+            list9.append(sp)
+            list9.append(sc)
+            list10.append(s2.name)
+        jd8 = json.dumps(list9)
+        val=json.dumps('Java Dev')
+        nval=json.dumps(list10)
+
+    elif userxx=='PHP':
+        hx1 = 'PHP Dev'
+        list9=[]
+        list10=[]
+        s22 = cregister.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
+        for s2 in s22:
+            s3 = story.objects.filter(sprint_id=id,dev_php=s2.name)
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==s2.name:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==s2.name:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==s2.name:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==s2.name:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list9.append(ab)
+            list9.append(sp)
+            list9.append(sc)
+            list10.append(s2.name)
+        jd8 = json.dumps(list9)
+        val=json.dumps('PHP Dev')
+        nval=json.dumps(list10)
+
+    elif userxx=='HTML':
+        hx1 = 'HTML Dev'
+        list9=[]
+        list10=[]
+        s22 = cregister.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
+        for s2 in s22:
+            s3 = story.objects.filter(sprint_id=id,dev_html=s2.name)
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==s2.name:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==s2.name:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==s2.name:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==s2.name:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list9.append(ab)
+            list9.append(sp)
+            list9.append(sc)
+            list10.append(s2.name)
+        jd8 = json.dumps(list9)
+        val=json.dumps('HTML Dev')
+        nval=json.dumps(list10)
+
+    elif userxx=='QA':
+        hx1 = 'QA Dev'
+        list9=[]
+        list10=[]
+        s22 = cregister.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
+        for s2 in s22:
+            s3 = story.objects.filter(sprint_id=id,dev_qa=s2.name)
+            sp=0
+            sc=0
+            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            for i4 in s3:
+                if i4.dev_java==s2.name:
+                    sp+=i4.javas
+                    sc+=i4.jactual
+                elif i4.dev_php==s2.name:
+                    sp+=i4.phps
+                    sc+=i4.pactual
+                elif i4.dev_html==s2.name:
+                    sp+=i4.htmls
+                    sc+=i4.hactual
+                elif i4.dev_qa==s2.name:
+                    sp+=i4.qas
+                    sc+=i4.qactual
+            list9.append(ab)
+            list9.append(sp)
+            list9.append(sc)
+            list10.append(s2.name)
+        jd8 = json.dumps(list9)
+        val=json.dumps('QA Dev')
         nval=json.dumps(list10)
 
     data = product.objects.filter(pid=pid2)
@@ -664,7 +790,7 @@ def prod(request):
 
         if 'select_user' in request.POST:
             user1 = request.POST.get('select_user')
-            if user1 !='All Users':
+            if user1 not in ['All Developers','Java Dev','PHP Dev','HTML Dev','QA Dev']:
                 request.session['user2'] = user1
                 request.session['userx'] = user1
                 s2 = cregister.objects.get(sprint_id=id,name=user1)
@@ -692,8 +818,9 @@ def prod(request):
                 jd8 = json.dumps(list8)
                 nval=json.dumps('')
                 val=json.dumps('Single')
-            else:
-                request.session['userx'] = 'All Users'
+
+            if user1 == "All Developers":
+                request.session['userx'] = 'Users'
                 s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
@@ -720,7 +847,127 @@ def prod(request):
                     list9.append(sc)
                     list10.append(s2.name)
                     jd8 = json.dumps(list9)
-                    val=json.dumps('All Users')
+                    val=json.dumps('All Developers')
+                    nval=json.dumps(list10)
+
+            if user1 == "Java Dev":
+                request.session['userx'] = 'Java'
+                s22 = cregister.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
+                list9=[]
+                list10=[]
+                for s2 in s22:
+                    s3 = story.objects.filter(sprint_id=id,dev_java=s2.name)
+                    sc=0
+                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    for i4 in s3:
+                        if i4.dev_java==s2.name:
+                            sp+=i4.javas
+                            sc+=i4.jactual
+                        elif i4.dev_php==s2.name:
+                            sp+=i4.phps
+                            sc+=i4.pactual
+                        elif i4.dev_html==s2.name:
+                            sp+=i4.htmls
+                            sc+=i4.hactual
+                        elif i4.dev_qa==s2.name:
+                            sp+=i4.qas
+                            sc+=i4.qactual
+                    list9.append(ab)
+                    list9.append(sp)
+                    list9.append(sc)
+                    list10.append(s2.name)
+                    jd8 = json.dumps(list9)
+                    val=json.dumps('Java Dev')
+                    nval=json.dumps(list10)
+
+            if user1 == "PHP Dev":
+                request.session['userx'] = 'PHP'
+                s22 = cregister.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
+                list9=[]
+                list10=[]
+                for s2 in s22:
+                    s3 = story.objects.filter(sprint_id=id,dev_php=s2.name)
+                    sc=0
+                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    for i4 in s3:
+                        if i4.dev_java==s2.name:
+                            sp+=i4.javas
+                            sc+=i4.jactual
+                        elif i4.dev_php==s2.name:
+                            sp+=i4.phps
+                            sc+=i4.pactual
+                        elif i4.dev_html==s2.name:
+                            sp+=i4.htmls
+                            sc+=i4.hactual
+                        elif i4.dev_qa==s2.name:
+                            sp+=i4.qas
+                            sc+=i4.qactual
+                    list9.append(ab)
+                    list9.append(sp)
+                    list9.append(sc)
+                    list10.append(s2.name)
+                    jd8 = json.dumps(list9)
+                    val=json.dumps('PHP Dev')
+                    nval=json.dumps(list10)
+
+            if user1 == "HTML Dev":
+                request.session['userx'] = 'HTML'
+                s22 = cregister.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
+                list9=[]
+                list10=[]
+                for s2 in s22:
+                    s3 = story.objects.filter(sprint_id=id,dev_html=s2.name)
+                    sc=0
+                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    for i4 in s3:
+                        if i4.dev_java==s2.name:
+                            sp+=i4.javas
+                            sc+=i4.jactual
+                        elif i4.dev_php==s2.name:
+                            sp+=i4.phps
+                            sc+=i4.pactual
+                        elif i4.dev_html==s2.name:
+                            sp+=i4.htmls
+                            sc+=i4.hactual
+                        elif i4.dev_qa==s2.name:
+                            sp+=i4.qas
+                            sc+=i4.qactual
+                    list9.append(ab)
+                    list9.append(sp)
+                    list9.append(sc)
+                    list10.append(s2.name)
+                    jd8 = json.dumps(list9)
+                    val=json.dumps('HTML Dev')
+                    nval=json.dumps(list10)
+
+            if user1 == "QA Dev":
+                request.session['userx'] = 'QA'
+                s22 = cregister.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
+                list9=[]
+                list10=[]
+                for s2 in s22:
+                    s3 = story.objects.filter(sprint_id=id,dev_qa=s2.name)
+                    sc=0
+                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    for i4 in s3:
+                        if i4.dev_java==s2.name:
+                            sp+=i4.javas
+                            sc+=i4.jactual
+                        elif i4.dev_php==s2.name:
+                            sp+=i4.phps
+                            sc+=i4.pactual
+                        elif i4.dev_html==s2.name:
+                            sp+=i4.htmls
+                            sc+=i4.hactual
+                        elif i4.dev_qa==s2.name:
+                            sp+=i4.qas
+                            sc+=i4.qactual
+                    list9.append(ab)
+                    list9.append(sp)
+                    list9.append(sc)
+                    list10.append(s2.name)
+                    jd8 = json.dumps(list9)
+                    val=json.dumps('QA Dev')
                     nval=json.dumps(list10)
 
             return(redirect('product'))

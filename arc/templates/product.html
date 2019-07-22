@@ -431,12 +431,18 @@
   <div class="col-md">
     <form method='POST' id="f4">
       {% csrf_token %}
-      <select class="js-example-basic-single" name="select_user" style="width:10%;">
+      <select class="js-example-basic-single" name="select_user" style="width:20%;">
           <option selected="true" disabled>{{ hx1 }}</option>
           {% for n1 in s22 %}
             <option>{{ n1.name }}</option>
           {% endfor %}
-          <option>All Users</option>
+          <option disabled>---------------------</option>
+          <option>Java Dev</option>
+          <option>PHP Dev</option>
+          <option>HTML Dev</option>
+          <option>QA Dev</option>
+          <option disabled>---------------------</option>
+          <option>All Developers</option>
       </select>
     </form>
 
