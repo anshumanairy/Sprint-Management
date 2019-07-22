@@ -101,7 +101,7 @@
       }
       #hid{
         float: right;
-        padding-right: 10px;
+        padding-top:10px;
       }
       #hid1,#hid3{
         display: inline-block;
@@ -110,7 +110,7 @@
         font-size: 10px;
       }
       .js-example-basic-single{
-        width: 40%;
+        width: 100%;
       }
       #tab2{
         text-align: center;
@@ -495,8 +495,8 @@ function w4_close() {
                 </tr>
 
                 <tr class="row100 head">
-                  <td>{{ d.story_name }}</td>
-                  <td>{{ d.jira }}</td>
+                  <td><a href="/blog">{{ d.story_name }}</a></td>
+                  <td><a href="/blog">{{ d.jira }}</a></td>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                   {% if d.ostatus == 'Live' %}
                     <td id="green">{{ d.ostatus }}</td>

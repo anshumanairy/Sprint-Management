@@ -42,7 +42,33 @@ def check(user):
 
 @login_required
 def blog(request):
-    return render(request,'blog.html/',{})
+    id1 = request.session['id']
+    pid2 = request.session['pid']
+    data1 = product.objects.filter(pid=pid2)
+
+    n0 = project.objects.all().exclude(id=0)
+    nx = project.objects.get(id=pid2)
+    nx1 = product.objects.get(id = id1).name
+
+    st = story.objects.filter(sprint_id=id1)
+
+    if request.method=='POST':
+        if 'select_project' in request.POST:
+            name1 = request.POST.get('select_project')
+            proid = project.objects.get(name=name1).id
+            request.session['pid'] = proid
+            return redirect('blog')
+
+        if 'select_sprint' in request.POST:
+            select = request.POST.get('select_sprint')
+            for i in data1:
+                if select in i.name:
+                    id=i.id
+                    request.session['id'] = id
+                    break
+            return redirect('blog')
+
+    return render(request,'blog.html/',{'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
 @login_required
