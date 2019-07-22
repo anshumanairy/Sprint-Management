@@ -131,24 +131,28 @@ def qaprg(request):
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r.jactual)
+                    list1[j][k].append(float(r.javas)-r.jactual)
                 elif r.dev_php==i.name:
                     list1[j][k].append(r.phps)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r.pactual)
+                    list1[j][k].append(float(r.phps)-r.pactual)
                 elif r.dev_html==i.name:
                     list1[j][k].append(r.htmls)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r.hactual)
+                    list1[j][k].append(float(r.htmls)-r.hactual)
                 elif r.dev_qa==i.name:
                     list1[j][k].append(r.qas)
                     list1[j][k].append(r.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r.qactual)
+                    list1[j][k].append(float(r.qas)-r.qactual)
                 k+=1
                 count=count+1;
             j+=1
@@ -498,8 +502,32 @@ def prod(request):
     def daterange(date1, date2):
         for n in range(int ((date2 - date1).days)+1):
             yield date1 + timedelta(n)
+
     for dt in daterange(start, end):
-        list3.append(dt.strftime("%Y-%m-%d"))
+        listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
+        listzz=[1,4,4,0,2,5,0,3,6,1,4,6]
+        s=((int(listz[0])%100)//4)+int(listz[2])+listzz[int(listz[1])-1]+6+(int(listz[0])%100)
+        year=int(listz[0])
+        z1=0
+        if (year % 4) == 0:
+           if (year % 100) == 0:
+               if (year % 400) == 0:
+                   z1=1
+               else:
+                   z1=0
+           else:
+               z1=1
+        else:
+           z1=0
+
+        if z1==1 and (int(listz[1])==1 or int(listz[1])==2):
+            s=s-1
+
+        s=s%7
+        if s==0 or s==1:
+            pass
+        else:
+            list3.append(dt.strftime("%Y-%m-%d"))
         p2 = prg.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
         s2=0
         for i2 in p2:
@@ -518,9 +546,9 @@ def prod(request):
         sum1 += i1.javas + i1.phps + i1.htmls + i1.qas
         if i1.ostatus in['QA']:
             list7[1]+=1
-        if i1.ostatus in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+        if i1.ostatus in['In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
             list7[2]+=1
-        if i1.ostatus in['Pending Deployment','Complete']:
+        if i1.ostatus in['Live','Pending Deployment','Complete']:
             list7[0]+=1
         else:
             list7[3]+=1
@@ -1757,7 +1785,7 @@ def tasks(request):
     for i4 in c2:
         sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
         sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
-        if i4.ostatus not in ['Pending Deployment','Complete']:
+        if i4.ostatus not in ['Pending Deployment','Complete','Live']:
             nextspr.append(i4.id)
 
     repo.append(sum1)
@@ -1834,7 +1862,7 @@ def tasks(request):
                     if u1.qa==True:
                         listz.append('qa')
                     if skill in listz:
-                        st.ostatus='Live'
+                        st.ostatus='In Progress'
                         if skill=='java':
                             st.dev_java=u1.name
                             st.javas=int(pt)
@@ -1934,7 +1962,7 @@ def log(request):
                 request.session['pid'] = 0
                 request.session['user2'] = ''
                 request.session['id'] = 0
-                request.session['userx'] = ''
+                request.session['userx'] = 'Users'
                 return redirect('product')
 
             if user.is_active:
@@ -1942,7 +1970,7 @@ def log(request):
                 request.session['pid'] = 0
                 request.session['user2'] = ''
                 request.session['id'] = 0
-                request.session['userx'] = ''
+                request.session['userx'] = 'Users'
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')
