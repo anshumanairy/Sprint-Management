@@ -64,7 +64,7 @@ def blog(request):
                 comm[n][m][list3[0]]=list3[1]
                 m+=1
         n+=1
-    print(comm)
+
     if request.method=='POST':
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
@@ -185,6 +185,7 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.jactual)
                     list1[j][k].append(float(r.javas)-r.jactual)
+                    list1[j][k].append(r.jleft)
                 elif r.dev_php==i.name:
                     list1[j][k].append(r.phps)
                     list1[j][k].append(r.ostatus)
@@ -192,6 +193,7 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.pactual)
                     list1[j][k].append(float(r.phps)-r.pactual)
+                    list1[j][k].append(r.pleft)
                 elif r.dev_html==i.name:
                     list1[j][k].append(r.htmls)
                     list1[j][k].append(r.ostatus)
@@ -199,6 +201,7 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.hactual)
                     list1[j][k].append(float(r.htmls)-r.hactual)
+                    list1[j][k].append(r.hleft)
                 elif r.dev_qa==i.name:
                     list1[j][k].append(r.qas)
                     list1[j][k].append(r.ostatus)
@@ -206,12 +209,29 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.qactual)
                     list1[j][k].append(float(r.qas)-r.qactual)
+                    list1[j][k].append(r.qleft)
                 k+=1
                 count=count+1;
             j+=1
         # print(list1)
 
         if request.method=='GET':
+            if 'left' in request.GET:
+                lp = request.GET.get('left')
+                ji = request.GET.get('jd')
+                nm1 = request.GET.get('nm')
+                stx = story.objects.get(sprint_id=id1,jira=ji)
+                if stx.dev_java==nm1:
+                    stx.jleft=lp
+                elif stx.dev_php==nm1:
+                    stx.pleft=lp
+                elif stx.dev_html==nm1:
+                    stx.hleft=lp
+                elif stx.dev_qa==nm1:
+                    stx.qleft=lp
+                stx.save()
+                return redirect('qaprg')
+
             if 'as' in request.GET:
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
@@ -408,29 +428,49 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.jactual)
+                list1[j][k].append(r.jleft)
             elif r.dev_php==name1:
                 list1[j][k].append(r.phps)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.pactual)
+                list1[j][k].append(r.pleft)
             elif r.dev_html==name1:
                 list1[j][k].append(r.htmls)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.hactual)
+                list1[j][k].append(r.hleft)
             elif r.dev_qa==name1:
                 list1[j][k].append(r.qas)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qactual)
+                list1[j][k].append(r.qleft)
             k+=1
             count=count+1;
         j+=1
 
         if request.method=='GET':
+            if 'left' in request.GET:
+                lp = request.GET.get('left')
+                ji = request.GET.get('jd')
+                nm1 = request.GET.get('nm')
+                stx = story.objects.get(sprint_id=id1,jira=ji)
+                if stx.dev_java==nm1:
+                    qleft=lp
+                elif stx.dev_php==nm1:
+                    pleft=lp
+                elif stx.dev_html==nm1:
+                    hleft=lp
+                elif stx.dev_qa==nm1:
+                    qleft=lp
+                stx.save()
+                return redirect('qaprg')
+
             if 'as' in request.GET:
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')

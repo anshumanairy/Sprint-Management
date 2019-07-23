@@ -27,5 +27,10 @@ class story(models.Model):
     hactual = models.FloatField(default=0.0)
     qactual = models.FloatField(default=0.0)
 
+    jleft = models.FloatField(default=0.0)
+    pleft = models.FloatField(default=0.0)
+    hleft = models.FloatField(default=0.0)
+    qleft = models.FloatField(default=0.0)
+
     def __str__(self):
         return str(self.jira)
