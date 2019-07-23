@@ -185,7 +185,11 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.jactual)
                     list1[j][k].append(float(r.javas)-r.jactual)
-                    list1[j][k].append(r.jleft)
+                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
+                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                        list1[j][k].append(z1.left)
+                    else:
+                        list1[j][k].append(float(r.javas)-r.jactual)
                 elif r.dev_php==i.name:
                     list1[j][k].append(r.phps)
                     list1[j][k].append(r.ostatus)
@@ -193,7 +197,11 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.pactual)
                     list1[j][k].append(float(r.phps)-r.pactual)
-                    list1[j][k].append(r.pleft)
+                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
+                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                        list1[j][k].append(z1.left)
+                    else:
+                        list1[j][k].append(float(r.phps)-r.pactual)
                 elif r.dev_html==i.name:
                     list1[j][k].append(r.htmls)
                     list1[j][k].append(r.ostatus)
@@ -201,7 +209,11 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.hactual)
                     list1[j][k].append(float(r.htmls)-r.hactual)
-                    list1[j][k].append(r.hleft)
+                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
+                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                        list1[j][k].append(z1.left)
+                    else:
+                        list1[j][k].append(float(r.htmls)-r.hactual)
                 elif r.dev_qa==i.name:
                     list1[j][k].append(r.qas)
                     list1[j][k].append(r.ostatus)
@@ -209,28 +221,18 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.qactual)
                     list1[j][k].append(float(r.qas)-r.qactual)
-                    list1[j][k].append(r.qleft)
+                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
+                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                        list1[j][k].append(z1.left)
+                    else:
+                        list1[j][k].append(float(r.qas)-r.qactual)
+
                 k+=1
                 count=count+1;
             j+=1
         # print(list1)
 
         if request.method=='GET':
-            if 'left' in request.GET:
-                lp = request.GET.get('left')
-                ji = request.GET.get('jd')
-                nm1 = request.GET.get('nm')
-                stx = story.objects.get(sprint_id=id1,jira=ji)
-                if stx.dev_java==nm1:
-                    stx.jleft=lp
-                elif stx.dev_php==nm1:
-                    stx.pleft=lp
-                elif stx.dev_html==nm1:
-                    stx.hleft=lp
-                elif stx.dev_qa==nm1:
-                    stx.qleft=lp
-                stx.save()
-                return redirect('qaprg')
 
             if 'as' in request.GET:
                 s = request.GET.get('sel')
@@ -247,6 +249,7 @@ def qaprg(request):
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 frac = request.GET.get('fraction')
+                left1 = request.GET.get('left')
                 frac1=0
                 if stdate not in [None,'']:
                     if frac=='Quarter Day':
@@ -258,17 +261,34 @@ def qaprg(request):
                     else:
                         frac1=2
                     st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                    cx=0
                     for ix in st:
                         if ix.dev_java==n2:
+                            if float(left1)==(float(ix.javas)-ix.jactual):
+                                left1 = (float(ix.javas)-(ix.jactual+ frac1))
                             ix.jactual = ix.jactual + frac1
+                            ix.jleft = left1
+                            cx=float(ix.javas)-float(left1)
                         elif ix.dev_php==n2:
+                            if float(left1)==(float(ix.phps)-ix.pactual):
+                                left1 = (float(ix.phps)-(ix.pactual+ frac1))
                             ix.pactual = ix.pactual + frac1
+                            ix.pleft = left1
+                            cx=float(ix.phps)-float(left1)
                         elif ix.dev_html==n2:
+                            if float(left1)==(float(ix.htmls)-ix.hactual):
+                                left1 = (float(ix.htmls)-(ix.hactual+ frac1))
                             ix.hactual = ix.hactual + frac1
+                            ix.hleft = left1
+                            cx=float(ix.htmls)-float(left1)
                         else:
+                            if float(left1)==(float(ix.qas)-ix.qactual):
+                                left1 = (float(ix.qas)-(ix.qactual+ frac1))
                             ix.qactual = ix.qactual + frac1
+                            ix.qleft = left1
+                            cx=float(ix.qas)-float(left1)
                         ix.save()
-                        z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1)
+                        z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
                         z.save()
 
                     list2={}
@@ -428,49 +448,49 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.jactual)
-                list1[j][k].append(r.jleft)
+                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
+                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                    list1[j][k].append(z1.left)
+                else:
+                    list1[j][k].append(float(r.javas)-r.jactual)
             elif r.dev_php==name1:
                 list1[j][k].append(r.phps)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.pactual)
-                list1[j][k].append(r.pleft)
+                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
+                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                    list1[j][k].append(z1.left)
+                else:
+                    list1[j][k].append(float(r.phps)-r.pactual)
             elif r.dev_html==name1:
                 list1[j][k].append(r.htmls)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.hactual)
-                list1[j][k].append(r.hleft)
+                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
+                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                    list1[j][k].append(z1.left)
+                else:
+                    list1[j][k].append(float(r.htmls)-r.hactual)
             elif r.dev_qa==name1:
                 list1[j][k].append(r.qas)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qactual)
-                list1[j][k].append(r.qleft)
+                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
+                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                    list1[j][k].append(z1.left)
+                else:
+                    list1[j][k].append(float(r.qas)-r.qactual)
             k+=1
             count=count+1;
         j+=1
 
         if request.method=='GET':
-            if 'left' in request.GET:
-                lp = request.GET.get('left')
-                ji = request.GET.get('jd')
-                nm1 = request.GET.get('nm')
-                stx = story.objects.get(sprint_id=id1,jira=ji)
-                if stx.dev_java==nm1:
-                    qleft=lp
-                elif stx.dev_php==nm1:
-                    pleft=lp
-                elif stx.dev_html==nm1:
-                    hleft=lp
-                elif stx.dev_qa==nm1:
-                    qleft=lp
-                stx.save()
-                return redirect('qaprg')
-
             if 'as' in request.GET:
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
@@ -480,12 +500,13 @@ def qaprg(request):
                 p.save()
                 return redirect('qaprg')
 
-            if 'startdate' in request.GET:
+            if 'as1' in request.GET:
                 stdate = request.GET.get('startdate')
                 prog = request.GET.get('prg')
                 j = request.GET.get('j1')
                 n2 = request.GET.get('name2')
                 frac = request.GET.get('fraction')
+                left1 = request.GET.get('left')
                 frac1=0
                 if frac=='Quarter Day':
                     frac1=.5
@@ -496,18 +517,35 @@ def qaprg(request):
                 else:
                     frac1=2
                 st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                cx=0
                 for ix in st:
                     if ix.dev_java==n2:
+                        if float(left1)==(float(ix.javas)-ix.jactual):
+                            left1 = (float(ix.javas)-(ix.jactual+ frac1))
                         ix.jactual = ix.jactual + frac1
+                        ix.jleft = left1
+                        cx=float(ix.javas)-float(left1)
                     elif ix.dev_php==n2:
+                        if float(left1)==(float(ix.phps)-ix.pactual):
+                            left1 = (float(ix.phps)-(ix.pactual+ frac1))
                         ix.pactual = ix.pactual + frac1
+                        ix.pleft = left1
+                        cx=float(ix.phps)-float(left1)
                     elif ix.dev_html==n2:
+                        if float(left1)==(float(ix.htmls)-ix.hactual):
+                            left1 = (float(ix.htmls)-(ix.hactual+ frac1))
                         ix.hactual = ix.hactual + frac1
+                        ix.hleft = left1
+                        cx=float(ix.htmls)-float(left1)
                     else:
+                        if float(left1)==(float(ix.qas)-ix.qactual):
+                            left1 = (float(ix.qas)-(ix.qactual+ frac1))
                         ix.qactual = ix.qactual + frac1
+                        ix.qleft = left1
+                        cx=float(ix.qas)-float(left1)
                     ix.save()
-                z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1)
-                z.save()
+                    z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
+                    z.save()
 
                 list2={}
                 for i1 in data:
@@ -587,6 +625,7 @@ def prod(request):
     # used to calculate all dates for burndown graph
     list3=[]
     list4=[]
+    cal=0
     if product.objects.filter(id=id,pid=pid2).exists()==True:
         p1 = product.objects.get(id=id,pid=pid2)
     else:
@@ -594,11 +633,36 @@ def prod(request):
     start = p1.sprint_start_date
     if p1.sprint_dev_end_date>=p1.sprint_qa_end_date:
         end = p1.sprint_dev_end_date
+        cal = int(p1.dev_working)-1
     else:
         end = p1.sprint_qa_end_date
+        cal = int(p1.qa_working)-1
     def daterange(date1, date2):
         for n in range(int ((date2 - date1).days)+1):
             yield date1 + timedelta(n)
+
+    # calculation of total story points assigned in the given sprint
+    # list5 stores points in decreasing order and list6 is the average
+    list7=[0,0,0,0]
+    list5=[]
+    list6=[]
+    s1 = story.objects.filter(sprint_id=id)
+    sum1=0
+    sum2=0
+    for i1 in s1:
+        sum1 += i1.jleft + i1.pleft + i1.hleft + i1.qleft
+        sum2 += i1.javas + i1.phps + i1.htmls + i1.qas
+        if i1.ostatus in['QA']:
+            list7[1]+=1
+        if i1.ostatus in['In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+            list7[2]+=1
+        if i1.ostatus in['Live','Pending Deployment','Complete']:
+            list7[0]+=1
+        else:
+            list7[3]+=1
+
+    list5.append(sum2)
+    list6.append(sum2)
 
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
@@ -625,36 +689,38 @@ def prod(request):
             pass
         else:
             list3.append(dt.strftime("%Y-%m-%d"))
-        p2 = prg.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
-        s2=0
-        for i2 in p2:
-            s2+=i2.actual
-        list4.append(s2)
-    jd1=json.dumps(list3)
+            p2 = prg.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
+            s2=0
+            s3=0
+            s4=0
+            s6=0
+            for i2 in p2:
+                s5 = story.objects.get(sprint_id=id,jira=i2.jd)
+                if s5.dev_java==i2.dname:
+                    s4+=s5.javas
+                elif s5.dev_php==i2.dname:
+                    s4+=s5.phps
+                elif s5.dev_html==i2.dname:
+                    s4+=s5.htmls
+                elif s5.dev_qa==i2.dname:
+                    s4+=s5.qas
 
-    # calculation of total story points assigned in the given sprint
-    # list5 stores points in decreasing order and list6 is the average
-    list5=[]
-    list6=[]
-    list7=[0,0,0,0]
-    s1 = story.objects.filter(sprint_id=id)
-    sum1=0
-    for i1 in s1:
-        sum1 += i1.javas + i1.phps + i1.htmls + i1.qas
-        if i1.ostatus in['QA']:
-            list7[1]+=1
-        if i1.ostatus in['In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
-            list7[2]+=1
-        if i1.ostatus in['Live','Pending Deployment','Complete']:
-            list7[0]+=1
-        else:
-            list7[3]+=1
-    list5.append(sum1)
-    list6.append(sum1)
-    for i3 in list4:
-        sum1-=i3
-        list5.append(sum1)
-        list6.append(sum(list5)/len(list5))
+                s2+=i2.actual
+                s3+=i2.left
+                s6+=i2.cl
+
+            if s2+s3==s4:
+                sum2=sum2-s2
+                list5.append(sum2)
+                list6.append(sum(list5)/len(list5))
+            else:
+                sum2=sum2-s6
+                list5.append(sum2)
+                list6.append(sum(list5)/len(list5))
+
+    # print(list5)
+    # print(list6)
+    jd1=json.dumps(list3)
     jd5 = json.dumps(list5)
     jd6 = json.dumps(list6)
     jd7 = json.dumps(list7)
@@ -1309,7 +1375,6 @@ def view_story(request):
 
         if 'assign_data' in request.GET:
             java_dev = request.GET.get('java_sel')
-            print(java_dev,'hiro')
             p1 = request.GET.get('points1')
             idy = request.GET.get('idx')
             if int(p1)>0:
@@ -1317,6 +1382,7 @@ def view_story(request):
                 p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_java = java_dev
                 p.javas = int(p1)
+                p.jleft = int(p1)
                 p.save()
                 list1=[]
                 for i in d1:
@@ -1339,6 +1405,7 @@ def view_story(request):
                 p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_php = php_dev
                 p.phps = int(p2)
+                p.pleft = int(p2)
                 p.save()
                 list2=[]
                 for i in d1:
@@ -1361,6 +1428,7 @@ def view_story(request):
                 p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_html = html_dev
                 p.htmls = int(p3)
+                p.hleft = int(p3)
                 p.save()
                 list3=[]
                 for i in d1:
@@ -1383,6 +1451,7 @@ def view_story(request):
                 p = story.objects.get(sprint_id=id,id=idy)
                 p.dev_qa = qa_dev
                 p.qas = int(p4)
+                p.qleft = int(p4)
                 p.save()
                 list4=[]
                 for i in d1:

@@ -244,13 +244,12 @@
                     <th>Jira ID</th>
                     <th>Overall Status</th>
                     <th>Estimate</th>
-                    <th>Completed</th>
-                    <th>Left</th>
+                    <th>Completed/Left</th>
+                    <th>Change Left</th>
                     <th>Date</th>
                     <th>Estimate/Day</th>
                     <th>Progress</th>
                     <th>Check</th>
-                    <!-- <th>Check</th> -->
                   </thead>
                   <tbody>
                     {% for i in data %}
@@ -293,17 +292,11 @@
                       </form>
 
                       <td>{{ k.2 }}</td>
-                      <td>{{ k.6 }}</td>
-                      <td>
-                        <form method="GET">
-                          {{k.7}}
-                          <input type="number" name="left" min=0 value="{{k.8}}" step="0.5">
-                          <input type="hidden" name="jd" value="{{k.1}}">
-                          <input type="hidden" name="nm" value="{{i.name}}">
-                          <input type="submit" name="left1" value="Assign">
-                        </form>
-                      </td>
+                      <td>{{ k.6 }} / {{k.7}}</td>
                       <form method="GET" id="a{{k.1}}">
+                      <td>
+                        <input type="number" name="left" min=0 value="{{k.8}}" step="0.5">
+                      </td>
                       <td>
                         <input type="text" name="startdate" placeholder="Work Date" class="datepicker">
                       </td>
