@@ -51,18 +51,20 @@ def blog(request):
     nx1 = product.objects.get(id = id1).name
 
     st = story.objects.filter(sprint_id=id1)
-    comm=[]
-    dev=[]
+    comm={}
+    n=0
     for i in st:
         list2=list(map(str,i.comments.split('@change@')))
+        comm[n]={}
+        m=0
         for j in list2:
             if j!='':
+                comm[n][m]={}
                 list3=list(map(str,j.split('=')))
-                comm.append(list3[0])
-                dev.append(list3[1])
+                comm[n][m][list3[0]]=list3[1]
+                m+=1
+        n+=1
     print(comm)
-    print(dev)
-
     if request.method=='POST':
         if 'select_project' in request.POST:
             name1 = request.POST.get('select_project')
@@ -88,7 +90,7 @@ def blog(request):
             stx.save()
             return redirect('blog')
 
-    return render(request,'blog.html/',{'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+    return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
 @login_required

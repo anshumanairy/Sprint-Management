@@ -280,11 +280,20 @@
             </div>
             <div class="actionBox">
                 <ul class="commentList">
-                    <li>
-                        <div class="commentText">
-                            <p class="">Hello this is a test comment.</p> <span class="date sub-text">User</span>
-                        </div>
-                    </li>
+
+                      {% for j,k in comm.items %}
+                        {% if forloop.counter == forloop.parentloop.counter %}
+                          {% for r,s in k.items %}
+                            {% for y,z in s.items %}
+                            <li>
+                              <div class="commentText">
+                                  <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
+                              </div>
+                            </li>
+                            {% endfor %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
                 </ul>
                 <form class="form-inline" id="comm1" method='GET'>
                     <div class="form-group">
