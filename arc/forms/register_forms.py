@@ -16,4 +16,4 @@ class registerform(forms.ModelForm):
 
     class Meta():
         model = register
-        fields = ('name','html','php','java','qa')
+        fields = ('name','html','php','java','qa','roles')

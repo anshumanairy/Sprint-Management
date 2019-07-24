@@ -235,7 +235,15 @@
                       </div>
                       <label>Select Users</label>
                       <div>
-                        <select class="js-example-basic-single" name="select_users[]"  style="width:100%;" multiple>
+                        <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                          {% for n2 in z2 %}
+                            <option>{{ n2.uname }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <label>Select Managers</label>
+                      <div>
+                        <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
                           {% for n2 in z2 %}
                             <option>{{ n2.uname }}</option>
                           {% endfor %}

@@ -959,9 +959,13 @@ def prod(request):
             name1 = request.POST.get('pname')
             user1 = request.POST.get('select_admin')
             listz1 = request.POST.getlist('select_users[]')
+            listz2 = request.POST.getlist('select_manager[]')
             c=''
             for x in listz1:
                 c+=x+'@end@'
+            d=''
+            for y in listz2:
+                d+=y+'@end@'
             n = project.objects.all().exclude(id=0)
             a=0
             if request.user.is_superuser and request.user.username == user1:
@@ -971,7 +975,7 @@ def prod(request):
                         messages.info(request, 'Project Name already taken. Please choose another one!')
                         return redirect('product')
                 if a==0:
-                    z = project(name = name1,devs=c)
+                    z = project(name = name1,devs=c,mans=d)
                     z.save()
             else:
                 messages.info(request, 'You are not Authorized!')
@@ -1177,13 +1181,18 @@ def prod(request):
                     form.instance.pid = pid2
                     form.save()
                     x = form.instance.id
-                    x1 = register.objects.all().exclude(roles='man')
+                    x1 = register.objects.all()
                     obj = project.objects.get(id=pid2)
                     selected_users = list(map(str,(obj.devs).split('@end@')))
+                    selected_mans = list(map(str,(obj.mans).split('@end@')))
                     for i1 in x1:
-                        x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                        if i1.uname in selected_users:
+                        if i1.uname in selected_mans:
+                            x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                             x2.save()
+                        else:
+                            if i1.uname in selected_users:
+                                x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
+                                x2.save()
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -2113,7 +2122,6 @@ def reg(request):
             x = user.username
             user.set_password(user.password)
             user.save()
-            profile_form.instance.roles='dev'
             profile_form.instance.uname= x
             profile = profile_form.save(commit=False)
             profile.user = user
