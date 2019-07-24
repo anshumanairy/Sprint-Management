@@ -114,12 +114,12 @@
       }
       #tab2{
         text-align: center;
-        font-size: 12px;
+        font-size: 14px;
         border: solid lightgrey .5px;
       }
       #tab3{
         text-align: center;
-        font-size: 12px;
+        font-size: 17px;
         border: solid lightgrey .5px;
       }
       #black{
@@ -172,7 +172,7 @@
       }
       #tab1{
         text-align: center;
-        font-size: 10px;
+        font-size: 14px;
         border: solid lightgrey .5px;
       }
       .dev a {
@@ -260,7 +260,7 @@
             {% csrf_token %}
             <div class="container-fluid">
                 <div class="col-md-12" >
-                    <select class="js-example-basic-single" name="select_sprint">
+                    <select class="js-example-basic-single" name="select_sprint" style="width:100%;">
                       <option selected="true" disabled>{{ nx1 }}</option>
                       {% for product in data1 %}
                       <option> {{ product.name }}</option>
@@ -317,12 +317,12 @@
 
     <div id="csv1">
       <div class="col-md-2">
-        <button class="btn example_c"  onclick="w6_open()" id="csv"><small>Add Story via CSV</small></button>
+        <button class="btn example_c"  onclick="w13_open()" id="csv"><small>Add Story via CSV</small></button>
       </div>
     </div>
   </div>
 
-<form class="w3-animate-left" style="display:none" method="POST" enctype="multipart/form-data" id="h">
+<form class="w3-animate-left" style="display:none" method="POST" enctype="multipart/form-data" id="hz">
   {% csrf_token %}
   <div class="container-fluid">
     <div class="col-sm-20">
@@ -342,7 +342,7 @@
 
           <div class="row">
             <div class="update ml-auto mr-auto">
-                <input type="button" class="btn example_c" value="Close" onclick="w6_close()">
+                <input type="button" class="btn example_c" value="Close" onclick="w13_close()">
             </div>
           </div>
         </div>
@@ -354,14 +354,14 @@
 <div id="m2">
 
 <script>
-function w6_open() {
+function w13_open() {
   document.getElementById("m2").style.marginTop = "0%";
-  document.getElementById("h").style.display = "block";
+  document.getElementById("hz").style.display = "block";
   document.getElementById("csv").style.display = 'none';
 }
-function w6_close() {
+function w13_close() {
   document.getElementById("m2").style.marginTop = "0%";
-  document.getElementById("h").style.display = "none";
+  document.getElementById("hz").style.display = "none";
   document.getElementById("csv").style.display = "inline-block";
 }
 </script>
@@ -495,8 +495,8 @@ function w4_close() {
                 </tr>
 
                 <tr class="row100 head">
-                  <td><a href="/blog">{{ d.story_name }}</a></td>
-                  <td><a href="/blog">{{ d.jira }}</a></td>
+                  <td><a href="/blog" target="_blank">{{ d.story_name }}</a></td>
+                  <td><a href="/blog" target="_blank">{{ d.jira }}</a></td>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                   {% if d.ostatus == 'Live' %}
                     <td id="green">{{ d.ostatus }}</td>
@@ -1055,11 +1055,11 @@ function w5_close() {
 <!-- check developers -->
 <div class="container-fluid">
   <div class="col-md-3">
-    <button class="btn example_c"  onclick="w7_open()" id="check1"><small>Check Available Developers</small></button>
+    <button class="btn example_c" onclick="w14_open()" id="check1"><small>Check Available Developers</small></button>
   </div>
 </div>
 
-<div class="content-fluid w3-animate-left" id="f5" style="display:none">
+<div class="content-fluid w3-animate-left" style="display:none;" id="fm">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -1145,7 +1145,7 @@ function w5_close() {
               </tbody>
             </table>
             <div class="update ml-auto mr-auto">
-              <button class="btn example_c" onclick="w7_close()"><small>Close</small></button>
+              <button class="btn example_c" onclick="w14_close()"><small>Close</small></button>
             </div>
           </div>
         </div>
@@ -1157,14 +1157,14 @@ function w5_close() {
 <div id="m3">
 
 <script>
-function w7_open() {
+function w14_open() {
   document.getElementById("m3").style.marginTop = "0%";
-  document.getElementById("f5").style.display = "block";
+  document.getElementById("fm").style.display = "block";
   document.getElementById("check1").style.display = 'none';
 }
-function w7_close() {
+function w14_close() {
   document.getElementById("m3").style.marginTop = "0%";
-  document.getElementById("f5").style.display = "none";
+  document.getElementById("fm").style.display = "none";
   document.getElementById("check1").style.display = "inline-block";
 }
 </script>

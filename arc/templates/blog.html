@@ -270,7 +270,7 @@
         </div>
 
     		<div class="col-md-5" id="check2">
-          <div class="detailBox">
+          <div class="detailBox" style="max-height:300px;">
             <div class="titleBox">
               <label>Comment Box</label>
                 <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -279,7 +279,7 @@
                 <p class="taskDescription">{{i.story_name}}</p>
             </div>
             <div class="actionBox">
-                <ul class="commentList">
+                <ul class="commentList" style="max-height:100px;">
 
                       {% for j,k in comm.items %}
                         {% if forloop.counter == forloop.parentloop.counter %}

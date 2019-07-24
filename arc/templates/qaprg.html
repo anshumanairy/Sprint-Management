@@ -54,7 +54,7 @@
       background :#F3F3F3;
     }
     #tab2{
-      font-size: 9px;
+      font-size: 14px;
     }
     .dev a {
     background-color: Yellow !important;
@@ -237,7 +237,7 @@
           <div class="card">
             <div class="card-body">
               <div class="table100 ver3">
-                <table class="table" id="tab2" data-vertable="ver1">
+                <table class="table" id="tab2" data-vertable="ver1" style="text-align:center;">
                   <thead class=" text-primary">
                     <!-- <th>Check</th> -->
                     <th>Name</th>
@@ -254,18 +254,18 @@
                   <tbody>
                     {% for i in data %}
                     <tr class="row100 head">
-                      <td><b>{{ i.name }}</b></td>
+                      <td style="color:black;"><b>{{ i.name }}</b></td>
                       <td colspan='8'></td>
                     </tr>
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                         {% for k in j %}
                     <tr class="row100 head">
-                      <td><a href="/blog">{{ k.0 }}</a></td>
-                      <td><a href="/blog">{{ k.1 }}</a></td>
+                      <td><a href="/blog" target="_blank">{{ k.0 }}</a></td>
+                      <td><a href="/blog" target="_blank">{{ k.1 }}</a></td>
                       <form method="GET">
                       <td>
-                        <select class="js-example-basic-single" name="sel">
+                        <select class="js-example-basic-single" style="width:60%;" name="sel">
                           <option selected="true" disabled>{{ k.3 }}</option>
                           <option>Live</option>
                           <option>In Progress</option>
@@ -287,7 +287,7 @@
                         </select>
                         <input type="hidden" name="jid" value="{{ k.1 }}">
                         <input type="hidden" name="name1" value="{{ i.name }}">
-                        <input type="submit" name="as" value="Assign">
+                        <input class="btn example_c" type="submit" name="as" value="Assign">
                       </td>
                       </form>
 
@@ -295,10 +295,10 @@
                       <td>{{ k.6 }} / {{k.7}}</td>
                       <form method="GET" id="a{{k.1}}">
                       <td>
-                        <input type="number" name="left" min=0 value="{{k.8}}" step="0.5">
+                        <input type="number" name="left" min=0 value="{{k.8}}" step="0.5" style="width:70px;">
                       </td>
                       <td>
-                        <input type="text" name="startdate" placeholder="Work Date" class="datepicker">
+                        <input type="text" name="startdate" class="datepicker" placeholder="Work Date" style="width:140px;">
                       </td>
                       <td>
                         <select class="js-example-basic-single" style="width:100%;" name="fraction">
@@ -308,8 +308,8 @@
                           <option>Full Day</option>
                         </select>
                       </td>
-                      <td>
-                        <select class="js-example-basic-single" name="prg">
+                      <td style="width:250px;">
+                        <select class="js-example-basic-single" style="width:50%;" name="prg">
                           <option>Dev</option>
                           <option>CR Fix</option>
                           <option>QA Support</option>
@@ -317,9 +317,9 @@
                         </select>
                         <input type="hidden" name="j1" value="{{ k.1 }}">
                         <input type="hidden" name="name2" value="{{ i.name }}">
-                        <input type="submit" name='as1' value="Submit">
+                        <input class="btn example_c" type="submit" name='as1' value="Submit">
                       </td>
-                      <td><input type="text" placeholder="Check Status" class="datepicker1" id="datepicker{{k.5}}"></td>
+                      <td><input type="text" placeholder="Check Status" class="datepicker1" id="datepicker{{k.5}}" style="width:140px;"></td>
                       <script>
                         $(document).ready(function() {
                             var nDates = {};
