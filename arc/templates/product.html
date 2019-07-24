@@ -18,11 +18,6 @@
    <!-- Cdn for chart.js -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
 
-   <!-- 3d bar chart -->
-   <script src="https://www.amcharts.com/lib/4/core.js"></script>
-   <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-   <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
 
@@ -425,85 +420,6 @@
     document.getElementById("sprint_btn").style.display = "inline-block";
   }
 </script>
-
-
-<script>
-  am4core.ready(function() {
-
-  // Themes begin
-  am4core.useTheme(am4themes_animated);
-  // Themes end
-
-  // Create chart instance
-  var chart = am4core.create("chartdiv1", am4charts.XYChart3D);
-  var data6  = JSON.parse('{{ jd8|escapejs }}');
-  var val1  = JSON.parse('{{ val|escapejs }}');
-  var nval1  = JSON.parse('{{ nval|escapejs }}');
-  arr1=[]
-  arr1.push({})
-  arr1['points']='Available Bandwidth';
-  arr1['visits']=data6[0];
-
-  arr2=[]
-  arr2.push({})
-  arr2['points']='Assigned Story Points';
-  arr2['visits']=data6[1];
-
-  arr3=[]
-  arr3.push({})
-  arr3['points']='Completed Story Points';
-  arr3['visits']=data6[2];
-
-// Add data
-  chart.data = [arr1,arr2,arr3];
-
-  // Create axes
-  let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  categoryAxis.dataFields.category = "points";
-  categoryAxis.renderer.labels.template.rotation = 270;
-  categoryAxis.renderer.labels.template.hideOversized = false;
-  categoryAxis.renderer.minGridDistance = 20;
-  categoryAxis.renderer.labels.template.horizontalCenter = "right";
-  categoryAxis.renderer.labels.template.verticalCenter = "middle";
-  categoryAxis.tooltip.label.rotation = 270;
-  categoryAxis.tooltip.label.horizontalCenter = "right";
-  categoryAxis.tooltip.label.verticalCenter = "middle";
-
-  let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  valueAxis.title.text = "Points";
-  valueAxis.title.fontWeight = "bold";
-
-  // Create series
-  var series = chart.series.push(new am4charts.ColumnSeries3D());
-  series.dataFields.valueY = "visits";
-  series.dataFields.categoryX = "points";
-  series.name = "Visits";
-  series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-  series.columns.template.fillOpacity = .8;
-
-  var columnTemplate = series.columns.template;
-  columnTemplate.strokeWidth = 2;
-  columnTemplate.strokeOpacity = 1;
-  columnTemplate.stroke = am4core.color("#FFFFFF");
-
-  columnTemplate.adapter.add("fill", function(fill, target) {
-    return chart.colors.getIndex(target.dataItem.index);
-  })
-
-  columnTemplate.adapter.add("stroke", function(stroke, target) {
-    return chart.colors.getIndex(target.dataItem.index);
-  })
-
-  chart.cursor = new am4charts.XYCursor();
-  chart.cursor.lineX.strokeOpacity = 0;
-  chart.cursor.lineY.strokeOpacity = 0;
-
-  }); // end am4core.ready()
-</script>
-
-<!-- HTML -->
-<div id="chartdiv1" style="width:50%;height:400px;"></div>
-
 
 <!-- bar graph Developer specific -->
 
