@@ -495,8 +495,11 @@ function w4_close() {
                 </tr>
 
                 <tr class="row100 head">
-                  <td><a href="/blog" target="_blank">{{ d.story_name }}</a></td>
-                  <td><a href="/blog" target="_blank">{{ d.jira }}</a></td>
+                  <form method="GET" target="_blank">
+                    <input type="hidden" name="red" value="{{d.id}}">
+                    <td><input type="submit" value="{{ d.story_name }}"></td>
+                    <td><input type="submit" value="{{ d.jira }}"></td>
+                  </form>
                   <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                   {% if d.ostatus == 'Live' %}
                     <td id="green">{{ d.ostatus }}</td>

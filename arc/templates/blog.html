@@ -40,7 +40,9 @@
     <style media="screen">
       body{
         font-family:Montserrat;
-        background :#F3F3F3;
+        background: url('/static/quikr3.jpg') no-repeat fixed center;
+        background-size: cover;
+        opacity: 0.8;
       }
       #spr{
         padding-top:10px;
@@ -90,7 +92,6 @@
       .commentList {
           padding:0;
           list-style:none;
-          max-height:200px;
           overflow:auto;
       }
       .commentList li {
@@ -246,9 +247,8 @@
     </script>
 
   {% for i in st %}
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row d-flex">
-
         <div class="col-md-6" id="spr">
           <div class="card">
             <div class="card-body">
@@ -268,46 +268,45 @@
             </div>
           </div>
         </div>
-
-    		<div class="col-md-5" id="check2">
-          <div class="detailBox" style="max-height:300px;">
-            <div class="titleBox">
-              <label>Comment Box</label>
-                <button type="button" class="close" aria-hidden="true">&times;</button>
-            </div>
-            <div class="commentBox">
-                <p class="taskDescription">{{i.story_name}}</p>
-            </div>
-            <div class="actionBox">
-                <ul class="commentList" style="max-height:100px;">
-
-                      {% for j,k in comm.items %}
-                        {% if forloop.counter == forloop.parentloop.counter %}
-                          {% for r,s in k.items %}
-                            {% for y,z in s.items %}
-                            <li>
-                              <div class="commentText">
-                                  <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
-                              </div>
-                            </li>
-                            {% endfor %}
-                          {% endfor %}
-                        {% endif %}
-                      {% endfor %}
-                </ul>
-                <form class="form-inline" id="comm1" method='GET'>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="comment_holder" placeholder="Your comment"/>
-                    </div>
-                        <input type="hidden" name="sid" value="{{i.id}}">
-                        <button class="btn example_c" type="submit">Add</button>
-                </form>
-            </div>
-          </div>
-    		</div>
-
       </div>
   	</div>
+
+    <div class="col-md-6" id="check2">
+      <div class="detailBox" style="max-height:none;background-color:white;">
+        <div class="titleBox">
+          <label>Comment Box</label>
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+        </div>
+        <div class="commentBox">
+            <p class="taskDescription">{{i.story_name}}</p>
+        </div>
+        <div class="actionBox">
+            <ul class="commentList" style="max-height:none;">
+
+                  {% for j,k in comm.items %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                      {% for r,s in k.items %}
+                        {% for y,z in s.items %}
+                        <li>
+                          <div class="commentText">
+                              <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endfor %}
+            </ul>
+            <form class="form-inline" id="comm1" method='GET'>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="comment_holder" placeholder="Your comment"/>
+                </div>
+                    <input type="hidden" name="sid" value="{{i.id}}">
+                    <button class="btn example_c" type="submit">Add</button>
+            </form>
+        </div>
+      </div>
+    </div>
   {% endfor %}
 
   <!-- loader -->

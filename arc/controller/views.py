@@ -45,12 +45,12 @@ def blog(request):
     id1 = request.session['id']
     pid2 = request.session['pid']
     data1 = product.objects.filter(pid=pid2)
-
+    sid = request.session['story_id']
     n0 = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
     nx1 = product.objects.get(id = id1).name
 
-    st = story.objects.filter(sprint_id=id1)
+    st = story.objects.filter(sprint_id=id1,id=sid)
     comm={}
     n=0
     for i in st:
@@ -754,7 +754,7 @@ def prod(request):
             elif i4.dev_qa==user3:
                 sp+=i4.qas
                 sc+=i4.qactual
-        
+
         list8.append(ab)
         list8.append(sp)
         list8.append(sc)
@@ -927,6 +927,7 @@ def prod(request):
         if i11.is_superuser:
             list11.append(i11.username)
 
+    z2 = register.objects.all()
 
     if request.method=='POST':
         #select sprint get value and redirect
@@ -957,6 +958,10 @@ def prod(request):
         if 'project_button' in request.POST:
             name1 = request.POST.get('pname')
             user1 = request.POST.get('select_admin')
+            listz1 = request.POST.getlist('select_users[]')
+            c=''
+            for x in listz1:
+                c+=x+'@end@'
             n = project.objects.all().exclude(id=0)
             a=0
             if request.user.is_superuser and request.user.username == user1:
@@ -966,7 +971,7 @@ def prod(request):
                         messages.info(request, 'Project Name already taken. Please choose another one!')
                         return redirect('product')
                 if a==0:
-                    z = project(name = name1)
+                    z = project(name = name1,devs=c)
                     z.save()
             else:
                 messages.info(request, 'You are not Authorized!')
@@ -1173,9 +1178,12 @@ def prod(request):
                     form.save()
                     x = form.instance.id
                     x1 = register.objects.all().exclude(roles='man')
+                    obj = project.objects.get(id=pid2)
+                    selected_users = list(map(str,(obj.devs).split('@end@')))
                     for i1 in x1:
                         x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                        x2.save()
+                        if i1.uname in selected_users:
+                            x2.save()
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1186,7 +1194,7 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required
 @user_passes_test(checkman,login_url='qaprg')
@@ -1357,6 +1365,11 @@ def view_story(request):
     jd4=json.dumps(list4)
 
     if request.method=='GET':
+        if 'red' in request.GET:
+            idx = request.GET.get('red')
+            request.session['story_id'] = idx
+            return(redirect('blog'))
+
         if 'delete_story' in request.GET:
             x = request.GET.get('delete_story')
             story.objects.filter(sprint_id=id,id=x).delete()
