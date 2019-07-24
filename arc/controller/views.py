@@ -754,6 +754,7 @@ def prod(request):
             elif i4.dev_qa==user3:
                 sp+=i4.qas
                 sc+=i4.qactual
+        
         list8.append(ab)
         list8.append(sp)
         list8.append(sc)
