@@ -2019,7 +2019,6 @@ def tasks(request):
     pid2 = request.session['pid']
     data1 = product.objects.filter(pid=pid2)
     data3 = product.objects.filter(pid=pid2).exclude(id=id1)
-
     list1x=[]
     list2x=[]
     list3x=[]
@@ -2055,9 +2054,17 @@ def tasks(request):
         m=0
         for k4 in k3:
             listse[n].append([])
-            listse[n][m].append(k4.name)
-            listse[n][m].append(k4.id)
-            m+=1
+            print(datetime.date.today())
+            if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
+                if k4.sprint_dev_end_date>=datetime.date.today():
+                    listse[n][m].append(k4.name)
+                    listse[n][m].append(k4.id)
+                    m+=1
+            else:
+                if k4.sprint_qa_end_date>=datetime.date.today():
+                    listse[n][m].append(k4.name)
+                    listse[n][m].append(k4.id)
+                    m+=1
         n+=1
 
     n0 = project.objects.all().exclude(id=0)
