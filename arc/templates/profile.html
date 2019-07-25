@@ -42,7 +42,7 @@
       font-family: Montserrat;
       background :#F3F3F3;
     }
-    #x1{
+    #x1,#x2{
       padding-top: 20px;
       position: relative;
       margin:0 auto;
@@ -62,7 +62,8 @@
     .example_d:hover {
     background: white;
     border: 1px solid white;
-    transi
+    transition: all 0.4s ease 0s;
+    }
     .js-example-basic-single{
       width: 100%;
     }
@@ -181,7 +182,8 @@
           </div>
         </div>
         <div align="center">
-          <button class="btn example_d" name="update" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
+          <button class="btn example_d" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
+          <button class="btn example_d" onclick="w5_open()" id="password_btn">CHANGE PASSWORD</button>
         </div>
       </div>
     </section>
@@ -266,6 +268,51 @@
         </form>
       </div>
     </div>
+
+    <div class="container w3-animate-top" style="display:none" align="center" id="x2">
+      <div class="col-sm-5" align="center">
+        <form method="POST" id="log">
+          {% csrf_token %}
+          <div class="card card-user" align="center">
+            <div class="card-header" align="center">
+              <h4>PERSONAL INFORMATION</h4>
+            </div>
+            <div class="card-body" align="center">
+
+                <div>
+                    <label>Username</label>
+                    <div>
+                      {% if check == 1 %}
+                        <input type="text" name="uname" value="{{info.username}}">
+                      {% else %}
+                        <input type="text" name="uname" value="{{info.uname}}">
+                      {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Old Password</label>
+                    <div>
+                      <input type="password" name="passwordold" placeholder="Password">
+                    </div>
+                </div>
+
+                <div>
+                    <label>New Password</label>
+                    <div>
+                      <input type="password" name="passwordnew" placeholder="Password">
+                    </div>
+                </div>
+                <div>
+                  <input type="submit" class="btn example_d" value="UPDATE" name='updatepassword'>
+                </div>
+                <p></p>
+                <p style="color:lightgrey;">On success you will be redirected to the Login Page!</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <!--================End Welcome Area =================-->
 
     <section class="welcome_area p_120">
@@ -289,6 +336,21 @@
         document.getElementById("m").style.marginTop = "0%";
         document.getElementById("x1").style.display = "none";
         document.getElementById("info_btn").style.display = "inline-block";
+      }
+    </script>
+
+    <div id="n">
+
+    <script>
+      function w5_open() {
+        document.getElementById("n").style.marginTop = "0%";
+        document.getElementById("x2").style.display = "block";
+        document.getElementById("password_btn").style.display = 'none';
+      }
+      function w5_close() {
+        document.getElementById("n").style.marginTop = "0%";
+        document.getElementById("x2").style.display = "none";
+        document.getElementById("password_btn").style.display = "inline-block";
       }
     </script>
 

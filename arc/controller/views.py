@@ -23,6 +23,7 @@ import numpy as np
 import json
 import csv, io
 from django.contrib import messages
+from django.contrib.auth.hashers import check_password
 
 @login_required
 def profile(request):
@@ -118,6 +119,23 @@ def profile(request):
                 else:
                     messages.info(request, 'Wrong Password!')
 
+            return(redirect('profile'))
+
+        if 'updatepassword' in request.POST:
+            username = request.POST.get('uname')
+            old_password = request.POST.get('passwordold')
+            new_password = request.POST.get('passwordnew')
+            reg1 = User.objects.get(username=request.user.username)
+            if username == request.user.username:
+                user = authenticate(username = request.user.username , password = old_password)
+                if user:
+                    reg1.set_password(new_password)
+                    reg1.save()
+                    return(redirect('login'))
+                else:
+                    messages.info(request, 'Old Password is Wrong!')
+            else:
+                messages.info(request, 'Invalid Username!')
             return(redirect('profile'))
 
     return render(request,'profile.html/',{'info':info,'check':check})
