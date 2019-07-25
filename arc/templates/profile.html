@@ -5,17 +5,21 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    All Tasks
+    Profile
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <script
-        src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+
+  <!-- main css -->
+  <link rel="stylesheet" href="/static/profile/css/style.css">
+  <link rel="stylesheet" href="/static/profile/css/responsive.css">
+  <link rel="stylesheet" href="/static/profile/css/reg.css">
+
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
   {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
@@ -23,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
   <style media="screen">
+    .js-example-basic-single{
+      width:30%;
+    }
     th{
       cursor: pointer;
     }
@@ -35,24 +42,27 @@
       font-family: Montserrat;
       background :#F3F3F3;
     }
-
+    #x1{
+      padding-top: 20px;
+      position: relative;
+      margin:0 auto;
+    }
     #spr{
       padding-top: 70px;
     }
     td,th{
       text-align: center;
     }
-    .example_c {
-    color: black;
-    background: lightgrey;
-    border: 1px solid lightgrey;
+    .example_d {
+    color: white;
+    background: black;
+    border: 1px solid black;
     transition: all 0.4s ease 0s;
     }
-    .example_c:hover {
-    background: #303D39;
-    border: 1px solid #303D39;
-    transition: all 0.4s ease 0s;
-    }
+    .example_d:hover {
+    background: white;
+    border: 1px solid white;
+    transi
     .js-example-basic-single{
       width: 100%;
     }
@@ -100,6 +110,187 @@
     }
     </script>
 
+    <script>
+      $(document).ready(function() {
+          $('.js-example-basic-single').select2();
+      });
+    </script>
+
+    <!-- purple area -->
+    <header class="header_area">
+        <div class="main_menu">
+        </div>
+    </header>
+
+
+    <section class="home_banner_area">
+      <div class="container box_1620">
+        <div class="banner_inner d-flex align-items-center">
+          <div class="banner_content">
+            <div class="media">
+              <div class="d-flex">
+                <img src="" alt="">
+              </div>
+              <div class="media-body">
+                <div class="personal_text">
+                  {% if check == 1 %}
+                    <h3>{{info.username}}</h3>
+                    <h4>Administrator</h4>
+                    <p></p>
+                    <h4>Username:</h4>
+                    <ul class="list basic_info" style="color:grey;">
+                      <li>{{info.username}}</li>
+                    </ul>
+                    <p></p>
+                    <h4>Skills:</h4>
+                    <ul class="list basic_info" style="color:grey;">
+                      <li>SUPERUSER</li>
+                    </ul>
+                  {% else %}
+                    <h3>{{info.name}}</h3>
+                    {% if info.roles == 'dev' %}
+                      <h4>Developer</h4>
+                    {% else %}
+                      <h4>Manager</h4>
+                    {% endif %}
+                    <p></p>
+                    <h4>Username:</h4>
+                    <ul class="list basic_info" style="color:grey;">
+                      <li>{{info.uname}}</li>
+                    </ul>
+                    <p></p>
+                    <h4>Skills:</h4>
+                    <ul class="list basic_info" style="color:grey;">
+                      {% if info.java == True %}
+                        <li>JAVA</li>
+                      {% endif %}
+                      {% if info.php == True %}
+                        <li>PHP</li>
+                      {% endif %}
+                      {% if info.html == True %}
+                        <li>HTML</li>
+                      {% endif %}
+                      {% if info.qa == True %}
+                        <li>QA</li>
+                      {% endif %}
+                    </ul>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div align="center">
+          <button class="btn example_d" name="update" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container w3-animate-top" style="display:none" align="center" id="x1">
+      <div class="col-sm-5" align="center">
+        <form method="POST" id="log">
+          {% csrf_token %}
+          <div class="card card-user" align="center">
+            <div class="card-header" align="center">
+              <h4>PERSONAL INFORMATION</h4>
+            </div>
+            <div class="card-body" align="center">
+
+                <div>
+                  <label>Name</label>
+                    <div>
+                      {% if check == 1 %}
+                        <input type="text" name="name" value="{{info.username}}" disabled>
+                      {% else %}
+                        <input type="text" name="name" value="{{info.name}}">
+                      {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Username</label>
+                    <div>
+                      {% if check == 1 %}
+                        <input type="text" name="uname" value="{{info.username}}">
+                      {% else %}
+                        <input type="text" name="uname" value="{{info.uname}}">
+                      {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <label>Password</label>
+                    <div>
+                      <input type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+
+                <div>
+                  <label>Skills</label>
+                  <div>
+                    <select class="js-example-basic-single" name="skill[]" multiple>
+                      {% if check == 1 %}
+                        <option selected>SUPERUSER</option>
+                      {% else %}
+                        {% if info.java == True %}
+                          <option selected>Java</option>
+                        {% else %}
+                          <option>Java</option>
+                        {% endif %}
+                        {% if info.php == True %}
+                          <option selected>PHP</option>
+                        {% else %}
+                          <option>PHP</option>
+                        {% endif %}
+                        {% if info.html == True %}
+                          <option selected>HTML</option>
+                        {% else %}
+                          <option>HTML</option>
+                        {% endif %}
+                        {% if info.qa == True %}
+                          <option selected>QA</option>
+                        {% else %}
+                          <option>QA</option>
+                        {% endif %}
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <input type="submit" class="btn example_d" value="UPDATE" name='update'>
+                </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--================End Welcome Area =================-->
+
+    <section class="welcome_area p_120">
+      <div class="container">
+        <div class="row welcome_inner">
+          <div class="col-lg-6">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="m">
+
+    <script>
+      function w4_open() {
+        document.getElementById("m").style.marginTop = "0%";
+        document.getElementById("x1").style.display = "block";
+        document.getElementById("info_btn").style.display = 'none';
+      }
+      function w4_close() {
+        document.getElementById("m").style.marginTop = "0%";
+        document.getElementById("x1").style.display = "none";
+        document.getElementById("info_btn").style.display = "inline-block";
+      }
+    </script>
 
 </body>
 

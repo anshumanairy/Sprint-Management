@@ -21,12 +21,12 @@
 
     <link rel="stylesheet" href="/static/ionicons.min.css">
 
-    <link rel="stylesheet" href="/static/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="/static/jquery.timepicker.css">
-
     <link rel="stylesheet" href="/static/flaticon.css">
     <link rel="stylesheet" href="/static/icomoon.css">
-    <link rel="stylesheet" href="/static/style.css">
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+    <link rel="stylesheet" href="/static/profile/css/responsive.css">
+    <link rel="stylesheet" href="/static/profile/css/reg.css">
+      <link rel="stylesheet" href="/static/profile/css/style.css">
 
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -38,11 +38,15 @@
       <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
     <style media="screen">
+      /* .home_banner_area{
+        position: relative;
+        z-index: 1;
+        background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+        margin-bottom: 200px;
+      } */
       body{
         font-family:Montserrat;
-        background: url('/static/quikr3.jpg') no-repeat fixed center;
-        background-size: cover;
-        opacity: 0.8;
+        background: lightgrey;
       }
       #spr{
         padding-top:10px;
@@ -247,8 +251,13 @@
     }
     </script>
 
+  <header class="header_area">
+      <div class="main_menu">
+      </div>
+  </header>
+
   {% for i in st %}
-	<div class="container">
+	<div class="container" style="float:left;">
 		<div class="row d-flex">
         <div class="col-md-6" id="spr">
           <div class="card">

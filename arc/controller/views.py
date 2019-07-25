@@ -26,7 +26,101 @@ from django.contrib import messages
 
 @login_required
 def profile(request):
-    return render(request,'profile.html/',{})
+    id1 = request.session['id']
+    if request.user.is_superuser:
+        info = User.objects.get(username = request.user.username)
+        check = 1
+    else:
+        check=0
+        if cregister.objects.filter(uname = request.user.username,sprint_id = id1).exists()==True:
+            info = cregister.objects.get(uname = request.user.username,sprint_id = id1)
+        else:
+            info = register.objects.get(uname = request.user.username)
+
+    if request.method=='POST':
+        if 'update' in request.POST:
+            if request.user.is_superuser:
+                username = request.POST.get('uname')
+                password = request.POST.get('password')
+                reg1 = User.objects.get(username=request.user.username)
+                create = project.objects.filter(creator=request.user.username)
+                user = authenticate(username = request.user.username , password = password)
+                if user:
+                    if username != request.user.username:
+                        reg1.username = username
+                        reg1.save()
+                        for i in create:
+                            i.creator=username
+                            i.save()
+                        messages.info(request, 'Success!')
+                else:
+                    messages.info(request, 'Wrong Password!')
+            else:
+                name = request.POST.get('name')
+                username = request.POST.get('uname')
+                password = request.POST.get('password')
+                skills = request.POST.getlist('skill[]')
+                skill = [item.lower() for item in skills]
+                reg1 = User.objects.get(username=request.user.username)
+                reg2 = register.objects.get(uname=request.user.username)
+                reg3 = cregister.objects.filter(uname=request.user.username)
+                user = authenticate(username = request.user.username , password = password)
+                if user:
+                    if username != request.user.username:
+                        reg1.username = username
+                        reg2.uname = username
+                        reg1.save()
+                        reg2.save()
+                        for i in reg3:
+                            i.uname = username
+                            i.save()
+                    if name != reg2.name:
+                        reg2.name = name
+                        reg2.save()
+                        for i in reg3:
+                            i.name = name
+                            i.save()
+                    if (reg2.java==False and 'java' in skill) or (reg2.php==False and 'php' in skill) or (reg2.html==False and 'html' in skill) or (reg2.qa==False and 'qa' in skill) or (reg2.java==True and 'java' not in skill) or (reg2.php==True and 'php' not in skill) or (reg2.html==True and 'html' not in skill) or (reg2.qa==True and 'qa' not in skill):
+                        reg2.java = False
+                        reg2.php = False
+                        reg2.html = False
+                        reg2.qa = False
+                        for j in reg3:
+                            j.java = False
+                            j.php = False
+                            j.html = False
+                            j.qa = False
+                            j.save()
+                        for i in skill:
+                            if i == 'java':
+                                reg2.java=True
+                                for j in reg3:
+                                    j.java = True
+                                    j.save()
+                            if i == 'php':
+                                reg2.php=True
+                                for j in reg3:
+                                    j.php = True
+                                    j.save()
+                            if i == 'html':
+                                reg2.html=True
+                                for j in reg3:
+                                    j.html = True
+                                    j.save()
+                            if i == 'qa':
+                                reg2.qa=True
+                                for j in reg3:
+                                    j.qa = True
+                                    j.save()
+                        reg2.save()
+
+                    messages.info(request, 'Success')
+                else:
+                    messages.info(request, 'Wrong Password!')
+
+            return(redirect('profile'))
+
+    return render(request,'profile.html/',{'info':info,'check':check})
 
 @login_required
 def blog(request):
@@ -496,89 +590,92 @@ def qaprg(request):
                 frac = request.GET.get('fraction')
                 left1 = request.GET.get('left')
                 frac1=0
-                if frac=='Quarter Day':
-                    frac1=.5
-                elif frac=='Half Day':
-                    frac1=1
-                elif frac=='Three Quarters Day':
-                    frac1=1.5
-                else:
-                    frac1=2
-                st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                cx=0
-                for ix in st:
-                    if ix.dev_java==n2:
-                        if float(left1)==(float(ix.javas)-ix.jactual):
-                            left1 = (float(ix.javas)-(ix.jactual+ frac1))
-                        ix.jactual = ix.jactual + frac1
-                        ix.jleft = left1
-                        cx=float(ix.javas)-float(left1)
-                    elif ix.dev_php==n2:
-                        if float(left1)==(float(ix.phps)-ix.pactual):
-                            left1 = (float(ix.phps)-(ix.pactual+ frac1))
-                        ix.pactual = ix.pactual + frac1
-                        ix.pleft = left1
-                        cx=float(ix.phps)-float(left1)
-                    elif ix.dev_html==n2:
-                        if float(left1)==(float(ix.htmls)-ix.hactual):
-                            left1 = (float(ix.htmls)-(ix.hactual+ frac1))
-                        ix.hactual = ix.hactual + frac1
-                        ix.hleft = left1
-                        cx=float(ix.htmls)-float(left1)
+                if stdate not in [None,'']:
+                    if frac=='Quarter Day':
+                        frac1=.5
+                    elif frac=='Half Day':
+                        frac1=1
+                    elif frac=='Three Quarters Day':
+                        frac1=1.5
                     else:
-                        if float(left1)==(float(ix.qas)-ix.qactual):
-                            left1 = (float(ix.qas)-(ix.qactual+ frac1))
-                        ix.qactual = ix.qactual + frac1
-                        ix.qleft = left1
-                        cx=float(ix.qas)-float(left1)
-                    ix.save()
-                    z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
-                    z.save()
+                        frac1=2
+                    st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                    cx=0
+                    for ix in st:
+                        if ix.dev_java==n2:
+                            if float(left1)==(float(ix.javas)-ix.jactual):
+                                left1 = (float(ix.javas)-(ix.jactual+ frac1))
+                            ix.jactual = ix.jactual + frac1
+                            ix.jleft = left1
+                            cx=float(ix.javas)-float(left1)
+                        elif ix.dev_php==n2:
+                            if float(left1)==(float(ix.phps)-ix.pactual):
+                                left1 = (float(ix.phps)-(ix.pactual+ frac1))
+                            ix.pactual = ix.pactual + frac1
+                            ix.pleft = left1
+                            cx=float(ix.phps)-float(left1)
+                        elif ix.dev_html==n2:
+                            if float(left1)==(float(ix.htmls)-ix.hactual):
+                                left1 = (float(ix.htmls)-(ix.hactual+ frac1))
+                            ix.hactual = ix.hactual + frac1
+                            ix.hleft = left1
+                            cx=float(ix.htmls)-float(left1)
+                        else:
+                            if float(left1)==(float(ix.qas)-ix.qactual):
+                                left1 = (float(ix.qas)-(ix.qactual+ frac1))
+                            ix.qactual = ix.qactual + frac1
+                            ix.qleft = left1
+                            cx=float(ix.qas)-float(left1)
+                        ix.save()
+                        z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
+                        z.save()
 
-                list2={}
-                for i1 in data:
-                    st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
-                    n=0
-                    list2[i1.name]={}
-                    for j1 in st1:
-                        if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                            p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
-                            for k1 in p1:
-                                list2[i1.name][n]={}
-                                list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
-                                n+=1
+                    list2={}
+                    for i1 in data:
+                        st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                        n=0
+                        list2[i1.name]={}
+                        for j1 in st1:
+                            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                                for k1 in p1:
+                                    list2[i1.name][n]={}
+                                    list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
+                                    n+=1
 
-                jd1=json.dumps(list2)
+                    jd1=json.dumps(list2)
 
-                list3={}
-                m=0
-                for i2 in data:
-                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                    n=0
-                    list3[m]={}
-                    for j2 in st1:
-                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
-                            for k2 in p1:
-                                list3[m][n]=k2.status
-                                n+=1
-                    m+=1
-                jd2=json.dumps(list3)
+                    list3={}
+                    m=0
+                    for i2 in data:
+                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        n=0
+                        list3[m]={}
+                        for j2 in st1:
+                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                for k2 in p1:
+                                    list3[m][n]=k2.status
+                                    n+=1
+                        m+=1
+                    jd2=json.dumps(list3)
 
-                list4={}
-                m=0
-                for i2 in data:
-                    st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                    n=0
-                    list4[m]={}
-                    for j2 in st1:
-                        if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                            p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
-                            for k2 in p1:
-                                list4[m][n]=k2.jd
-                                n+=1
-                    m+=1
-                jd3=json.dumps(list4)
+                    list4={}
+                    m=0
+                    for i2 in data:
+                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        n=0
+                        list4[m]={}
+                        for j2 in st1:
+                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                for k2 in p1:
+                                    list4[m][n]=k2.jd
+                                    n+=1
+                        m+=1
+                    jd3=json.dumps(list4)
+                else:
+                    messages.info(request, 'Please select a Valid Date!')
                 return redirect('qaprg')
 
         if request.method=='POST':
@@ -963,7 +1060,7 @@ def prod(request):
                         messages.info(request, 'Project Name already taken. Please choose another one!')
                         return redirect('product')
                 if a==0:
-                    z = project(name = name1,devs=c,mans=d)
+                    z = project(name = name1,devs=c,mans=d,creator=user1)
                     z.save()
             else:
                 messages.info(request, 'You are not Authorized!')
