@@ -27,6 +27,7 @@ from django.contrib.auth.hashers import check_password
 
 @login_required
 def profile(request):
+    var=0
     id1 = request.session['id']
     if request.user.is_superuser:
         info = User.objects.get(username = request.user.username)
@@ -39,6 +40,11 @@ def profile(request):
             info = register.objects.get(uname = request.user.username)
 
     if request.method=='POST':
+        if 'pic' in request.POST:
+            pic = request.FILES('pic')
+            print(pic)
+            return(redirect('profile'))
+
         if 'update' in request.POST:
             if request.user.is_superuser:
                 username = request.POST.get('uname')
@@ -138,66 +144,73 @@ def profile(request):
                 messages.info(request, 'Invalid Username!')
             return(redirect('profile'))
 
-    return render(request,'profile.html/',{'info':info,'check':check})
+    return render(request,'profile.html/',{'info':info,'check':check,'var':var})
 
 @login_required
 def blog(request):
     id1 = request.session['id']
     pid2 = request.session['pid']
-    data1 = product.objects.filter(pid=pid2)
-    sid = request.session['story_id']
-    n0 = project.objects.all().exclude(id=0)
-    nx = project.objects.get(id=pid2)
-    nx1 = product.objects.get(id = id1).name
+    if id1==0 or pid2==0:
+        messages.info(request, 'Select a valid sprint and project first!')
+        return redirect('product')
+    else:
+        data1 = product.objects.filter(pid=pid2)
+        sid = request.session['story_id']
+        n0 = project.objects.all().exclude(id=0)
+        nx = project.objects.get(id=pid2)
+        nx1 = product.objects.get(id = id1).name
 
-    st = story.objects.filter(sprint_id=id1,id=sid)
-    comm={}
-    n=0
-    for i in st:
-        list2=list(map(str,i.comments.split('@change@')))
-        comm[n]={}
-        m=0
-        for j in list2:
-            if j!='':
-                comm[n][m]={}
-                list3=list(map(str,j.split('=')))
-                comm[n][m][list3[0]]=list3[1]
-                m+=1
-        n+=1
+        st = story.objects.filter(sprint_id=id1,id=sid)
+        comm={}
+        n=0
+        for i in st:
+            list2=list(map(str,i.comments.split('@change@')))
+            comm[n]={}
+            m=0
+            for j in list2:
+                if j!='':
+                    comm[n][m]={}
+                    list3=list(map(str,j.split('=')))
+                    comm[n][m][list3[0]]=list3[1]
+                    m+=1
+            n+=1
 
-    if request.method=='POST':
-        if 'select_project' in request.POST:
-            name1 = request.POST.get('select_project')
-            proid = project.objects.get(name=name1).id
-            request.session['pid'] = proid
-            return redirect('blog')
+        if request.method=='POST':
+            if 'select_project' in request.POST:
+                name1 = request.POST.get('select_project')
+                proid = project.objects.get(name=name1).id
+                request.session['pid'] = proid
+                return redirect('blog')
 
-        if 'select_sprint' in request.POST:
-            select = request.POST.get('select_sprint')
-            for i in data1:
-                if select in i.name:
-                    id=i.id
-                    request.session['id'] = id
-                    break
-            return redirect('blog')
+            if 'select_sprint' in request.POST:
+                select = request.POST.get('select_sprint')
+                for i in data1:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                return redirect('blog')
 
-    if request.method=='GET':
-        if 'comment_holder' in request.GET:
-            comment=request.GET.get('comment_holder')
-            id1 = request.GET.get('sid')
-            stx = story.objects.get(id=id1)
-            stx.comments = stx.comments + '@change@' + comment + '=' + request.user.username
-            stx.save()
-            return redirect('blog')
+        if request.method=='GET':
+            if 'comment_holder' in request.GET:
+                comment=request.GET.get('comment_holder')
+                id1 = request.GET.get('sid')
+                stx = story.objects.get(id=id1)
+                stx.comments = stx.comments + '@change@' + comment + '=' + request.user.username
+                stx.save()
+                return redirect('blog')
 
-    return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
 @login_required
 def qaprg(request):
     id1 = request.session['id']
+    pid2 = request.session['pid']
+    if id1==0 or pid2==0:
+        messages.info(request, 'Select a valid sprint and project first!')
+        return redirect('product')
     if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id1).roles=='man':
-        pid2 = request.session['pid']
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1311,8 +1324,11 @@ def prod(request):
 @login_required
 def view_story(request):
     id = request.session['id']
+    pid2 = request.session['pid']
+    if id==0 or pid2==0:
+        messages.info(request, 'Select a valid sprint and project first!')
+        return redirect('product')
     if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id).roles=='man':
-        pid2 = request.session['pid']
         data1 = product.objects.filter(pid=pid2)
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1685,9 +1701,12 @@ def view_story(request):
 
 @login_required
 def bandwidth(request):
-    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id).roles=='man':
-        sprid = request.session['id']
-        pid2 = request.session['pid']
+    sprid = request.session['id']
+    pid2 = request.session['pid']
+    if sprid==0 or pid2==0:
+        messages.info(request, 'Select a valid sprint and project first!')
+        return redirect('product')
+    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=sprid).roles=='man':
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -2017,6 +2036,9 @@ def bandwidth(request):
 def tasks(request):
     id1 = request.session['id']
     pid2 = request.session['pid']
+    if id1==0 or pid2==0:
+        messages.info(request, 'Select a valid sprint and project first!')
+        return redirect('product')
     data1 = product.objects.filter(pid=pid2)
     data3 = product.objects.filter(pid=pid2).exclude(id=id1)
     list1x=[]

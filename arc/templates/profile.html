@@ -129,8 +129,12 @@
         <div class="banner_inner d-flex align-items-center">
           <div class="banner_content">
             <div class="media">
-              <div class="d-flex">
-                <img src="" alt="">
+              <div class="d-flex" style="padding-right:70px;">
+                {% if var %}
+                  <img src="/static/profile/pics/{{var}}" alt="">
+                {% else %}
+                  <img src="/static/profile/pics/empty.png" alt="">
+                {% endif %}
               </div>
               <div class="media-body">
                 <div class="personal_text">
@@ -181,11 +185,21 @@
             </div>
           </div>
         </div>
-        <div align="center">
+
+        <div style="float:left;">
+          <form type="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+           <input type="file" name="{{info.username}}" accept="image/*">
+           <input class="btn example_d" type="submit" name="pic">
+          </form>
+        </div>
+
+        <div align="right">
           <button class="btn example_d" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
           <button class="btn example_d" onclick="w5_open()" id="password_btn">CHANGE PASSWORD</button>
         </div>
       </div>
+
     </section>
 
     <div class="container w3-animate-top" style="display:none" align="center" id="x1">

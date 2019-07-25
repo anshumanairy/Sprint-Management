@@ -17,5 +17,7 @@ class register(models.Model):
     java = models.BooleanField(default=False)
     qa = models.BooleanField(default=False)
 
+    pic = models.ImageField(upload_to='static/profile/pics',blank=True)
+
     def __str__(self):
         return self.user.username
