@@ -2213,6 +2213,9 @@ def tasks(request):
                     if i1.ostatus not in ['Pending Deployment','Complete']:
                         x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
                         x1.save()
+                        i1.delete()
+                        i1.save()
+                messages.info(request, 'Success!')
                 return redirect('tasks')
             else:
                 messages.info(request, 'You are not Authorized!')
