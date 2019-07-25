@@ -187,10 +187,10 @@
         </div>
 
         <div style="float:left;">
-          <form type="POST" enctype="multipart/form-data">
+          <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-           <input type="file" name="{{info.username}}" accept="image/*">
-           <input class="btn example_d" type="submit" name="pic">
+           <input type="file" accept="image/*" name="pic">
+           <input class="btn example_d" type="submit">
           </form>
         </div>
 

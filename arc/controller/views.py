@@ -40,10 +40,12 @@ def profile(request):
             info = register.objects.get(uname = request.user.username)
 
     if request.method=='POST':
-        if 'pic' in request.POST:
-            pic = request.FILES('pic')
-            print(pic)
-            return(redirect('profile'))
+        # if 'pic' in request.POST:
+        #     pic = request.FILES('pic')
+        #     x=request.user.username
+        #
+        #     # filename = fs.save(x.name, pic)
+        #     return(redirect('profile'))
 
         if 'update' in request.POST:
             if request.user.is_superuser:
