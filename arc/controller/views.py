@@ -783,6 +783,7 @@ def prod(request):
     s1 = story.objects.filter(sprint_id=id)
     sum1=0
     sum2=0
+    sumx=0
     for i1 in s1:
         sum1 += i1.jleft + i1.pleft + i1.hleft + i1.qleft
         sum2 += i1.javas + i1.phps + i1.htmls + i1.qas
@@ -794,7 +795,8 @@ def prod(request):
             list7[0]+=1
         else:
             list7[3]+=1
-
+    sumx=sum2
+    sumy=sum2
     list5.append(sum2)
     list6.append(sum2)
 
@@ -846,11 +848,11 @@ def prod(request):
             if s2+s3==s4:
                 sum2=sum2-s2
                 list5.append(sum2)
-                list6.append(sum(list5)/len(list5))
             else:
                 sum2=sum2-s6
                 list5.append(sum2)
-                list6.append(sum(list5)/len(list5))
+            sumx-=(sumy/(cal+1))
+            list6.append(sumx)
 
     # print(list5)
     # print(list6)
