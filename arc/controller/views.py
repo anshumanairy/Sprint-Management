@@ -26,8 +26,15 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 
 @login_required
+def handle_uploaded_file(f):
+    with open('/static/profile/', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+@login_required
 def profile(request):
     var=0
+    form = imageform(request.POST or None)
     id1 = request.session['id']
     if request.user.is_superuser:
         info = User.objects.get(username = request.user.username)
@@ -40,12 +47,6 @@ def profile(request):
             info = register.objects.get(uname = request.user.username)
 
     if request.method=='POST':
-        # if 'pic' in request.POST:
-        #     pic = request.FILES('pic')
-        #     x=request.user.username
-        #
-        #     # filename = fs.save(x.name, pic)
-        #     return(redirect('profile'))
 
         if 'update' in request.POST:
             if request.user.is_superuser:
@@ -146,7 +147,7 @@ def profile(request):
                 messages.info(request, 'Invalid Username!')
             return(redirect('profile'))
 
-    return render(request,'profile.html/',{'info':info,'check':check,'var':var})
+    return render(request,'profile.html/',{'form':form,'info':info,'check':check,'var':var})
 
 @login_required
 def blog(request):

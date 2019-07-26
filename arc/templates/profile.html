@@ -186,13 +186,13 @@
           </div>
         </div>
 
-        <div style="float:left;">
+        <!-- <div style="float:left;">
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-           <input type="file" accept="image/*" name="pic">
-           <input class="btn example_d" type="submit">
+            {{ form.as_p }}
+           <input class="btn example_d" type="submit" name='file'>
           </form>
-        </div>
+        </div> -->
 
         <div align="right">
           <button class="btn example_d" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
