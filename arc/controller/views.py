@@ -851,8 +851,9 @@ def prod(request):
             else:
                 sum2=sum2-s6
                 list5.append(sum2)
-            sumx-=(sumy/(cal+1))
-            list6.append(sumx)
+            if (cal+1)!=0:
+                sumx-=(sumy/(cal+1))
+                list6.append(sumx)
 
     # print(list5)
     # print(list6)
