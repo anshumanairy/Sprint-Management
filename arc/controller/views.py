@@ -34,8 +34,11 @@ def handle_uploaded_file(f):
 @login_required
 def profile(request):
     var=0
-    form = imageform(request.POST or None)
-    id1 = request.session['id']
+    try:
+        id1 = request.session['id']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if request.user.is_superuser:
         info = User.objects.get(username = request.user.username)
         check = 1
@@ -147,12 +150,16 @@ def profile(request):
                 messages.info(request, 'Invalid Username!')
             return(redirect('profile'))
 
-    return render(request,'profile.html/',{'form':form,'info':info,'check':check,'var':var})
+    return render(request,'profile.html/',{'info':info,'check':check,'var':var})
 
 @login_required
 def blog(request):
-    id1 = request.session['id']
-    pid2 = request.session['pid']
+    try:
+        id1 = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
@@ -208,8 +215,12 @@ def blog(request):
 
 @login_required
 def qaprg(request):
-    id1 = request.session['id']
-    pid2 = request.session['pid']
+    try:
+        id1 = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
@@ -474,9 +485,15 @@ def qaprg(request):
 
 
     else:
-
-        id1 = request.session['id']
-        pid2 = request.session['pid']
+        try:
+            id1 = request.session['id']
+            pid2 = request.session['pid']
+        except Exception as ex:
+            messages.info(request, 'Session expired for this ID! Please login again!')
+            return(redirect('login'))
+        if id1==0 or pid2==0:
+            messages.info(request, 'Select a valid sprint and project first!')
+            return redirect('product')
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -738,8 +755,12 @@ def user_logout(request):
 
 @login_required
 def prod(request):
-    pid2 = request.session['pid']
-    id = request.session['id']
+    try:
+        id = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
 
     # used to calculate all dates for burndown graph
     list3=[]
@@ -1326,8 +1347,12 @@ def prod(request):
 
 @login_required
 def view_story(request):
-    id = request.session['id']
-    pid2 = request.session['pid']
+    try:
+        id = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if id==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
@@ -1704,8 +1729,12 @@ def view_story(request):
 
 @login_required
 def bandwidth(request):
-    sprid = request.session['id']
-    pid2 = request.session['pid']
+    try:
+        sprid = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if sprid==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
@@ -2037,8 +2066,12 @@ def bandwidth(request):
 
 @login_required
 def tasks(request):
-    id1 = request.session['id']
-    pid2 = request.session['pid']
+    try:
+        id1 = request.session['id']
+        pid2 = request.session['pid']
+    except Exception as ex:
+        messages.info(request, 'Session expired for this ID! Please login again!')
+        return(redirect('login'))
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
