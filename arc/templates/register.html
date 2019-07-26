@@ -70,10 +70,6 @@
       padding-top: 150px;
       left:11%;
     }
-    #spr1{
-      position: relative;
-      left:39%;
-    }
   </style>
   </head>
 
@@ -111,61 +107,62 @@
 
 
 
-<div class="container" id="x1">
-  <div class="row">
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card card-stats">
-        <div class="card-body">
-          <div class="row">
-              <img src="{% static '/users.gif' %}" style="width:120px;height:90px;">
-            <div>
-              <div class="numbers">
-                <p class="card-category">Employees</p>
-                <p class="card-title">{{ d1 }}<p>
+    <div class="container" style="padding-top:10%;">
+      <div align='center'>
+
+        <div class="col-lg-3" style="display:inline-block;">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class=row>
+                  <img src="{% static '/users.gif' %}" style="width:120px;height:90px;">
+                <div>
+                  <div class="numbers">
+                    <p class="card-category">Employees</p>
+                    <p class="card-title">{{ d1 }}<p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <hr>
+              <div class="stats" style="text-align:right;">
+                <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
+                <a href="{% url 'register' %}">Refresh</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="card-footer">
-          <hr>
-          <div class="stats" style="text-align:right;">
-            <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
-            <a href="{% url 'register' %}">Refresh</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
-      <div class="card card-stats">
-        <div class="card-body ">
-          <div class="row">
-            <div>
-              <img src="{% static '/story.gif' %}" style="width:120px;height:90px;">
+        <div class="col-lg-3" style="display:inline-block;">
+          <div class="card card-stats">
+            <div class="card-body ">
+              <div>
+                <div class=row>
+                  <img src="{% static '/story.gif' %}" style="width:120px;height:90px;">
+                  <div>
+                    <div class="numbers">
+                      <p class="card-category">Total Stories</p>
+                      <p class="card-title">{{ total }}<p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="numbers">
-                <p class="card-category">Total Stories</p>
-                <p class="card-title">{{ total }}<p>
+            <div class="card-footer ">
+              <hr>
+              <div class="stats" style="text-align:right;">
+                <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
+                <a href="{% url 'register' %}">Refresh</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="card-footer ">
-          <hr>
-          <div class="stats" style="text-align:right;">
-            <a href="{% url 'register' %}"><img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png" style="width:30px;height:30px;"></a>
-            <a href="{% url 'register' %}">Refresh</a>
-          </div>
-        </div>
+
       </div>
     </div>
 
-  </div>
-</div>
-
-<div class="container-fluid" id="spr1">
+<div class="container-fluid" align='center'>
   <div class="col-md-2">
     <button class="btn example_c" onclick="w4_open()" id="register_btn">New User Registration</button>
   </div>
