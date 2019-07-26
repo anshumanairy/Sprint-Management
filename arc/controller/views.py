@@ -26,12 +26,6 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 
 @login_required
-def handle_uploaded_file(f):
-    with open('/static/profile/', 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-@login_required
 def profile(request):
     var=0
     try:

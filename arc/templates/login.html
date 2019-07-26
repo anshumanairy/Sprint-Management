@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
   <title>
     Login Page
   </title>
@@ -66,7 +67,6 @@
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
-      <a href="{% url 'home' %}" class="w3-bar-item w3-button">Home</a>
       <a href="{% url 'register' %}" class="w3-bar-item w3-button">Register</a>
       <a href="{% url 'login' %}" class="w3-bar-item w3-button">Login</a>
     </div>
