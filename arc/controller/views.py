@@ -18,14 +18,18 @@ from django.views.generic import TemplateView, ListView
 from django.template.response import TemplateResponse
 from datetime import timedelta
 from django.db.models import Sum
-import datetime
+# import datetime
+from datetime import datetime
 import numpy as np
 import json
 import csv, io
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 
-@login_required
+def quikr(request):
+    return redirect("https://logistics.quikr.com/")
+
+@login_required(login_url='/login')
 def profile(request):
     var=0
     try:
@@ -146,7 +150,7 @@ def profile(request):
 
     return render(request,'profile.html/',{'info':info,'check':check,'var':var})
 
-@login_required
+@login_required(login_url='/login')
 def blog(request):
     try:
         id1 = request.session['id']
@@ -207,7 +211,7 @@ def blog(request):
         return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
-@login_required
+@login_required(login_url='/login')
 def qaprg(request):
     try:
         id1 = request.session['id']
@@ -741,13 +745,13 @@ def qaprg(request):
 
     return(render(request,'qaprg.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
-@login_required
+@login_required(login_url='/login')
 def user_logout(request):
     logout(request)
     return redirect('login.html/')
 
 
-@login_required
+@login_required(login_url='/login')
 def prod(request):
     try:
         id = request.session['id']
@@ -755,6 +759,31 @@ def prod(request):
     except Exception as ex:
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
+
+    # working on sso integration
+    visits = request.session.get('visits')
+    if not visits:
+        visits = 1
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+        if (datetime.now() - last_visit_time).seconds > 0:
+            # ...reassign the value of the cookie to +1 of what it was before...
+            visits = visits + 1
+            # ...and update the last visit cookie, too.
+            reset_last_visit_time = True
+    else:
+        # Cookie last_visit doesn't exist, so create it to the current date/time.
+        reset_last_visit_time = True
+
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+
+
 
     # used to calculate all dates for burndown graph
     list3=[]
@@ -1340,9 +1369,9 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'visits':visits,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
-@login_required
+@login_required(login_url='/login')
 def view_story(request):
     try:
         id = request.session['id']
@@ -1724,7 +1753,7 @@ def view_story(request):
     else:
         return(redirect('qaprg'))
 
-@login_required
+@login_required(login_url='/login')
 def bandwidth(request):
     try:
         sprid = request.session['id']
@@ -2061,7 +2090,7 @@ def bandwidth(request):
     else:
         return(redirect(qaprg))
 
-@login_required
+@login_required(login_url='/login')
 def tasks(request):
     try:
         id1 = request.session['id']
@@ -2109,7 +2138,6 @@ def tasks(request):
         m=0
         for k4 in k3:
             listse[n].append([])
-            print(datetime.date.today())
             if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
                 if k4.sprint_dev_end_date>=datetime.date.today():
                     listse[n][m].append(k4.name)
