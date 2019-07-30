@@ -2311,33 +2311,31 @@ def home(request):
 def reg(request):
     total=story.objects.all().count()
     d1=register.objects.filter(roles='dev').count()
-    user_form = UserForm(data=request.POST or None)
-    profile_form = registerform(data=request.POST or None)
     registered = False
-    if request.method == 'POST':
-        if 'auth_code' in request.POST:
-            auth = request.POST.get('auth_code')
-            print(auth)
+    if request.method =='GET':
+        auth_code = request.GET.get('auth_code', '')
+        #return redirect(curl -X POST -H "Authorization: Basic " -H "X-Quikr-Client: Platform" -H "Content-Type: application/x-www-form-urlencoded" -d 'grantType=authorization_code&code=RpjTsmtnzdFMC0zQ3DQBFHM9bmBy83UXqvw9Kfza2yo=&clientId=SprintManagement' "http://192.168.124.123:13000/identity/v1/token")
 
-        if 'reg' in request.POST:
-            user_form = UserForm(data=request.POST)
-            profile_form = registerform(data=request.POST)
-            if user_form.is_valid() and profile_form.is_valid():
-                user = user_form.save()
-                x = user.username
-                user.set_password(user.password)
-                user.save()
-                profile_form.instance.uname= x
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                profile.save()
-                registered = True
-                return redirect('login/')
-            else:
-                print(user_form.errors , profile_form.errors)
+
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = registerform(data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            x = user.username
+            user.set_password(user.password)
+            user.save()
+            profile_form.instance.uname= x
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            registered = True
+            return redirect('login/')
         else:
-            user_form = UserForm()
-            profile_form = registerform()
+            print(user_form.errors , profile_form.errors)
+    else:
+        user_form = UserForm()
+        profile_form = registerform()
     return render(request , 'register.html' ,{'user_form':user_form , 'profile_form':profile_form , 'registered':registered,'total':total,'d1':d1})
 
 
