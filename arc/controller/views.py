@@ -18,16 +18,12 @@ from django.views.generic import TemplateView, ListView
 from django.template.response import TemplateResponse
 from datetime import timedelta
 from django.db.models import Sum
-# import datetime
 from datetime import datetime
 import numpy as np
 import json
 import csv, io
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
-
-def quikr(request):
-    return redirect("https://logistics.quikr.com/")
 
 @login_required(login_url='/login')
 def profile(request):
@@ -748,7 +744,9 @@ def qaprg(request):
 @login_required(login_url='/login')
 def user_logout(request):
     logout(request)
-    return redirect('login.html/')
+    response = redirect('login')
+    response.delete_cookie('csrftoken')
+    return response
 
 
 @login_required(login_url='/login')
@@ -2339,6 +2337,7 @@ def reg(request):
 
 
 def log(request):
+
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username = username , password = password)
@@ -2350,6 +2349,7 @@ def log(request):
                 request.session['user2'] = ''
                 request.session['id'] = 0
                 request.session['userx'] = 'Users'
+                # username = request.session['username']
                 return redirect('product')
 
             if user.is_active:
@@ -2358,6 +2358,7 @@ def log(request):
                 request.session['user2'] = ''
                 request.session['id'] = 0
                 request.session['userx'] = 'Users'
+                # username = request.session['username']
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')
