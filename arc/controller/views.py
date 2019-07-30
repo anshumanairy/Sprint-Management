@@ -24,8 +24,9 @@ import json
 import csv, io
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
+import base64
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def profile(request):
     var=0
     try:
@@ -146,7 +147,7 @@ def profile(request):
 
     return render(request,'profile.html/',{'info':info,'check':check,'var':var})
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def blog(request):
     try:
         id1 = request.session['id']
@@ -207,7 +208,7 @@ def blog(request):
         return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def qaprg(request):
     try:
         id1 = request.session['id']
@@ -741,7 +742,7 @@ def qaprg(request):
 
     return(render(request,'qaprg.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def user_logout(request):
     logout(request)
     response = redirect('login')
@@ -749,7 +750,7 @@ def user_logout(request):
     return response
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def prod(request):
     try:
         id = request.session['id']
@@ -1369,7 +1370,7 @@ def prod(request):
 
     return(render(request,'product.html/',context={'visits':visits,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def view_story(request):
     try:
         id = request.session['id']
@@ -1751,7 +1752,7 @@ def view_story(request):
     else:
         return(redirect('qaprg'))
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def bandwidth(request):
     try:
         sprid = request.session['id']
@@ -2088,7 +2089,7 @@ def bandwidth(request):
     else:
         return(redirect(qaprg))
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def tasks(request):
     try:
         id1 = request.session['id']
@@ -2310,34 +2311,41 @@ def home(request):
 def reg(request):
     total=story.objects.all().count()
     d1=register.objects.filter(roles='dev').count()
+    user_form = UserForm(data=request.POST or None)
+    profile_form = registerform(data=request.POST or None)
     registered = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = registerform(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            x = user.username
-            user.set_password(user.password)
-            user.save()
-            profile_form.instance.uname= x
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-            registered = True
-            return redirect('login/')
+        if 'auth_code' in request.POST:
+            auth = request.POST.get('auth_code')
+            print(auth)
+
+        if 'reg' in request.POST:
+            user_form = UserForm(data=request.POST)
+            profile_form = registerform(data=request.POST)
+            if user_form.is_valid() and profile_form.is_valid():
+                user = user_form.save()
+                x = user.username
+                user.set_password(user.password)
+                user.save()
+                profile_form.instance.uname= x
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
+                registered = True
+                return redirect('login/')
+            else:
+                print(user_form.errors , profile_form.errors)
         else:
-            print(user_form.errors , profile_form.errors)
-    else:
-        user_form = UserForm()
-        profile_form = registerform()
-    return render(request , 'register.html' ,
-                             {'user_form':user_form ,
-                              'profile_form':profile_form ,
-                              'registered':registered,'total':total,'d1':d1})
+            user_form = UserForm()
+            profile_form = registerform()
+    return render(request , 'register.html' ,{'user_form':user_form , 'profile_form':profile_form , 'registered':registered,'total':total,'d1':d1})
+
+
+def quikr(request):
+    return redirect("http://192.168.124.123:13000/identity/v1/auth?auth=Basic%20JaA%2BKUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344%3D&clientId=SprintManagement&redirectUri=http%3A%2F%2F127.0.0.1%3A8000%2F&responseType=code&scope=openid")
 
 
 def log(request):
-
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username = username , password = password)
@@ -2349,7 +2357,6 @@ def log(request):
                 request.session['user2'] = ''
                 request.session['id'] = 0
                 request.session['userx'] = 'Users'
-                # username = request.session['username']
                 return redirect('product')
 
             if user.is_active:
@@ -2358,7 +2365,6 @@ def log(request):
                 request.session['user2'] = ''
                 request.session['id'] = 0
                 request.session['userx'] = 'Users'
-                # username = request.session['username']
                 return redirect('product')
             else:
                 messages.info(request, 'Account not active!')
