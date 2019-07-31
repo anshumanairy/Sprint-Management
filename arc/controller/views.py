@@ -28,12 +28,16 @@ import requests
 from Crypto.Cipher import AES
 import base64
 import hashlib
+import hmac
+import jwt
+
+# sso integration and login security
 
 BS = AES.block_size
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
-unpad = lambda s : s[0:-ord(s[-1])]
+unpad = lambda s : s[0:-s[s[-1]]]
 
-def encrypt(value):
+def encryptx(value):
     key = 'NyeRfxLeIrauuHwX'
     cipher = AES.new(key, AES.MODE_ECB)
     beforeCipher = value
@@ -43,12 +47,16 @@ def encrypt(value):
     ac = afterCipher[2:len(afterCipher)-1]
     return(ac)
 
-def converttob64(value):
-    enc = base64.b64encode(bytes(value, 'utf-8'))
-    enc = str(enc)
-    enc1 = enc[2:len(enc)-1]
-    return enc1
+def decode64(value):
+    enc = base64.b64decode(bytes(value, 'utf-8'))
+    return enc
 
+def decryptx(value):
+    key = 'NyeRfxLeIrauuHwX'
+    key_64 = decode64(key)
+    return(jwt.decode(value, key_64, algorithms=['HS256']))
+
+# working
 
 @login_required(login_url='/')
 def profile(request):
@@ -769,8 +777,7 @@ def qaprg(request):
 @login_required(login_url='/')
 def user_logout(request):
     logout(request)
-    response = redirect('login')
-    response.delete_cookie('csrftoken')
+    response = redirect('/')
     return response
 
 
@@ -2339,7 +2346,7 @@ def reg(request):
     registered = False
     if request.method =='GET':
         auth_code = request.GET.get('auth_code', '')
-        encrypt_auth = encrypt(auth_code)
+        encrypt_auth = encryptx(auth_code)
 
         # part2 to obtain token
         payload = {
@@ -2359,8 +2366,25 @@ def reg(request):
         list1=list(map(str,resp.split('"')))
         idtoken = list1[5]
         access_token = auth_code
-        enckey = converttob64('NyeRfxLeIrauuHwX')
-        print(enckey)
+        list2=list(map(str,idtoken.split('.')))
+        dec = decryptx(list1[5])
+        print(dec)
+
+        # if dec == {} or None:
+            # unsuccessfull login
+            # return redirect('login')
+        # else:
+            # successfull login
+        emp = dec['empId']
+        email = dec['email']
+        name = dec['name']
+
+        if User.objects.filter(email=email).exists() ==True:
+            request.session['pid'] = 0
+            request.session['user2'] = ''
+            request.session['id'] = 0
+            request.session['userx'] = 'Users'
+            return redirect('product')
 
 
     if request.method == 'POST':
@@ -2376,7 +2400,7 @@ def reg(request):
             profile.user = user
             profile.save()
             registered = True
-            return redirect('login/')
+            return redirect('/')
         else:
             print(user_form.errors , profile_form.errors)
     else:

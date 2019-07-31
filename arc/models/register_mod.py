@@ -16,6 +16,8 @@ class register(models.Model):
     php = models.BooleanField(default=False)
     java = models.BooleanField(default=False)
     qa = models.BooleanField(default=False)
-    
+
+    empid = models.IntegerField()
+
     def __str__(self):
         return self.user.username

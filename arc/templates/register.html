@@ -200,23 +200,6 @@
 </form>
 </div>
 
-<script type="text/javascript">
-    var frm = $('#regform');
-    frm.submit(function () {
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (data) {
-                $("#re").html(data);
-            },
-            error: function(data) {
-                $("#MESSAGE-DIV").html("Something went wrong!");
-            }
-        });
-        return false;
-    });
-</script>
 
 <div id="m">
 
