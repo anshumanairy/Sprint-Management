@@ -24,7 +24,25 @@ import json
 import csv, io
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
+import requests
+from Crypto.Cipher import AES
 import base64
+import hashlib
+
+BS = AES.block_size
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+unpad = lambda s : s[0:-ord(s[-1])]
+
+def encrypt(value):
+    key = 'NyeRfxLeIrauuHwX'
+    cipher = AES.new(key, AES.MODE_ECB)
+    beforeCipher = value
+    beforeCipher = pad(beforeCipher)
+    afterCipher = base64.b64encode(cipher.encrypt(beforeCipher))
+    afterCipher = str(afterCipher)
+    ac = afterCipher[2:len(afterCipher)-1]
+    return(ac)
+
 
 @login_required(login_url='/')
 def profile(request):
@@ -2314,8 +2332,29 @@ def reg(request):
     registered = False
     if request.method =='GET':
         auth_code = request.GET.get('auth_code', '')
-        #return redirect(curl -X POST -H "Authorization: Basic " -H "X-Quikr-Client: Platform" -H "Content-Type: application/x-www-form-urlencoded" -d 'grantType=authorization_code&code=RpjTsmtnzdFMC0zQ3DQBFHM9bmBy83UXqvw9Kfza2yo=&clientId=SprintManagement' "http://192.168.124.123:13000/identity/v1/token")
+        encrypt_auth = encrypt(auth_code)
 
+        payload = {
+                'grantType':'authorization_code',
+                'code':encrypt_auth,
+                'clientId':'SprintManagement'
+                }
+
+        headers = {
+                'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+                'X-Quikr-Client':'Platform',
+                'Content-Type':'application/json'
+                }
+
+        response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=payload, headers=headers)
+        resp = response.text
+
+        headers1 = {
+                'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344='
+                }
+
+        response1 = requests.request("POST",'http://192.168.124.123:13000/identity/v1/login', data=payload, headers=headers)
+        resp1 = response1.text
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
