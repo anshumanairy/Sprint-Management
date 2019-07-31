@@ -4,7 +4,7 @@ from django.conf.urls import url,include
 
 urlpatterns = [
     url(r'^$',views.reg,name="register"),
-    url(r'^quikr/',views.quikr,name="quikr"),
+    # url(r'^quikr/',views.quikr,name="quikr"),
     url(r'^login/',views.log,name="login"),
     url(r'^profile/',views.profile,name="profile"),
     url(r'^product/',views.prod,name="product"),

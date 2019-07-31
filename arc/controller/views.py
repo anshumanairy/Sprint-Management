@@ -43,6 +43,12 @@ def encrypt(value):
     ac = afterCipher[2:len(afterCipher)-1]
     return(ac)
 
+def converttob64(value):
+    enc = base64.b64encode(bytes(value, 'utf-8'))
+    enc = str(enc)
+    enc1 = enc[2:len(enc)-1]
+    return enc1
+
 
 @login_required(login_url='/')
 def profile(request):
@@ -2327,6 +2333,7 @@ def home(request):
     return render(request,'home.html/',{})
 
 def reg(request):
+
     total=story.objects.all().count()
     d1=register.objects.filter(roles='dev').count()
     registered = False
@@ -2334,6 +2341,7 @@ def reg(request):
         auth_code = request.GET.get('auth_code', '')
         encrypt_auth = encrypt(auth_code)
 
+        # part2 to obtain token
         payload = {
                 'grantType':'authorization_code',
                 'code':encrypt_auth,
@@ -2346,15 +2354,14 @@ def reg(request):
                 'Content-Type':'application/json'
                 }
 
-        response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=payload, headers=headers)
+        response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
         resp = response.text
+        list1=list(map(str,resp.split('"')))
+        idtoken = list1[5]
+        access_token = auth_code
+        enckey = converttob64('NyeRfxLeIrauuHwX')
+        print(enckey)
 
-        headers1 = {
-                'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344='
-                }
-
-        response1 = requests.request("POST",'http://192.168.124.123:13000/identity/v1/login', data=payload, headers=headers)
-        resp1 = response1.text
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -2378,36 +2385,37 @@ def reg(request):
     return render(request , 'register.html' ,{'user_form':user_form , 'profile_form':profile_form , 'registered':registered,'total':total,'d1':d1})
 
 
-def quikr(request):
+def log(request):
+
     return redirect("http://192.168.124.123:13000/identity/v1/auth?auth=Basic%20JaA%2BKUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344%3D&clientId=SprintManagement&redirectUri=http%3A%2F%2F127.0.0.1%3A8000%2F&responseType=code&scope=openid")
 
 
-def log(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = authenticate(username = username , password = password)
-    if request.method == 'POST':
-        if user:
-            if user.is_superuser:
-                login(request,user)
-                request.session['pid'] = 0
-                request.session['user2'] = ''
-                request.session['id'] = 0
-                request.session['userx'] = 'Users'
-                return redirect('product')
-
-            if user.is_active:
-                login(request,user)
-                request.session['pid'] = 0
-                request.session['user2'] = ''
-                request.session['id'] = 0
-                request.session['userx'] = 'Users'
-                return redirect('product')
-            else:
-                messages.info(request, 'Account not active!')
-                return redirect('login')
-        else:
-            messages.info(request, 'Invalid Credentials!')
-            return redirect('login')
-    else:
-        return render(request,'login.html/',{})
+# def log(request):
+#     username = request.POST.get('username')
+#     password = request.POST.get('password')
+#     user = authenticate(username = username , password = password)
+#     if request.method == 'POST':
+#         if user:
+#             if user.is_superuser:
+#                 login(request,user)
+#                 request.session['pid'] = 0
+#                 request.session['user2'] = ''
+#                 request.session['id'] = 0
+#                 request.session['userx'] = 'Users'
+#                 return redirect('product')
+#
+#             if user.is_active:
+#                 login(request,user)
+#                 request.session['pid'] = 0
+#                 request.session['user2'] = ''
+#                 request.session['id'] = 0
+#                 request.session['userx'] = 'Users'
+#                 return redirect('product')
+#             else:
+#                 messages.info(request, 'Account not active!')
+#                 return redirect('login')
+#         else:
+#             messages.info(request, 'Invalid Credentials!')
+#             return redirect('login')
+#     else:
+#         return render(request,'login.html/',{})
