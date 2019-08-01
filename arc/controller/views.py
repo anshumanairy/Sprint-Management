@@ -780,7 +780,6 @@ def user_logout(request):
     response = redirect('/')
     return response
 
-
 @login_required(login_url='/')
 def prod(request):
     try:
@@ -789,31 +788,6 @@ def prod(request):
     except Exception as ex:
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
-
-    # working on sso integration
-    visits = request.session.get('visits')
-    if not visits:
-        visits = 1
-    reset_last_visit_time = False
-
-    last_visit = request.session.get('last_visit')
-    if last_visit:
-        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
-
-        if (datetime.now() - last_visit_time).seconds > 0:
-            # ...reassign the value of the cookie to +1 of what it was before...
-            visits = visits + 1
-            # ...and update the last visit cookie, too.
-            reset_last_visit_time = True
-    else:
-        # Cookie last_visit doesn't exist, so create it to the current date/time.
-        reset_last_visit_time = True
-
-    if reset_last_visit_time:
-        request.session['last_visit'] = str(datetime.now())
-        request.session['visits'] = visits
-
-
 
     # used to calculate all dates for burndown graph
     list3=[]
@@ -1399,7 +1373,7 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'visits':visits,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
 def view_story(request):
@@ -2340,51 +2314,59 @@ def home(request):
     return render(request,'home.html/',{})
 
 def reg(request):
-
     total=story.objects.all().count()
     d1=register.objects.filter(roles='dev').count()
+    name=''
+    email=''
+    emp=0
     registered = False
-    if request.method =='GET':
-        auth_code = request.GET.get('auth_code', '')
-        encrypt_auth = encryptx(auth_code)
+    try:
+        if request.method =='GET':
+            auth_code = request.GET.get('auth_code', '')
+            encrypt_auth = encryptx(auth_code)
 
-        # part2 to obtain token
-        payload = {
-                'grantType':'authorization_code',
-                'code':encrypt_auth,
-                'clientId':'SprintManagement'
-                }
+            # part2 to obtain token
+            payload = {
+                    'grantType':'authorization_code',
+                    'code':encrypt_auth,
+                    'clientId':'SprintManagement'
+                    }
 
-        headers = {
-                'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-                'X-Quikr-Client':'Platform',
-                'Content-Type':'application/json'
-                }
+            headers = {
+                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+                    'X-Quikr-Client':'Platform',
+                    'Content-Type':'application/json'
+                    }
 
-        response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-        resp = response.text
-        list1=list(map(str,resp.split('"')))
-        idtoken = list1[5]
-        access_token = auth_code
-        list2=list(map(str,idtoken.split('.')))
-        dec = decryptx(list1[5])
-        print(dec)
+            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+            resp = response.text
+            list1=list(map(str,resp.split('"')))
+            idtoken = list1[5]
+            access_token = auth_code
+            list2=list(map(str,idtoken.split('.')))
+            dec = decryptx(list1[5])
 
-        # if dec == {} or None:
-            # unsuccessfull login
-            # return redirect('login')
-        # else:
-            # successfull login
-        emp = dec['empId']
-        email = dec['email']
-        name = dec['name']
+            # if dec == {} or None:
+            #     # unsuccessfull login
+            #     return redirect('login')
+            # else:
+                # successfull login
 
-        if User.objects.filter(email=email).exists() ==True:
-            request.session['pid'] = 0
-            request.session['user2'] = ''
-            request.session['id'] = 0
-            request.session['userx'] = 'Users'
-            return redirect('product')
+            emp = dec['empId']
+            email = dec['email']
+            name = dec['name']
+
+            if User.objects.filter(email=email).exists() == True:
+                regx = User.objects.get(email=email)
+                user = authenticate(username = regx.username, password='Zehel9999')
+                login(request,user)
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
+                request.session['userx'] = 'Users'
+                return redirect('product')
+    except:
+        pass
 
 
     if request.method == 'POST':
@@ -2393,7 +2375,7 @@ def reg(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             x = user.username
-            user.set_password(user.password)
+            user.set_password('Zehel9999')
             user.save()
             profile_form.instance.uname= x
             profile = profile_form.save(commit=False)
@@ -2404,13 +2386,14 @@ def reg(request):
         else:
             print(user_form.errors , profile_form.errors)
     else:
-        user_form = UserForm()
-        profile_form = registerform()
+        data1 = {'email':email}
+        user_form = UserForm(initial=data1)
+        data2 = {'name':name,'empid':emp}
+        profile_form = registerform(initial=data2)
     return render(request , 'register.html' ,{'user_form':user_form , 'profile_form':profile_form , 'registered':registered,'total':total,'d1':d1})
 
 
 def log(request):
-
     return redirect("http://192.168.124.123:13000/identity/v1/auth?auth=Basic%20JaA%2BKUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344%3D&clientId=SprintManagement&redirectUri=http%3A%2F%2F127.0.0.1%3A8000%2F&responseType=code&scope=openid")
 
 

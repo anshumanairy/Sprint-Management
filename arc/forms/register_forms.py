@@ -6,14 +6,19 @@ from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
 
-    password = forms.CharField(widget=forms.PasswordInput())
-
     class Meta():
         model = User
-        fields = ('username','password','email')
+        fields = ('username','email')
+        widgets={
+            'email': forms.EmailInput(attrs={'disabled': True}),
+        }
+
 
 class registerform(forms.ModelForm):
 
     class Meta():
         model = register
         fields = ('name','html','php','java','qa','roles','empid')
+        widgets={
+            'empid': forms.NumberInput(attrs={'disabled': True}),
+        }
