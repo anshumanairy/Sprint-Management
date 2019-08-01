@@ -20,5 +20,6 @@ class registerform(forms.ModelForm):
         model = register
         fields = ('name','html','php','java','qa','roles','empid')
         widgets={
+            'name': forms.TextInput(attrs={'readonly': True}),
             'empid': forms.NumberInput(attrs={'readonly': True}),
         }

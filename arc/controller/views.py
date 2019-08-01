@@ -2392,6 +2392,8 @@ def reg(request):
         profile_form = registerform(initial=data2)
     return render(request , 'register.html' ,{'user_form':user_form , 'profile_form':profile_form , 'registered':registered,'total':total,'d1':d1})
 
+def admin(request):
+    return redirect('http://127.0.0.1:8000/admin/')
 
 def log(request):
     return redirect("http://192.168.124.123:13000/identity/v1/auth?auth=Basic%20JaA%2BKUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344%3D&clientId=SprintManagement&redirectUri=http%3A%2F%2F127.0.0.1%3A8000%2F&responseType=code&scope=openid")
