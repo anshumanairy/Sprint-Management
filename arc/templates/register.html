@@ -15,13 +15,7 @@
 			  src="https://code.jquery.com/jquery-3.3.1.js"
 			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 			  crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(function(){
-      $("#btn").click(function(){
-        $("#log").load("login.html/");
-      });
-    });
-  </script>
+
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <!-- CSS Files -->
@@ -193,9 +187,6 @@
           <div class="row">
             <div class="update" id="reg">
               <input type="submit" class="btn example_c" value="Register" name="reg">
-            <div class="row" id="reg2">
-              <a href="{% url 'login' %}">Already Registered? Login</a>
-            </div>
             </div>
           </div>
         </div>

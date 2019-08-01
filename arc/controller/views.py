@@ -2333,7 +2333,7 @@ def reg(request):
             #     return redirect('login')
             # else:
                 # successfull login
-
+            
             emp = dec['empId']
             email = dec['email']
             name = dec['name']
