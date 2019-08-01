@@ -10,7 +10,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username','email')
         widgets={
-            'email': forms.EmailInput(attrs={'disabled': True}),
+            'email': forms.EmailInput(attrs={'readonly': True}),
         }
 
 
@@ -20,5 +20,5 @@ class registerform(forms.ModelForm):
         model = register
         fields = ('name','html','php','java','qa','roles','empid')
         widgets={
-            'empid': forms.NumberInput(attrs={'disabled': True}),
+            'empid': forms.NumberInput(attrs={'readonly': True}),
         }

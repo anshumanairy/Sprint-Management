@@ -2395,34 +2395,3 @@ def reg(request):
 
 def log(request):
     return redirect("http://192.168.124.123:13000/identity/v1/auth?auth=Basic%20JaA%2BKUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344%3D&clientId=SprintManagement&redirectUri=http%3A%2F%2F127.0.0.1%3A8000%2F&responseType=code&scope=openid")
-
-
-# def log(request):
-#     username = request.POST.get('username')
-#     password = request.POST.get('password')
-#     user = authenticate(username = username , password = password)
-#     if request.method == 'POST':
-#         if user:
-#             if user.is_superuser:
-#                 login(request,user)
-#                 request.session['pid'] = 0
-#                 request.session['user2'] = ''
-#                 request.session['id'] = 0
-#                 request.session['userx'] = 'Users'
-#                 return redirect('product')
-#
-#             if user.is_active:
-#                 login(request,user)
-#                 request.session['pid'] = 0
-#                 request.session['user2'] = ''
-#                 request.session['id'] = 0
-#                 request.session['userx'] = 'Users'
-#                 return redirect('product')
-#             else:
-#                 messages.info(request, 'Account not active!')
-#                 return redirect('login')
-#         else:
-#             messages.info(request, 'Invalid Credentials!')
-#             return redirect('login')
-#     else:
-#         return render(request,'login.html/',{})
