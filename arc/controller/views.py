@@ -18,7 +18,7 @@ from django.views.generic import TemplateView, ListView
 from django.template.response import TemplateResponse
 from datetime import timedelta
 from django.db.models import Sum
-from datetime import datetime
+import datetime
 import numpy as np
 import json
 import csv, io
@@ -66,6 +66,7 @@ def profile(request):
     except Exception as ex:
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
+    info1 = User.objects.get(username = request.user.username)
     if request.user.is_superuser:
         info = User.objects.get(username = request.user.username)
         check = 1
@@ -81,10 +82,9 @@ def profile(request):
         if 'update' in request.POST:
             if request.user.is_superuser:
                 username = request.POST.get('uname')
-                password = request.POST.get('password')
                 reg1 = User.objects.get(username=request.user.username)
                 create = project.objects.filter(creator=request.user.username)
-                user = authenticate(username = request.user.username , password = password)
+                user = authenticate(username = request.user.username , password = 'Zehel9999')
                 if user:
                     if username != request.user.username:
                         reg1.username = username
@@ -93,18 +93,16 @@ def profile(request):
                             i.creator=username
                             i.save()
                         messages.info(request, 'Success!')
-                else:
-                    messages.info(request, 'Wrong Password!')
+
             else:
                 name = request.POST.get('name')
                 username = request.POST.get('uname')
-                password = request.POST.get('password')
                 skills = request.POST.getlist('skill[]')
                 skill = [item.lower() for item in skills]
                 reg1 = User.objects.get(username=request.user.username)
                 reg2 = register.objects.get(uname=request.user.username)
                 reg3 = cregister.objects.filter(uname=request.user.username)
-                user = authenticate(username = request.user.username , password = password)
+                user = authenticate(username = request.user.username , password = 'Zehel9999')
                 if user:
                     if username != request.user.username:
                         reg1.username = username
@@ -155,29 +153,10 @@ def profile(request):
                         reg2.save()
 
                     messages.info(request, 'Success')
-                else:
-                    messages.info(request, 'Wrong Password!')
 
             return(redirect('profile'))
 
-        if 'updatepassword' in request.POST:
-            username = request.POST.get('uname')
-            old_password = request.POST.get('passwordold')
-            new_password = request.POST.get('passwordnew')
-            reg1 = User.objects.get(username=request.user.username)
-            if username == request.user.username:
-                user = authenticate(username = request.user.username , password = old_password)
-                if user:
-                    reg1.set_password(new_password)
-                    reg1.save()
-                    return(redirect('login'))
-                else:
-                    messages.info(request, 'Old Password is Wrong!')
-            else:
-                messages.info(request, 'Invalid Username!')
-            return(redirect('profile'))
-
-    return render(request,'profile.html/',{'info':info,'check':check,'var':var})
+    return render(request,'profile.html/',{'info1':info1,'info':info,'check':check,'var':var})
 
 @login_required(login_url='/')
 def blog(request):
@@ -251,7 +230,7 @@ def qaprg(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id1).roles=='man':
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1345,7 +1324,7 @@ def prod(request):
 
         # productform condition where sprint_button is the name for submit button for sprint form
         if 'sprint_button' in request.POST:
-            if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id).roles=='man' or register.objects.get(uname=request.user.username).roles=='man':
+            if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True) or (register.objects.filter(uname=request.user.username,roles='man').exists()==True):
                 if form.is_valid():
                     form = productform(request.POST)
                     form.instance.pid = pid2
@@ -1386,7 +1365,7 @@ def view_story(request):
     if id==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id).roles=='man':
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True):
         data1 = product.objects.filter(pid=pid2)
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1768,7 +1747,7 @@ def bandwidth(request):
     if sprid==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=sprid).roles=='man':
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True):
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -2111,7 +2090,7 @@ def tasks(request):
     list2x=[]
     list3x=[]
 
-    if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id1).roles=='man':
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
         pass
     else:
         u1 = register.objects.get(uname=request.user.username)
@@ -2234,7 +2213,7 @@ def tasks(request):
             skill = request.GET.get('skill')
             skill = skill.lower()
             pt = request.GET.get('points')
-            if request.user.is_superuser or cregister.objects.get(uname=request.user.username,sprint_id=id1).roles=='man':
+            if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
                 messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
             else:
                 if skill in ['java','php','html','qa']:
