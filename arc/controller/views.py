@@ -756,7 +756,10 @@ def qaprg(request):
 @login_required(login_url='/')
 def user_logout(request):
     logout(request)
+    # request.session.flush()
     response = redirect('/')
+    response.delete_cookie('sessionid', domain="127.0.0.1",path='/')
+    response.delete_cookie('csrftoken', domain="127.0.0.1",path='/')
     return response
 
 @login_required(login_url='/')

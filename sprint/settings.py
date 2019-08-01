@@ -16,6 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# SESSION_COOKIE_DOMAIN = '.accounts-stage.quikr.com'
 # DATE_INPUT_FORMATS = ['%d-%m-%Y']
 # Application definition
 
