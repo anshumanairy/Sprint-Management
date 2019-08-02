@@ -2359,7 +2359,6 @@ def reg(request):
                 profile.user = user
                 profile.save()
                 registered = True
-                d1=User.objects.all().count()
                 return redirect('login')
             else:
                 messages.info(request, 'Tampered Account Details!')

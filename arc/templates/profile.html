@@ -10,7 +10,13 @@
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+
+  <script src="/static/bootstrap.min.js"></script>
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 
@@ -79,37 +85,37 @@
 </head>
 
   <body id="re">
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-      <button class="w3-bar-item w3-button w3-large"
-      onclick="w3_close()">Close &times;</button>
-      <a href="{% url 'product' %}" class="w3-bar-item w3-button">Home Page</a>
-      <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
-      <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Sprint Progress</a>
-      <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
-      <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">End Sprint Report</a>
-      <a href="{% url 'profile' %}" class="w3-bar-item w3-button">Profile</a>
-      <a href="{% url 'logout' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
-    </div>
-
-    <div id="main">
-
-      <div class="w3-teal" id="hx1">
-        <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-        Profile
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black; font-size:12px;" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand">Story Details</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
+            </li>
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                </div>
+            </div>
+          </ul>
+        </div>
       </div>
-
-    <script>
-    function w3_open() {
-      document.getElementById("main").style.marginLeft = "25%";
-      document.getElementById("mySidebar").style.width = "25%";
-      document.getElementById("mySidebar").style.display = "block";
-    }
-    function w3_close() {
-      document.getElementById("main").style.marginLeft = "0%";
-      document.getElementById("mySidebar").style.display = "none";
-      document.getElementById("openNav").style.display = "inline-block";
-    }
-    </script>
+    </nav>
 
     <script>
       $(document).ready(function() {

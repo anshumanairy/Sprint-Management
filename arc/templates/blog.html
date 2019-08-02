@@ -38,12 +38,6 @@
       <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
 
     <style media="screen">
-      /* .home_banner_area{
-        position: relative;
-        z-index: 1;
-        background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-        margin-bottom: 200px;
-      } */
       body{
         font-family:Montserrat;
         background: lightgrey;
@@ -123,6 +117,9 @@
       #check2{
         padding-top:10px;
       }
+      .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus, .show > .btn-primary.dropdown-toggle:hover{
+        background-color:#343a40 !important;
+      }
     </style>
     {% if messages %}
       <script>
@@ -134,122 +131,43 @@
   </head>
   <body id="re">
 
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-      <button class="w3-bar-item w3-button w3-large"
-      onclick="w3_close()">Close &times;</button>
-      <a href="{% url 'product' %}" class="w3-bar-item w3-button">Home Page</a>
-      <a href="{% url 'view_story' %}" class="w3-bar-item w3-button">Stories</a>
-      <a href="{% url 'qaprg' %}" class="w3-bar-item w3-button">Sprint Progress</a>
-      <a href="{% url 'bandwidth' %}" class="w3-bar-item w3-button">Sprint Bandwidth</a>
-      <a href="{% url 'tasks' %}l" class="w3-bar-item w3-button">End Sprint Report</a>
-      <a href="{% url 'profile' %}" class="w3-bar-item w3-button">Profile</a>
-      <a href="{% url 'logout' %}" class="w3-bar-item w3-button"><b>Logout</b></a>
-    </div>
-
-    <div id="main">
-
-      <div class="w3-teal" id="hx1">
-        <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-        All Tasks Dashboard
-        <div id="hid">
-          <div id="hid3">
-            <form class="post-form" method='POST' id="h">
-              {% csrf_token %}
-              <div class="container-fluid">
-                  <div class="col-md-12">
-                    <!-- onchange="myFunction(this.value)" -->
-                      <select class="js-example-basic-single" name="select_project">
-                          <option selected="true" disabled>{{ nx }}</option>
-                        {% for n1 in n0 %}
-                          <option>{{ n1.name }}</option>
-                        {% endfor %}
-                      </select>
-                  </div>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand">Story Details</a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
+          </li>
+          <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
+              <div class="dropdown-menu dropdown-menu-right">
+                  <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                  <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
               </div>
-            </form>
-
-            <script>
-              $(document).ready(function() {
-                  var frm = $('#h');
-                  frm.on('change',function (e) {
-                    e.preventDefault();
-                      $.ajax({
-                          type: frm.attr('method'),
-                          data: frm.serialize(),
-                          success: function(data) {
-                            $("#re").html(data);
-                          },
-                      });
-                  });
-                });
-            </script>
           </div>
-          <div id="hid1">
-            <form class="post-form" method='POST' id="f5">
-              {% csrf_token %}
-              <div class="container-fluid">
-                  <div class="col-md-12" >
-                      <select class="js-example-basic-single" name="select_sprint">
-                        <option selected="true" disabled>{{ nx1 }}</option>
-                        {% for product in data1 %}
-                        <option> {{ product.name }}</option>
-                          {% endfor %}
-                      </select>
-                  </div>
-              </div>
-            </form>
-
-            <script>
-              $(document).ready(function() {
-                  var frm = $('#f5');
-                  frm.on('change',function (e) {
-                    e.preventDefault();
-                      $.ajax({
-                          type: frm.attr('method'),
-                          data: frm.serialize(),
-                          success: function(data) {
-                            $("#re").html(data);
-                          },
-                      });
-                  });
-                });
-            </script>
-          </div>
-          </div>
+        </ul>
       </div>
+    </div>
+  </nav>
 
-      <script>
-      $(document).ready(function() {
-          $('.js-example-basic-single').select2();
-        });
-      </script>
-
-      <script type="text/javascript">
-          var frm = $('#pros');
-          frm.submit(function () {
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function (data) {
-                      $("#re").html(data);
-                  },
-              });
-              return false;
-          });
-      </script>
-
-    <script>
-    function w3_open() {
-      document.getElementById("main").style.marginLeft = "25%";
-      document.getElementById("mySidebar").style.width = "25%";
-      document.getElementById("mySidebar").style.display = "block";
-    }
-    function w3_close() {
-      document.getElementById("main").style.marginLeft = "0%";
-      document.getElementById("mySidebar").style.display = "none";
-      document.getElementById("openNav").style.display = "inline-block";
-    }
-    </script>
+  <script>
+  $(document).ready(function() {
+      $('.js-example-basic-single').select2();
+    });
+  </script>
 
   <header class="header_area">
       <div class="main_menu">
