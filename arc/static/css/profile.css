@@ -1,0 +1,40 @@
+.js-example-basic-single{
+  width:30%;
+}
+th{
+  cursor: pointer;
+}
+  .scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+body{
+  font-family: Montserrat;
+  background :#F3F3F3;
+}
+#x1,#x2{
+  padding-top: 20px;
+  position: relative;
+  margin:0 auto;
+}
+#spr{
+  padding-top: 70px;
+}
+td,th{
+  text-align: center;
+}
+.example_d {
+color: white;
+background: black;
+border: 1px solid black;
+transition: all 0.4s ease 0s;
+}
+.example_d:hover {
+background: white;
+border: 1px solid white;
+transition: all 0.4s ease 0s;
+}
+.js-example-basic-single{
+  width: 100%;
+}

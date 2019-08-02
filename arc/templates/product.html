@@ -1,196 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'home.html' %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/product.css">
+<script>
+// use promise to resolve
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+    $("#datetimepicker2").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+    $("#datetimepicker3").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
+</script>
+  <body id="re">
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
-  <title>
-    Product Console
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-
-  <!-- jquery cdn for ajax -->
-  <script
-        src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
-
-  <!-- cdn for bootstrap datepicker -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.js"></script>
-
-  <!-- cdn for select2 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-
-  <!-- Cdn for chart -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
-
-  {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/w3.css' %}">
-    <script src="/static/bootstrap.min.js"></script>
-
-    <script>
-    // use promise to resolve
-      $(function () {
-        $("#datetimepicker1").datetimepicker({
-          format: 'DD/MM/YYYY',
-        });
-        $("#datetimepicker2").datetimepicker({
-          format: 'DD/MM/YYYY',
-        });
-        $("#datetimepicker3").datetimepicker({
-          format: 'DD/MM/YYYY',
-        });
-      });
-    </script>
-    <script>
-      $(document).ready(function() {
-        $('.js-example-basic-single').select2();
-      });
-    </script>
-
-  <style media="screen">
-    body{
-      font-family:Montserrat;
-    }
-    .chartjs-render-monitor {
-      animation: chartjs-render-animation .05s;
-    }
-      .scrollable-menu {
-      height: auto;
-      max-height: 200px;
-      overflow-x: hidden;
-    }
-    #spr{
-      padding-top: 70px;
-    }
-    input[type="text"]::placeholder,input[type="password"]::placeholder{
-      color:lightgrey;
-    }
-    #back{
-      background-color: #f2f5f2;
-    }
-    #a{
-      background-color: white;
-      color:black;
-    }
-    #f,#g{
-      width:550px;
-      padding-left: 15px;
-      font:10px;
-    }
-    .bootstrap-datetimepicker-widget.dropdown-menu{
-      width:20rem;
-    }
-    #change{
-      color:grey;
-      padding-left: 15px;
-      padding-top: 5px;
-    }
-    .example_c {
-    color: black;
-    background: lightgrey;
-    border: 1px solid lightgrey;
-    transition: all 0.4s ease 0s;
-    }
-    .example_c:hover {
-    background: #303D39;
-    border: 1px solid #303D39;
-    transition: all 0.4s ease 0s;
-    }
-    .js-example-basic-single{
-      width: 'resolve';
-    }
-    .example_d {
-    color: white;
-    background: black;
-    border: 1px solid black;
-    transition: all 0.4s ease 0s;
-    }
-    .example_d:hover {
-    background: white;
-    border: 1px solid white;
-    transition: all 0.4s ease 0s;
-    }
-    td{
-      height: 70px;
-    }
-    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus, .show > .btn-primary.dropdown-toggle:hover{
-      background-color:#343a40 !important;
-    }
-
-  </style>
-
-  {% if messages %}
-    <script>
-      {% for message in messages %}
-        alert("{{ message }}");
-      {% endfor %}
-    </script>
-  {% endif %}
-
-  </head>
-
-<body id="re">
-
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand">Home Page</a>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
-          </li>
-          <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
-              <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                  <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-              </div>
-          </div>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand">Home Page</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
+            </li>
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                </div>
+            </div>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-<div id="hidx">
+  <div id="hidx">
+      <div class="container-fluid" id="spr">
+        <div class="col-md-2">
+          <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
+        </div>
+      </div>
+
+      <form class="post-form" method='POST' id="h">
+        {% csrf_token %}
+        <div class="container-fluid">
+            <div class="col-md-12">
+              <!-- onchange="myFunction(this.value)" -->
+                <select class="js-example-basic-single" name="select_project">
+                    <option selected="true" disabled>{{ nx }}</option>
+                  {% for n1 in n %}
+                    <option>{{ n1.name }}</option>
+                  {% endfor %}
+                </select>
+            </div>
+        </div>
+      </form>
+
+      <script>
+        $(document).ready(function() {
+            var frm = $('#h');
+            frm.on('change',function (e) {
+              e.preventDefault();
+                $.ajax({
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    success: function(data) {
+                      $("#re").html(data);
+                    },
+                });
+            });
+          });
+      </script>
+
+      <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
+        {% csrf_token %}
+        <div class="container">
+          <div class="col-sm-20">
+            <div class="card card-user" id="back">
+              <div class="card-header">
+                <h5 class="card-title">Create Project</h5>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Project Name</label>
+                      <input type="text" name="pname" placeholder="Project Name">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Select Admin</label>
+                        <div>
+                          <select class="js-example-basic-single" name="select_admin">
+                            {% for n2 in list11 %}
+                              <option>{{ n2 }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <label>Select Users</label>
+                        <div>
+                          <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                            {% for n2 in z2 %}
+                              <option>{{ n2.uname }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <label>Select Managers</label>
+                        <div>
+                          <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
+                            {% for n2 in z2 %}
+                              <option>{{ n2.uname }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="update ml-auto mr-auto">
+                    <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="update ml-auto mr-auto">
+                    <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+  </div>
+
+      <div id="m1">
+
+      <script>
+        function w6_open() {
+          document.getElementById("m1").style.marginTop = "0%";
+          document.getElementById("g").style.display = "block";
+          document.getElementById("project_btn").style.display = 'none';
+        }
+        function w6_close() {
+          document.getElementById("m1").style.marginTop = "0%";
+          document.getElementById("g").style.display = "none";
+          document.getElementById("project_btn").style.display = "inline-block";
+        }
+      </script>
+
+  <div id="hidy">
     <div class="container-fluid" id="spr">
       <div class="col-md-2">
-        <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
+        <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
       </div>
     </div>
 
-    <form class="post-form" method='POST' id="h">
+    <form class="post-form" method='POST' id="f5">
       {% csrf_token %}
       <div class="container-fluid">
-          <div class="col-md-12">
-            <!-- onchange="myFunction(this.value)" -->
-              <select class="js-example-basic-single" name="select_project">
-                  <option selected="true" disabled>{{ nx }}</option>
-                {% for n1 in n %}
-                  <option>{{ n1.name }}</option>
-                {% endfor %}
+          <div class="col-md-12" >
+              <select class="js-example-basic-single" name="select_sprint">
+                <option selected="true" disabled>{{ hx2 }}</option>
+                {% for product in data %}
+                <option> {{ product.name }}</option>
+                  {% endfor %}
               </select>
           </div>
       </div>
@@ -198,7 +201,7 @@
 
     <script>
       $(document).ready(function() {
-          var frm = $('#h');
+          var frm = $('#f5');
           frm.on('change',function (e) {
             e.preventDefault();
               $.ajax({
@@ -212,67 +215,95 @@
         });
     </script>
 
-    <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
+    <div class="container-fluid">
+      <div class="col-md-12" >
+        <a href="{% url 'view_story' %}"><button class="btn example_c"><small>View Stories</small></button></a>
+        <a href="{% url 'tasks' %}"><button class="btn example_c"><small>End Sprint Report</small></button></a>
+      </div>
+    </div>
+
+    <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
       {% csrf_token %}
       <div class="container">
         <div class="col-sm-20">
           <div class="card card-user" id="back">
             <div class="card-header">
-              <h5 class="card-title">Create Project</h5>
+              <h5 class="card-title">Create Sprint</h5>
             </div>
 
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Project Name</label>
-                    <input type="text" name="pname" placeholder="Project Name">
+                    <label>Sprint Name</label>
+                    {{ form.name }}
                   </div>
                 </div>
               </div>
 
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Select Admin</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_admin">
-                          {% for n2 in list11 %}
-                            <option>{{ n2 }}</option>
-                          {% endfor %}
-                        </select>
+              <div class="row">
+                  <div class='col-md-6 pr-1'>
+                      <div class="form-group">
+                          <label>Sprint Start Date</label>
+                          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            {{ form.sprint_start_date }}
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                          </div>
+
                       </div>
-                      <label>Select Users</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
-                          {% for n2 in z2 %}
-                            <option>{{ n2.uname }}</option>
-                          {% endfor %}
-                        </select>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class='col-sm-8 pr-1'>
+                      <div class="form-group">
+                          <label>Sprint Dev End Date</label>
+                          <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            {{ form.sprint_dev_end_date }}
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                          </div>
+
                       </div>
-                      <label>Select Managers</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
-                          {% for n2 in z2 %}
-                            <option>{{ n2.uname }}</option>
-                          {% endfor %}
-                        </select>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class='col-sm-8 pr-1'>
+                      <div class="form-group">
+                          <label>Sprint QA End Date</label>
+                          <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                            {{ form.sprint_qa_end_date }}
+                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                          </div>
+
                       </div>
-                    </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group">
+                    <label>Holidays Available</label>
+                    {{ form.holidays }}
                   </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="update ml-auto mr-auto">
-                  <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
+                  <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
                 </div>
               </div>
 
               <div class="row">
                 <div class="update ml-auto mr-auto">
-                  <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
+                  <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
                 </div>
               </div>
 
@@ -281,204 +312,250 @@
         </div>
       </div>
     </form>
-</div>
-
-    <div id="m1">
-
-    <script>
-      function w6_open() {
-        document.getElementById("m1").style.marginTop = "0%";
-        document.getElementById("g").style.display = "block";
-        document.getElementById("project_btn").style.display = 'none';
-      }
-      function w6_close() {
-        document.getElementById("m1").style.marginTop = "0%";
-        document.getElementById("g").style.display = "none";
-        document.getElementById("project_btn").style.display = "inline-block";
-      }
-    </script>
-
-<div id="hidy">
-  <div class="container-fluid" id="spr">
-    <div class="col-md-2">
-      <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
-    </div>
   </div>
 
-  <form class="post-form" method='POST' id="f5">
-    {% csrf_token %}
-    <div class="container-fluid">
-        <div class="col-md-12" >
-            <select class="js-example-basic-single" name="select_sprint">
-              <option selected="true" disabled>{{ hx2 }}</option>
-              {% for product in data %}
-              <option> {{ product.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-  </form>
+  <div id="m">
 
   <script>
-    $(document).ready(function() {
-        var frm = $('#f5');
-        frm.on('change',function (e) {
-          e.preventDefault();
-            $.ajax({
-                type: frm.attr('method'),
-                data: frm.serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                },
-            });
-        });
-      });
+    function w4_open() {
+      document.getElementById("m").style.marginTop = "0%";
+      document.getElementById("f").style.display = "block";
+      document.getElementById("sprint_btn").style.display = 'none';
+    }
+    function w4_close() {
+      document.getElementById("m").style.marginTop = "0%";
+      document.getElementById("f").style.display = "none";
+      document.getElementById("sprint_btn").style.display = "inline-block";
+    }
   </script>
 
+  <!-- bar graph Developer specific -->
+
   <div class="container-fluid">
-    <div class="col-md-12" >
-      <a href="{% url 'view_story' %}"><button class="btn example_c"><small>View Stories</small></button></a>
-      <a href="{% url 'tasks' %}"><button class="btn example_c"><small>End Sprint Report</small></button></a>
+    <div class="col-md-3">
+      <button class="btn example_d" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
     </div>
   </div>
 
-  <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
-    {% csrf_token %}
-    <div class="container">
-      <div class="col-sm-20">
-        <div class="card card-user" id="back">
-          <div class="card-header">
-            <h5 class="card-title">Create Sprint</h5>
-          </div>
+  <div class="container-fluid w3-animate-left" style="width:900px;" id="f1">
+    <div class="col-md">
+      <form method='POST' id="f4">
+        {% csrf_token %}
+        <select class="js-example-basic-single" name="select_user" style="width:20%;">
+            <option selected="true" disabled>{{ hx1 }}</option>
+            {% for n1 in s22 %}
+              <option>{{ n1.name }}</option>
+            {% endfor %}
+            <option disabled>---------------------</option>
+            <option>Java Dev</option>
+            <option>PHP Dev</option>
+            <option>HTML Dev</option>
+            <option>QA Dev</option>
+            <option disabled>---------------------</option>
+            <option>All Developers</option>
+        </select>
+      </form>
 
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Sprint Name</label>
-                  {{ form.name }}
-                </div>
-              </div>
-            </div>
+      <script>
+        $(document).ready(function() {
+            var frm = $('#f4');
+            frm.on('change',function (e) {
+              e.preventDefault();
+                $.ajax({
+                    type: frm.attr('method'),
+                    data: frm.serialize(),
+                    success: function(data) {
+                      $("#re").html(data);
+                    },
+                });
+            });
+          });
+      </script>
 
-            <div class="row">
-                <div class='col-md-6 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint Start Date</label>
-                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                          {{ form.sprint_start_date }}
-                          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class='col-sm-8 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint Dev End Date</label>
-                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                          {{ form.sprint_dev_end_date }}
-                          <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class='col-sm-8 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint QA End Date</label>
-                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                          {{ form.sprint_qa_end_date }}
-                          <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <label>Holidays Available</label>
-                  {{ form.holidays }}
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="update ml-auto mr-auto">
-                <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="update ml-auto mr-auto">
-                <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div id="m">
-
-<script>
-  function w4_open() {
-    document.getElementById("m").style.marginTop = "0%";
-    document.getElementById("f").style.display = "block";
-    document.getElementById("sprint_btn").style.display = 'none';
-  }
-  function w4_close() {
-    document.getElementById("m").style.marginTop = "0%";
-    document.getElementById("f").style.display = "none";
-    document.getElementById("sprint_btn").style.display = "inline-block";
-  }
-</script>
-
-<!-- bar graph Developer specific -->
-
-<div class="container-fluid">
-  <div class="col-md-3">
-    <button class="btn example_d" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
   </div>
-</div>
+    <canvas id="myChart1"></canvas>
+  </div>
 
-<div class="container-fluid w3-animate-left" style="width:900px;" id="f1">
-  <div class="col-md">
-    <form method='POST' id="f4">
+  <script>
+  var ctx = document.getElementById('myChart1');
+  var data6  = JSON.parse('{{ jd8|escapejs }}');
+  var val1  = JSON.parse('{{ val|escapejs }}');
+  var nval1  = JSON.parse('{{ nval|escapejs }}');
+
+  if(val1=='Single'){
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+            datasets: [{
+              label: 'Developers Chart',
+                data: data6,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.4)',
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(255, 206, 86, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+  }
+
+  else{
+    data7=[]
+    data8=[]
+    data9=[]
+    data10=[]
+    for(let i=0;i<Object.keys(data6).length;i+=3){
+       data8.push(data6[i])
+       data9.push(data6[i+1])
+       data10.push(data6[i+2])
+   }
+   for(let i=0;i<Object.keys(nval1).length;i++){
+      data7.push(nval1[i])
+  }
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data7,
+            datasets: [{
+              label: 'Available Bandwidth',
+                data: data8,
+                backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+              label: 'Story Points Assigned',
+                data: data9,
+                backgroundColor: 'rgba(54, 162, 235, 0.4)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            },
+            {
+              label: 'Story Points Completed',
+                data: data10,
+                backgroundColor: 'rgba(255, 206, 86, 0.4)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+  }
+  </script>
+
+
+  <!-- burndown graph -->
+
+  <div class="container-fluid">
+    <div class="col-md-3">
+      <button class="btn example_d" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
+    </div>
+  </div>
+
+  <script>
+      function showBurnDown(elementId, burndownData, newdata) {
+        var speedCanvas = document.getElementById(elementId);
+        Chart.defaults.global.defaultFontFamily = "Montserrat";
+        Chart.defaults.global.defaultFontSize = 10;
+        var data1  = JSON.parse('{{ jd1|escapejs }}');
+        // console.log(data1);
+        var ctx = document.getElementById('burndown43').getContext("2d");
+        var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.4)");gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.4)");
+        var speedData = {
+          labels: data1,
+          datasets: [
+            {
+              label: "Points Left",
+              data: burndownData,
+              fill: false,
+              borderColor: "rgba(72,42,156,.4)",
+              backgroundColor: "rgba(72,42,156,.5)",
+              lineTension: 0,
+            },
+            {
+              label: "Ideal Points Left",
+              data: newdata,
+              fill: true,
+              // fillColor: gradient,
+              borderColor: gradientFill,
+              lineTension: 0,
+              backgroundColor: gradientFill,
+            },
+          ]
+        };
+
+        var chartOptions = {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              boxWidth: 30,
+              fontColor: 'black'
+            }
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      min: 0,
+                      max: Math.round(burndownData[0] * 1.1)
+                  }
+              }]
+          }
+        };
+
+        var lineChart = new Chart(speedCanvas, {
+          type: 'line',
+          data: speedData,
+          options: chartOptions
+        });
+
+      }
+  </script>
+
+  <div class="container-fluid w3-animate-left" style=" width:900px;" id="f2">
+    <form class="post-form" method='POST' id="fz">
       {% csrf_token %}
-      <select class="js-example-basic-single" name="select_user" style="width:20%;">
-          <option selected="true" disabled>{{ hx1 }}</option>
-          {% for n1 in s22 %}
-            <option>{{ n1.name }}</option>
-          {% endfor %}
-          <option disabled>---------------------</option>
-          <option>Java Dev</option>
-          <option>PHP Dev</option>
-          <option>HTML Dev</option>
-          <option>QA Dev</option>
-          <option disabled>---------------------</option>
-          <option>All Developers</option>
-      </select>
+      <div class="container-fluid">
+          <div class="col-md-12" >
+              <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
+                <option selected="true" disabled>{{ hx2 }}</option>
+                {% for product in data %}
+                <option> {{ product.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+      </div>
     </form>
 
     <script>
       $(document).ready(function() {
-          var frm = $('#f4');
+          var frm = $('#fz');
           frm.on('change',function (e) {
             e.preventDefault();
               $.ajax({
@@ -491,90 +568,80 @@
           });
         });
     </script>
+    <canvas id="burndown43"></canvas>
+  </div>
 
-</div>
-  <canvas id="myChart1"></canvas>
-</div>
+  <script>
+    var data2  = JSON.parse('{{ jd5|escapejs }}');
+    var data3  = JSON.parse('{{ jd6|escapejs }}');
+    showBurnDown ("burndown43",data2,data3);
+  </script>
 
-<script>
-var ctx = document.getElementById('myChart1');
-var data6  = JSON.parse('{{ jd8|escapejs }}');
-var val1  = JSON.parse('{{ val|escapejs }}');
-var nval1  = JSON.parse('{{ nval|escapejs }}');
 
-if(val1=='Single'){
+  <!-- Pie Chart -->
+
+  <div class="container-fluid">
+    <div class="col-md-2">
+      <button class="btn example_d" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
+    </div>
+  </div>
+
+  <div class="container-fluid w3-animate-left" style="width:900px;" id="f3">
+    <form class="post-form" method='POST' id="fy">
+      {% csrf_token %}
+      <div class="container-fluid">
+          <div class="col-md-12" >
+              <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
+                <option selected="true" disabled>{{ hx2 }}</option>
+                {% for product in data %}
+                <option> {{ product.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+      </div>
+    </form>
+
+    <script>
+      $(document).ready(function() {
+          var frm = $('#fy');
+          frm.on('change',function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                  },
+              });
+          });
+        });
+    </script>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+  var ctx = document.getElementById('myChart');
+  var data7  = JSON.parse('{{ jd7|escapejs }}');
   var myChart = new Chart(ctx, {
-      type: 'bar',
-
+      type: 'doughnut',
       data: {
-          labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+          labels: ['Completed','QA','In Progress','Unassigned'],
           datasets: [{
-            label: 'Developers Chart',
-              data: data6,
+              data: data7,
               backgroundColor: [
                   'rgba(75, 192, 192, 0.4)',
                   'rgba(54, 162, 235, 0.4)',
-                  'rgba(255, 206, 86, 0.4)'
+                  'rgba(255, 206, 86, 0.4)',
+                  'rgba(255, 99, 132, 0.4)'
               ],
               borderColor: [
                   'rgba(75, 192, 192, 1)',
                   'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)'
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(255, 99, 132, 1)'
               ],
               borderWidth: 1
-          }]
-      },
-
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
-      }
-  });
-}
-
-else{
-  data7=[]
-  data8=[]
-  data9=[]
-  data10=[]
-  for(let i=0;i<Object.keys(data6).length;i+=3){
-     data8.push(data6[i])
-     data9.push(data6[i+1])
-     data10.push(data6[i+2])
- }
- for(let i=0;i<Object.keys(nval1).length;i++){
-    data7.push(nval1[i])
-}
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: data7,
-          datasets: [{
-            label: 'Available Bandwidth',
-              data: data8,
-              backgroundColor: 'rgba(75, 192, 192, 0.4)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-          },
-          {
-            label: 'Story Points Assigned',
-              data: data9,
-              backgroundColor: 'rgba(54, 162, 235, 0.4)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
-          },
-          {
-            label: 'Story Points Completed',
-              data: data10,
-              backgroundColor: 'rgba(255, 206, 86, 0.4)',
-              borderColor: 'rgba(255, 206, 86, 1)',
-              borderWidth: 1
-          }]
+          }],
       },
       options: {
           scales: {
@@ -586,195 +653,7 @@ else{
           }
       }
   });
-}
-</script>
-
-
-<!-- burndown graph -->
-
-<div class="container-fluid">
-  <div class="col-md-3">
-    <button class="btn example_d" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
-  </div>
-</div>
-
-<script>
-    function showBurnDown(elementId, burndownData, newdata) {
-      var speedCanvas = document.getElementById(elementId);
-      Chart.defaults.global.defaultFontFamily = "Montserrat";
-      Chart.defaults.global.defaultFontSize = 10;
-      var data1  = JSON.parse('{{ jd1|escapejs }}');
-      // console.log(data1);
-      var ctx = document.getElementById('burndown43').getContext("2d");
-      var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.4)");gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.4)");
-      var speedData = {
-        labels: data1,
-        datasets: [
-          {
-            label: "Points Left",
-            data: burndownData,
-            fill: false,
-            borderColor: "rgba(72,42,156,.4)",
-            backgroundColor: "rgba(72,42,156,.5)",
-            lineTension: 0,
-          },
-          {
-            label: "Ideal Points Left",
-            data: newdata,
-            fill: true,
-            // fillColor: gradient,
-            borderColor: gradientFill,
-            lineTension: 0,
-            backgroundColor: gradientFill,
-          },
-        ]
-      };
-
-      var chartOptions = {
-        legend: {
-          display: true,
-          position: 'top',
-          labels: {
-            boxWidth: 30,
-            fontColor: 'black'
-          }
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    min: 0,
-                    max: Math.round(burndownData[0] * 1.1)
-                }
-            }]
-        }
-      };
-
-      var lineChart = new Chart(speedCanvas, {
-        type: 'line',
-        data: speedData,
-        options: chartOptions
-      });
-
-    }
-</script>
-
-<div class="container-fluid w3-animate-left" style=" width:900px;" id="f2">
-  <form class="post-form" method='POST' id="fz">
-    {% csrf_token %}
-    <div class="container-fluid">
-        <div class="col-md-12" >
-            <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
-              <option selected="true" disabled>{{ hx2 }}</option>
-              {% for product in data %}
-              <option> {{ product.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-  </form>
-
-  <script>
-    $(document).ready(function() {
-        var frm = $('#fz');
-        frm.on('change',function (e) {
-          e.preventDefault();
-            $.ajax({
-                type: frm.attr('method'),
-                data: frm.serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                },
-            });
-        });
-      });
   </script>
-  <canvas id="burndown43"></canvas>
-</div>
 
-<script>
-  var data2  = JSON.parse('{{ jd5|escapejs }}');
-  var data3  = JSON.parse('{{ jd6|escapejs }}');
-  showBurnDown ("burndown43",data2,data3);
-</script>
-
-
-<!-- Pie Chart -->
-
-<div class="container-fluid">
-  <div class="col-md-2">
-    <button class="btn example_d" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
-  </div>
-</div>
-
-<div class="container-fluid w3-animate-left" style="width:900px;" id="f3">
-  <form class="post-form" method='POST' id="fy">
-    {% csrf_token %}
-    <div class="container-fluid">
-        <div class="col-md-12" >
-            <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
-              <option selected="true" disabled>{{ hx2 }}</option>
-              {% for product in data %}
-              <option> {{ product.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-  </form>
-
-  <script>
-    $(document).ready(function() {
-        var frm = $('#fy');
-        frm.on('change',function (e) {
-          e.preventDefault();
-            $.ajax({
-                type: frm.attr('method'),
-                data: frm.serialize(),
-                success: function(data) {
-                  $("#re").html(data);
-                },
-            });
-        });
-      });
-  </script>
-  <canvas id="myChart"></canvas>
-</div>
-
-<script>
-var ctx = document.getElementById('myChart');
-var data7  = JSON.parse('{{ jd7|escapejs }}');
-var myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Completed','QA','In Progress','Unassigned'],
-        datasets: [{
-            data: data7,
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.4)',
-                'rgba(54, 162, 235, 0.4)',
-                'rgba(255, 206, 86, 0.4)',
-                'rgba(255, 99, 132, 0.4)'
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(255, 99, 132, 1)'
-            ],
-            borderWidth: 1
-        }],
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
-
-</body>
-
-</html>
+  </body>
+{% endblock %}

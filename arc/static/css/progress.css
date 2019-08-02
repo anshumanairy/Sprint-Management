@@ -1,0 +1,72 @@
+th{
+  cursor: pointer;
+}
+body{
+  font-family: Montserrat;
+  background :#F3F3F3;
+}
+#tab2{
+  font-size: 14px;
+}
+.dev a {
+background-color: Yellow !important;
+color: Black !important;
+}
+.cr a {
+background-color: Blue !important;
+color: White !important;
+}
+.qa a {
+background-color: Orange !important;
+color: White !important;
+}
+.rel a {
+background-color: Green !important;
+color: White !important;
+}
+.box {
+  height: 10px;
+  width: 10px;
+  border: 1px solid grey;
+  margin-top: 1px;
+  clear: both;
+  float: left;
+}
+.red {
+  background-color: Blue !important;
+}
+
+.green {
+  background-color: Yellow !important;
+}
+
+.black {
+  background-color: Orange !important;
+}
+.purple {
+  background-color: Green !important;
+}
+.example_c {
+color: black;
+background: lightgrey;
+border: 1px solid lightgrey;
+transition: all 0.4s ease 0s;
+}
+.example_c:hover {
+background: #303D39;
+border: 1px solid #303D39;
+transition: all 0.4s ease 0s;
+}
+#hid{
+  float: right;
+  padding-top:10px;
+}
+#hid1,#hid3{
+  display: inline-block;
+}
+.chosen,#bt1{
+  font-size: 10px;
+}
+.js-example-basic-single{
+  width: 100%;
+}

@@ -1,0 +1,97 @@
+th{
+  cursor: pointer;
+}
+  .scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+#tab2{
+  font-size: 17px;
+}
+body{
+  font-family: Montserrat;
+  background :#F3F3F3;
+}
+
+#spr{
+  padding-top: 70px;
+}
+#black{
+  background-color: black;
+  color:white;
+  border: 2px solid black;
+}
+#red{
+  background-color: red;
+  color:white;
+  border: 2px solid red;
+}
+#yellow{
+  background-color: yellow;
+  color:black;
+  border: 2px solid yellow;
+}
+#green{
+  background-color: #1ea84c;
+  color: white;
+  border: 2px solid #1ea84c;
+}
+#purple{
+  background-color: purple;
+  color: white;
+  border: 2px solid purple;
+}
+#white{
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+}
+#blue{
+  background-color: blue;
+  color: white;
+  border: 2px solid blue;
+}
+#pd{
+  background-color: lightgreen;
+  color: black;
+  border: 2px solid lightgreen;
+}
+#other{
+  background-color: brown;
+  color: white;
+  border: 2px solid brown;
+}
+td,th{
+  text-align: center;
+}
+#una{
+  text-align: left;
+}
+.example_c {
+color: black;
+background: lightgrey;
+border: 1px solid lightgrey;
+transition: all 0.4s ease 0s;
+}
+.example_c:hover {
+background: #303D39;
+border: 1px solid #303D39;
+transition: all 0.4s ease 0s;
+}
+#hid{
+  float: right;
+  padding-top:10px;
+}
+#hid1,#hid3{
+  display: inline-block;
+}
+.chosen,#bt1{
+  font-size: 14px;
+}
+td,th{
+  border: 1px solid lightgrey;
+}
+.js-example-basic-single{
+  width: 100%;
+}

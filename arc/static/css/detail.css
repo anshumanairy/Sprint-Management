@@ -1,0 +1,82 @@
+body{
+  font-family:Montserrat;
+  background: lightgrey;
+}
+#spr{
+  padding-top:10px;
+}
+#hid{
+  float: right;
+  padding-top:10px;
+}
+#hid1,#hid3{
+  display: inline-block;
+}
+.example_c {
+color: black;
+background: lightgrey;
+border: 1px solid lightgrey;
+transition: all 0.4s ease 0s;
+}
+.example_c:hover {
+background: #303D39;
+border: 1px solid #303D39;
+transition: all 0.4s ease 0s;
+}
+.js-example-basic-single{
+  width: 100%;
+}
+.detailBox {
+border:1px solid #bbb;
+margin:10px;
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+}
+#spr,#check2{
+  display:inline-block;
+}
+#check2{
+  padding-top:10px;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus, .show > .btn-primary.dropdown-toggle:hover{
+  background-color:#343a40 !important;
+}

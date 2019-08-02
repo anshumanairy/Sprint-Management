@@ -49,7 +49,6 @@
       <link rel="stylesheet" href="/static/flaticon.css">
       <link rel="stylesheet" href="/static/icomoon.css">
       <link rel="stylesheet" href="/static/profile/css/responsive.css">
-      <link rel="stylesheet" href="/static/profile/css/reg.css">
       <link rel="stylesheet" href="/static/profile/css/style.css">
 
       <!-- Static js -->
@@ -63,10 +62,11 @@
       <script src="/static/jquery.stellar.min.js"></script>
       <script src="/static/owl.carousel.min.js"></script>
       <script src="/static/jquery.magnific-popup.min.js"></script>
-      <script src="/static/aos.js"></script>
+      <!-- <script src="/static/aos.js"></script> -->
       <script src="/static/jquery.animateNumber.min.js"></script>
       <script src="/static/scrollax.min.js"></script>
       <script src="/static/main1.js"></script>
+
 
 
     <!--Other CSS Files -->
@@ -77,5 +77,16 @@
     <!-- Other js files -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <!-- Error Messages -->
+    {% if messages %}
+      <script>
+        {% for message in messages %}
+          alert("{{ message }}");
+        {% endfor %}
+      </script>
+    {% endif %}
+
   </head>
+  {% block content %}
+  {% endblock %}
 </html>

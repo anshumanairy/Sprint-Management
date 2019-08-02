@@ -1,0 +1,68 @@
+body{
+  font-family:Montserrat;
+}
+.chartjs-render-monitor {
+  animation: chartjs-render-animation .05s;
+}
+  .scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+#spr{
+  padding-top: 70px;
+}
+input[type="text"]::placeholder,input[type="password"]::placeholder{
+  color:lightgrey;
+}
+#back{
+  background-color: #f2f5f2;
+}
+#a{
+  background-color: white;
+  color:black;
+}
+#f,#g{
+  width:550px;
+  padding-left: 15px;
+  font:10px;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu{
+  width:20rem;
+}
+#change{
+  color:grey;
+  padding-left: 15px;
+  padding-top: 5px;
+}
+.example_c {
+color: black;
+background: lightgrey;
+border: 1px solid lightgrey;
+transition: all 0.4s ease 0s;
+}
+.example_c:hover {
+background: #303D39;
+border: 1px solid #303D39;
+transition: all 0.4s ease 0s;
+}
+.js-example-basic-single{
+  width: 'resolve';
+}
+.example_d {
+color: white;
+background: black;
+border: 1px solid black;
+transition: all 0.4s ease 0s;
+}
+.example_d:hover {
+background: white;
+border: 1px solid white;
+transition: all 0.4s ease 0s;
+}
+td{
+  height: 70px;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus, .show > .btn-primary.dropdown-toggle:hover{
+  background-color:#343a40 !important;
+}
