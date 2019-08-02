@@ -15,7 +15,7 @@ SECRET_KEY = '0hk76ci28#=cvb+xb5j0%1sae_z9vbun!j(#f@l(qk&pqnqj=a'
 
 DEBUG = True
 
-ALLOWED_HOSTS=[]
+ALLOWED_HOSTS=['*']
 
 # SESSION_COOKIE_DOMAIN = '.accounts-stage.quikr.com'
 # DATE_INPUT_FORMATS = ['%d-%m-%Y']

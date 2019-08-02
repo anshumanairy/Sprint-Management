@@ -2297,7 +2297,7 @@ def home(request):
 
 def reg(request):
     total=story.objects.all().count()
-    d1=register.objects.filter(roles='dev').count()
+    d1=User.objects.all().count()
     name=''
     email=''
     emp=0
@@ -2328,12 +2328,6 @@ def reg(request):
             list2=list(map(str,idtoken.split('.')))
             dec = decryptx(list1[5])
 
-            # if dec == {} or None:
-            #     # unsuccessfull login
-            #     return redirect('login')
-            # else:
-                # successfull login
-            
             emp = dec['empId']
             email = dec['email']
             name = dec['name']
@@ -2355,18 +2349,20 @@ def reg(request):
         user_form = UserForm(data=request.POST)
         profile_form = registerform(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
+            user = user_form.save(commit=False)
             x = user.username
-            user.set_password('Zehel9999')
-            user.save()
             profile_form.instance.uname= x
             profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-            registered = True
-            return redirect('/')
-        else:
-            print(user_form.errors , profile_form.errors)
+            if ((user.email==email) and (profile.empid==emp) and (profile.name==name)):
+                user.set_password('Zehel9999')
+                user.save()
+                profile.user = user
+                profile.save()
+                registered = True
+                d1=User.objects.all().count()
+                return redirect('login')
+            else:
+                messages.info(request, 'Tampered Account Details!')
     else:
         data1 = {'email':email}
         user_form = UserForm(initial=data1)

@@ -21,7 +21,7 @@
   <!-- cdn for select2 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 
-  <!-- Cdn for chart.js -->
+  <!-- Cdn for chart -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="{% static '/paper-dashboard.css' %}">
 
     <script>
+    // use promise to resolve
       $(function () {
         $("#datetimepicker1").datetimepicker({
           format: 'DD/MM/YYYY',
@@ -48,13 +49,15 @@
         });
       });
     </script>
+    <script>
+      $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+      });
+    </script>
 
   <style media="screen">
     body{
       font-family:Montserrat;
-      /* background: url('/static/quikr.png') no-repeat fixed center;
-      background-size: contain;
-      opacity: 1; */
     }
     .chartjs-render-monitor {
       animation: chartjs-render-animation .05s;
@@ -102,7 +105,7 @@
     transition: all 0.4s ease 0s;
     }
     .js-example-basic-single{
-      width: 7%;
+      width: 'resolve';
     }
     .example_d {
     color: white;
@@ -150,12 +153,6 @@
       <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
       Sprint Management
     </div>
-
-    <script>
-      $(document).ready(function() {
-          $('.js-example-basic-single').select2();
-        });
-    </script>
 
     <script>
     function w3_open() {
