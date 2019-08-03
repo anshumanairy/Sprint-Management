@@ -3,6 +3,17 @@
   max-height: 200px;
   overflow-x: hidden;
 }
+.navbar .navbar-collapse .nav-item a{
+  font-size: 12px;
+}
+.navbar .navbar-brand{
+  font-size: 14px;
+}
+.navbar{
+  padding-top:0px;
+  padding-bottom: 0px;
+  padding: 0px;
+}
 th{
   cursor: pointer;
 }

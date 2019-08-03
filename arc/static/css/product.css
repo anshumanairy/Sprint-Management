@@ -1,16 +1,33 @@
 body{
   font-family:Montserrat;
+  font-size: 13px;
+  -moz-osx-font-smoothing:None;
+}
+#hidx{
+  float: left;
+  padding-top: 7%;
+}
+#hidy{
+  display: inline-block;
+  padding-top: 7%;
+  padding-left: 62%;
 }
 .chartjs-render-monitor {
   animation: chartjs-render-animation .05s;
 }
-  .scrollable-menu {
-  height: auto;
-  max-height: 200px;
-  overflow-x: hidden;
+.navbar .navbar-collapse .nav-item a{
+  font-size: 12px;
 }
-#spr{
-  padding-top: 70px;
+.navbar .navbar-brand{
+  font-size: 14px;
+}
+.navbar{
+  padding-top:0px;
+  padding-bottom: 0px;
+  padding: 0px;
+}
+#spr,#bar,#burn,#pie{
+  padding-top: 100px;
 }
 input[type="text"]::placeholder,input[type="password"]::placeholder{
   color:lightgrey;

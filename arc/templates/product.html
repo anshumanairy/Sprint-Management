@@ -1,166 +1,163 @@
 {% extends 'home.html' %}
 {% block content %}
-<link rel="stylesheet" href="/static/css/product.css">
-<script>
-// use promise to resolve
-  $(function () {
-    $("#datetimepicker1").datetimepicker({
-      format: 'DD/MM/YYYY',
-    });
-    $("#datetimepicker2").datetimepicker({
-      format: 'DD/MM/YYYY',
-    });
-    $("#datetimepicker3").datetimepicker({
-      format: 'DD/MM/YYYY',
-    });
-  });
-</script>
-<script>
-  $(document).ready(function() {
-    $('.js-example-basic-single').select2();
-  });
-</script>
-  <body id="re">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand">Home Page</a>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
-            </li>
-            <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-                </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.js" integrity="sha256-+WyHOpyfq51D1gs4h2b31GTCneSYQ22QLTmtEdjVvqA=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function($) {
+    $('.js-example-basic-single').select2();
+  }(jQuery));
+</script>
+
+<link rel="stylesheet" href="/static/css/product.css">
+
+<body id="re">
+
+  <!-- fixed navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black;" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand">Home Page</a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
+          </li>
+          <div class="btn-group">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
             </div>
-          </ul>
-        </div>
+          </div>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
   <div id="hidx">
-      <div class="container-fluid" id="spr">
-        <div class="col-md-2">
-          <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
-        </div>
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
       </div>
+    </div>
 
-      <form class="post-form" method='POST' id="h">
-        {% csrf_token %}
-        <div class="container-fluid">
-            <div class="col-md-12">
-              <!-- onchange="myFunction(this.value)" -->
-                <select class="js-example-basic-single" name="select_project">
-                    <option selected="true" disabled>{{ nx }}</option>
-                  {% for n1 in n %}
-                    <option>{{ n1.name }}</option>
-                  {% endfor %}
-                </select>
-            </div>
-        </div>
-      </form>
+    <form class="post-form" method='POST' id="h">
+      {% csrf_token %}
+      <div class="container-fluid">
+          <div class="col-md-12">
+            <!-- onchange="myFunction(this.value)" -->
+              <select class="js-example-basic-single" name="select_project">
+                  <option selected="true" disabled>{{ nx }}</option>
+                {% for n1 in n %}
+                  <option>{{ n1.name }}</option>
+                {% endfor %}
+              </select>
+          </div>
+      </div>
+    </form>
 
-      <script>
-        $(document).ready(function() {
-            var frm = $('#h');
-            frm.on('change',function (e) {
-              e.preventDefault();
-                $.ajax({
-                    type: frm.attr('method'),
-                    data: frm.serialize(),
-                    success: function(data) {
-                      $("#re").html(data);
-                    },
-                });
-            });
+    <script>
+      $(document).ready(function() {
+          var frm = $('#h');
+          frm.on('change',function (e) {
+            e.preventDefault();
+              $.ajax({
+                  type: frm.attr('method'),
+                  data: frm.serialize(),
+                  success: function(data) {
+                    $("#re").html(data);
+                  },
+              });
           });
-      </script>
+        });
+    </script>
 
-      <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
-        {% csrf_token %}
-        <div class="container">
-          <div class="col-sm-20">
-            <div class="card card-user" id="back">
-              <div class="card-header">
-                <h5 class="card-title">Create Project</h5>
+    <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
+      {% csrf_token %}
+      <div class="container">
+        <div class="col-sm-20">
+          <div class="card card-user" id="back">
+            <div class="card-header">
+              <h5 class="card-title">Create Project</h5>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" name="pname" placeholder="Project Name">
+                  </div>
+                </div>
               </div>
 
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Project Name</label>
-                      <input type="text" name="pname" placeholder="Project Name">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Select Admin</label>
-                        <div>
-                          <select class="js-example-basic-single" name="select_admin">
-                            {% for n2 in list11 %}
-                              <option>{{ n2 }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
-                        <label>Select Users</label>
-                        <div>
-                          <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
-                            {% for n2 in z2 %}
-                              <option>{{ n2.uname }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
-                        <label>Select Managers</label>
-                        <div>
-                          <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
-                            {% for n2 in z2 %}
-                              <option>{{ n2.uname }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                      <label>Select Admin</label>
+                      <div>
+                        <select class="js-example-basic-single" name="select_admin">
+                          {% for n2 in list11 %}
+                            <option>{{ n2 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <label>Select Users</label>
+                      <div>
+                        <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                          {% for n2 in z2 %}
+                            <option>{{ n2.uname }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <label>Select Managers</label>
+                      <div>
+                        <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
+                          {% for n2 in z2 %}
+                            <option>{{ n2.uname }}</option>
+                          {% endfor %}
+                        </select>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="update ml-auto mr-auto">
-                    <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="update ml-auto mr-auto">
-                    <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
-                  </div>
-                </div>
-
               </div>
+
+              <div class="row">
+                <div class="update ml-auto mr-auto">
+                  <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="update ml-auto mr-auto">
+                  <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
-      </form>
+      </div>
+    </form>
   </div>
 
       <div id="m1">
@@ -178,9 +175,9 @@
         }
       </script>
 
-  <div id="hidy">
-    <div class="container-fluid" id="spr">
-      <div class="col-md-2">
+  <div id="hidy" align='right'>
+    <div class="container-fluid">
+      <div class="col-md-12">
         <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
       </div>
     </div>
@@ -331,152 +328,147 @@
 
   <!-- bar graph Developer specific -->
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="bar">
     <div class="col-md-3">
       <button class="btn example_d" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
-    </div>
-  </div>
+      <div class="w3-animate-left" style="width:900px;" id="f1">
+          <form method='POST' id="f4">
+            {% csrf_token %}
+            <select class="js-example-basic-single" name="select_user" style="width:20%;">
+                <option selected="true" disabled>{{ hx1 }}</option>
+                {% for n1 in s22 %}
+                  <option>{{ n1.name }}</option>
+                {% endfor %}
+                <option disabled>---------------------</option>
+                <option>Java Dev</option>
+                <option>PHP Dev</option>
+                <option>HTML Dev</option>
+                <option>QA Dev</option>
+                <option disabled>---------------------</option>
+                <option>All Developers</option>
+            </select>
+          </form>
 
-  <div class="container-fluid w3-animate-left" style="width:900px;" id="f1">
-    <div class="col-md">
-      <form method='POST' id="f4">
-        {% csrf_token %}
-        <select class="js-example-basic-single" name="select_user" style="width:20%;">
-            <option selected="true" disabled>{{ hx1 }}</option>
-            {% for n1 in s22 %}
-              <option>{{ n1.name }}</option>
-            {% endfor %}
-            <option disabled>---------------------</option>
-            <option>Java Dev</option>
-            <option>PHP Dev</option>
-            <option>HTML Dev</option>
-            <option>QA Dev</option>
-            <option disabled>---------------------</option>
-            <option>All Developers</option>
-        </select>
-      </form>
+          <script>
+            $(document).ready(function() {
+                var frm = $('#f4');
+                frm.on('change',function (e) {
+                  e.preventDefault();
+                    $.ajax({
+                        type: frm.attr('method'),
+                        data: frm.serialize(),
+                        success: function(data) {
+                          $("#re").html(data);
+                        },
+                    });
+                });
+              });
+          </script>
+
+        <canvas id="myChart1"></canvas>
+      </div>
 
       <script>
-        $(document).ready(function() {
-            var frm = $('#f4');
-            frm.on('change',function (e) {
-              e.preventDefault();
-                $.ajax({
-                    type: frm.attr('method'),
-                    data: frm.serialize(),
-                    success: function(data) {
-                      $("#re").html(data);
-                    },
-                });
-            });
-          });
+      var ctx = document.getElementById('myChart1');
+      var data6  = JSON.parse('{{ jd8|escapejs }}');
+      var val1  = JSON.parse('{{ val|escapejs }}');
+      var nval1  = JSON.parse('{{ nval|escapejs }}');
+
+      if(val1=='Single'){
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+
+            data: {
+                labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+                datasets: [{
+                  label: 'Developers Chart',
+                    data: data6,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.4)',
+                        'rgba(54, 162, 235, 0.4)',
+                        'rgba(255, 206, 86, 0.4)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+      }
+
+      else{
+        data7=[]
+        data8=[]
+        data9=[]
+        data10=[]
+        for(let i=0;i<Object.keys(data6).length;i+=3){
+           data8.push(data6[i])
+           data9.push(data6[i+1])
+           data10.push(data6[i+2])
+       }
+       for(let i=0;i<Object.keys(nval1).length;i++){
+          data7.push(nval1[i])
+      }
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data7,
+                datasets: [{
+                  label: 'Available Bandwidth',
+                    data: data8,
+                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                  label: 'Story Points Assigned',
+                    data: data9,
+                    backgroundColor: 'rgba(54, 162, 235, 0.4)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                  label: 'Story Points Completed',
+                    data: data10,
+                    backgroundColor: 'rgba(255, 206, 86, 0.4)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+      }
       </script>
-
-  </div>
-    <canvas id="myChart1"></canvas>
-  </div>
-
-  <script>
-  var ctx = document.getElementById('myChart1');
-  var data6  = JSON.parse('{{ jd8|escapejs }}');
-  var val1  = JSON.parse('{{ val|escapejs }}');
-  var nval1  = JSON.parse('{{ nval|escapejs }}');
-
-  if(val1=='Single'){
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-
-        data: {
-            labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
-            datasets: [{
-              label: 'Developers Chart',
-                data: data6,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.4)',
-                    'rgba(54, 162, 235, 0.4)',
-                    'rgba(255, 206, 86, 0.4)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-  }
-
-  else{
-    data7=[]
-    data8=[]
-    data9=[]
-    data10=[]
-    for(let i=0;i<Object.keys(data6).length;i+=3){
-       data8.push(data6[i])
-       data9.push(data6[i+1])
-       data10.push(data6[i+2])
-   }
-   for(let i=0;i<Object.keys(nval1).length;i++){
-      data7.push(nval1[i])
-  }
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: data7,
-            datasets: [{
-              label: 'Available Bandwidth',
-                data: data8,
-                backgroundColor: 'rgba(75, 192, 192, 0.4)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            },
-            {
-              label: 'Story Points Assigned',
-                data: data9,
-                backgroundColor: 'rgba(54, 162, 235, 0.4)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            },
-            {
-              label: 'Story Points Completed',
-                data: data10,
-                backgroundColor: 'rgba(255, 206, 86, 0.4)',
-                borderColor: 'rgba(255, 206, 86, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-  }
-  </script>
-
+    </div>
+</div>
 
   <!-- burndown graph -->
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="burn">
     <div class="col-md-3">
       <button class="btn example_d" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
-    </div>
-  </div>
+
 
   <script>
       function showBurnDown(elementId, burndownData, newdata) {
@@ -538,19 +530,15 @@
       }
   </script>
 
-  <div class="container-fluid w3-animate-left" style=" width:900px;" id="f2">
+  <div class="w3-animate-left" style=" width:900px;" id="f2">
     <form class="post-form" method='POST' id="fz">
       {% csrf_token %}
-      <div class="container-fluid">
-          <div class="col-md-12" >
               <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
                 <option selected="true" disabled>{{ hx2 }}</option>
                 {% for product in data %}
                 <option> {{ product.name }}</option>
                   {% endfor %}
               </select>
-          </div>
-      </div>
     </form>
 
     <script>
@@ -576,29 +564,25 @@
     var data3  = JSON.parse('{{ jd6|escapejs }}');
     showBurnDown ("burndown43",data2,data3);
   </script>
-
+</div>
+</div>
 
   <!-- Pie Chart -->
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="pie">
     <div class="col-md-2">
       <button class="btn example_d" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
-    </div>
-  </div>
 
-  <div class="container-fluid w3-animate-left" style="width:900px;" id="f3">
+
+  <div class="w3-animate-left" style="width:900px;" id="f3">
     <form class="post-form" method='POST' id="fy">
       {% csrf_token %}
-      <div class="container-fluid">
-          <div class="col-md-12" >
               <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
                 <option selected="true" disabled>{{ hx2 }}</option>
                 {% for product in data %}
                 <option> {{ product.name }}</option>
                   {% endfor %}
               </select>
-          </div>
-      </div>
     </form>
 
     <script>
@@ -654,6 +638,23 @@
       }
   });
   </script>
+  </div>
+</div>
 
-  </body>
+  <script>
+    $(document).ready(function(k) {
+      k("#datetimepicker1").datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+      k("#datetimepicker2").datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+      k("#datetimepicker3").datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+    });
+  </script>
+
+</body>
+
 {% endblock %}

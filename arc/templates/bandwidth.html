@@ -1,5 +1,8 @@
 {% extends 'home.html' %}
 {% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="/static/css/bandwidth.css">
 
 <script>
@@ -10,7 +13,7 @@
 
 <body id="re">
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black; font-size:12px;" id="mainNav">
       <div class="container">
         <a class="navbar-brand">Bandwidth</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -119,7 +122,7 @@
     }
     </script> -->
 
-    <div class="content">
+    <div class="content" style="padding-top:7%;">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -255,7 +258,6 @@
                               <input type="hidden" value="{{ d33.id }}" name="leave2">
                               <input type="hidden" value="php" name="leave3">
                               <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                          </td>
                           </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
@@ -275,6 +277,7 @@
                                   });
                                 });
                             </script>
+                          </td>
                             <td>
                                 {{ d33.unplanned }}
                                 <form method="get" id="php1{{d33.id}}">
@@ -282,7 +285,6 @@
                                   <input type="hidden" value="{{ d33.id }}" name="uleave2">
                                   <input type="hidden" value="php" name="uleave3">
                                   <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                              </td>
                               </form>
                                 <script type="text/javascript">
                                     jQuery(document).ready(function($){
@@ -360,7 +362,6 @@
                               <input type="hidden" value="{{ d44.id }}" name="leave2">
                               <input type="hidden" value="html" name="leave3">
                               <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                          </td>
                           </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
@@ -380,6 +381,7 @@
                                   });
                                 });
                             </script>
+                          </td>
                             <td>
                                 {{ d44.unplanned }}
                                 <form method="get" id="html1{{d44.id}}">
@@ -387,8 +389,7 @@
                                   <input type="hidden" value="{{ d44.id }}" name="uleave2">
                                   <input type="hidden" value="html" name="uleave3">
                                   <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                              </td>
-                              </form>
+                                </form>
                                 <script type="text/javascript">
                                     jQuery(document).ready(function($){
                                       var frm = $('#html1{{d44.id}}');
@@ -407,7 +408,7 @@
                                       });
                                     });
                                 </script>
-                            </td>
+                              </td>
                           <td>
                             {{ d44.vfhtml }}
                             <form method="get" id="html1{{d44.id}}">
@@ -465,8 +466,7 @@
                               <input type="hidden" value="{{ d55.id }}" name="leave2">
                               <input type="hidden" value="qa" name="leave3">
                               <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                          </td>
-                          </form>
+                            </form>
                             <script type="text/javascript">
                                 jQuery(document).ready(function($){
                                   var frm = $('#qa{{d55.id}}');
@@ -485,6 +485,7 @@
                                   });
                                 });
                             </script>
+                          </td>
                             <td>
                                 {{ d55.unplanned }}
                                 <form method="get" id="qa1{{d55.id}}">
@@ -492,8 +493,7 @@
                                   <input type="hidden" value="{{ d55.id }}" name="uleave2">
                                   <input type="hidden" value="qa" name="uleave3">
                                   <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                              </td>
-                              </form>
+                                </form>
                                 <script type="text/javascript">
                                     jQuery(document).ready(function($){
                                       var frm = $('#qa1{{d55.id}}');
@@ -512,7 +512,7 @@
                                       });
                                     });
                                 </script>
-                            </td>
+                              </td>
                           <td>
                             {{ d55.vfqa }}
                             <form method="get" id="qa1{{d55.id}}">
@@ -616,6 +616,12 @@
         </div>
       </div>
     </div>
+
+  <script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+      });
+  </script>
 
 </body>
 {% endblock %}

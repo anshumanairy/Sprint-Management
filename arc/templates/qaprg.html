@@ -1,5 +1,8 @@
 {% extends 'home.html' %}
 {% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="/static/css/progress.css">
   <script>
     $(document).ready(function(){
@@ -8,7 +11,7 @@
   </script>
 
   <body id="re">
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black; font-size:12px;" id="mainNav">
       <div class="container">
         <a class="navbar-brand">Sprint Progress</a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -97,13 +100,7 @@
       </div>
     </nav>
 
-      <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-          });
-      </script>
-
-    <div class="content">
+    <div class="content" style="padding-top:7%;">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -293,9 +290,8 @@
                           }).attr('readonly','readonly');
                       });
                     </script>
-
+                    </form>
                     </tr>
-                  </form>
                         {% endfor %}
                       {% endif %}
                     {% endfor %}
@@ -326,6 +322,12 @@
   <div class='box black'></div><small>-- QA Support</small><br>
   <div class='box purple'></div><small>-- Release Support</small><br>
 </div>
+
+<script>
+  $(document).ready(function() {
+      $('.js-example-basic-single').select2();
+    });
+</script>
 
 </body>
 {% endblock %}

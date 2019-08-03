@@ -2302,48 +2302,60 @@ def reg(request):
     email=''
     emp=0
     registered = False
-    try:
-        if request.method =='GET':
-            auth_code = request.GET.get('auth_code', '')
-            encrypt_auth = encryptx(auth_code)
+    # try:
+    #     if request.method =='GET':
+    #         auth_code = request.GET.get('auth_code', '')
+    #         encrypt_auth = encryptx(auth_code)
+    #
+    #         # part2 to obtain token
+    #         payload = {
+    #                 'grantType':'authorization_code',
+    #                 'code':encrypt_auth,
+    #                 'clientId':'SprintManagement'
+    #                 }
+    #
+    #         headers = {
+    #                 'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+    #                 'X-Quikr-Client':'Platform',
+    #                 'Content-Type':'application/json'
+    #                 }
+    #
+    #         response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+    #         resp = response.text
+    #         list1=list(map(str,resp.split('"')))
+    #         idtoken = list1[5]
+    #         access_token = auth_code
+    #         list2=list(map(str,idtoken.split('.')))
+    #         dec = decryptx(list1[5])
+    #
+    #         emp = dec['empId']
+    #         email = dec['email']
+    #         name = dec['name']
+    #
+    #         if User.objects.filter(email=email).exists() == True:
+    #             regx = User.objects.get(email=email)
+    #             user = authenticate(username = regx.username, password='Zehel9999')
+    #             login(request,user)
+    #             request.session['pid'] = 0
+    #             request.session['user2'] = ''
+    #             request.session['id'] = 0
+    #             request.session['userx'] = 'Users'
+    #             return redirect('product')
+    # except:
+    #     pass
 
-            # part2 to obtain token
-            payload = {
-                    'grantType':'authorization_code',
-                    'code':encrypt_auth,
-                    'clientId':'SprintManagement'
-                    }
 
-            headers = {
-                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-                    'X-Quikr-Client':'Platform',
-                    'Content-Type':'application/json'
-                    }
+    email = 'anshuman.airy@quikr.com'
 
-            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-            resp = response.text
-            list1=list(map(str,resp.split('"')))
-            idtoken = list1[5]
-            access_token = auth_code
-            list2=list(map(str,idtoken.split('.')))
-            dec = decryptx(list1[5])
-
-            emp = dec['empId']
-            email = dec['email']
-            name = dec['name']
-
-            if User.objects.filter(email=email).exists() == True:
-                regx = User.objects.get(email=email)
-                user = authenticate(username = regx.username, password='Zehel9999')
-                login(request,user)
-                request.session['pid'] = 0
-                request.session['user2'] = ''
-                request.session['id'] = 0
-                request.session['userx'] = 'Users'
-                return redirect('product')
-    except:
-        pass
-
+    if User.objects.filter(email=email).exists() == True:
+        regx = User.objects.get(email=email)
+        user = authenticate(username = regx.username, password='Zehel9999')
+        login(request,user)
+        request.session['pid'] = 0
+        request.session['user2'] = ''
+        request.session['id'] = 0
+        request.session['userx'] = 'Users'
+        return redirect('product')
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)

@@ -1,17 +1,26 @@
 th{
   cursor: pointer;
 }
-.scrollable-menu {
-  height: auto;
-  max-height: 200px;
-  overflow-x: hidden;
-}
 #c{
   width:40px;
+}
+.navbar .navbar-collapse .nav-item a{
+  font-size: 12px;
+}
+.navbar .navbar-brand{
+  font-size: 14px;
+}
+.navbar{
+  padding-top:0px;
+  padding-bottom: 0px;
+  padding: 0px;
 }
 body{
   font-family: Montserrat;
   background :#F3F3F3;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+  padding: 0px;
 }
 #spr{
   padding-top: 70px;
@@ -22,6 +31,9 @@ input[type="text"]::placeholder,input[type="password"]::placeholder{
 #back{
   background-color:   #f2f5f2;
   width:500px;
+}
+.table100.ver3 td{
+  border: 1px solid lightgrey;
 }
 #a{
   background-color: white;
@@ -58,7 +70,7 @@ transition: all 0.4s ease 0s;
   font-size: 10px;
 }
 .js-example-basic-single{
-  width: 100%;
+  width: resolve;
 }
 #tab2{
   text-align: center;
@@ -68,7 +80,6 @@ transition: all 0.4s ease 0s;
 #tab3{
   text-align: center;
   font-size: 17px;
-  border: solid lightgrey .5px;
 }
 #black{
   background-color: black;
@@ -121,7 +132,6 @@ transition: all 0.4s ease 0s;
 #tab1{
   text-align: center;
   font-size: 14px;
-  border: solid lightgrey .5px;
 }
 .dev a {
 background-color: Yellow !important;
@@ -138,4 +148,10 @@ color: White !important;
 .rel a {
 background-color: Green !important;
 color: White !important;
+}
+#allocate1{
+  /* float: left; */
+}
+#csv1{
+  display: inline-block;
 }

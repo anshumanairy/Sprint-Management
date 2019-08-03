@@ -8,6 +8,17 @@ body{
 #tab2{
   font-size: 14px;
 }
+.navbar .navbar-collapse .nav-item a{
+  font-size: 12px;
+}
+.navbar .navbar-brand{
+  font-size: 14px;
+}
+.navbar{
+  padding-top:0px;
+  padding-bottom: 0px;
+  padding: 0px;
+}
 .dev a {
 background-color: Yellow !important;
 color: Black !important;
