@@ -4,12 +4,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-  $(document).ready(function($) {
-    $('.js-example-basic-single').select2();
-  }(jQuery));
-</script>
-
 <link rel="stylesheet" href="/static/css/product.css">
 
 <body id="re">
@@ -237,28 +231,22 @@
 
             <div class="row">
                 <div class='col-md-6 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint Start Date</label>
-                        <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
-                    </div>
+                  <label>Sprint Start Date</label>
+                  <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
                 </div>
             </div>
 
             <div class="row">
                 <div class='col-md-6 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint Dev End Date</label>
-                        <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
-                    </div>
+                  <label>Sprint Dev End Date</label>
+                  <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
                 </div>
             </div>
 
             <div class="row">
                 <div class='col-md-6 pr-1'>
-                    <div class="form-group">
-                        <label>Sprint QA End Date</label>
-                        <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
-                    </div>
+                  <label>Sprint QA End Date</label>
+                  <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
                 </div>
             </div>
 
@@ -631,6 +619,12 @@
       dateFormat: 'yy-mm-dd'
     });
   } );
+</script>
+
+<script>
+  $(document).ready(function($) {
+    $('.js-example-basic-single').select2();
+  }(jQuery));
 </script>
 
 </body>

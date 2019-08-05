@@ -2350,7 +2350,7 @@ def reg(request):
     except:
         pass
 
-    #
+    
     # email = 'anshuman.airy@quikr.com'
     #
     # if User.objects.filter(email=email).exists() == True:
