@@ -2,11 +2,7 @@
 {% block content %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.js" integrity="sha256-+WyHOpyfq51D1gs4h2b31GTCneSYQ22QLTmtEdjVvqA=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
   $(document).ready(function($) {
@@ -218,98 +214,80 @@
         <a href="{% url 'tasks' %}"><button class="btn example_c"><small>End Sprint Report</small></button></a>
       </div>
     </div>
+  </div>
 
-    <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
-      {% csrf_token %}
-      <div class="container">
-        <div class="col-sm-20">
-          <div class="card card-user" id="back">
-            <div class="card-header">
-              <h5 class="card-title">Create Sprint</h5>
+  <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
+    {% csrf_token %}
+    <div class="container">
+      <div class="col-sm-20">
+        <div class="card card-user" id="back">
+          <div class="card-header">
+            <h5 class="card-title">Create Sprint</h5>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Sprint Name</label>
+                  {{ form.name }}
+                </div>
+              </div>
             </div>
 
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Sprint Name</label>
-                    {{ form.name }}
-                  </div>
+            <div class="row">
+                <div class='col-md-6 pr-1'>
+                    <div class="form-group">
+                        <label>Sprint Start Date</label>
+                        <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
+                    </div>
                 </div>
-              </div>
-
-              <div class="row">
-                  <div class='col-md-6 pr-1'>
-                      <div class="form-group">
-                          <label>Sprint Start Date</label>
-                          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                            {{ form.sprint_start_date }}
-                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                  <div class='col-sm-8 pr-1'>
-                      <div class="form-group">
-                          <label>Sprint Dev End Date</label>
-                          <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                            {{ form.sprint_dev_end_date }}
-                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                  <div class='col-sm-8 pr-1'>
-                      <div class="form-group">
-                          <label>Sprint QA End Date</label>
-                          <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                            {{ form.sprint_qa_end_date }}
-                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6 pr-1">
-                  <div class="form-group">
-                    <label>Holidays Available</label>
-                    {{ form.holidays }}
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="update ml-auto mr-auto">
-                  <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="update ml-auto mr-auto">
-                  <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
-                </div>
-              </div>
-
             </div>
+
+            <div class="row">
+                <div class='col-md-6 pr-1'>
+                    <div class="form-group">
+                        <label>Sprint Dev End Date</label>
+                        <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class='col-md-6 pr-1'>
+                    <div class="form-group">
+                        <label>Sprint QA End Date</label>
+                        <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Holidays Available</label>
+                  {{ form.holidays }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="update ml-auto mr-auto">
+                <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 
   <div id="m">
 
@@ -641,19 +619,19 @@
   </div>
 </div>
 
-  <script>
-    $(document).ready(function(k) {
-      k("#datetimepicker1").datetimepicker({
-        format: 'DD/MM/YYYY',
-      });
-      k("#datetimepicker2").datetimepicker({
-        format: 'DD/MM/YYYY',
-      });
-      k("#datetimepicker3").datetimepicker({
-        format: 'DD/MM/YYYY',
-      });
+<script>
+  $( function() {
+    $( "#datepicker1" ).datepicker({
+      dateFormat: 'yy-mm-dd'
     });
-  </script>
+    $( "#datepicker2" ).datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $( "#datepicker3" ).datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+  } );
+</script>
 
 </body>
 

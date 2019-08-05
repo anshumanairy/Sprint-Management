@@ -79,5 +79,5 @@ transition: all 0.4s ease 0s;
   font-size: 10px;
 }
 .js-example-basic-single{
-  width: 100%;
+  width: resolve;;
 }

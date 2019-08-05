@@ -44,9 +44,9 @@ input[type="text"]::placeholder,input[type="password"]::placeholder{
   padding-left: 15px;
   font:10px;
 }
-.bootstrap-datetimepicker-widget.dropdown-menu{
+/* .bootstrap-datetimepicker-widget.dropdown-menu{
   width:20rem;
-}
+} */
 #change{
   color:grey;
   padding-left: 15px;
