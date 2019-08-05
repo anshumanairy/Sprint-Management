@@ -4837,34 +4837,6 @@ License - nucleoapp.com/license/
   height: 60px;
 }
 
-.sidebar:before,
-.sidebar:after,
-.off-canvas-sidebar:before,
-.off-canvas-sidebar:after {
-  display: block;
-  content: "";
-  opacity: 1;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.sidebar:after,
-.off-canvas-sidebar:after {
-  background: #66615B;
-  background: -webkit-linear-gradient(#66615B 0%, #000 80%);
-  background: -o-linear-gradient(#66615B 0%, #000 80%);
-  background: -moz-linear-gradient(#66615B 0%, #000 80%);
-  background: linear-gradient(#66615B 0%, #000 80%);
-  z-index: 3;
-}
-
-.sidebar[data-color="white"]:after,
-.off-canvas-sidebar[data-color="white"]:after {
-  background: #FFFFFF;
-}
 
 .sidebar[data-color="white"] .nav li a,
 .sidebar[data-color="white"] .nav li a i,

@@ -1,110 +1,219 @@
 {% extends 'home.html' %}
 {% block content %}
+<link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/detail.css">
 
   <body id="re">
 
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black; font-size:12px;" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand">Story Details</a>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
-          </li>
-          <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
-              <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                  <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-              </div>
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+          <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
           </div>
-        </ul>
+          <div class="sidebar-brand-text mx-3">Sprint Management</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item --->
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">
+            <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Interface
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <span>Profile</span>
+          </a>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="{% url 'profile' %}">Profile</a>
+              <a class="collapse-item" href="{% url 'logout' %}">Logout</a>
+            </div>
+          </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Pages
+        </div>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'product' %}"><span>Home</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_story' %}"><span>Stories</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'qaprg' %}"><span>Progress</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'bandwidth' %}"><span>Bandwidth</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tasks' %}l"><span>Sprint Report</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+      </ul>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <!-- <i class="fa fa-bars">HEY</i> -->
+            </button>
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
+                  <img class="img-profile rounded-circle" src="/static/profile/pics/empty.png">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="{% url 'profile' %}">
+                    Profile
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    Logout
+                  </a>
+                </div>
+              </li>
+
+            </ul>
+
+          </nav>
+          {% for i in st %}
+          <div class="container" style="float:left;">
+            <div class="row d-flex">
+                <div class="col-md-6" id="spr">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="blog-entry ftco-animate d-md-flex">
+                        <div class="text text-2 pl-md-4">
+                          <p>{{i.jira}}</p>
+                          <h3><b>{{i.story_name}}</b></h3>
+                          {% if i.ostatus == '' %}
+                            <p>Unassigned</p>
+                          {% else %}
+                            <p>{{i.ostatus}}</p>
+                          {% endif %}
+                          <p><a href="{{i.description}}" target="_blank" class="btn-custom">Read More</a></p>
+                          <button class="btn example_c" type="button" name="comments">Comment</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6" id="check2">
+              <div class="detailBox" style="max-height:none;background-color:white;">
+                <div class="commentBox">
+                    <p class="taskDescription">Comments</p>
+                </div>
+                <div class="actionBox">
+                    <ul class="commentList" style="max-height:none;">
+
+                          {% for j,k in comm.items %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              {% for r,s in k.items %}
+                                {% for y,z in s.items %}
+                                <li>
+                                  <div class="commentText">
+                                      <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
+                                  </div>
+                                </li>
+                                {% endfor %}
+                              {% endfor %}
+                            {% endif %}
+                          {% endfor %}
+                    </ul>
+                    <form class="form-inline" id="comm1" method='GET'>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="comment_holder" placeholder="Your comment"/>
+                        </div>
+                            <input type="hidden" name="sid" value="{{i.id}}">
+                            <button class="btn example_c" type="submit">Add</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
       </div>
     </div>
-  </nav>
+
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
   $(document).ready(function() {
       $('.js-example-basic-single').select2();
     });
   </script>
-
-  <header class="header_area">
-      <div class="main_menu">
-      </div>
-  </header>
-
-  {% for i in st %}
-	<div class="container" style="float:left;">
-		<div class="row d-flex">
-        <div class="col-md-6" id="spr">
-          <div class="card">
-            <div class="card-body">
-							<div class="blog-entry ftco-animate d-md-flex">
-								<div class="text text-2 pl-md-4">
-                  <p>{{i.jira}}</p>
-		              <h3><b>{{i.story_name}}</b></h3>
-                  {% if i.ostatus == '' %}
-                    <p>Unassigned</p>
-                  {% else %}
-                    <p>{{i.ostatus}}</p>
-                  {% endif %}
-		              <p><a href="{{i.description}}" target="_blank" class="btn-custom">Read More</a></p>
-                  <button class="btn example_c" type="button" name="comments">Comment</button>
-		            </div>
-							</div>
-            </div>
-          </div>
-        </div>
-      </div>
-  	</div>
-
-    <div class="col-md-6" id="check2">
-      <div class="detailBox" style="max-height:none;background-color:white;">
-        <div class="commentBox">
-            <p class="taskDescription">Comments</p>
-        </div>
-        <div class="actionBox">
-            <ul class="commentList" style="max-height:none;">
-
-                  {% for j,k in comm.items %}
-                    {% if forloop.counter == forloop.parentloop.counter %}
-                      {% for r,s in k.items %}
-                        {% for y,z in s.items %}
-                        <li>
-                          <div class="commentText">
-                              <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
-                          </div>
-                        </li>
-                        {% endfor %}
-                      {% endfor %}
-                    {% endif %}
-                  {% endfor %}
-            </ul>
-            <form class="form-inline" id="comm1" method='GET'>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="comment_holder" placeholder="Your comment"/>
-                </div>
-                    <input type="hidden" name="sid" value="{{i.id}}">
-                    <button class="btn example_c" type="submit">Add</button>
-            </form>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
 
   </body>
 

@@ -76,7 +76,7 @@ def profile(request):
             info = cregister.objects.get(uname = request.user.username,sprint_id = id1)
         else:
             info = register.objects.get(uname = request.user.username)
-
+    name = request.user.username
     if request.method=='POST':
 
         if 'update' in request.POST:
@@ -156,7 +156,7 @@ def profile(request):
 
             return(redirect('profile'))
 
-    return render(request,'profile.html/',{'info1':info1,'info':info,'check':check,'var':var})
+    return render(request,'profile.html/',{'name':name,'info1':info1,'info':info,'check':check,'var':var})
 
 @login_required(login_url='/')
 def blog(request):
@@ -175,7 +175,7 @@ def blog(request):
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
         nx1 = product.objects.get(id = id1).name
-
+        name = request.user.username
         st = story.objects.filter(sprint_id=id1,id=sid)
         comm={}
         n=0
@@ -216,7 +216,7 @@ def blog(request):
                 stx.save()
                 return redirect('blog')
 
-        return render(request,'blog.html/',{'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
 @login_required(login_url='/')
@@ -522,7 +522,7 @@ def qaprg(request):
         x=request.user.username
         name1 = register.objects.get(uname=x).name
         data = cregister.objects.filter(roles='dev',name=name1,sprint_id=id1)
-
+        name=request.user.username
         list2={}
         n=0
         for i1 in data:
@@ -1080,7 +1080,7 @@ def prod(request):
             list11.append(i11.username)
 
     z2 = register.objects.all()
-
+    name = request.user.username
     if request.method=='POST':
         #select sprint get value and redirect
         if 'select_sprint' in request.POST:
@@ -1361,7 +1361,7 @@ def prod(request):
         else:
             form = productform()
 
-    return(render(request,'product.html/',context={'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
 def view_story(request):
@@ -1537,7 +1537,7 @@ def view_story(request):
         jd2=json.dumps(list2)
         jd3=json.dumps(list3)
         jd4=json.dumps(list4)
-
+        name=request.user.username
         if request.method=='GET':
             if 'red' in request.GET:
                 idx = request.GET.get('red')
@@ -1741,7 +1741,7 @@ def view_story(request):
             else:
                 form = storyform()
 
-        return render(request,'view_story.html/',{'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1})
+        return render(request,'view_story.html',{'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name})
     else:
         return(redirect('qaprg'))
 
@@ -1834,7 +1834,7 @@ def bandwidth(request):
         x.dev_working = y
         x.qa_working = z
         x.save()
-
+        name=request.user.username
         if request.method=='GET':
             if 'assign1' in request.GET:
                 vf = request.GET.get('assign1')
@@ -2078,7 +2078,7 @@ def bandwidth(request):
                 request.session['pid'] = proid
                 return redirect('bandwidth')
 
-        return(render(request,'bandwidth.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
+        return(render(request,'bandwidth.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
     else:
         return(redirect(qaprg))
 
@@ -2170,6 +2170,7 @@ def tasks(request):
     repo.append(sum2)
 
     list1=[]
+    name = request.user.username
     xx=0
     for i in pro:
         data2 = story.objects.filter(sprint_id=i.id)
@@ -2296,7 +2297,7 @@ def tasks(request):
                 messages.info(request, 'You are not Authorized!')
                 return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+    return(render(request,'tasks.html/',{'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})
@@ -2335,6 +2336,7 @@ def reg(request):
             dec = decryptx(list1[5])
 
             emp = dec['empId']
+            print(emp)
             email = dec['email']
             name = dec['name']
 

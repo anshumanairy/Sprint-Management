@@ -4,629 +4,739 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<link rel="stylesheet" href="/static/css/product.css">
-
+<link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <body id="re">
 
-  <!-- fixed navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black;" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand">Home Page</a>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
-          </li>
-          <div class="btn-group">
-            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-            </div>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Sprint Management</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item --->
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Interface
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <span>Profile</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'profile' %}">Profile</a>
+            <a class="collapse-item" href="{% url 'logout' %}">Logout</a>
           </div>
-        </ul>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Pages
       </div>
-    </div>
-  </nav>
 
-  <div id="hidx">
-    <div class="container-fluid">
-      <div class="col-md-12">
-        <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'product' %}"><span>Home</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_story' %}"><span>Stories</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'qaprg' %}"><span>Progress</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'bandwidth' %}"><span>Bandwidth</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'tasks' %}l"><span>Sprint Report</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
-    </div>
 
-    <form class="post-form" method='POST' id="h">
-      {% csrf_token %}
-      <div class="container-fluid">
-          <div class="col-md-12">
-            <!-- onchange="myFunction(this.value)" -->
-              <select class="js-example-basic-single" name="select_project">
-                  <option selected="true" disabled>{{ nx }}</option>
-                {% for n1 in n %}
-                  <option>{{ n1.name }}</option>
-                {% endfor %}
-              </select>
-          </div>
-      </div>
-    </form>
+    </ul>
+    <!-- End of Sidebar -->
 
-    <script>
-      $(document).ready(function() {
-          var frm = $('#h');
-          frm.on('change',function (e) {
-            e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                  },
-              });
-          });
-        });
-    </script>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-    <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
-      {% csrf_token %}
-      <div class="container">
-        <div class="col-sm-20">
-          <div class="card card-user" id="back">
-            <div class="card-header">
-              <h5 class="card-title">Create Project</h5>
-            </div>
+      <!-- Main Content -->
+      <div id="content">
 
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Project Name</label>
-                    <input type="text" name="pname" placeholder="Project Name">
-                  </div>
-                </div>
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <!-- <i class="fa fa-bars">HEY</i> -->
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
+                <img class="img-profile rounded-circle" src="/static/profile/pics/empty.png">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="{% url 'profile' %}">
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  Logout
+                </a>
               </div>
+            </li>
 
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Select Admin</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_admin">
-                          {% for n2 in list11 %}
-                            <option>{{ n2 }}</option>
-                          {% endfor %}
-                        </select>
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <a href="{% url 'tasks' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Project</div>
+                      <div class="col-md-12">
+                        <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
                       </div>
-                      <label>Select Users</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
-                          {% for n2 in z2 %}
-                            <option>{{ n2.uname }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                      <label>Select Managers</label>
-                      <div>
-                        <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
-                          {% for n2 in z2 %}
-                            <option>{{ n2.uname }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
+                      <form class="post-form" method='POST' id="h">
+                        {% csrf_token %}
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+                              <!-- onchange="myFunction(this.value)" -->
+                                <select class="js-example-basic-single" name="select_project">
+                                    <option selected="true" disabled>{{ nx }}</option>
+                                  {% for n1 in n %}
+                                    <option>{{ n1.name }}</option>
+                                  {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                      </form>
+
+                      <script>
+                        $(document).ready(function() {
+                            var frm = $('#h');
+                            frm.on('change',function (e) {
+                              e.preventDefault();
+                                $.ajax({
+                                    type: frm.attr('method'),
+                                    data: frm.serialize(),
+                                    success: function(data) {
+                                      $("#re").html(data);
+                                    },
+                                });
+                            });
+                          });
+                      </script>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="update ml-auto mr-auto">
-                  <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="update ml-auto mr-auto">
-                  <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-
-      <div id="m1">
-
-      <script>
-        function w6_open() {
-          document.getElementById("m1").style.marginTop = "0%";
-          document.getElementById("g").style.display = "block";
-          document.getElementById("project_btn").style.display = 'none';
-        }
-        function w6_close() {
-          document.getElementById("m1").style.marginTop = "0%";
-          document.getElementById("g").style.display = "none";
-          document.getElementById("project_btn").style.display = "inline-block";
-        }
-      </script>
-
-  <div id="hidy" align='right'>
-    <div class="container-fluid">
-      <div class="col-md-12">
-        <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
-      </div>
-    </div>
-
-    <form class="post-form" method='POST' id="f5">
-      {% csrf_token %}
-      <div class="container-fluid">
-          <div class="col-md-12" >
-              <select class="js-example-basic-single" name="select_sprint">
-                <option selected="true" disabled>{{ hx2 }}</option>
-                {% for product in data %}
-                <option> {{ product.name }}</option>
-                  {% endfor %}
-              </select>
-          </div>
-      </div>
-    </form>
-
-    <script>
-      $(document).ready(function() {
-          var frm = $('#f5');
-          frm.on('change',function (e) {
-            e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                  },
-              });
-          });
-        });
-    </script>
-
-    <div class="container-fluid">
-      <div class="col-md-12" >
-        <a href="{% url 'view_story' %}"><button class="btn example_c"><small>View Stories</small></button></a>
-        <a href="{% url 'tasks' %}"><button class="btn example_c"><small>End Sprint Report</small></button></a>
-      </div>
-    </div>
-  </div>
-
-  <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
-    {% csrf_token %}
-    <div class="container">
-      <div class="col-sm-20">
-        <div class="card card-user" id="back">
-          <div class="card-header">
-            <h5 class="card-title">Create Sprint</h5>
-          </div>
-
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Sprint Name</label>
-                  {{ form.name }}
-                </div>
-              </div>
             </div>
 
-            <div class="row">
-                <div class='col-md-6 pr-1'>
-                  <label>Sprint Start Date</label>
-                  <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sprint</div>
+                        <div class="col-md-12">
+                          <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
+                        </div>
+
+                      <form class="post-form" method='POST' id="f5">
+                        {% csrf_token %}
+                        <div class="container-fluid">
+                            <div class="col-md-12" >
+                                <select class="js-example-basic-single" name="select_sprint">
+                                  <option selected="true" disabled>{{ hx2 }}</option>
+                                  {% for product in data %}
+                                  <option> {{ product.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                      </form>
+
+                      <script>
+                        $(document).ready(function() {
+                            var frm = $('#f5');
+                            frm.on('change',function (e) {
+                              e.preventDefault();
+                                $.ajax({
+                                    type: frm.attr('method'),
+                                    data: frm.serialize(),
+                                    success: function(data) {
+                                      $("#re").html(data);
+                                    },
+                                });
+                            });
+                          });
+                      </script>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class='col-md-6 pr-1'>
-                  <label>Sprint Dev End Date</label>
-                  <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class='col-md-6 pr-1'>
-                  <label>Sprint QA End Date</label>
-                  <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
-                </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <label>Holidays Available</label>
-                  {{ form.holidays }}
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="update ml-auto mr-auto">
-                <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="update ml-auto mr-auto">
-                <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
               </div>
             </div>
 
           </div>
-        </div>
-      </div>
-    </div>
-  </form>
 
-  <div id="m">
-
-  <script>
-    function w4_open() {
-      document.getElementById("m").style.marginTop = "0%";
-      document.getElementById("f").style.display = "block";
-      document.getElementById("sprint_btn").style.display = 'none';
-    }
-    function w4_close() {
-      document.getElementById("m").style.marginTop = "0%";
-      document.getElementById("f").style.display = "none";
-      document.getElementById("sprint_btn").style.display = "inline-block";
-    }
-  </script>
-
-  <!-- bar graph Developer specific -->
-
-  <div class="container-fluid" id="bar">
-    <div class="col-md-3">
-      <button class="btn example_d" onclick="w9_open()" id="bdc"><small>Developer Overview Graph</small></button>
-      <div class="w3-animate-left" style="width:900px;" id="f1">
-          <form method='POST' id="f4">
+          <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
             {% csrf_token %}
-            <select class="js-example-basic-single" name="select_user" style="width:20%;">
-                <option selected="true" disabled>{{ hx1 }}</option>
-                {% for n1 in s22 %}
-                  <option>{{ n1.name }}</option>
-                {% endfor %}
-                <option disabled>---------------------</option>
-                <option>Java Dev</option>
-                <option>PHP Dev</option>
-                <option>HTML Dev</option>
-                <option>QA Dev</option>
-                <option disabled>---------------------</option>
-                <option>All Developers</option>
-            </select>
+            <div class="container">
+              <div class="col-sm-20">
+                <div class="card card-user" id="back">
+                  <div class="card-header">
+                    <h5 class="card-title">Create Project</h5>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Project Name</label>
+                          <input type="text" name="pname" placeholder="Project Name">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Select Admin</label>
+                            <div>
+                              <select class="js-example-basic-single" name="select_admin">
+                                {% for n2 in list11 %}
+                                  <option>{{ n2 }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <label>Select Users</label>
+                            <div>
+                              <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                                {% for n2 in z2 %}
+                                  <option>{{ n2.uname }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <label>Select Managers</label>
+                            <div>
+                              <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
+                                {% for n2 in z2 %}
+                                  <option>{{ n2.uname }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
 
+          <div id="m1">
+
           <script>
-            $(document).ready(function() {
-                var frm = $('#f4');
-                frm.on('change',function (e) {
-                  e.preventDefault();
-                    $.ajax({
-                        type: frm.attr('method'),
-                        data: frm.serialize(),
-                        success: function(data) {
-                          $("#re").html(data);
-                        },
-                    });
-                });
-              });
+            function w6_open() {
+              document.getElementById("m1").style.marginTop = "0%";
+              document.getElementById("g").style.display = "block";
+              document.getElementById("project_btn").style.display = 'none';
+            }
+            function w6_close() {
+              document.getElementById("m1").style.marginTop = "0%";
+              document.getElementById("g").style.display = "none";
+              document.getElementById("project_btn").style.display = "inline-block";
+            }
           </script>
 
-        <canvas id="myChart1"></canvas>
+          <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
+            {% csrf_token %}
+            <div class="container">
+              <div class="col-sm-20">
+                <div class="card card-user" id="back">
+                  <div class="card-header">
+                    <h5 class="card-title">Create Sprint</h5>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Sprint Name</label>
+                          {{ form.name }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class='col-md-6 pr-1'>
+                          <label>Sprint Start Date</label>
+                          <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class='col-md-6 pr-1'>
+                          <label>Sprint Dev End Date</label>
+                          <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class='col-md-6 pr-1'>
+                          <label>Sprint QA End Date</label>
+                          <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>Holidays Available</label>
+                          {{ form.holidays }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div id="m">
+
+          <script>
+            function w4_open() {
+              document.getElementById("m").style.marginTop = "0%";
+              document.getElementById("f").style.display = "block";
+              document.getElementById("sprint_btn").style.display = 'none';
+            }
+            function w4_close() {
+              document.getElementById("m").style.marginTop = "0%";
+              document.getElementById("f").style.display = "none";
+              document.getElementById("sprint_btn").style.display = "inline-block";
+            }
+          </script>
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div>
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Developer Overview Graph</h6>
+                  <form method='POST' id="f4">
+                    {% csrf_token %}
+                    <select class="js-example-basic-single" name="select_user" style="width:resolve;">
+                        <option selected="true" disabled>{{ hx1 }}</option>
+                        {% for n1 in s22 %}
+                          <option>{{ n1.name }}</option>
+                        {% endfor %}
+                        <option disabled>---------------------</option>
+                        <option>Java Dev</option>
+                        <option>PHP Dev</option>
+                        <option>HTML Dev</option>
+                        <option>QA Dev</option>
+                        <option disabled>---------------------</option>
+                        <option>All Developers</option>
+                    </select>
+                  </form>
+
+                  <script>
+                    $(document).ready(function() {
+                        var frm = $('#f4');
+                        frm.on('change',function (e) {
+                          e.preventDefault();
+                            $.ajax({
+                                type: frm.attr('method'),
+                                data: frm.serialize(),
+                                success: function(data) {
+                                  $("#re").html(data);
+                                },
+                            });
+                        });
+                      });
+                  </script>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body" style="width:1000px;height:540px;">
+                  <div class="chart-area">
+                    <canvas id="myChart1"></canvas>
+                  </div>
+                </div>
+                <script>
+                var ctx = document.getElementById('myChart1');
+                var data6  = JSON.parse('{{ jd8|escapejs }}');
+                var val1  = JSON.parse('{{ val|escapejs }}');
+                var nval1  = JSON.parse('{{ nval|escapejs }}');
+
+                if(val1=='Single'){
+                  var myChart = new Chart(ctx, {
+                      type: 'bar',
+
+                      data: {
+                          labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
+                          datasets: [{
+                            label: 'Developers Chart',
+                              data: data6,
+                              backgroundColor: [
+                                  'rgba(75, 192, 192, 0.4)',
+                                  'rgba(54, 162, 235, 0.4)',
+                                  'rgba(255, 206, 86, 0.4)'
+                              ],
+                              borderColor: [
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)'
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+
+                      options: {
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+                }
+
+                else{
+                  data7=[]
+                  data8=[]
+                  data9=[]
+                  data10=[]
+                  for(let i=0;i<Object.keys(data6).length;i+=3){
+                     data8.push(data6[i])
+                     data9.push(data6[i+1])
+                     data10.push(data6[i+2])
+                 }
+                 for(let i=0;i<Object.keys(nval1).length;i++){
+                    data7.push(nval1[i])
+                }
+                  var myChart = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                          labels: data7,
+                          datasets: [{
+                            label: 'Available Bandwidth',
+                              data: data8,
+                              backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                              borderColor: 'rgba(75, 192, 192, 1)',
+                              borderWidth: 1
+                          },
+                          {
+                            label: 'Story Points Assigned',
+                              data: data9,
+                              backgroundColor: 'rgba(54, 162, 235, 0.4)',
+                              borderColor: 'rgba(54, 162, 235, 1)',
+                              borderWidth: 1
+                          },
+                          {
+                            label: 'Story Points Completed',
+                              data: data10,
+                              backgroundColor: 'rgba(255, 206, 86, 0.4)',
+                              borderColor: 'rgba(255, 206, 86, 1)',
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+                }
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div>
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Sprint Burndown Graph</h6>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body" style="width:1000px;height:540px;">
+                  <div class="chart-area">
+                    <canvas id="burndown43"></canvas>
+                  </div>
+                </div>
+                <script>
+                    function showBurnDown(elementId, burndownData, newdata) {
+                      var speedCanvas = document.getElementById(elementId);
+                      Chart.defaults.global.defaultFontFamily = "Montserrat";
+                      Chart.defaults.global.defaultFontSize = 10;
+                      var data1  = JSON.parse('{{ jd1|escapejs }}');
+                      // console.log(data1);
+                      var ctx = document.getElementById('burndown43').getContext("2d");
+                      var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.4)");gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.4)");
+                      var speedData = {
+                        labels: data1,
+                        datasets: [
+                          {
+                            label: "Points Left",
+                            data: burndownData,
+                            fill: false,
+                            borderColor: "rgba(72,42,156,.4)",
+                            backgroundColor: "rgba(72,42,156,.5)",
+                            lineTension: 0,
+                          },
+                          {
+                            label: "Ideal Points Left",
+                            data: newdata,
+                            fill: true,
+                            // fillColor: gradient,
+                            borderColor: gradientFill,
+                            lineTension: 0,
+                            backgroundColor: gradientFill,
+                          },
+                        ]
+                      };
+
+                      var chartOptions = {
+                        legend: {
+                          display: true,
+                          position: 'top',
+                          labels: {
+                            boxWidth: 30,
+                            fontColor: 'black'
+                          }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                    max: Math.round(burndownData[0] * 1.1)
+                                }
+                            }]
+                        }
+                      };
+
+                      var lineChart = new Chart(speedCanvas, {
+                        type: 'line',
+                        data: speedData,
+                        options: chartOptions
+                      });
+
+                    }
+                </script>
+                <script>
+                  var data2  = JSON.parse('{{ jd5|escapejs }}');
+                  var data3  = JSON.parse('{{ jd6|escapejs }}');
+                  showBurnDown ("burndown43",data2,data3);
+                </script>
+              </div>
+            </div>
+          </div>
+    <!-- End of Content Wrapper -->
+
+    <div class="row">
+
+      <!-- Area Chart -->
+      <div>
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Story Overview Pie Chart</h6>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body" style="width:1000px;height:540px;">
+            <div class="chart-area">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+          <script>
+          var ctx = document.getElementById('myChart');
+          var data7  = JSON.parse('{{ jd7|escapejs }}');
+          var myChart = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                  labels: ['Completed','QA','In Progress','Unassigned'],
+                  datasets: [{
+                      data: data7,
+                      backgroundColor: [
+                          'rgba(75, 192, 192, 0.4)',
+                          'rgba(54, 162, 235, 0.4)',
+                          'rgba(255, 206, 86, 0.4)',
+                          'rgba(255, 99, 132, 0.4)'
+                      ],
+                      borderColor: [
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(255, 99, 132, 1)'
+                      ],
+                      borderWidth: 1
+                  }],
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }]
+                  }
+              }
+          });
+          </script>
+
+        </div>
       </div>
-
-      <script>
-      var ctx = document.getElementById('myChart1');
-      var data6  = JSON.parse('{{ jd8|escapejs }}');
-      var val1  = JSON.parse('{{ val|escapejs }}');
-      var nval1  = JSON.parse('{{ nval|escapejs }}');
-
-      if(val1=='Single'){
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-
-            data: {
-                labels: ['Available Bandwidth','Story Points Assigned','Story Points Completed'],
-                datasets: [{
-                  label: 'Developers Chart',
-                    data: data6,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.4)',
-                        'rgba(54, 162, 235, 0.4)',
-                        'rgba(255, 206, 86, 0.4)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-      }
-
-      else{
-        data7=[]
-        data8=[]
-        data9=[]
-        data10=[]
-        for(let i=0;i<Object.keys(data6).length;i+=3){
-           data8.push(data6[i])
-           data9.push(data6[i+1])
-           data10.push(data6[i+2])
-       }
-       for(let i=0;i<Object.keys(nval1).length;i++){
-          data7.push(nval1[i])
-      }
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: data7,
-                datasets: [{
-                  label: 'Available Bandwidth',
-                    data: data8,
-                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                },
-                {
-                  label: 'Story Points Assigned',
-                    data: data9,
-                    backgroundColor: 'rgba(54, 162, 235, 0.4)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                },
-                {
-                  label: 'Story Points Completed',
-                    data: data10,
-                    backgroundColor: 'rgba(255, 206, 86, 0.4)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-      }
-      </script>
     </div>
-</div>
 
-  <!-- burndown graph -->
+  </div>
+  <!-- End of Page Wrapper -->
 
-  <div class="container-fluid" id="burn">
-    <div class="col-md-3">
-      <button class="btn example_d" id="bdc1"><small>Sprint Overview Burndown Graph</small></button>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
 
-
-  <script>
-      function showBurnDown(elementId, burndownData, newdata) {
-        var speedCanvas = document.getElementById(elementId);
-        Chart.defaults.global.defaultFontFamily = "Montserrat";
-        Chart.defaults.global.defaultFontSize = 10;
-        var data1  = JSON.parse('{{ jd1|escapejs }}');
-        // console.log(data1);
-        var ctx = document.getElementById('burndown43').getContext("2d");
-        var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.4)");gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.4)");
-        var speedData = {
-          labels: data1,
-          datasets: [
-            {
-              label: "Points Left",
-              data: burndownData,
-              fill: false,
-              borderColor: "rgba(72,42,156,.4)",
-              backgroundColor: "rgba(72,42,156,.5)",
-              lineTension: 0,
-            },
-            {
-              label: "Ideal Points Left",
-              data: newdata,
-              fill: true,
-              // fillColor: gradient,
-              borderColor: gradientFill,
-              lineTension: 0,
-              backgroundColor: gradientFill,
-            },
-          ]
-        };
-
-        var chartOptions = {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: {
-              boxWidth: 30,
-              fontColor: 'black'
-            }
-          },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      min: 0,
-                      max: Math.round(burndownData[0] * 1.1)
-                  }
-              }]
-          }
-        };
-
-        var lineChart = new Chart(speedCanvas, {
-          type: 'line',
-          data: speedData,
-          options: chartOptions
-        });
-
-      }
-  </script>
-
-  <div class="w3-animate-left" style=" width:900px;" id="f2">
-    <form class="post-form" method='POST' id="fz">
-      {% csrf_token %}
-              <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
-                <option selected="true" disabled>{{ hx2 }}</option>
-                {% for product in data %}
-                <option> {{ product.name }}</option>
-                  {% endfor %}
-              </select>
-    </form>
-
-    <script>
-      $(document).ready(function() {
-          var frm = $('#fz');
-          frm.on('change',function (e) {
-            e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                  },
-              });
-          });
-        });
-    </script>
-    <canvas id="burndown43"></canvas>
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    var data2  = JSON.parse('{{ jd5|escapejs }}');
-    var data3  = JSON.parse('{{ jd6|escapejs }}');
-    showBurnDown ("burndown43",data2,data3);
-  </script>
-</div>
-</div>
-
-  <!-- Pie Chart -->
-
-  <div class="container-fluid" id="pie">
-    <div class="col-md-2">
-      <button class="btn example_d" onclick="w11_open()" id="bdc2"><small>Story Overview Pie Chart</small></button>
-
-
-  <div class="w3-animate-left" style="width:900px;" id="f3">
-    <form class="post-form" method='POST' id="fy">
-      {% csrf_token %}
-              <select class="js-example-basic-single" name="select_sprint" style="width:20%;">
-                <option selected="true" disabled>{{ hx2 }}</option>
-                {% for product in data %}
-                <option> {{ product.name }}</option>
-                  {% endfor %}
-              </select>
-    </form>
-
-    <script>
-      $(document).ready(function() {
-          var frm = $('#fy');
-          frm.on('change',function (e) {
-            e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  data: frm.serialize(),
-                  success: function(data) {
-                    $("#re").html(data);
-                  },
-              });
-          });
-        });
-    </script>
-    <canvas id="myChart"></canvas>
-  </div>
+  <script src="/static/new/sb-admin-2.min.js"></script>
 
   <script>
-  var ctx = document.getElementById('myChart');
-  var data7  = JSON.parse('{{ jd7|escapejs }}');
-  var myChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-          labels: ['Completed','QA','In Progress','Unassigned'],
-          datasets: [{
-              data: data7,
-              backgroundColor: [
-                  'rgba(75, 192, 192, 0.4)',
-                  'rgba(54, 162, 235, 0.4)',
-                  'rgba(255, 206, 86, 0.4)',
-                  'rgba(255, 99, 132, 0.4)'
-              ],
-              borderColor: [
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(255, 99, 132, 1)'
-              ],
-              borderWidth: 1
-          }],
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
-      }
-  });
+    $( function() {
+      $( "#datepicker1" ).datepicker({
+        dateFormat: 'yy-mm-dd'
+      });
+      $( "#datepicker2" ).datepicker({
+        dateFormat: 'yy-mm-dd'
+      });
+      $( "#datepicker3" ).datepicker({
+        dateFormat: 'yy-mm-dd'
+      });
+    } );
   </script>
-  </div>
-</div>
-
-<script>
-  $( function() {
-    $( "#datepicker1" ).datepicker({
-      dateFormat: 'yy-mm-dd'
-    });
-    $( "#datepicker2" ).datepicker({
-      dateFormat: 'yy-mm-dd'
-    });
-    $( "#datepicker3" ).datepicker({
-      dateFormat: 'yy-mm-dd'
-    });
-  } );
-</script>
-
-<script>
-  $(document).ready(function($) {
-    $('.js-example-basic-single').select2();
-  }(jQuery));
-</script>
+  <script>
+    $(document).ready(function($) {
+      $('.js-example-basic-single').select2();
+    }(jQuery));
+  </script>
 
 </body>
-
 {% endblock %}
