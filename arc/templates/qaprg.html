@@ -79,7 +79,7 @@
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid.svg"></button>
         </div>
 
       </ul>
@@ -150,7 +150,7 @@
                           {% for i in data %}
                           <tr class="row100 head">
                             <td style="color:black;"><b>{{ i.name }}</b></td>
-                            <td colspan='8'></td>
+                            <td colspan='9'></td>
                           </tr>
                           {% for j in list1 %}
                             {% if forloop.counter == forloop.parentloop.counter %}
@@ -194,7 +194,7 @@
                               <input type="number" name="left" min=0 value="{{k.8}}" step="0.5" style="width:70px;">
                             </td>
                             <td>
-                              <input type="text" name="startdate" class="datepicker" placeholder="Work Date" style="width:140px;">
+                              <input type="text" name="startdate" class="datepicker" style="width:40px;">
                             </td>
                             <td>
                               <select class="js-example-basic-single" style="width:100%;" name="fraction">
@@ -216,7 +216,7 @@
                               <p></p>
                               <input class="btn example_c" type="submit" name='as1' value="Submit">
                             </td>
-                            <td><input type="text" placeholder="Check Status" class="datepicker1" id="datepicker{{k.5}}" style="width:140px;"></td>
+                            <td><input type="text" class="datepicker1" id="datepicker{{k.5}}" style="width:40px;"></td>
                             <script>
                               $(document).ready(function() {
                                   var nDates = {};
@@ -359,7 +359,7 @@
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
+  <img src="/static/angle-up-solid.svg" style="width:30px;height:30px;">
 </a>
 
 <!-- Logout Modal-->

@@ -1,26 +1,13 @@
 th{
   cursor: pointer;
 }
-#c{
-  width:40px;
-}
-.navbar .navbar-collapse .nav-item a{
-  font-size: 12px;
-}
-.navbar .navbar-brand{
-  font-size: 14px;
-}
-.navbar{
-  padding-top:0px;
-  padding-bottom: 0px;
-  padding: 0px;
-}
 body{
   font-family: Montserrat;
   background :#F3F3F3;
 }
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
-  padding: 0px;
+
+#c{
+  width: 40px;
 }
 #spr{
   padding-top: 70px;
@@ -28,19 +15,8 @@ body{
 input[type="text"]::placeholder,input[type="password"]::placeholder{
   color:lightgrey;
 }
-#back{
-  background-color:   #f2f5f2;
-  width:500px;
-}
-.table100.ver3 td{
-  border: 1px solid lightgrey;
-}
-#a{
-  background-color: white;
-  color:black;
-}
-#read{
-  background-color: lightgrey;
+.btn{
+  font-size: 12px;
 }
 #hid2{
   padding-top: 20px;
@@ -59,27 +35,20 @@ background: #303D39;
 border: 1px solid #303D39;
 transition: all 0.4s ease 0s;
 }
-#hid{
-  float: right;
-  padding-top:10px;
-}
-#hid1,#hid3{
-  display: inline-block;
-}
 .js-example-basic-single,#bt1{
-  font-size: 10px;
+  font-size: 'resolve';
 }
 .js-example-basic-single{
-  width: resolve;
+  width: 'resolve';
 }
 #tab2{
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
   border: solid lightgrey .5px;
 }
 #tab3{
   text-align: center;
-  font-size: 17px;
+  font-size: 12px;
 }
 #black{
   background-color: black;
@@ -131,7 +100,7 @@ transition: all 0.4s ease 0s;
 }
 #tab1{
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 .dev a {
 background-color: Yellow !important;
@@ -149,9 +118,26 @@ color: White !important;
 background-color: Green !important;
 color: White !important;
 }
-#allocate1{
-  /* float: left; */
+.example_d {
+color: white;
+background: #4e73df;
+border: 1px solid #4e73df;
+transition: all 0.4s ease 0s;
 }
-#csv1{
-  display: inline-block;
+.example_d:hover {
+background: white;
+border: 1px solid white;
+transition: all 0.4s ease 0s;
+}
+
+.example_e  {
+color: white;
+background: #1cc88a !important;
+border: 1px solid #1cc88a !important;
+transition: all 0.4s ease 0s;
+}
+.example_e :hover {
+background: white;
+border: 1px solid white;
+transition: all 0.4s ease 0s;
 }

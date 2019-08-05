@@ -82,7 +82,7 @@
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid.svg"></button>
         </div>
 
       </ul>
@@ -99,7 +99,7 @@
 
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <!-- <i class="fa fa-bars">HEY</i> -->
+              <img src="/static/code-solid.svg">
             </button>
 
             <!-- Topbar Navbar -->
@@ -129,13 +129,45 @@
           <!-- End of Topbar -->
 
           <!-- Begin Page Content -->
-          <div align='center'>
-            <div id="allocate1">
-                <button class="btn example_c"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
-            </div>
-            <p></p>
-            <div id="csv1">
-                <button class="btn example_c"  onclick="w13_open()" id="csv"><small>Add Story via CSV</small></button>
+          <!-- Content Row -->
+          <div class="container-fluid">
+            <div class="row">
+
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Story</div>
+                        <div id="allocate1">
+                            <button class="btn example_d"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Add Story</div>
+                        <div id="csv1">
+                            <button class="btn example_e"  onclick="w13_open()" id="csv"><small>Add Story via CSV</small></button>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -972,8 +1004,8 @@
     </div>
 
 <!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
+<a class="scroll-to-top rounded" href="#">
+  <img src="/static/angle-up-solid.svg" style="width:30px;height:30px;">
 </a>
 
 <!-- Logout Modal-->
