@@ -196,7 +196,7 @@ def blog(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                return redirect('blog')
+                return redirect('story')
 
             if 'select_sprint' in request.POST:
                 select = request.POST.get('select_sprint')
@@ -205,7 +205,7 @@ def blog(request):
                         id=i.id
                         request.session['id'] = id
                         break
-                return redirect('blog')
+                return redirect('story')
 
         if request.method=='GET':
             if 'comment_holder' in request.GET:
@@ -1542,7 +1542,7 @@ def view_story(request):
             if 'red' in request.GET:
                 idx = request.GET.get('red')
                 request.session['story_id'] = idx
-                return(redirect('blog'))
+                return(redirect('story'))
 
             if 'delete_story' in request.GET:
                 x = request.GET.get('delete_story')
@@ -2350,7 +2350,7 @@ def reg(request):
     except:
         pass
 
-    
+
     # email = 'anshuman.airy@quikr.com'
     #
     # if User.objects.filter(email=email).exists() == True:
