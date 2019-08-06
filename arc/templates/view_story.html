@@ -79,12 +79,10 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
-
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid.svg"></button>
         </div>
-
       </ul>
       <!-- End of Sidebar -->
 
@@ -98,9 +96,7 @@
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
             <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <img src="/static/code-solid.svg">
-            </button>
+            <button class="rounded-circle border-0" id="sidebarToggleTop"><img src="/static/code-solid.svg"></button>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -139,9 +135,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Story</div>
-                        <div id="allocate1">
-                            <button class="btn example_d"  onclick="w4_open()" id="allocate"><small>Add Story Manually</small></button>
-                        </div>
+                            <button class="btn example_d" style="font-size:11px;"  onclick="w4_open()" id="allocate">Add Story Manually</button>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -157,9 +151,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Add Story</div>
-                        <div id="csv1">
-                            <button class="btn example_e"  onclick="w13_open()" id="csv"><small>Add Story via CSV</small></button>
-                        </div>
+                          <button class="btn example_e" style="font-size:11px;"   onclick="w13_open()" id="csv">Add Story via CSV</button>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -317,13 +309,13 @@
                               <td><label>New Jira ID</label>
                               <input type="text" name="new_jira" value="" id="d1"></td>
                               <td>
-                                <input class ="btn example_c" type="submit" value="Submit">
+                                <input class ="btn example_d" type="submit" value="Submit">
                                 <p></p>
-                                <input type="button" class="btn example_c" onclick="w5_close()" value="Dont Edit">
+                                <input type="button" class="btn example_d" onclick="w5_close()" value="Dont Edit">
                               </td>
                             </form>
 
-                            <script type="text/javascript">
+                            <!-- <script type="text/javascript">
                                 jQuery(document).ready(function($){
                                   var frm = $('#edit2');
                                   frm.submit(function () {
@@ -339,7 +331,7 @@
                                     }
                                   });
                                 });
-                            </script>
+                            </script> -->
 
                           </tr>
 
@@ -351,31 +343,31 @@
                             </form>
                             <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                             {% if d.ostatus == 'Live' %}
-                              <td id="green">{{ d.ostatus }}</td>
+                              <td><span id="green" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'In Progress' %}
-                              <td id="yellow">{{ d.ostatus }}</td>
+                              <td><span id="yellow" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'HTML Done' or d.ostatus == 'PHP Done' or d.ostatus == 'API Done' or d.ostatus == 'CR' %}
-                              <td id="white">{{ d.ostatus }}</td>
+                              <td><span id="white" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == '' %}
-                              <td id="black">Unassigned</td>
+                              <td><span id="black" class="dot"></span>Unassigned</td>
                             {% endif %}
                             {% if d.ostatus == 'Blocked' or d.ostatus == 'Blocked on API' or d.ostatus == 'Blocked on HTML' or d.ostatus == 'Blocked on Mock' or d.ostatus == 'Spec' %}
-                              <td id="red">{{ d.ostatus }}</td>
+                              <td><span id="red" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'Pending Deployment' or d.ostatus == 'Complete' %}
-                              <td id="pd">{{ d.ostatus }}</td>
+                              <td><span id="pd" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'QA' %}
-                              <td id="blue">{{ d.ostatus }}</td>
+                              <td><span id="blue" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'Next Sprint' %}
-                              <td id="purple">{{ d.ostatus }}</td>
+                              <td><span id="purple" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             {% if d.ostatus == 'Not Needed' or d.ostatus == 'Duplicate' %}
-                              <td id="other">{{ d.ostatus }}</td>
+                              <td><span id="other" class="dot"></span>{{ d.ostatus }}</td>
                             {% endif %}
                             <td>
                               <!-- <form method="GET"> -->
@@ -479,8 +471,8 @@
                           {% for dash in dashboard %}
                           <tr class="row100 head" id="br">
                             <tr class="row100 head">
-                              <td><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
-                              <td colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
+                              <td style="color:black;background:#ededed;"><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
+                              <td style="color:black;background:#ededed;" colspan="6"><a href="{{dash.description}}" target="_blank">{{ dash.story_name }}</a></td>
                             </tr>
                             <form method="GET" id="form_id{{dash.id}}">
                               {% csrf_token %}
@@ -889,7 +881,7 @@
                                     });
                                   </script>
 
-                                  <td><input type="submit" name="assign_data" class="btn example_c" id="reg1" value="Assign"></td>
+                                  <td><input type="submit" name="assign_data" class="btn example_d" id="reg1" value="Assign"></td>
                                   </tr>
                                 </form>
                             </tr>
@@ -909,16 +901,11 @@
               <div class="col-md-12">
                 <div class="card">
                   <!-- check developers -->
-                  <div class="container-fluid">
-                    <div class="col-md-3">
-                      <button class="btn example_c" id="check1"><small>Available Developers</small></button>
-                    </div>
-                  </div>
                   <div class="card-body" id="con">
                     <div class="table100 ver3">
                       <table class="table" id="tab3" data-vertable="ver1">
                         <thead class="text-primary">
-                          <th></th>
+                          <th>Available Dev</th>
                           <th>DEV</th>
                           <th>Total</th>
                           {% for d in d1 %}
@@ -926,7 +913,7 @@
                           {% endfor %}
                         </thead>
                         <tbody>
-                          <tr class="row100 head">
+                          <tr class="row100 head" style="color:black;background:#ededed;">
                             <td>JAVA</td>
                             <td>Bandwidth</td>
                             <td>{{ sjava }}</td>
@@ -942,7 +929,7 @@
                               <td>{{ i }}</td>
                             {% endfor %}
                           </tr>
-                          <tr class="row100 head">
+                          <tr class="row100 head" style="color:black;background:#ededed;">
                             <td>PHP</td>
                             <td>Bandwidth</td>
                             <td>{{ sphp }}</td>
@@ -958,7 +945,7 @@
                               <td>{{ i }}</td>
                             {% endfor %}
                           </tr>
-                          <tr class="row100 head">
+                          <tr class="row100 head" style="color:black;background:#ededed;">
                             <td>HTML</td>
                             <td>Bandwidth</td>
                             <td>{{ shtml }}</td>
@@ -974,7 +961,7 @@
                               <td>{{ i }}</td>
                             {% endfor %}
                           </tr>
-                          <tr class="row100 head">
+                          <tr class="row100 head" style="color:black;background:#ededed;">
                             <td>QA</td>
                             <td>Bandwidth</td>
                             <td>{{ sqa }}</td>

@@ -15,31 +15,23 @@ body{
 input[type="text"]::placeholder,input[type="password"]::placeholder{
   color:lightgrey;
 }
-.btn{
-  font-size: 12px;
-}
 #hid2{
   padding-top: 20px;
 }
 #devs{
   padding-top: 10px;
 }
-.example_c {
-color: black;
-background: lightgrey;
-border: 1px solid lightgrey;
-transition: all 0.4s ease 0s;
-}
-.example_c:hover {
-background: #303D39;
-border: 1px solid #303D39;
-transition: all 0.4s ease 0s;
-}
-.js-example-basic-single,#bt1{
+.js-example-basic-single{
   font-size: 'resolve';
 }
 .js-example-basic-single{
   width: 'resolve';
+}
+.dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  float:left;
 }
 #tab2{
   text-align: center;
@@ -53,47 +45,47 @@ transition: all 0.4s ease 0s;
 #black{
   background-color: black;
   color:white;
-  border: 2px solid black;
+  border: 1px solid lightgrey;
 }
 #red{
   background-color: red;
   color:white;
-  border: 2px solid red;
+  border: 1px solid lightgrey;
 }
 #yellow{
   background-color: yellow;
   color:black;
-  border: 2px solid yellow;
+  border: 1px solid lightgrey;
 }
 #green{
   background-color: #1ea84c;
   color: white;
-  border: 2px solid #1ea84c;
+  border: 1px solid lightgrey;
 }
 #purple{
   background-color: purple;
   color: white;
-  border: 2px solid purple;
+  border: 1px solid lightgrey;
 }
 #white{
   background-color: white;
   color: black;
-  border: 2px solid black;
+  border: 1px solid lightgrey;
 }
 #blue{
   background-color: blue;
   color: white;
-  border: 2px solid blue;
+  border: 1px solid lightgrey;
 }
 #pd{
   background-color: lightgreen;
   color: black;
-  border: 2px solid lightgreen;
+  border: 1px solid lightgrey;
 }
 #other{
   background-color: brown;
   color: white;
-  border: 2px solid brown;
+  border: 1px solid lightgrey;
 }
 .ec,.dc{
   display: inline-block;
@@ -118,26 +110,30 @@ color: White !important;
 background-color: Green !important;
 color: White !important;
 }
+
 .example_d {
-color: white;
-background: #4e73df;
-border: 1px solid #4e73df;
-transition: all 0.4s ease 0s;
+  font-size: 12px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 .example_d:hover {
-background: white;
-border: 1px solid white;
-transition: all 0.4s ease 0s;
+  font-size: 12px;
+  color:white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 
-.example_e  {
-color: white;
-background: #1cc88a !important;
-border: 1px solid #1cc88a !important;
-transition: all 0.4s ease 0s;
+.example_e{
+  font-size: 12px;
+  color: white;
+  background: #1cc88a !important;
+  border: 1px solid #1cc88a !important;
 }
-.example_e :hover {
-background: white;
-border: 1px solid white;
-transition: all 0.4s ease 0s;
+
+.example_e:hover {
+  font-size: 12px;
+  color: white;
+  background: #1cc88a !important;
+  border: 1px solid #1cc88a !important;
 }

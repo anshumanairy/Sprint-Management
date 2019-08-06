@@ -8,6 +8,9 @@ body{
 #tab2{
   font-size: 12px;
 }
+b, sup, sub, u, del{
+  color:black;
+}
 .dev a {
 background-color: Yellow !important;
 color: Black !important;
@@ -24,14 +27,6 @@ color: White !important;
 background-color: Green !important;
 color: White !important;
 }
-/* .box {
-  height: 10px;
-  width: 10px;
-  border: 1px solid grey;
-  margin-top: 1px;
-  clear: both;
-  float: left;
-} */
 .red {
   background-color: Blue !important;
 }
@@ -47,15 +42,16 @@ color: White !important;
   background-color: Green !important;
 }
 .example_c {
-color: black;
-background: lightgrey;
-border: 1px solid lightgrey;
-transition: all 0.4s ease 0s;
+  font-size: 10px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 .example_c:hover {
-background: #303D39;
-border: 1px solid #303D39;
-transition: all 0.4s ease 0s;
+  font-size: 10px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 #hid{
   float: right;

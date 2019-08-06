@@ -364,7 +364,7 @@ def qaprg(request):
                 count=count+1;
             j+=1
         # print(list1)
-
+        name = request.user.username
         if request.method=='GET':
 
             if 'as' in request.GET:
@@ -500,6 +500,7 @@ def qaprg(request):
         if id1==0 or pid2==0:
             messages.info(request, 'Select a valid sprint and project first!')
             return redirect('product')
+        name=request.user.username
         data1 = product.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -751,7 +752,7 @@ def qaprg(request):
                 request.session['pid'] = proid
                 return redirect('qaprg')
 
-    return(render(request,'qaprg.html/',{'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+    return(render(request,'qaprg.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
 @login_required(login_url='/')
 def user_logout(request):

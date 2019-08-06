@@ -109,8 +109,9 @@
 }
 
 .table100.ver3 th {
-  color: black;
-  border: 1px solid lightgrey;
+  color: white;
+  background-color: #6c7ae0;
+  text-transform: uppercase;
 }
 
 .table100.ver3 .row100:hover{

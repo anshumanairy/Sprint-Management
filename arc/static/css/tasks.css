@@ -64,15 +64,16 @@ td,th{
   text-align: left;
 }
 .example_c {
-color: black;
-background: lightgrey;
-border: 1px solid lightgrey;
-transition: all 0.4s ease 0s;
+  font-size: 13px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 .example_c:hover {
-background: #303D39;
-border: 1px solid #303D39;
-transition: all 0.4s ease 0s;
+  font-size: 13px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 #hid{
   float: right;
