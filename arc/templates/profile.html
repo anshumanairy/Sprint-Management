@@ -1,44 +1,17 @@
-{% extends 'home.html' %}
-{% block content %}
-<link rel="stylesheet" href="/static/css/profile.css">
-  <body id="re">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:black; font-size:12px;" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand">Profile</a>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'product' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'view_story' %}">Stories</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'qaprg' %}">Progress</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'bandwidth' %}">Bandwidth</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'tasks' %}l">Sprint Report</a>
-            </li>
-            <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:black;"></button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
-                    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
-                </div>
-            </div>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% include 'home.html' %}
+{% include 'nav.html' %}
 
-    <script>
-      $(document).ready(function() {
-          $('.js-example-basic-single').select2();
-      });
-    </script>
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
+
+<link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/profile.css">
+
+  <body id="re">
+
+    {% block nav %}
+    {% endblock %}
 
     <!-- purple area -->
     <header class="header_area">
@@ -47,7 +20,7 @@
     </header>
 
 
-    <section class="home_banner_area">
+    <!-- <section class="home_banner_area"> -->
       <div class="container box_1620">
         <div class="banner_inner d-flex align-items-center">
           <div class="banner_content">
@@ -241,6 +214,14 @@
         document.getElementById("x1").style.display = "none";
         document.getElementById("info_btn").style.display = "inline-block";
       }
+    </script>
+
+    <script src="/static/new/sb-admin-2.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+          $('.js-example-basic-single').select2();
+      });
     </script>
 
 </body>

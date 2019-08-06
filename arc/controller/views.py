@@ -2337,7 +2337,6 @@ def reg(request):
             dec = decryptx(list1[5])
 
             emp = dec['empId']
-            print(emp)
             email = dec['email']
             name = dec['name']
 
