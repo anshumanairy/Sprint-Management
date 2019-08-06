@@ -2164,19 +2164,20 @@ def tasks(request):
         k3 = product.objects.filter(pid=k2.id).exclude(id=id1)
         m=0
         for k4 in k3:
-            listse[n].append([])
             if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
                 if k4.sprint_dev_end_date>=datetime.date.today():
+                    listse[n].append([])
                     listse[n][m].append(k4.name)
                     listse[n][m].append(k4.id)
                     m+=1
             else:
                 if k4.sprint_qa_end_date>=datetime.date.today():
+                    listse[n].append([])
                     listse[n][m].append(k4.name)
                     listse[n][m].append(k4.id)
                     m+=1
         n+=1
-
+    print(listse)
     n0 = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
     nx1 = product.objects.get(id = id1).name

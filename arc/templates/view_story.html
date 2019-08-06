@@ -770,7 +770,7 @@
     <!-- Available Developers Modal-->
     <div class="modal fade" id="devModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:800px;">
+        <div class="modal-content" style="width:850px;">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Available Developers</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -785,77 +785,63 @@
                   <table class="table" id="tab3" data-vertable="ver1">
                     <thead class="text-primary">
                       <th>Available Dev</th>
-                      <th>DEV</th>
-                      <th>Total</th>
-                      {% for d in d1 %}
-                        <th>{{ d.name }}</th>
-                      {% endfor %}
+                      <th colspan='2'>JAVA</th>
+                      <th colspan='2'>PHP</th>
+                      <th colspan='2'>HTML</th>
+                      <th colspan='2'>QA</th>
                     </thead>
                     <tbody>
-                      <tr class="row100 head" style="color:black;background:#ededed;">
-                        <td>JAVA</td>
-                        <td>Bandwidth</td>
+                      <tr>
+                        <td></td>
+                        <td>Available</td>
+                        <td>Assigned</td>
+                        <td>Available</td>
+                        <td>Assigned</td>
+                        <td>Available</td>
+                        <td>Assigned</td>
+                        <td>Available</td>
+                        <td>Assigned</td>
+                      </tr>
+                      <tr class="row100 head" style="font-weight:bold;">
+                        <td>TOTAL</td>
                         <td>{{ sjava }}</td>
-                        {% for d in d1 %}
-                          <td>{{ d.spjava }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head">
-                        <td></td>
-                        <td>Story Points</td>
                         <td>{{ a }}</td>
-                        {% for i in list11 %}
-                          <td>{{ i }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head" style="color:black;background:#ededed;">
-                        <td>PHP</td>
-                        <td>Bandwidth</td>
                         <td>{{ sphp }}</td>
-                        {% for d in d1 %}
-                          <td>{{ d.spphp }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head">
-                        <td></td>
-                        <td>Story Points</td>
                         <td>{{ b }}</td>
-                        {% for i in list21 %}
-                          <td>{{ i }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head" style="color:black;background:#ededed;">
-                        <td>HTML</td>
-                        <td>Bandwidth</td>
                         <td>{{ shtml }}</td>
-                        {% for d in d1 %}
-                          <td>{{ d.sphtml }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head">
-                        <td></td>
-                        <td>Story Points</td>
                         <td>{{ c }}</td>
-                        {% for i in list31 %}
-                          <td>{{ i }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head" style="color:black;background:#ededed;">
-                        <td>QA</td>
-                        <td>Bandwidth</td>
                         <td>{{ sqa }}</td>
-                        {% for d in d1 %}
-                          <td>{{ d.spqa }}</td>
-                        {% endfor %}
-                      </tr>
-                      <tr class="row100 head">
-                        <td></td>
-                        <td>Story Points</td>
                         <td>{{ d }}</td>
-                        {% for i in list41 %}
-                          <td>{{ i }}</td>
-                        {% endfor %}
                       </tr>
+                      {% for d in d1 %}
+                        <tr class="row100 head">
+                          <td>{{ d.name }}</td>
+                          <td>{{ d.spjava }}</td>
+                          {% for i in list11 %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              <td>{{ i }}</td>
+                            {% endif %}
+                          {% endfor %}
+                          <td>{{ d.spphp }}</td>
+                          {% for i in list21 %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              <td>{{ i }}</td>
+                            {% endif %}
+                          {% endfor %}
+                          <td>{{ d.sphtml }}</td>
+                          {% for i in list31 %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              <td>{{ i }}</td>
+                            {% endif %}
+                          {% endfor %}
+                          <td>{{ d.spqa }}</td>
+                          {% for i in list41 %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              <td>{{ i }}</td>
+                            {% endif %}
+                          {% endfor %}
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>
