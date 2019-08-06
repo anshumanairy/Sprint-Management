@@ -1,4 +1,6 @@
-{% extends 'home.html' %}
+{% include 'home.html' %}
+{% include 'nav.html' %}
+
 {% block content %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
@@ -7,630 +9,502 @@
 
 <body id="re">
 
-  <div id="wrapper">
+  {% block nav %}
+  {% endblock %}
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Sprint Management</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item --->
-      <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <span>Dashboard</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Interface
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Profile</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'profile' %}">Profile</a>
-            <a class="collapse-item" href="{% url 'logout' %}">Logout</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Pages
-      </div>
-
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'product' %}"><span>Home</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_story' %}"><span>Stories</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'qaprg' %}"><span>Progress</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'bandwidth' %}"><span>Bandwidth</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'tasks' %}l"><span>Sprint Report</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid-white.svg"></button>
-      </div>
-
-    </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button class="rounded-circle border-0" id="sidebarToggleTop"><img src="/static/code-solid.svg"></button>
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}}</span>
-                <img class="img-profile rounded-circle" src="/static/profile/pics/empty.png">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{% url 'profile' %}">
-                  Profile
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  Logout
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- End of Topbar -->
-
-        <div class="content">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="table100 ver3">
-                    <table class="table" id="tab2" data-vertable="ver1">
-                      <thead class="text-primary">
-                        <th>Name</th>
-                        <th>Skill</th>
-                        <th>Available Days</th>
-                        <th>Planned Leaves</th>
-                        <th>Unplanned Leaves</th>
-                        <th>Velocity Factor</th>
-                        <th>Available Bandwidth</th>
-                        <th>Story Points</th>
-                        <th>Assigned</th>
-                        <th>Delta</th>
-                      </thead>
-                      <tbody>
-                        {% for d22 in d2 %}{% for i in list1 %}
-                          {% if forloop.counter == forloop.parentloop.counter %}
-                            <tr id="t">
-                              <td>{{ d22.name }}</td>
-                              <td>JAVA</td>
-                              {% for b in band %}
-                              <td>{{ b.dev_working }}</td>
-                              {% endfor %}
-                              <td>
-                                {{ d22.planned }}
-                                <form method="get" id="java{{d22.id}}">
-                                  <input type="number" name="leave1" min="0" value="0" style="width:70px;">
-                                  <input type="hidden" value="{{ d22.id }}" name="leave2">
-                                  <input type="hidden" value="java" name="leave3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                </form>
-                                  <script type="text/javascript">
-                                      jQuery(document).ready(function($){
-                                        var frm = $('#java{{d22.id}}');
-                                        frm.submit(function (){
-                                          if (this.id == 'java{{d22.id}}'){
-                                              $.ajax({
-                                                  type: $('#java{{d22.id}}').attr('method'),
-                                                  data: $('#java{{d22.id}}').serialize(),
-                                                  success: function(data) {
-                                                    $("#re").html(data);
-                                                  },
-                                              });
-                                            return false;
-                                          }
+        <div class="container-fluid row">
+          <div class="card shadow mb-4">
+            <div class="table100 ver3">
+              <table class="table" id="tab2" data-vertable="ver1">
+                <thead class="text-primary">
+                  <th>Name</th>
+                  <th>Skill</th>
+                  <th>Available Days</th>
+                  <th>Planned Leaves</th>
+                  <th>Unplanned Leaves</th>
+                  <th>Velocity Factor</th>
+                  <th>Available Bandwidth</th>
+                  <th>Story Points</th>
+                  <th>Assigned</th>
+                  <th>Delta</th>
+                </thead>
+                <tbody>
+                  {% for d22 in d2 %}{% for i in list1 %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                      <tr id="t">
+                        <td>{{ d22.name }}</td>
+                        <td>JAVA</td>
+                        {% for b in band %}
+                        <td>{{ b.dev_working }}</td>
+                        {% endfor %}
+                        <td>
+                          {{ d22.planned }}
+                          <form method="get" id="java{{d22.id}}">
+                            <input type="number" name="leave1" min="0" value="0" style="width:70px;">
+                            <input type="hidden" value="{{ d22.id }}" name="leave2">
+                            <input type="hidden" value="java" name="leave3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                          </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#java{{d22.id}}');
+                                  frm.submit(function (){
+                                    if (this.id == 'java{{d22.id}}'){
+                                        $.ajax({
+                                            type: $('#java{{d22.id}}').attr('method'),
+                                            data: $('#java{{d22.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
                                         });
-                                      });
-                                  </script>
-                              </td>
-                              <td>
-                                  {{ d22.unplanned }}
-                                  <form method="get" id="java1{{d22.id}}">
-                                    <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
-                                    <input type="hidden" value="{{ d22.id }}" name="uleave2">
-                                    <input type="hidden" value="java" name="uleave3">
-                                    <p></p>
-                                    <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                  </form>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function($){
-                                          var frm = $('#java1{{d22.id}}');
-                                          frm.submit(function (){
-                                            if (this.id == 'java1{{d22.id}}'){
-                                                $.ajax({
-                                                    type: $('#java1{{d22.id}}').attr('method'),
-                                                    data: $('#java1{{d22.id}}').serialize(),
-                                                    success: function(data) {
-                                                      $("#re").html(data);
-                                                    },
-                                                });
-                                              return false;
-                                            }
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
+                        </td>
+                        <td>
+                            {{ d22.unplanned }}
+                            <form method="get" id="java1{{d22.id}}">
+                              <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
+                              <input type="hidden" value="{{ d22.id }}" name="uleave2">
+                              <input type="hidden" value="java" name="uleave3">
+                              <p></p>
+                              <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                            </form>
+                              <script type="text/javascript">
+                                  jQuery(document).ready(function($){
+                                    var frm = $('#java1{{d22.id}}');
+                                    frm.submit(function (){
+                                      if (this.id == 'java1{{d22.id}}'){
+                                          $.ajax({
+                                              type: $('#java1{{d22.id}}').attr('method'),
+                                              data: $('#java1{{d22.id}}').serialize(),
+                                              success: function(data) {
+                                                $("#re").html(data);
+                                              },
                                           });
-                                        });
-                                    </script>
-                              </td>
-                              <td>
-                                {{ d22.vfjava }}
-                                <form method="get" id="java1{{d22.id}}">
-                                  <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
-                                  <input type="hidden" value="{{ d22.id }}" name="assign2">
-                                  <input type="hidden" value="java" name="assign3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign">
-                                </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#java1{{d22.id}}');
-                                      frm.submit(function (){
-                                        if (this.id == 'java1{{d22.id}}'){
-                                            $.ajax({
-                                                type: $('#java1{{d22.id}}').attr('method'),
-                                                data: $('#java1{{d22.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
+                                        return false;
+                                      }
                                     });
-                                </script>
-                              </td>
-                              <td>{{ d22.abjava }}</td>
-                              <td>{{ d22.spjava }}</td>
-                              <td>{{ i }}</td>
-                              <td>{{ d22.djava }}</td>
-                            </tr>
-                          {% endif %}
-                        {% endfor %}{% endfor %}
-                        <tr>
-                          <td colspan="7" style="color:black;background:#ededed;"></td>
-                          <td style="color:black;background:#ededed;">{{ sjava }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="7"></td>
-                          <td></td>
-                        </tr>
-                        {% for d33 in d3 %}{% for i in list2 %}
-                          {% if forloop.counter == forloop.parentloop.counter %}
-                            <tr id="t">
-                              <td>{{ d33.name }}</td>
-                              <td>PHP</td>
-                              {% for b in band %}
-                              <td>{{ b.dev_working }}</td>
-                              {% endfor %}
-                              <td>
-                                {{ d33.planned }}
-                                <form method="get" id="php{{d33.id}}">
-                                  <input type="number" name="leave1" min="0" value="0" style="width:70px;">
-                                  <input type="hidden" value="{{ d33.id }}" name="leave2">
-                                  <input type="hidden" value="php" name="leave3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                                  });
+                              </script>
+                        </td>
+                        <td>
+                          {{ d22.vfjava }}
+                          <form method="get" id="java1{{d22.id}}">
+                            <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
+                            <input type="hidden" value="{{ d22.id }}" name="assign2">
+                            <input type="hidden" value="java" name="assign3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign">
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#java1{{d22.id}}');
+                                frm.submit(function (){
+                                  if (this.id == 'java1{{d22.id}}'){
+                                      $.ajax({
+                                          type: $('#java1{{d22.id}}').attr('method'),
+                                          data: $('#java1{{d22.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                        <td>{{ d22.abjava }}</td>
+                        <td>{{ d22.spjava }}</td>
+                        <td>{{ i }}</td>
+                        <td>{{ d22.djava }}</td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}{% endfor %}
+                  <tr>
+                    <td colspan="7" style="color:black;background:#ededed;"></td>
+                    <td style="color:black;background:#ededed;">{{ sjava }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td></td>
+                  </tr>
+                  {% for d33 in d3 %}{% for i in list2 %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                      <tr id="t">
+                        <td>{{ d33.name }}</td>
+                        <td>PHP</td>
+                        {% for b in band %}
+                        <td>{{ b.dev_working }}</td>
+                        {% endfor %}
+                        <td>
+                          {{ d33.planned }}
+                          <form method="get" id="php{{d33.id}}">
+                            <input type="number" name="leave1" min="0" value="0" style="width:70px;">
+                            <input type="hidden" value="{{ d33.id }}" name="leave2">
+                            <input type="hidden" value="php" name="leave3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                        </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#php{{d33.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'php{{d33.id}}'){
+                                      $.ajax({
+                                          type: $('#php{{d33.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#php{{d33.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                          <td>
+                              {{ d33.unplanned }}
+                              <form method="get" id="php1{{d33.id}}">
+                                <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
+                                <input type="hidden" value="{{ d33.id }}" name="uleave2">
+                                <input type="hidden" value="php" name="uleave3">
+                                <p></p>
+                                <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                            </form>
+                              <script type="text/javascript">
+                                  jQuery(document).ready(function($){
+                                    var frm = $('#php1{{d33.id}}');
+                                    frm.submit(function () {
+                                      if (this.id == 'php1{{d33.id}}'){
+                                          $.ajax({
+                                              type: $('#php1{{d33.id}}').attr('method'),
+                                              url: 'bandwidth/',
+                                              data: $('#php1{{d33.id}}').serialize(),
+                                              success: function(data) {
+                                                $("#re").html(data);
+                                              },
+                                          });
+                                        return false;
+                                      }
+                                    });
+                                  });
+                              </script>
+                          </td>
+                        <td>
+                          {{ d33.vfphp }}
+                          <form method="get" id="php1{{d33.id}}">
+                            <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
+                            <input type="hidden" value="{{ d33.id }}" name="assign2">
+                            <input type="hidden" value="php" name="assign3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign">
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#php1{{d33.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'php1{{d33.id}}'){
+                                      $.ajax({
+                                          type: $('#php1{{d33.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#php1{{d33.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                        <td>{{ d33.abphp }}</td>
+                        <td>{{ d33.spphp }}</td>
+                        <td>{{ i }}</td>
+                        <td>{{ d33.dphp }}</td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}{% endfor %}
+                  <tr>
+                    <td colspan="7" style="color:black;background:#ededed;"></td>
+                    <td style="color:black;background:#ededed;">{{ sphp }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td></td>
+                  </tr>
+                  {% for d44 in d4 %}{% for i in list3 %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                      <tr id="t">
+                        <td>{{ d44.name }}</td>
+                        <td>HTML</td>
+                        {% for b in band %}
+                        <td>{{ b.dev_working }}</td>
+                        {% endfor %}
+                        <td>
+                          {{ d44.planned }}
+                          <form method="get" id="html{{d44.id}}">
+                            <input type="number" name="leave1" min="0" value="0" style="width:70px;">
+                            <input type="hidden" value="{{ d44.id }}" name="leave2">
+                            <input type="hidden" value="html" name="leave3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                        </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#html{{d44.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'html{{d44.id}}'){
+                                      $.ajax({
+                                          type: $('#html{{d44.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#html{{d44.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                          <td>
+                              {{ d44.unplanned }}
+                              <form method="get" id="html1{{d44.id}}">
+                                <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
+                                <input type="hidden" value="{{ d44.id }}" name="uleave2">
+                                <input type="hidden" value="html" name="uleave3">
+                                <p></p>
+                                <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#php{{d33.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'php{{d33.id}}'){
-                                            $.ajax({
-                                                type: $('#php{{d33.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#php{{d33.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
-                                    });
-                                </script>
-                              </td>
-                                <td>
-                                    {{ d33.unplanned }}
-                                    <form method="get" id="php1{{d33.id}}">
-                                      <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
-                                      <input type="hidden" value="{{ d33.id }}" name="uleave2">
-                                      <input type="hidden" value="php" name="uleave3">
-                                      <p></p>
-                                      <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                  </form>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function($){
-                                          var frm = $('#php1{{d33.id}}');
-                                          frm.submit(function () {
-                                            if (this.id == 'php1{{d33.id}}'){
-                                                $.ajax({
-                                                    type: $('#php1{{d33.id}}').attr('method'),
-                                                    url: 'bandwidth/',
-                                                    data: $('#php1{{d33.id}}').serialize(),
-                                                    success: function(data) {
-                                                      $("#re").html(data);
-                                                    },
-                                                });
-                                              return false;
-                                            }
+                              <script type="text/javascript">
+                                  jQuery(document).ready(function($){
+                                    var frm = $('#html1{{d44.id}}');
+                                    frm.submit(function () {
+                                      if (this.id == 'html1{{d44.id}}'){
+                                          $.ajax({
+                                              type: $('#html1{{d44.id}}').attr('method'),
+                                              url: 'bandwidth/',
+                                              data: $('#html1{{d44.id}}').serialize(),
+                                              success: function(data) {
+                                                $("#re").html(data);
+                                              },
                                           });
-                                        });
-                                    </script>
-                                </td>
-                              <td>
-                                {{ d33.vfphp }}
-                                <form method="get" id="php1{{d33.id}}">
-                                  <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
-                                  <input type="hidden" value="{{ d33.id }}" name="assign2">
-                                  <input type="hidden" value="php" name="assign3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign">
-                                </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#php1{{d33.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'php1{{d33.id}}'){
-                                            $.ajax({
-                                                type: $('#php1{{d33.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#php1{{d33.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
+                                        return false;
+                                      }
                                     });
-                                </script>
-                              </td>
-                              <td>{{ d33.abphp }}</td>
-                              <td>{{ d33.spphp }}</td>
-                              <td>{{ i }}</td>
-                              <td>{{ d33.dphp }}</td>
-                            </tr>
-                          {% endif %}
-                        {% endfor %}{% endfor %}
-                        <tr>
-                          <td colspan="7" style="color:black;background:#ededed;"></td>
-                          <td style="color:black;background:#ededed;">{{ sphp }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="7"></td>
-                          <td></td>
-                        </tr>
-                        {% for d44 in d4 %}{% for i in list3 %}
-                          {% if forloop.counter == forloop.parentloop.counter %}
-                            <tr id="t">
-                              <td>{{ d44.name }}</td>
-                              <td>HTML</td>
-                              {% for b in band %}
-                              <td>{{ b.dev_working }}</td>
-                              {% endfor %}
-                              <td>
-                                {{ d44.planned }}
-                                <form method="get" id="html{{d44.id}}">
-                                  <input type="number" name="leave1" min="0" value="0" style="width:70px;">
-                                  <input type="hidden" value="{{ d44.id }}" name="leave2">
-                                  <input type="hidden" value="html" name="leave3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                                  });
+                              </script>
+                            </td>
+                        <td>
+                          {{ d44.vfhtml }}
+                          <form method="get" id="html1{{d44.id}}">
+                            <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
+                            <input type="hidden" value="{{ d44.id }}" name="assign2">
+                            <input type="hidden" value="html" name="assign3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign">
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#html1{{d44.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'html1{{d44.id}}'){
+                                      $.ajax({
+                                          type: $('#html1{{d44.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#html1{{d44.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                        <td>{{ d44.abhtml }}</td>
+                        <td>{{ d44.sphtml }}</td>
+                        <td>{{ i }}</td>
+                        <td>{{ d44.dhtml }}</td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}{% endfor %}
+                  <tr>
+                    <td colspan="7" style="color:black;background:#ededed;"></td>
+                    <td style="color:black;background:#ededed;">{{ shtml }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td></td>
+                  </tr>
+                  {% for d55 in d5 %}{% for i in list4 %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                      <tr id="t">
+                        <td>{{ d55.name }}</td>
+                        <td>QA</td>
+                        {% for b in band %}
+                        <td>{{ b.qa_working }}</td>
+                        {% endfor %}
+                        <td>
+                          {{ d55.planned }}
+                          <form method="get" id="qa{{d55.id}}">
+                            <input type="number" name="leave1" min="0" value="0" style="width:70px;">
+                            <input type="hidden" value="{{ d55.id }}" name="leave2">
+                            <input type="hidden" value="qa" name="leave3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign" id="lvsub">
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#qa{{d55.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'qa{{d55.id}}'){
+                                      $.ajax({
+                                          type: $('#qa{{d55.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#qa{{d55.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
+                                      });
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                          <td>
+                              {{ d55.unplanned }}
+                              <form method="get" id="qa1{{d55.id}}">
+                                <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
+                                <input type="hidden" value="{{ d55.id }}" name="uleave2">
+                                <input type="hidden" value="qa" name="uleave3">
+                                <p></p>
+                                <input type="submit" class="btn example_c" value="Assign" id="lvsub">
                               </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#html{{d44.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'html{{d44.id}}'){
-                                            $.ajax({
-                                                type: $('#html{{d44.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#html{{d44.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
-                                    });
-                                </script>
-                              </td>
-                                <td>
-                                    {{ d44.unplanned }}
-                                    <form method="get" id="html1{{d44.id}}">
-                                      <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
-                                      <input type="hidden" value="{{ d44.id }}" name="uleave2">
-                                      <input type="hidden" value="html" name="uleave3">
-                                      <p></p>
-                                      <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                    </form>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function($){
-                                          var frm = $('#html1{{d44.id}}');
-                                          frm.submit(function () {
-                                            if (this.id == 'html1{{d44.id}}'){
-                                                $.ajax({
-                                                    type: $('#html1{{d44.id}}').attr('method'),
-                                                    url: 'bandwidth/',
-                                                    data: $('#html1{{d44.id}}').serialize(),
-                                                    success: function(data) {
-                                                      $("#re").html(data);
-                                                    },
-                                                });
-                                              return false;
-                                            }
+                              <script type="text/javascript">
+                                  jQuery(document).ready(function($){
+                                    var frm = $('#qa1{{d55.id}}');
+                                    frm.submit(function () {
+                                      if (this.id == 'qa1{{d55.id}}'){
+                                          $.ajax({
+                                              type: $('#qa1{{d55.id}}').attr('method'),
+                                              url: 'bandwidth/',
+                                              data: $('#qa1{{d55.id}}').serialize(),
+                                              success: function(data) {
+                                                $("#re").html(data);
+                                              },
                                           });
-                                        });
-                                    </script>
-                                  </td>
-                              <td>
-                                {{ d44.vfhtml }}
-                                <form method="get" id="html1{{d44.id}}">
-                                  <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
-                                  <input type="hidden" value="{{ d44.id }}" name="assign2">
-                                  <input type="hidden" value="html" name="assign3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign">
-                                </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#html1{{d44.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'html1{{d44.id}}'){
-                                            $.ajax({
-                                                type: $('#html1{{d44.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#html1{{d44.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
+                                        return false;
+                                      }
                                     });
-                                </script>
-                              </td>
-                              <td>{{ d44.abhtml }}</td>
-                              <td>{{ d44.sphtml }}</td>
-                              <td>{{ i }}</td>
-                              <td>{{ d44.dhtml }}</td>
-                            </tr>
-                          {% endif %}
-                        {% endfor %}{% endfor %}
-                        <tr>
-                          <td colspan="7" style="color:black;background:#ededed;"></td>
-                          <td style="color:black;background:#ededed;">{{ shtml }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="7"></td>
-                          <td></td>
-                        </tr>
-                        {% for d55 in d5 %}{% for i in list4 %}
-                          {% if forloop.counter == forloop.parentloop.counter %}
-                            <tr id="t">
-                              <td>{{ d55.name }}</td>
-                              <td>QA</td>
-                              {% for b in band %}
-                              <td>{{ b.qa_working }}</td>
-                              {% endfor %}
-                              <td>
-                                {{ d55.planned }}
-                                <form method="get" id="qa{{d55.id}}">
-                                  <input type="number" name="leave1" min="0" value="0" style="width:70px;">
-                                  <input type="hidden" value="{{ d55.id }}" name="leave2">
-                                  <input type="hidden" value="qa" name="leave3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#qa{{d55.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'qa{{d55.id}}'){
-                                            $.ajax({
-                                                type: $('#qa{{d55.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#qa{{d55.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
+                                  });
+                              </script>
+                            </td>
+                        <td>
+                          {{ d55.vfqa }}
+                          <form method="get" id="qa1{{d55.id}}">
+                            <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
+                            <input type="hidden" value="{{ d55.id }}" name="assign2">
+                            <input type="hidden" value="qa" name="assign3">
+                            <p></p>
+                            <input type="submit" class="btn example_c" value="Assign">
+                          </form>
+                          <script type="text/javascript">
+                              jQuery(document).ready(function($){
+                                var frm = $('#qa1{{d55.id}}');
+                                frm.submit(function () {
+                                  if (this.id == 'qa1{{d55.id}}'){
+                                      $.ajax({
+                                          type: $('#qa1{{d55.id}}').attr('method'),
+                                          url: 'bandwidth/',
+                                          data: $('#qa1{{d55.id}}').serialize(),
+                                          success: function(data) {
+                                            $("#re").html(data);
+                                          },
                                       });
-                                    });
-                                </script>
-                              </td>
-                                <td>
-                                    {{ d55.unplanned }}
-                                    <form method="get" id="qa1{{d55.id}}">
-                                      <input type="number" name="uleave1" min="0" value="0" style="width:70px;">
-                                      <input type="hidden" value="{{ d55.id }}" name="uleave2">
-                                      <input type="hidden" value="qa" name="uleave3">
-                                      <p></p>
-                                      <input type="submit" class="btn example_c" value="Assign" id="lvsub">
-                                    </form>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function($){
-                                          var frm = $('#qa1{{d55.id}}');
-                                          frm.submit(function () {
-                                            if (this.id == 'qa1{{d55.id}}'){
-                                                $.ajax({
-                                                    type: $('#qa1{{d55.id}}').attr('method'),
-                                                    url: 'bandwidth/',
-                                                    data: $('#qa1{{d55.id}}').serialize(),
-                                                    success: function(data) {
-                                                      $("#re").html(data);
-                                                    },
-                                                });
-                                              return false;
-                                            }
-                                          });
-                                        });
-                                    </script>
-                                  </td>
-                              <td>
-                                {{ d55.vfqa }}
-                                <form method="get" id="qa1{{d55.id}}">
-                                  <input type="number" name="assign1" step="0.1" min="0" value="1" style="width:70px;">
-                                  <input type="hidden" value="{{ d55.id }}" name="assign2">
-                                  <input type="hidden" value="qa" name="assign3">
-                                  <p></p>
-                                  <input type="submit" class="btn example_c" value="Assign">
-                                </form>
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function($){
-                                      var frm = $('#qa1{{d55.id}}');
-                                      frm.submit(function () {
-                                        if (this.id == 'qa1{{d55.id}}'){
-                                            $.ajax({
-                                                type: $('#qa1{{d55.id}}').attr('method'),
-                                                url: 'bandwidth/',
-                                                data: $('#qa1{{d55.id}}').serialize(),
-                                                success: function(data) {
-                                                  $("#re").html(data);
-                                                },
-                                            });
-                                          return false;
-                                        }
-                                      });
-                                    });
-                                </script>
-                              </td>
-                              <td>{{ d55.abqa }}</td>
-                              <td>{{ d55.spqa }}</td>
-                              <td>{{ i }}</td>
-                              <td>{{ d55.dqa }}</td>
-                            </tr>
-                          {% endif %}
-                        {% endfor %}{% endfor %}
-                        <tr>
-                          <td colspan="7" style="color:black;background:#ededed;"></td>
-                          <td style="color:black;background:#ededed;">{{ sqa }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+                                    return false;
+                                  }
+                                });
+                              });
+                          </script>
+                        </td>
+                        <td>{{ d55.abqa }}</td>
+                        <td>{{ d55.spqa }}</td>
+                        <td>{{ i }}</td>
+                        <td>{{ d55.dqa }}</td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}{% endfor %}
+                  <tr>
+                    <td colspan="7" style="color:black;background:#ededed;"></td>
+                    <td style="color:black;background:#ededed;">{{ sqa }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
 
 
-        <div class="content" id="s">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Sprint Details</h4>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table" id="tab2" style="width:100%">
-                      <tbody>
-                        <tr>
-                          <th>Sprint Start Date</th>
-                          {% for b in band %}
-                            <td>{{ b.sprint_start_date }}</td>
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          <th>Sprint Dev End Date</th>
-                          {% for b in band %}
-                            <td>{{ b.sprint_dev_end_date }}</td>
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          <th>Sprint QA End Date</th>
-                          {% for b in band %}
-                            <td>{{ b.sprint_qa_end_date }}</td>
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          <th>Holidays</th>
-                          {% for b in band %}
-                            <td>{{ b.holidays }}</td>
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          <th>Dev Working Days</th>
-                          {% for b in band %}
-                            <td>{{ b.dev_working }}</td>
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          <th>QA Working Days</th>
-                          {% for b in band %}
-                            <td>{{ b.qa_working }}</td>
-                          {% endfor %}
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="container-fluid row">
+          <div class="card shadow mb-4">
+            <table class="table" id="tab2" style="width:100%">
+              <tbody>
+                <tr>
+                  <th>Sprint Start Date</th>
+                  {% for b in band %}
+                    <td>{{ b.sprint_start_date }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>Sprint Dev End Date</th>
+                  {% for b in band %}
+                    <td>{{ b.sprint_dev_end_date }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>Sprint QA End Date</th>
+                  {% for b in band %}
+                    <td>{{ b.sprint_qa_end_date }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>Holidays</th>
+                  {% for b in band %}
+                    <td>{{ b.holidays }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>Dev Working Days</th>
+                  {% for b in band %}
+                    <td>{{ b.dev_working }}</td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>QA Working Days</th>
+                  {% for b in band %}
+                    <td>{{ b.qa_working }}</td>
+                  {% endfor %}
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
       </div>
     </div>
   </div>
+
   <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
