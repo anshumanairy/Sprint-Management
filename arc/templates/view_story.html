@@ -27,88 +27,6 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Project</div>
-                        <form class="post-form" method='POST' id="h">
-                          {% csrf_token %}
-                          <!-- onchange="myFunction(this.value)" -->
-                            <select class="js-example-basic-single" name="select_project">
-                                <option selected="true" disabled>{{ nx }}</option>
-                              {% for n1 in n0 %}
-                                <option>{{ n1.name }}</option>
-                              {% endfor %}
-                            </select>
-                        </form>
-
-                        <script>
-                          $(document).ready(function() {
-                              var frm = $('#h');
-                              frm.on('change',function (e) {
-                                e.preventDefault();
-                                  $.ajax({
-                                      type: frm.attr('method'),
-                                      data: frm.serialize(),
-                                      success: function(data) {
-                                        $("#re").html(data);
-                                      },
-                                  });
-                              });
-                            });
-                        </script>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sprint</div>
-
-                          <form class="post-form" method='POST' id="f5">
-                            {% csrf_token %}
-                              <select class="js-example-basic-single" name="select_sprint">
-                                <option selected="true" disabled>{{ nx1 }}</option>
-                                {% for product in data1 %}
-                                <option> {{ product.name }}</option>
-                                  {% endfor %}
-                              </select>
-                          </form>
-
-                          <script>
-                            $(document).ready(function() {
-                                var frm = $('#f5');
-                                frm.on('change',function (e) {
-                                  e.preventDefault();
-                                    $.ajax({
-                                        type: frm.attr('method'),
-                                        data: frm.serialize(),
-                                        success: function(data) {
-                                          $("#re").html(data);
-                                        },
-                                    });
-                                });
-                              });
-                          </script>
-
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Story</div>
                             <button class="btn example_d" style="font-size:11px;"  onclick="w4_open()" id="allocate">Add Story Manually</button>
                       </div>
@@ -843,86 +761,104 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
 
-          <div class="container-fluid">
-            <div class="card shadow mb-4">
-              <div class="table100 ver3">
-                <table class="table" id="tab3" data-vertable="ver1">
-                  <thead class="text-primary">
-                    <th>Available Dev</th>
-                    <th>DEV</th>
-                    <th>Total</th>
-                    {% for d in d1 %}
-                      <th>{{ d.name }}</th>
-                    {% endfor %}
-                  </thead>
-                  <tbody>
-                    <tr class="row100 head" style="color:black;background:#ededed;">
-                      <td>JAVA</td>
-                      <td>Bandwidth</td>
-                      <td>{{ sjava }}</td>
+    <a class="float" href="#" data-toggle="modal" data-target="#devModal"><img src="/static/profile/pics/empty.png" style="height:40px;width:40px;"></a>
+
+    <!-- Available Developers Modal-->
+    <div class="modal fade" id="devModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Available Developers</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="card shadow mb-4">
+                <div class="table100 ver3">
+                  <table class="table" id="tab3" data-vertable="ver1">
+                    <thead class="text-primary">
+                      <th>Available Dev</th>
+                      <th>DEV</th>
+                      <th>Total</th>
                       {% for d in d1 %}
-                        <td>{{ d.spjava }}</td>
+                        <th>{{ d.name }}</th>
                       {% endfor %}
-                    </tr>
-                    <tr class="row100 head">
-                      <td></td>
-                      <td>Story Points</td>
-                      <td>{{ a }}</td>
-                      {% for i in list11 %}
-                        <td>{{ i }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head" style="color:black;background:#ededed;">
-                      <td>PHP</td>
-                      <td>Bandwidth</td>
-                      <td>{{ sphp }}</td>
-                      {% for d in d1 %}
-                        <td>{{ d.spphp }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head">
-                      <td></td>
-                      <td>Story Points</td>
-                      <td>{{ b }}</td>
-                      {% for i in list21 %}
-                        <td>{{ i }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head" style="color:black;background:#ededed;">
-                      <td>HTML</td>
-                      <td>Bandwidth</td>
-                      <td>{{ shtml }}</td>
-                      {% for d in d1 %}
-                        <td>{{ d.sphtml }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head">
-                      <td></td>
-                      <td>Story Points</td>
-                      <td>{{ c }}</td>
-                      {% for i in list31 %}
-                        <td>{{ i }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head" style="color:black;background:#ededed;">
-                      <td>QA</td>
-                      <td>Bandwidth</td>
-                      <td>{{ sqa }}</td>
-                      {% for d in d1 %}
-                        <td>{{ d.spqa }}</td>
-                      {% endfor %}
-                    </tr>
-                    <tr class="row100 head">
-                      <td></td>
-                      <td>Story Points</td>
-                      <td>{{ d }}</td>
-                      {% for i in list41 %}
-                        <td>{{ i }}</td>
-                      {% endfor %}
-                    </tr>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <tr class="row100 head" style="color:black;background:#ededed;">
+                        <td>JAVA</td>
+                        <td>Bandwidth</td>
+                        <td>{{ sjava }}</td>
+                        {% for d in d1 %}
+                          <td>{{ d.spjava }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head">
+                        <td></td>
+                        <td>Story Points</td>
+                        <td>{{ a }}</td>
+                        {% for i in list11 %}
+                          <td>{{ i }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head" style="color:black;background:#ededed;">
+                        <td>PHP</td>
+                        <td>Bandwidth</td>
+                        <td>{{ sphp }}</td>
+                        {% for d in d1 %}
+                          <td>{{ d.spphp }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head">
+                        <td></td>
+                        <td>Story Points</td>
+                        <td>{{ b }}</td>
+                        {% for i in list21 %}
+                          <td>{{ i }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head" style="color:black;background:#ededed;">
+                        <td>HTML</td>
+                        <td>Bandwidth</td>
+                        <td>{{ shtml }}</td>
+                        {% for d in d1 %}
+                          <td>{{ d.sphtml }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head">
+                        <td></td>
+                        <td>Story Points</td>
+                        <td>{{ c }}</td>
+                        {% for i in list31 %}
+                          <td>{{ i }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head" style="color:black;background:#ededed;">
+                        <td>QA</td>
+                        <td>Bandwidth</td>
+                        <td>{{ sqa }}</td>
+                        {% for d in d1 %}
+                          <td>{{ d.spqa }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr class="row100 head">
+                        <td></td>
+                        <td>Story Points</td>
+                        <td>{{ d }}</td>
+                        {% for i in list41 %}
+                          <td>{{ i }}</td>
+                        {% endfor %}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

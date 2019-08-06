@@ -177,6 +177,28 @@ def blog(request):
         nx1 = product.objects.get(id = id1).name
         name = request.user.username
         st = story.objects.filter(sprint_id=id1,id=sid)
+        stz = story.objects.get(sprint_id=id1,id=sid)
+
+        # for tabular history
+        history=[]
+        h=0
+        update = prg.objects.filter(s_id=id1,jd=stz.jira).order_by('sdate')
+        for up in update:
+            history.append([])
+            dt = up.sdate
+            history[h].append(dt.strftime("%Y-%m-%d"))
+            history[h].append(up.dname)
+            if up.actual==0.5:
+                history[h].append('Quarter Day')
+            elif up.actual==1.0:
+                history[h].append('Half Day')
+            elif up.actual==1.5:
+                history[h].append('Three Quarters Day')
+            else:
+                history[h].append('Full Day')
+            history[h].append(up.status)
+            h+=1
+
         comm={}
         n=0
         for i in st:
@@ -196,6 +218,8 @@ def blog(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
+                spr = product.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('story')
 
             if 'select_sprint' in request.POST:
@@ -214,9 +238,9 @@ def blog(request):
                 stx = story.objects.get(id=id1)
                 stx.comments = stx.comments + '@change@' + comment + '=' + request.user.username
                 stx.save()
-                return redirect('blog')
+                return redirect('story')
 
-        return render(request,'blog.html/',{'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
 
 
 @login_required(login_url='/')
@@ -487,6 +511,8 @@ def qaprg(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
+                spr = product.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('qaprg')
 
 
@@ -750,6 +776,8 @@ def qaprg(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
+                spr = product.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('qaprg')
 
     return(render(request,'qaprg.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
@@ -1140,6 +1168,8 @@ def prod(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             request.session['pid'] = proid
+            spr = product.objects.filter(pid=proid).first()
+            request.session['id'] = spr.id
             return(redirect('product'))
 
         if 'select_user' in request.POST:
@@ -1669,6 +1699,8 @@ def view_story(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
+                spr = product.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('view_story')
 
             if 'csv_button' in request.POST:
@@ -2077,6 +2109,8 @@ def bandwidth(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
+                spr = product.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('bandwidth')
 
         return(render(request,'bandwidth.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
@@ -2271,6 +2305,8 @@ def tasks(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             request.session['pid'] = proid
+            spr = product.objects.filter(pid=proid).first()
+            request.session['id'] = spr.id
             return redirect('tasks')
 
         if 'select_sprint' in request.POST:
@@ -2310,60 +2346,60 @@ def reg(request):
     email=''
     emp=0
     registered = False
-    try:
-        if request.method =='GET':
-            auth_code = request.GET.get('auth_code', '')
-            encrypt_auth = encryptx(auth_code)
-
-            # part2 to obtain token
-            payload = {
-                    'grantType':'authorization_code',
-                    'code':encrypt_auth,
-                    'clientId':'SprintManagement'
-                    }
-
-            headers = {
-                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-                    'X-Quikr-Client':'Platform',
-                    'Content-Type':'application/json'
-                    }
-
-            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-            resp = response.text
-            list1=list(map(str,resp.split('"')))
-            idtoken = list1[5]
-            access_token = auth_code
-            list2=list(map(str,idtoken.split('.')))
-            dec = decryptx(list1[5])
-
-            emp = dec['empId']
-            email = dec['email']
-            name = dec['name']
-
-            if User.objects.filter(email=email).exists() == True:
-                regx = User.objects.get(email=email)
-                user = authenticate(username = regx.username, password='Zehel9999')
-                login(request,user)
-                request.session['pid'] = 0
-                request.session['user2'] = ''
-                request.session['id'] = 0
-                request.session['userx'] = 'Users'
-                return redirect('product')
-    except:
-        pass
-
-
-    # email = 'anshuman.airy@quikr.com'
+    # try:
+    #     if request.method =='GET':
+    #         auth_code = request.GET.get('auth_code', '')
+    #         encrypt_auth = encryptx(auth_code)
     #
-    # if User.objects.filter(email=email).exists() == True:
-    #     regx = User.objects.get(email=email)
-    #     user = authenticate(username = regx.username, password='Zehel9999')
-    #     login(request,user)
-    #     request.session['pid'] = 0
-    #     request.session['user2'] = ''
-    #     request.session['id'] = 0
-    #     request.session['userx'] = 'Users'
-    #     return redirect('product')
+    #         # part2 to obtain token
+    #         payload = {
+    #                 'grantType':'authorization_code',
+    #                 'code':encrypt_auth,
+    #                 'clientId':'SprintManagement'
+    #                 }
+    #
+    #         headers = {
+    #                 'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+    #                 'X-Quikr-Client':'Platform',
+    #                 'Content-Type':'application/json'
+    #                 }
+    #
+    #         response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+    #         resp = response.text
+    #         list1=list(map(str,resp.split('"')))
+    #         idtoken = list1[5]
+    #         access_token = auth_code
+    #         list2=list(map(str,idtoken.split('.')))
+    #         dec = decryptx(list1[5])
+    #
+    #         emp = dec['empId']
+    #         email = dec['email']
+    #         name = dec['name']
+    #
+    #         if User.objects.filter(email=email).exists() == True:
+    #             regx = User.objects.get(email=email)
+    #             user = authenticate(username = regx.username, password='Zehel9999')
+    #             login(request,user)
+    #             request.session['pid'] = 0
+    #             request.session['user2'] = ''
+    #             request.session['id'] = 0
+    #             request.session['userx'] = 'Users'
+    #             return redirect('product')
+    # except:
+    #     pass
+
+
+    email = 'anshuman.airy@quikr.com'
+
+    if User.objects.filter(email=email).exists() == True:
+        regx = User.objects.get(email=email)
+        user = authenticate(username = regx.username, password='Zehel9999')
+        login(request,user)
+        request.session['pid'] = 0
+        request.session['user2'] = ''
+        request.session['id'] = 0
+        request.session['userx'] = 'Users'
+        return redirect('product')
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)

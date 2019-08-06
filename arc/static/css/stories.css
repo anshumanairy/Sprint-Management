@@ -9,6 +9,18 @@ body{
 #c{
   width: 40px;
 }
+.float{
+  position:fixed;
+  width:40px;
+  height:40px;
+  bottom:80%;
+  right:1%;
+  background-color:white;
+  color:#FFF;
+  border-radius:50px;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+}
 #spr{
   padding-top: 70px;
 }

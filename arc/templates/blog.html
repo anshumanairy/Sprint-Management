@@ -4,6 +4,7 @@
 {% block content %}
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/detail.css">
+<link rel="stylesheet" href="/static/css/comment.css">
 
   <body id="re">
 
@@ -11,11 +12,12 @@
     {% endblock %}
 
           {% for i in st %}
-          <div class="container" style="float:left;">
-            <div class="row d-flex">
-                <div class="col-md-6" id="spr">
-                  <div class="card">
-                    <div class="card-body">
+          <div class="container-fluid">
+            <div class="col-xl-3 col-md-6 mb-4" style="float:left;">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
                       <div class="blog-entry ftco-animate d-md-flex">
                         <div class="text text-2 pl-md-4">
                           <p>{{i.jira}}</p>
@@ -26,7 +28,6 @@
                             <p>{{i.ostatus}}</p>
                           {% endif %}
                           <p><a href="{{i.description}}" target="_blank" class="btn-custom">Read More</a></p>
-                          <button class="btn example_c" type="button" name="comments">Comment</button>
                         </div>
                       </div>
                     </div>
@@ -34,41 +35,80 @@
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-6" id="check2">
-              <div class="detailBox" style="max-height:none;background-color:white;">
-                <div class="commentBox">
-                    <p class="taskDescription">Comments</p>
-                </div>
-                <div class="actionBox">
-                    <ul class="commentList" style="max-height:none;">
+          <div class="container-fluid">
+            <div style="float:left;width:75%;padding-bottom:2%;">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <ul class="comment-section" style="height: 60vh; overflow:scroll">
 
-                          {% for j,k in comm.items %}
-                            {% if forloop.counter == forloop.parentloop.counter %}
-                              {% for r,s in k.items %}
-                                {% for y,z in s.items %}
-                                <li>
-                                  <div class="commentText">
-                                      <p class="">{{y}}</p> <span class="date sub-text">{{z}}</span>
-                                  </div>
-                                </li>
-                                {% endfor %}
-                              {% endfor %}
-                            {% endif %}
+                      {% for j,k in comm.items %}
+                        {% if forloop.counter == forloop.parentloop.counter %}
+                          {% for r,s in k.items %}
+                            {% for y,z in s.items %}
+                              <li class="comment user-comment">
+                                <div class="info" style="background:White;">
+                                  <a>{{z}}</a>
+                                </div>
+                                <a class="avatar">
+                                  <img src="/static/profile/pics/empty.png" width="35" alt="Profile Avatar"/>
+                                </a>
+                                <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
+                              </li>
+                            {% endfor %}
                           {% endfor %}
-                    </ul>
-                    <form class="form-inline" id="comm1" method='GET'>
-                        <div class="form-group">
-                            <input class="form-control" type="text" name="comment_holder" placeholder="Your comment"/>
-                        </div>
+                        {% endif %}
+                      {% endfor %}
+
+                      <li class="write-new">
+                        <form method="get">
+                          <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
+                          <div>
+                            <img src="/static/profile/pics/empty.png" width="35"/>
                             <input type="hidden" name="sid" value="{{i.id}}">
-                            <button class="btn example_c" type="submit">Add</button>
-                    </form>
+                            <button class="btn example_c" type="submit">Comment</button>
+                          </div>
+                        </form>
+                      </li>
+
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
           {% endfor %}
 
+
+          <div class="container-fluid">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="table100 ver3">
+                  <table class="table" id="tab3" data-vertable="ver1" style="font-size:12px;">
+                    <thead class="text-primary">
+                      <th>Date</th>
+                      <th>Developer</th>
+                      <th>Work Done</th>
+                      <th>Progress</th>
+                    </thead>
+                    <tbody>
+                      {% for hist in history %}
+                          <tr class="row100 head">
+                            <td>{{ hist.0 }}</td>
+                            <td>{{ hist.1 }}</td>
+                            <td>{{ hist.2 }}</td>
+                            <td>{{ hist.3 }}</td>
+                          </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Scroll to Top Button-->
           <a class="scroll-to-top rounded" href="#">
