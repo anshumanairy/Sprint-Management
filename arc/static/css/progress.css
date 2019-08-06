@@ -11,6 +11,22 @@ body{
 b, sup, sub, u, del{
   color:black;
 }
+.select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(1) {
+  color:black;
+  background-color: lightyellow;
+}
+.select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(2) {
+  color:black;
+  background-color: lightblue;
+}
+.select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(3) {
+  color:black;
+  background-color: orange;
+}
+.select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(4) {
+  color:black;
+  background-color: lightgreen;
+}
 .dev a {
 background-color: Yellow !important;
 color: Black !important;
@@ -26,20 +42,6 @@ color: White !important;
 .rel a {
 background-color: Green !important;
 color: White !important;
-}
-.red {
-  background-color: Blue !important;
-}
-
-.green {
-  background-color: Yellow !important;
-}
-
-.black {
-  background-color: Orange !important;
-}
-.purple {
-  background-color: Green !important;
 }
 .example_c {
   font-size: 10px;

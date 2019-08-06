@@ -257,18 +257,11 @@
           <div class="container-fluid">
             <div class="card shadow mb-4">
               <div class="table100 ver3">
-                <table class="table" id="tab2" data-vertable="ver1">
-                  <thead class="text-primary">
-                    <!-- <th>Check</th> -->
-                    <th class="th-sm">Story Name</th>
-                    <th class="th-sm">Jira ID</th>
-                    <th class="th-sm">Description</th>
-                    <th class="th-sm">Status</th>
-                    <th class="th-sm">Action</th>
-                  </thead>
+
+
+                <table class="w3-animate-left" data-vertable="ver1" style="display:none;font-size:10px;" id="e">
                   <tbody>
-                    {% for d in data %}
-                    <tr class="w3-animate-top" style="display:none" id="e">
+                    <tr>
                       <form method="get" id='edit2'>
                         {% csrf_token %}
                         <td><label>Story Name</label>
@@ -282,30 +275,25 @@
                         <td>
                           <input class ="btn example_d" type="submit" value="Submit">
                           <p></p>
-                          <input type="button" class="btn example_d" onclick="w5_close()" value="Dont Edit">
+                          <input type="button" class="btn example_d" onclick="w5_close()" value="Close">
                         </td>
                       </form>
-
-                      <!-- <script type="text/javascript">
-                          jQuery(document).ready(function($){
-                            var frm = $('#edit2');
-                            frm.submit(function () {
-                              if (this.id == 'edit2'){
-                                  $.ajax({
-                                      type: $('#edit2').attr('method'),
-                                      data: $('#edit2').serialize(),
-                                      success: function(data) {
-                                        $("#re").html(data);
-                                      },
-                                  });
-                                return false;
-                              }
-                            });
-                          });
-                      </script> -->
-
                     </tr>
+                  </tbody>
+                </table>
 
+                <table class="table" id="tab2" data-vertable="ver1">
+                  <thead class="text-primary">
+                    <!-- <th>Check</th> -->
+                    <th class="th-sm">Story Name</th>
+                    <th class="th-sm">Jira ID</th>
+                    <th class="th-sm">Description</th>
+                    <th class="th-sm">Status</th>
+                    <th class="th-sm">Action</th>
+                  </thead>
+                  <tbody>
+
+                    {% for d in data %}
                     <tr class="row100 head">
                       <form method="GET" target="_blank">
                         <input type="hidden" name="red" value="{{d.id}}">
@@ -385,7 +373,6 @@
             document.getElementById("n").style.marginTop = "0%";
             document.getElementById("e").style.display = "block";
             document.getElementById("edit").style.display = 'none';
-            // console.log(e);
             $(document).ready(function() {
               var d1  = JSON.parse('{{ jd1|escapejs }}');
               var d2  = JSON.parse('{{ jd2|escapejs }}');
@@ -857,7 +844,7 @@
           </div>
 
 
-          <div class="container-fluid row">
+          <div class="container-fluid">
             <div class="card shadow mb-4">
               <div class="table100 ver3">
                 <table class="table" id="tab3" data-vertable="ver1">
