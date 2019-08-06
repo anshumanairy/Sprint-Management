@@ -81,7 +81,7 @@
         <hr class="sidebar-divider d-none d-md-block">
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid.svg"></button>
+          <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/code-solid-white.svg"></button>
         </div>
       </ul>
       <!-- End of Sidebar -->
@@ -338,8 +338,8 @@
                           <tr class="row100 head">
                             <form method="GET" target="_blank">
                               <input type="hidden" name="red" value="{{d.id}}">
-                              <td><input type="submit" value="{{ d.story_name }}"></td>
-                              <td><input type="submit" value="{{ d.jira }}"></td>
+                              <td><a href="#"><input type="submit" value="{{ d.story_name }}"></a></td>
+                              <td>{{d.jira}}</td>
                             </form>
                             <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
                             {% if d.ostatus == 'Live' %}
