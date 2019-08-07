@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect
 from arc.forms.register_forms import registerform,UserForm
-from arc.forms.prod_forms import productform
+from arc.forms.prod_forms import sprintform
 from arc.forms.story_forms import storyform
 from arc.models.register_mod import register
 from arc.models.project_mod import project
 from arc.models.story_mod import story
-from arc.models.prod_mod import product
+from arc.models.prod_mod import sprint
 from arc.models.prg_mod import prg
 from arc.models.reg_mod import cregister
 from django.http import HttpResponse,HttpResponseRedirect
@@ -30,6 +30,8 @@ import base64
 import hashlib
 import hmac
 import jwt
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import Group
 
 # sso integration and login security
 
@@ -67,7 +69,7 @@ def profile(request):
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
     info1 = User.objects.get(username = request.user.username)
-    if request.user.is_superuser:
+    if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
         info = User.objects.get(username = request.user.username)
         check = 1
     else:
@@ -170,11 +172,11 @@ def blog(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     else:
-        data1 = product.objects.filter(pid=pid2)
+        data1 = sprint.objects.filter(pid=pid2)
         sid = request.session['story_id']
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
-        nx1 = product.objects.get(id = id1).name
+        nx1 = sprint.objects.get(id = id1).name
         name = request.user.username
         st = story.objects.filter(sprint_id=id1,id=sid)
         stz = story.objects.get(sprint_id=id1,id=sid)
@@ -218,7 +220,7 @@ def blog(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                spr = product.objects.filter(pid=proid).first()
+                spr = sprint.objects.filter(pid=proid).first()
                 request.session['id'] = spr.id
                 return redirect('story')
 
@@ -255,14 +257,14 @@ def qaprg(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
-        data1 = product.objects.filter(pid=pid2)
+        data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
-        nx1 = product.objects.get(id = id1).name
+        nx1 = sprint.objects.get(id = id1).name
         data = cregister.objects.filter(roles='dev',sprint_id=id1)
         list1=[]
         j=0
-        p = product.objects.get(id=id1)
+        p = sprint.objects.get(id=id1)
         x = p.sprint_start_date
         y = p.sprint_dev_end_date
         x=str(x)
@@ -511,7 +513,7 @@ def qaprg(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                spr = product.objects.filter(pid=proid).first()
+                spr = sprint.objects.filter(pid=proid).first()
                 request.session['id'] = spr.id
                 return redirect('qaprg')
 
@@ -527,13 +529,13 @@ def qaprg(request):
             messages.info(request, 'Select a valid sprint and project first!')
             return redirect('product')
         name=request.user.username
-        data1 = product.objects.filter(pid=pid2)
+        data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
-        nx1 = product.objects.get(id = id1).name
+        nx1 = sprint.objects.get(id = id1).name
         list1=[]
         j=0
-        p = product.objects.get(id=id1)
+        p = sprint.objects.get(id=id1)
         x = p.sprint_start_date
         y = p.sprint_dev_end_date
         x=str(x)
@@ -776,7 +778,7 @@ def qaprg(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                spr = product.objects.filter(pid=proid).first()
+                spr = sprint.objects.filter(pid=proid).first()
                 request.session['id'] = spr.id
                 return redirect('qaprg')
 
@@ -804,10 +806,10 @@ def prod(request):
     list3=[]
     list4=[]
     cal=0
-    if product.objects.filter(id=id,pid=pid2).exists()==True:
-        p1 = product.objects.get(id=id,pid=pid2)
+    if sprint.objects.filter(id=id,pid=pid2).exists()==True:
+        p1 = sprint.objects.get(id=id,pid=pid2)
     else:
-        p1 = product.objects.get(id=0,pid=0)
+        p1 = sprint.objects.get(id=0,pid=0)
     start = p1.sprint_start_date
     if p1.sprint_dev_end_date>=p1.sprint_qa_end_date:
         end = p1.sprint_dev_end_date
@@ -909,7 +911,7 @@ def prod(request):
     user3 = request.session['user2']
     userxx = request.session['userx']
     s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
-    hx2 = product.objects.get(id=id).name
+    hx2 = sprint.objects.get(id=id).name
     if userxx == user3:
         hx1 = user3
         if cregister.objects.filter(sprint_id=id,name=user3).exists()==True:
@@ -1098,10 +1100,10 @@ def prod(request):
         val=json.dumps('QA Dev')
         nval=json.dumps(list10)
 
-    data = product.objects.filter(pid=pid2)
+    data = sprint.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
-    form = productform(request.POST or None)
+    form = sprintform(request.POST or None)
     list11=[]
     z1 = User.objects.all()
     for i11 in z1:
@@ -1125,7 +1127,7 @@ def prod(request):
                         request.session['id'] = id
                         break
                 list3=[]
-                p1 = product.objects.get(id=id,pid=pid2)
+                p1 = sprint.objects.get(id=id,pid=pid2)
                 start = p1.sprint_start_date
                 end = p1.sprint_dev_end_date
                 def daterange(date1, date2):
@@ -1149,7 +1151,7 @@ def prod(request):
                 d+=y+'@end@'
             n = project.objects.all().exclude(id=0)
             a=0
-            if request.user.is_superuser and request.user.username == user1:
+            if (request.user.is_superuser) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
                 for i in n:
                     if name1==i.name:
                         a+=1
@@ -1168,7 +1170,7 @@ def prod(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             request.session['pid'] = proid
-            spr = product.objects.filter(pid=proid).first()
+            spr = sprint.objects.filter(pid=proid).first()
             request.session['id'] = spr.id
             return(redirect('product'))
 
@@ -1361,9 +1363,9 @@ def prod(request):
             start = request.POST.get('start')
             dev = request.POST.get('dev')
             qa = request.POST.get('qa')
-            if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True) or (register.objects.filter(uname=request.user.username,roles='man').exists()==True):
+            if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True) or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True):
                 if form.is_valid():
-                    form = productform(request.POST)
+                    form = sprintform(request.POST)
                     form.instance.pid = pid2
                     form.instance.sprint_start_date=start
                     form.instance.sprint_dev_end_date=dev
@@ -1390,11 +1392,12 @@ def prod(request):
                 messages.info(request, 'You are not Authorized!')
                 return redirect('product')
         else:
-            form = productform()
+            form = sprintform()
 
     return(render(request,'product.html/',context={'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
+# @permission_required('access.access', login_url='qaprg')
 def view_story(request):
     try:
         id = request.session['id']
@@ -1405,11 +1408,11 @@ def view_story(request):
     if id==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True):
-        data1 = product.objects.filter(pid=pid2)
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True):
+        data1 = sprint.objects.filter(pid=pid2)
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
-        nx1 = product.objects.get(id = id).name
+        nx1 = sprint.objects.get(id = id).name
         data = story.objects.filter(sprint_id=id)
 
         #progress part
@@ -1492,7 +1495,7 @@ def view_story(request):
         jd7x=json.dumps(list8x)
         jd8x=json.dumps(list9x)
 
-        px = product.objects.get(id=id)
+        px = sprint.objects.get(id=id)
         xx = px.sprint_start_date
         yy = px.sprint_dev_end_date
         xx=str(xx)
@@ -1803,7 +1806,7 @@ def view_story(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                spr = product.objects.filter(pid=proid).first()
+                spr = sprint.objects.filter(pid=proid).first()
                 request.session['id'] = spr.id
                 return redirect('view_story')
 
@@ -1883,6 +1886,7 @@ def view_story(request):
         return(redirect('qaprg'))
 
 @login_required(login_url='/')
+# @permission_required('access.access', login_url='qaprg')
 def bandwidth(request):
     try:
         sprid = request.session['id']
@@ -1893,16 +1897,16 @@ def bandwidth(request):
     if sprid==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True):
-        data1 = product.objects.filter(pid=pid2)
+    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True):
+        data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
-        nx1 = product.objects.get(id = sprid).name
+        nx1 = sprint.objects.get(id = sprid).name
         sjava = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spjava'))['spjava__sum']
         sphp = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spphp'))['spphp__sum']
         shtml = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('sphtml'))['sphtml__sum']
         sqa = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spqa'))['spqa__sum']
-        band = product.objects.filter(id=sprid)
+        band = sprint.objects.filter(id=sprid)
         data = story.objects.filter(sprint_id=sprid)
         d1 = cregister.objects.filter(roles='dev')
         d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
@@ -1959,7 +1963,7 @@ def bandwidth(request):
                 r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
             r.save()
 
-        x = product.objects.get(id=sprid)
+        x = sprint.objects.get(id=sprid)
         day1 = (x.sprint_start_date + timedelta(x1 + 1) for x1 in range((x.sprint_dev_end_date - x.sprint_start_date).days))
         y = sum(1 for day in day1 if day.weekday() < 5)
 
@@ -1977,7 +1981,7 @@ def bandwidth(request):
                 vf = request.GET.get('assign1')
                 uid = request.GET.get('assign2')
                 skill = request.GET.get('assign3')
-                p = product.objects.get(id=sprid)
+                p = sprint.objects.get(id=sprid)
 
                 if skill == 'java':
                     r = cregister.objects.get(id=uid, java='True',sprint_id=sprid)
@@ -2053,7 +2057,7 @@ def bandwidth(request):
                 skill = request.GET.get('uleave3')
                 r = cregister.objects.get(id=uid,sprint_id=sprid)
                 r.unplanned = int(pl)
-                p = product.objects.get(id=sprid)
+                p = sprint.objects.get(id=sprid)
                 d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
                 d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=sprid)
                 d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=sprid)
@@ -2130,7 +2134,7 @@ def bandwidth(request):
                 skill = request.GET.get('leave3')
                 r = cregister.objects.get(id=uid,sprint_id=sprid)
                 r.planned = int(pl)
-                p = product.objects.get(id=sprid)
+                p = sprint.objects.get(id=sprid)
                 d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
                 d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=sprid)
                 d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=sprid)
@@ -2213,7 +2217,7 @@ def bandwidth(request):
                 name1 = request.POST.get('select_project')
                 proid = project.objects.get(name=name1).id
                 request.session['pid'] = proid
-                spr = product.objects.filter(pid=proid).first()
+                spr = sprint.objects.filter(pid=proid).first()
                 request.session['id'] = spr.id
                 return redirect('bandwidth')
 
@@ -2232,8 +2236,8 @@ def tasks(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    data1 = product.objects.filter(pid=pid2)
-    data3 = product.objects.filter(pid=pid2).exclude(id=id1)
+    data1 = sprint.objects.filter(pid=pid2)
+    data3 = sprint.objects.filter(pid=pid2).exclude(id=id1)
     list1x=[]
     list2x=[]
     list3x=[]
@@ -2267,7 +2271,7 @@ def tasks(request):
     n=0
     for k2 in k1:
         listse.append([])
-        k3 = product.objects.filter(pid=k2.id).exclude(id=id1)
+        k3 = sprint.objects.filter(pid=k2.id).exclude(id=id1)
         m=0
         for k4 in k3:
             if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
@@ -2283,11 +2287,10 @@ def tasks(request):
                     listse[n][m].append(k4.id)
                     m+=1
         n+=1
-    print(listse)
     n0 = project.objects.all().exclude(id=0)
     nx = project.objects.get(id=pid2)
-    nx1 = product.objects.get(id = id1).name
-    pro = product.objects.filter(pid=pid2)
+    nx1 = sprint.objects.get(id = id1).name
+    pro = sprint.objects.filter(pid=pid2)
 
 
     k=0
@@ -2369,7 +2372,7 @@ def tasks(request):
                 messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
             else:
                 if skill in ['java','php','html','qa']:
-                    pro = product.objects.get(name=sprname,pid=pid2).id
+                    pro = sprint.objects.get(name=sprname,pid=pid2).id
                     st = story.objects.get(sprint_id=pro,jira=jd)
                     listz=[]
                     u1 = register.objects.get(uname=request.user.username)
@@ -2412,7 +2415,7 @@ def tasks(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             request.session['pid'] = proid
-            spr = product.objects.filter(pid=proid).first()
+            spr = sprint.objects.filter(pid=proid).first()
             request.session['id'] = spr.id
             return redirect('tasks')
 
@@ -2453,6 +2456,19 @@ def reg(request):
     email=''
     emp=0
     registered = False
+
+    # email = 'anshuman.airy@quikr.com'
+    #
+    # if User.objects.filter(email=email).exists() == True:
+    #     regx = User.objects.get(email=email)
+    #     user = authenticate(username = regx.username, password='Zehel9999')
+    #     login(request,user)
+    #     request.session['pid'] = 0
+    #     request.session['user2'] = ''
+    #     request.session['id'] = 0
+    #     request.session['userx'] = 'Users'
+    #     return redirect('product')
+
     try:
         if request.method =='GET':
             auth_code = request.GET.get('auth_code', '')
@@ -2495,20 +2511,11 @@ def reg(request):
     except:
         pass
 
-
-    # email = 'anshuman.airy@quikr.com'
-    #
-    # if User.objects.filter(email=email).exists() == True:
-    #     regx = User.objects.get(email=email)
-    #     user = authenticate(username = regx.username, password='Zehel9999')
-    #     login(request,user)
-    #     request.session['pid'] = 0
-    #     request.session['user2'] = ''
-    #     request.session['id'] = 0
-    #     request.session['userx'] = 'Users'
-    #     return redirect('product')
+    # print(email,emp,name)
 
     if request.method == 'POST':
+        dev = Group.objects.get(name='Developer')
+        man = Group.objects.get(name='Product Manager')
         user_form = UserForm(data=request.POST)
         profile_form = registerform(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
@@ -2516,8 +2523,13 @@ def reg(request):
             x = user.username
             profile_form.instance.uname= x
             profile = profile_form.save(commit=False)
+            # print(user.email,profile.empid,profile.name)
             if ((user.email==email) and (profile.empid==emp) and (profile.name==name)):
                 user.set_password('Zehel9999')
+                if profile.roles=='dev':
+                    user.groups.add(dev)
+                if profile.roles=='man':
+                    user.groups.add(man)
                 user.save()
                 profile.user = user
                 profile.save()

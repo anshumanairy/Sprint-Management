@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from datetime import date
 
-class product(models.Model):
+class sprint(models.Model):
     name=models.CharField(max_length=100,default="Enter Name")
     holidays=models.IntegerField(default=0)
     sprint_start_date=models.DateField(blank=False)
