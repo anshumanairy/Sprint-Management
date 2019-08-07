@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from datetime import date
 
-class prg(models.Model):
+class progress(models.Model):
     s_id = models.IntegerField()
     sdate = models.DateField()
     jd = models.CharField(max_length=20)

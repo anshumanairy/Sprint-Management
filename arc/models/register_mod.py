@@ -6,7 +6,7 @@ role = (
     ('man','Manager'),
 )
 
-class register(models.Model):
+class user_detail(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     uname = models.CharField(max_length=150)
     name = models.CharField(max_length=20)

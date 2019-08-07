@@ -2,12 +2,12 @@ from django.shortcuts import render,redirect
 from arc.forms.register_forms import registerform,UserForm
 from arc.forms.prod_forms import sprintform
 from arc.forms.story_forms import storyform
-from arc.models.register_mod import register
+from arc.models.register_mod import user_detail
 from arc.models.project_mod import project
 from arc.models.story_mod import story
 from arc.models.prod_mod import sprint
-from arc.models.prg_mod import prg
-from arc.models.reg_mod import cregister
+from arc.models.prg_mod import progress
+from arc.models.reg_mod import user_sprint_detail
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login,authenticate,logout,get_user_model
 from django.contrib.auth.models import User
@@ -74,10 +74,10 @@ def profile(request):
         check = 1
     else:
         check=0
-        if cregister.objects.filter(uname = request.user.username,sprint_id = id1).exists()==True:
-            info = cregister.objects.get(uname = request.user.username,sprint_id = id1)
+        if user_sprint_detail.objects.filter(uname = request.user.username,sprint_id = id1).exists()==True:
+            info = user_sprint_detail.objects.get(uname = request.user.username,sprint_id = id1)
         else:
-            info = register.objects.get(uname = request.user.username)
+            info = user_detail.objects.get(uname = request.user.username)
     name = request.user.username
     if request.method=='POST':
 
@@ -102,8 +102,8 @@ def profile(request):
                 skills = request.POST.getlist('skill[]')
                 skill = [item.lower() for item in skills]
                 reg1 = User.objects.get(username=request.user.username)
-                reg2 = register.objects.get(uname=request.user.username)
-                reg3 = cregister.objects.filter(uname=request.user.username)
+                reg2 = user_detail.objects.get(uname=request.user.username)
+                reg3 = user_sprint_detail.objects.filter(uname=request.user.username)
                 user = authenticate(username = request.user.username , password = 'Zehel9999')
                 if user:
                     if username != request.user.username:
@@ -184,7 +184,7 @@ def blog(request):
         # for tabular history
         history=[]
         h=0
-        update = prg.objects.filter(s_id=id1,jd=stz.jira).order_by('sdate')
+        update = progress.objects.filter(s_id=id1,jd=stz.jira).order_by('sdate')
         for up in update:
             history.append([])
             dt = up.sdate
@@ -256,12 +256,12 @@ def qaprg(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
         data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
         nx1 = sprint.objects.get(id = id1).name
-        data = cregister.objects.filter(roles='dev',sprint_id=id1)
+        data = user_sprint_detail.objects.filter(roles='dev',sprint_id=id1)
         list1=[]
         j=0
         p = sprint.objects.get(id=id1)
@@ -283,8 +283,8 @@ def qaprg(request):
             st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
             list2[i1.name]={}
             for j1 in st1:
-                if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-sdate')
+                if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-sdate')
                     list2[i1.name][n]={}
                     for k1 in p1:
                         list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -299,9 +299,9 @@ def qaprg(request):
             st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
             list3[i2.name]={}
             for j2 in st1:
-                if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                     r=0
-                    p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                     list3[i2.name][n]={}
                     for k2 in p1:
                         list3[i2.name][n][str(r)]=k2.status
@@ -319,8 +319,8 @@ def qaprg(request):
             st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
             list4[i2.name]={}
             for j2 in st1:
-                if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                    p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                     for k2 in p1:
                         list4[i2.name][n]=k2.jd
                         n+=1
@@ -344,8 +344,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.jactual)
                     list1[j][k].append(float(r.javas)-r.jactual)
-                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
-                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.javas)-r.jactual)
@@ -356,8 +356,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.pactual)
                     list1[j][k].append(float(r.phps)-r.pactual)
-                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
-                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.phps)-r.pactual)
@@ -368,8 +368,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.hactual)
                     list1[j][k].append(float(r.htmls)-r.hactual)
-                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
-                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.htmls)-r.hactual)
@@ -380,8 +380,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r.qactual)
                     list1[j][k].append(float(r.qas)-r.qactual)
-                    if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
-                        z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.qas)-r.qactual)
@@ -447,7 +447,7 @@ def qaprg(request):
                             ix.qleft = left1
                             cx=float(ix.qas)-float(left1)
                         ix.save()
-                        z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
+                        z = progress(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
                         z.save()
 
                     list2={}
@@ -456,8 +456,8 @@ def qaprg(request):
                         n=0
                         list2[i1.name]={}
                         for j1 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                            if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                                 for k1 in p1:
                                     list2[i1.name][n]={}
                                     list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -472,8 +472,8 @@ def qaprg(request):
                         n=0
                         list3[m]={}
                         for j2 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
                                     list3[m][n]=k2.status
                                     n+=1
@@ -487,8 +487,8 @@ def qaprg(request):
                         n=0
                         list4[m]={}
                         for j2 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
                                     list4[m][n]=k2.jd
                                     n+=1
@@ -549,8 +549,8 @@ def qaprg(request):
         e=int(e)
         f=int(f)
         x=request.user.username
-        name1 = register.objects.get(uname=x).name
-        data = cregister.objects.filter(roles='dev',name=name1,sprint_id=id1)
+        name1 = user_detail.objects.get(uname=x).name
+        data = user_sprint_detail.objects.filter(roles='dev',name=name1,sprint_id=id1)
         name=request.user.username
         list2={}
         n=0
@@ -558,8 +558,8 @@ def qaprg(request):
             st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
             list2[name1]={}
             for j1 in st1:
-                if prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
-                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
+                if progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
+                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
                     list2[name1][n]={}
                     for k1 in p1:
                         list2[name1][n][str(k1.sdate)]=str(k1.sdate)
@@ -574,9 +574,9 @@ def qaprg(request):
         st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
         list3[name1]={}
         for j2 in st1:
-            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
+            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
                 r=0
-                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
+                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
                 list3[name1][n]={}
                 for k2 in p1:
                     list3[name1][n][str(r)]=k2.status
@@ -593,8 +593,8 @@ def qaprg(request):
         st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
         list4[name1]={}
         for j2 in st1:
-            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
-                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
+            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
+                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
                 for k2 in p1:
                     list4[name1][n]=k2.jd
                     n+=1
@@ -616,8 +616,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.jactual)
-                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
-                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.javas)-r.jactual)
@@ -627,8 +627,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.pactual)
-                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
-                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.phps)-r.pactual)
@@ -638,8 +638,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.hactual)
-                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
-                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.htmls)-r.hactual)
@@ -649,8 +649,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qactual)
-                if prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
-                    z1 = prg.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.qas)-r.qactual)
@@ -713,7 +713,7 @@ def qaprg(request):
                             ix.qleft = left1
                             cx=float(ix.qas)-float(left1)
                         ix.save()
-                        z = prg(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
+                        z = progress(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
                         z.save()
 
                     list2={}
@@ -722,8 +722,8 @@ def qaprg(request):
                         n=0
                         list2[i1.name]={}
                         for j1 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                            if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                                 for k1 in p1:
                                     list2[i1.name][n]={}
                                     list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -738,8 +738,8 @@ def qaprg(request):
                         n=0
                         list3[m]={}
                         for j2 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
                                     list3[m][n]=k2.status
                                     n+=1
@@ -753,8 +753,8 @@ def qaprg(request):
                         n=0
                         list4[m]={}
                         for j2 in st1:
-                            if prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = prg.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
                                     list4[m][n]=k2.jd
                                     n+=1
@@ -871,7 +871,7 @@ def prod(request):
             pass
         else:
             list3.append(dt.strftime("%Y-%m-%d"))
-            p2 = prg.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
+            p2 = progress.objects.filter(s_id=id,sdate=dt.strftime("%Y-%m-%d"))
             s2=0
             s3=0
             s4=0
@@ -910,14 +910,14 @@ def prod(request):
 
     user3 = request.session['user2']
     userxx = request.session['userx']
-    s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
+    s22 = user_sprint_detail.objects.filter(sprint_id=id).exclude(sprint_id=0)
     hx2 = sprint.objects.get(id=id).name
     if userxx == user3:
         hx1 = user3
-        if cregister.objects.filter(sprint_id=id,name=user3).exists()==True:
-            s2 = cregister.objects.get(sprint_id=id,name=user3)
+        if user_sprint_detail.objects.filter(sprint_id=id,name=user3).exists()==True:
+            s2 = user_sprint_detail.objects.get(sprint_id=id,name=user3)
         else:
-            s2 = cregister.objects.get(sprint_id=0,name='')
+            s2 = user_sprint_detail.objects.get(sprint_id=0,name='')
 
         s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
         list8=[]
@@ -980,7 +980,7 @@ def prod(request):
         hx1 = 'Java Dev'
         list9=[]
         list10=[]
-        s22 = cregister.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
+        s22 = user_sprint_detail.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
         for s2 in s22:
             s3 = story.objects.filter(sprint_id=id,dev_java=s2.name)
             sp=0
@@ -1011,7 +1011,7 @@ def prod(request):
         hx1 = 'PHP Dev'
         list9=[]
         list10=[]
-        s22 = cregister.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
+        s22 = user_sprint_detail.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
         for s2 in s22:
             s3 = story.objects.filter(sprint_id=id,dev_php=s2.name)
             sp=0
@@ -1042,7 +1042,7 @@ def prod(request):
         hx1 = 'HTML Dev'
         list9=[]
         list10=[]
-        s22 = cregister.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
+        s22 = user_sprint_detail.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
         for s2 in s22:
             s3 = story.objects.filter(sprint_id=id,dev_html=s2.name)
             sp=0
@@ -1073,7 +1073,7 @@ def prod(request):
         hx1 = 'QA Dev'
         list9=[]
         list10=[]
-        s22 = cregister.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
+        s22 = user_sprint_detail.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
         for s2 in s22:
             s3 = story.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
@@ -1110,7 +1110,7 @@ def prod(request):
         if i11.is_superuser:
             list11.append(i11.username)
 
-    z2 = register.objects.all()
+    z2 = user_detail.objects.all()
     name = request.user.username
     if request.method=='POST':
         #select sprint get value and redirect
@@ -1179,7 +1179,7 @@ def prod(request):
             if user1 not in ['All Developers','Java Dev','PHP Dev','HTML Dev','QA Dev']:
                 request.session['user2'] = user1
                 request.session['userx'] = user1
-                s2 = cregister.objects.get(sprint_id=id,name=user1)
+                s2 = user_sprint_detail.objects.get(sprint_id=id,name=user1)
                 s3 = story.objects.filter(sprint_id=id,dev_java=user1) or story.objects.filter(sprint_id=id,dev_php=user1) or story.objects.filter(sprint_id=id,dev_html=user1) or story.objects.filter(sprint_id=id,dev_qa=user1)
                 list8=[]
                 sp=0
@@ -1207,7 +1207,7 @@ def prod(request):
 
             if user1 == "All Developers":
                 request.session['userx'] = 'Users'
-                s22 = cregister.objects.filter(sprint_id=id).exclude(sprint_id=0)
+                s22 = user_sprint_detail.objects.filter(sprint_id=id).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
                 for s2 in s22:
@@ -1238,7 +1238,7 @@ def prod(request):
 
             if user1 == "Java Dev":
                 request.session['userx'] = 'Java'
-                s22 = cregister.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
+                s22 = user_sprint_detail.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
                 for s2 in s22:
@@ -1268,7 +1268,7 @@ def prod(request):
 
             if user1 == "PHP Dev":
                 request.session['userx'] = 'PHP'
-                s22 = cregister.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
+                s22 = user_sprint_detail.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
                 for s2 in s22:
@@ -1298,7 +1298,7 @@ def prod(request):
 
             if user1 == "HTML Dev":
                 request.session['userx'] = 'HTML'
-                s22 = cregister.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
+                s22 = user_sprint_detail.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
                 for s2 in s22:
@@ -1328,7 +1328,7 @@ def prod(request):
 
             if user1 == "QA Dev":
                 request.session['userx'] = 'QA'
-                s22 = cregister.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
+                s22 = user_sprint_detail.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
                 list9=[]
                 list10=[]
                 for s2 in s22:
@@ -1363,7 +1363,7 @@ def prod(request):
             start = request.POST.get('start')
             dev = request.POST.get('dev')
             qa = request.POST.get('qa')
-            if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True) or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True):
+            if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True):
                 if form.is_valid():
                     form = sprintform(request.POST)
                     form.instance.pid = pid2
@@ -1372,17 +1372,17 @@ def prod(request):
                     form.instance.sprint_qa_end_date=qa
                     form.save()
                     x = form.instance.id
-                    x1 = register.objects.all()
+                    x1 = user_detail.objects.all()
                     obj = project.objects.get(id=pid2)
                     selected_users = list(map(str,(obj.devs).split('@end@')))
                     selected_mans = list(map(str,(obj.mans).split('@end@')))
                     for i1 in x1:
                         if i1.uname in selected_mans:
-                            x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
+                            x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                             # x2.save()
                         else:
                             if i1.uname in selected_users:
-                                x2 = cregister(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
+                                x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                                 # x2.save()
                     return redirect('product')
                 else:
@@ -1408,7 +1408,7 @@ def view_story(request):
     if id==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True):
+    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
         data1 = sprint.objects.filter(pid=pid2)
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1416,7 +1416,7 @@ def view_story(request):
         data = story.objects.filter(sprint_id=id)
 
         #progress part
-        datax = cregister.objects.filter(roles='dev',sprint_id=id)
+        datax = user_sprint_detail.objects.filter(roles='dev',sprint_id=id)
         list2x={}
         list3x={}
         list4x={}
@@ -1434,8 +1434,8 @@ def view_story(request):
             if i1.dev_java not in ['',None]:
                 list2x[i1.jira]={}
                 list3x[i1.jira]={}
-                if prg.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira).exists()==True:
-                    st1 = prg.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira)
+                if progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira)
                     list2x[i1.jira][ny]={}
                     list3x[i1.jira][ny]={}
                     xy=0
@@ -1448,8 +1448,8 @@ def view_story(request):
             if i1.dev_php not in ['',None]:
                 list4x[i1.jira]={}
                 list5x[i1.jira]={}
-                if prg.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira).exists()==True:
-                    st1 = prg.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira)
+                if progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira)
                     list4x[i1.jira][py]={}
                     list5x[i1.jira][py]={}
                     xy=0
@@ -1462,8 +1462,8 @@ def view_story(request):
             if i1.dev_html not in ['',None]:
                 list6x[i1.jira]={}
                 list7x[i1.jira]={}
-                if prg.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira).exists()==True:
-                    st1 = prg.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira)
+                if progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira)
                     list6x[i1.jira][hy]={}
                     list7x[i1.jira][hy]={}
                     xy=0
@@ -1476,8 +1476,8 @@ def view_story(request):
             if i1.dev_qa not in ['',None]:
                 list8x[i1.jira]={}
                 list9x[i1.jira]={}
-                if prg.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira).exists()==True:
-                    st1 = prg.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira)
+                if progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira)
                     list8x[i1.jira][qy]={}
                     list9x[i1.jira][qy]={}
                     xy=0
@@ -1512,15 +1512,15 @@ def view_story(request):
 
         # allocation part
         dashboard = story.objects.filter(sprint_id=id)
-        d1 = cregister.objects.filter(roles='dev',sprint_id=id)
-        d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=id)
-        d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=id)
-        d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=id)
-        d5 = cregister.objects.filter(roles='dev',qa='True',sprint_id=id)
-        sjava = cregister.objects.aggregate(Sum('spjava'))['spjava__sum']
-        sphp = cregister.objects.aggregate(Sum('spphp'))['spphp__sum']
-        shtml = cregister.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-        sqa = cregister.objects.aggregate(Sum('spqa'))['spqa__sum']
+        d1 = user_sprint_detail.objects.filter(roles='dev',sprint_id=id)
+        d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=id)
+        d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=id)
+        d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=id)
+        d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=id)
+        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
         list11=[]
         for i in d1:
             j = story.objects.filter(sprint_id=id, dev_java=i.name)
@@ -1602,7 +1602,7 @@ def view_story(request):
                 if int(p1)>0:
                     p = story.objects.get(sprint_id=id,id=idy)
                     dev1 = p.dev_java
-                    # n = cregister.objects.get(name=java_dev,sprint_id=id1)
+                    # n = user_sprint_detail.objects.get(name=java_dev,sprint_id=id1)
                     p.dev_java = java_dev
                     p.javas = int(p1)
                     p.jleft = int(p1)
@@ -1621,8 +1621,8 @@ def view_story(request):
 
                     # user change
                     if dev1 != None and dev1 != java_dev :
-                        creg = cregister.objects.get(name=dev1,sprint_id=id)
-                        creg1 = cregister.objects.get(name=java_dev,sprint_id=id)
+                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                        creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
                         j = story.objects.filter(sprint_id=id, dev_java=dev1)
                         j1 = story.objects.filter(sprint_id=id, dev_java=java_dev)
 
@@ -1639,7 +1639,7 @@ def view_story(request):
                         creg.save()
                         creg1.save()
 
-                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
                         for p1 in pr:
                             p1.dname = java_dev
                             p1.save()
@@ -1651,7 +1651,7 @@ def view_story(request):
                 if int(p2)>0:
                     p = story.objects.get(sprint_id=id,id=idy)
                     dev1 = p.dev_php
-                    # n = cregister.objects.get(name=php_dev,sprint_id=id1)
+                    # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
                     p.dev_php = php_dev
                     p.phps = int(p2)
                     p.pleft = int(p2)
@@ -1669,8 +1669,8 @@ def view_story(request):
                     b=sum(list2)
 
                     if dev1 != None and dev1 != php_dev :
-                        creg = cregister.objects.get(name=dev1,sprint_id=id)
-                        creg1 = cregister.objects.get(name=php_dev,sprint_id=id)
+                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                        creg1 = user_sprint_detail.objects.get(name=php_dev,sprint_id=id)
                         j = story.objects.filter(sprint_id=id, dev_php=dev1)
                         j1 = story.objects.filter(sprint_id=id, dev_php=php_dev)
 
@@ -1687,7 +1687,7 @@ def view_story(request):
                         creg.save()
                         creg1.save()
 
-                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
                         for p1 in pr:
                             p1.dname = php_dev
                             p1.save()
@@ -1697,7 +1697,7 @@ def view_story(request):
                 p3 = request.GET.get('points3')
                 idy = request.GET.get('idx')
                 if int(p3)>0:
-                    # n = cregister.objects.get(name=html_dev,sprint_id=id1)
+                    # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
                     dev1 = p.dev_html
                     p.dev_html = html_dev
@@ -1718,8 +1718,8 @@ def view_story(request):
 
                     # user change
                     if dev1 != None and dev1 != html_dev :
-                        creg = cregister.objects.get(name=dev1,sprint_id=id)
-                        creg1 = cregister.objects.get(name=html_dev,sprint_id=id)
+                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                        creg1 = user_sprint_detail.objects.get(name=html_dev,sprint_id=id)
                         j = story.objects.filter(sprint_id=id, dev_html=dev1)
                         j1 = story.objects.filter(sprint_id=id, dev_html=html_dev)
 
@@ -1736,7 +1736,7 @@ def view_story(request):
                         creg.save()
                         creg1.save()
 
-                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
                         for p1 in pr:
                             p1.dname = html_dev
                             p1.save()
@@ -1746,7 +1746,7 @@ def view_story(request):
                 p4 = request.GET.get('points4')
                 idy = request.GET.get('idx')
                 if int(p4)>0:
-                    # n = cregister.objects.get(name=qa_dev,sprint_id=id1)
+                    # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
                     dev1 = p.dev_qa
                     p.dev_qa = qa_dev
@@ -1767,8 +1767,8 @@ def view_story(request):
 
                     # user change
                     if dev1 != None and dev1 != qa_dev :
-                        creg = cregister.objects.get(name=dev1,sprint_id=id)
-                        creg1 = cregister.objects.get(name=qa_dev,sprint_id=id)
+                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                        creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
                         j = story.objects.filter(sprint_id=id, dev_qa=dev1)
                         j1 = story.objects.filter(sprint_id=id, dev_qa=qa_dev)
 
@@ -1785,7 +1785,7 @@ def view_story(request):
                         creg.save()
                         creg1.save()
 
-                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
                         for p1 in pr:
                             p1.dname = qa_dev
                             p1.save()
@@ -1833,7 +1833,7 @@ def view_story(request):
                                     l+=1
                             if l==0:
                                 k=0
-                                for i3 in register.objects.all():
+                                for i3 in user_detail.objects.all():
                                     if fields[3]==i3.name:
                                         k+=1
                                     if fields[5]==i3.name:
@@ -1897,27 +1897,27 @@ def bandwidth(request):
     if sprid==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True) or (User.objects.filter(username=request.user.username, groups__name='Product Manager').exists() == True):
+    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
         data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
         nx1 = sprint.objects.get(id = sprid).name
-        sjava = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spjava'))['spjava__sum']
-        sphp = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spphp'))['spphp__sum']
-        shtml = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('sphtml'))['sphtml__sum']
-        sqa = cregister.objects.filter(sprint_id=sprid).aggregate(Sum('spqa'))['spqa__sum']
+        sjava = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spjava'))['spjava__sum']
+        sphp = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spphp'))['spphp__sum']
+        shtml = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('sphtml'))['sphtml__sum']
+        sqa = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spqa'))['spqa__sum']
         band = sprint.objects.filter(id=sprid)
         data = story.objects.filter(sprint_id=sprid)
-        d1 = cregister.objects.filter(roles='dev')
-        d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
-        d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=sprid)
-        d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=sprid)
-        d5 = cregister.objects.filter(roles='dev',qa='True',sprint_id=sprid)
+        d1 = user_sprint_detail.objects.filter(roles='dev')
+        d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
+        d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
+        d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
+        d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
 
         list1=[]
         for i in d2:
             j = story.objects.filter(sprint_id=sprid, dev_java=i.name)
-            r = cregister.objects.get(roles='dev',java='True',name=i.name,sprint_id=sprid)
+            r = user_sprint_detail.objects.get(roles='dev',java='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('javas'))['javas__sum'] == None:
                 list1.append(0)
                 r.djava = r.spjava
@@ -1930,7 +1930,7 @@ def bandwidth(request):
         list2=[]
         for i in d3:
             j = story.objects.filter(sprint_id=sprid, dev_php=i.name)
-            r = cregister.objects.get(roles='dev',php='True',name=i.name,sprint_id=sprid)
+            r = user_sprint_detail.objects.get(roles='dev',php='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('phps'))['phps__sum'] == None:
                 list2.append(0)
                 r.dphp = r.spphp
@@ -1942,7 +1942,7 @@ def bandwidth(request):
         list3=[]
         for i in d4:
             j = story.objects.filter(sprint_id=sprid, dev_html=i.name)
-            r = cregister.objects.get(roles='dev',html='True',name=i.name,sprint_id=sprid)
+            r = user_sprint_detail.objects.get(roles='dev',html='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                 list3.append(0)
                 r.dhtml = r.sphtml
@@ -1954,7 +1954,7 @@ def bandwidth(request):
         list4=[]
         for i in d5:
             j = story.objects.filter(sprint_id=sprid, dev_qa=i.name)
-            r = cregister.objects.get(roles='dev',qa='True',name=i.name,sprint_id=sprid)
+            r = user_sprint_detail.objects.get(roles='dev',qa='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('qas'))['qas__sum'] == None:
                 list4.append(0)
                 r.dqa = r.spqa
@@ -1984,12 +1984,12 @@ def bandwidth(request):
                 p = sprint.objects.get(id=sprid)
 
                 if skill == 'java':
-                    r = cregister.objects.get(id=uid, java='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid, java='True',sprint_id=sprid)
                     r.vfjava = vf
                     ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                     r.abjava = int(ab)
                     r.spjava = r.abjava * 2
-                    sjava = cregister.objects.aggregate(Sum('spjava'))['spjava__sum']
+                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
@@ -2000,12 +2000,12 @@ def bandwidth(request):
 
 
                 if skill == 'php':
-                    r = cregister.objects.get(id=uid, php='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid, php='True',sprint_id=sprid)
                     r.vfphp = vf
                     ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                     r.abphp = int(ab)
                     r.spphp = r.abphp * 2
-                    sphp = cregister.objects.aggregate(Sum('spphp'))['spphp__sum']
+                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
@@ -2016,12 +2016,12 @@ def bandwidth(request):
 
 
                 if skill == 'html':
-                    r = cregister.objects.get(id=uid, html='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid, html='True',sprint_id=sprid)
                     r.vfhtml = vf
                     ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
                     r.abhtml = int(ab)
                     r.sphtml = r.abhtml * 2
-                    shtml = cregister.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
@@ -2033,12 +2033,12 @@ def bandwidth(request):
 
 
                 if skill == 'qa':
-                    r = cregister.objects.get(id=uid, qa='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid, qa='True',sprint_id=sprid)
                     r.vfqa = vf
                     ab = (float(vf) * (p.qa_working-r.planned-r.unplanned))
                     r.abqa = int(ab)
                     r.spqa = r.abqa * 2
-                    sqa = cregister.objects.aggregate(Sum('spqa'))['spqa__sum']
+                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
@@ -2055,21 +2055,21 @@ def bandwidth(request):
                 pl = request.GET.get('uleave1')
                 uid = request.GET.get('uleave2')
                 skill = request.GET.get('uleave3')
-                r = cregister.objects.get(id=uid,sprint_id=sprid)
+                r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
                 r.unplanned = int(pl)
                 p = sprint.objects.get(id=sprid)
-                d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
-                d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=sprid)
-                d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=sprid)
-                d5 = cregister.objects.filter(roles='dev',qa='True',sprint_id=sprid)
+                d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
+                d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
+                d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
+                d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
                 r.save()
 
                 if skill=='java':
-                    r = cregister.objects.get(id=uid,java='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
                     ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
                     r.abjava=ab
                     r.spjava = r.abjava * 2
-                    sjava = cregister.objects.aggregate(Sum('spjava'))['spjava__sum']
+                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
@@ -2082,11 +2082,11 @@ def bandwidth(request):
 
 
                 if skill=='php':
-                    r = cregister.objects.get(id=uid,php='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
                     ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
                     r.abphp=ab
                     r.spphp = r.abphp * 2
-                    sphp = cregister.objects.aggregate(Sum('spphp'))['spphp__sum']
+                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
@@ -2098,11 +2098,11 @@ def bandwidth(request):
 
 
                 if skill=='html':
-                    r = cregister.objects.get(id=uid,html='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
                     ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
                     r.abhtml=ab
                     r.sphtml = r.abhtml * 2
-                    shtml = cregister.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
@@ -2113,11 +2113,11 @@ def bandwidth(request):
                         r.save()
 
                 if skill=='qa':
-                    r = cregister.objects.get(id=uid,qa='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
                     ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
                     r.abqa=ab
                     r.spqa = r.abqa * 2
-                    sqa = cregister.objects.aggregate(Sum('spqa'))['spqa__sum']
+                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
@@ -2132,21 +2132,21 @@ def bandwidth(request):
                 pl = request.GET.get('leave1')
                 uid = request.GET.get('leave2')
                 skill = request.GET.get('leave3')
-                r = cregister.objects.get(id=uid,sprint_id=sprid)
+                r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
                 r.planned = int(pl)
                 p = sprint.objects.get(id=sprid)
-                d2 = cregister.objects.filter(roles='dev',java='True',sprint_id=sprid)
-                d3 = cregister.objects.filter(roles='dev',php='True',sprint_id=sprid)
-                d4 = cregister.objects.filter(roles='dev',html='True',sprint_id=sprid)
-                d5 = cregister.objects.filter(roles='dev',qa='True',sprint_id=sprid)
+                d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
+                d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
+                d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
+                d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
                 r.save()
 
                 if skill=='java':
-                    r = cregister.objects.get(id=uid,java='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
                     ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
                     r.abjava=ab
                     r.spjava = r.abjava * 2
-                    sjava = cregister.objects.aggregate(Sum('spjava'))['spjava__sum']
+                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
@@ -2158,11 +2158,11 @@ def bandwidth(request):
 
 
                 if skill=='php':
-                    r = cregister.objects.get(id=uid,php='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
                     ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
                     r.abphp=ab
                     r.spphp = r.abphp * 2
-                    sphp = cregister.objects.aggregate(Sum('spphp'))['spphp__sum']
+                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
@@ -2174,11 +2174,11 @@ def bandwidth(request):
 
 
                 if skill=='html':
-                    r = cregister.objects.get(id=uid,html='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
                     ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
                     r.abhtml=ab
                     r.sphtml = r.abhtml * 2
-                    shtml = cregister.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
@@ -2189,11 +2189,11 @@ def bandwidth(request):
                         r.save()
 
                 if skill=='qa':
-                    r = cregister.objects.get(id=uid,qa='True',sprint_id=sprid)
+                    r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
                     ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
                     r.abqa=ab
                     r.spqa = r.abqa * 2
-                    sqa = cregister.objects.aggregate(Sum('spqa'))['spqa__sum']
+                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
                     j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
@@ -2243,11 +2243,11 @@ def tasks(request):
     list3x=[]
 
     check=0
-    if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
         check=1
         pass
     else:
-        u1 = register.objects.get(uname=request.user.username)
+        u1 = user_detail.objects.get(uname=request.user.username)
         for i in data1:
             st = story.objects.filter(sprint_id=i.id)
             for j in st:
@@ -2295,7 +2295,7 @@ def tasks(request):
 
     k=0
     repo=[]
-    c1 = cregister.objects.filter(sprint_id=id1,roles='dev')
+    c1 = user_sprint_detail.objects.filter(sprint_id=id1,roles='dev')
     sum3=0
     for i3 in c1:
         sum3+=i3.abjava + i3.abphp + i3.abhtml + i3.abqa
@@ -2368,14 +2368,14 @@ def tasks(request):
             skill = request.GET.get('skill')
             skill = skill.lower()
             pt = request.GET.get('points')
-            if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+            if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
                 messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
             else:
                 if skill in ['java','php','html','qa']:
                     pro = sprint.objects.get(name=sprname,pid=pid2).id
                     st = story.objects.get(sprint_id=pro,jira=jd)
                     listz=[]
-                    u1 = register.objects.get(uname=request.user.username)
+                    u1 = user_detail.objects.get(uname=request.user.username)
                     if u1.java==True:
                         listz.append('java')
                     if u1.php==True:
@@ -2516,6 +2516,7 @@ def reg(request):
     if request.method == 'POST':
         dev = Group.objects.get(name='Developer')
         man = Group.objects.get(name='Product Manager')
+        qa = Group.objects.get(name='QA')
         user_form = UserForm(data=request.POST)
         profile_form = registerform(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
@@ -2528,6 +2529,7 @@ def reg(request):
                 user.set_password('Zehel9999')
                 if profile.roles=='dev':
                     user.groups.add(dev)
+                    user.groups.add(qa)
                 if profile.roles=='man':
                     user.groups.add(man)
                 user.save()

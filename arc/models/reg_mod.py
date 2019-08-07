@@ -1,6 +1,6 @@
 from django.db import models
 
-class cregister(models.Model):
+class user_sprint_detail(models.Model):
     uname = models.CharField(max_length=150)
     name = models.CharField(max_length=20)
     sprint_id = models.IntegerField()
