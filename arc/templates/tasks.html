@@ -12,48 +12,49 @@
     {% endblock %}
 
     <!-- Content Row -->
-
-          <div class="container-fluid">
-            <div class="card shadow mb-4">
-              <table class="table" id="tab2">
-                <thead class="text-primary">
-                  <th>Total Available Bandwidth</th>
-                  <th>Total Story Points Assigned</th>
-                  <th>Total Completed Story Points</th>
-                  <th>Total Pending Story Points</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    {% for i in repo %}
-                      <td>{{ i }}</td>
-                    {% endfor %}
-                  </tr>
-                  <tr>
-                    <td colspan='2'></td>
-                    <td colspan="2">
-                      <form method="post">
-                        {% csrf_token %}
-                        <select class="js-example-basic-single" name="select_spr">
-                          {% for n1 in n0 %}
-                            <option selected="True" disabled>{{ n1.name }}</option>
-                            {% for product in listse %}
-                              {% if forloop.counter == forloop.parentloop.counter %}
-                                {% for p in product %}
-                                  <option value='{{ p.1 }}'>{{ p.0 }}</option>
-                                {% endfor %}
-                              {% endif %}
+          {% if check == 1 %}
+            <div class="container-fluid">
+              <div class="card shadow mb-4">
+                <table class="table" id="tab2">
+                  <thead class="text-primary">
+                    <th>Total Available Bandwidth</th>
+                    <th>Total Story Points Assigned</th>
+                    <th>Total Completed Story Points</th>
+                    <th>Total Pending Story Points</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {% for i in repo %}
+                        <td>{{ i }}</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                      <td colspan='2'></td>
+                      <td colspan="2">
+                        <form method="post">
+                          {% csrf_token %}
+                          <select class="js-example-basic-single" name="select_spr">
+                            {% for n1 in n0 %}
+                              <option selected="True" disabled>{{ n1.name }}</option>
+                              {% for product in listse %}
+                                {% if forloop.counter == forloop.parentloop.counter %}
+                                  {% for p in product %}
+                                    <option value='{{ p.1 }}'>{{ p.0 }}</option>
+                                  {% endfor %}
+                                {% endif %}
+                              {% endfor %}
                             {% endfor %}
-                          {% endfor %}
-                        </select>
-                        <p></p>
-                        <button class="btn example_c" type="submit" name="move_story"><small>Move Pending Stories to Selected Sprint</small></button>
-                      </form>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                          </select>
+                          <p></p>
+                          <button class="btn example_c" type="submit" name="move_story"><small>Move Pending Stories to Selected Sprint</small></button>
+                        </form>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          {% endif %}
 
 
           <div class="container-fluid">

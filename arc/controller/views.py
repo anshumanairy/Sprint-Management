@@ -1597,8 +1597,9 @@ def view_story(request):
                 p1 = request.GET.get('points1')
                 idy = request.GET.get('idx')
                 if int(p1)>0:
-                    # n = cregister.objects.get(name=java_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
+                    dev1 = p.dev_java
+                    # n = cregister.objects.get(name=java_dev,sprint_id=id1)
                     p.dev_java = java_dev
                     p.javas = int(p1)
                     p.jleft = int(p1)
@@ -1614,6 +1615,31 @@ def view_story(request):
                                 p.ostatus='Live'
                             p.save()
                     a=sum(list1)
+
+                    # user change
+                    if dev1 != None and dev1 != java_dev :
+                        creg = cregister.objects.get(name=dev1,sprint_id=id)
+                        creg1 = cregister.objects.get(name=java_dev,sprint_id=id)
+                        j = story.objects.filter(sprint_id=id, dev_java=dev1)
+                        j1 = story.objects.filter(sprint_id=id, dev_java=java_dev)
+
+                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                            creg.djava = creg.spjava
+                        else:
+                            creg.djava = creg.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+
+                        if j1.aggregate(Sum('javas'))['javas__sum'] == None:
+                            creg1.djava = creg1.spjava
+                        else:
+                            creg1.djava = creg1.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+
+                        creg.save()
+                        creg1.save()
+
+                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        for p1 in pr:
+                            p1.dname = java_dev
+                            p1.save()
 
             if 'php_sel' in request.GET:
                 php_dev = request.GET.get('php_sel')
@@ -2134,7 +2160,9 @@ def tasks(request):
     list2x=[]
     list3x=[]
 
+    check=0
     if request.user.is_superuser or (cregister.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+        check=1
         pass
     else:
         u1 = register.objects.get(uname=request.user.username)
@@ -2335,7 +2363,7 @@ def tasks(request):
                 messages.info(request, 'You are not Authorized!')
                 return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+    return(render(request,'tasks.html/',{'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
 
 def home(request):
     return render(request,'home.html/',{})
