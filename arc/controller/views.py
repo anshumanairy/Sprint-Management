@@ -1646,8 +1646,9 @@ def view_story(request):
                 p2 = request.GET.get('points2')
                 idy = request.GET.get('idx')
                 if int(p2)>0:
-                    # n = cregister.objects.get(name=php_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
+                    dev1 = p.dev_php
+                    # n = cregister.objects.get(name=php_dev,sprint_id=id1)
                     p.dev_php = php_dev
                     p.phps = int(p2)
                     p.pleft = int(p2)
@@ -1664,6 +1665,30 @@ def view_story(request):
                             p.save()
                     b=sum(list2)
 
+                    if dev1 != None and dev1 != php_dev :
+                        creg = cregister.objects.get(name=dev1,sprint_id=id)
+                        creg1 = cregister.objects.get(name=php_dev,sprint_id=id)
+                        j = story.objects.filter(sprint_id=id, dev_php=dev1)
+                        j1 = story.objects.filter(sprint_id=id, dev_php=php_dev)
+
+                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                            creg.dphp = creg.spphp
+                        else:
+                            creg.dphp = creg.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
+
+                        if j1.aggregate(Sum('phps'))['phps__sum'] == None:
+                            creg1.dphp = creg1.spphp
+                        else:
+                            creg1.dphp = creg1.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
+
+                        creg.save()
+                        creg1.save()
+
+                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        for p1 in pr:
+                            p1.dname = php_dev
+                            p1.save()
+
             if 'html_sel' in request.GET:
                 html_dev = request.GET.get('html_sel')
                 p3 = request.GET.get('points3')
@@ -1671,6 +1696,7 @@ def view_story(request):
                 if int(p3)>0:
                     # n = cregister.objects.get(name=html_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
+                    dev1 = p.dev_html
                     p.dev_html = html_dev
                     p.htmls = int(p3)
                     p.hleft = int(p3)
@@ -1687,6 +1713,31 @@ def view_story(request):
                             p.save()
                     c=sum(list3)
 
+                    # user change
+                    if dev1 != None and dev1 != html_dev :
+                        creg = cregister.objects.get(name=dev1,sprint_id=id)
+                        creg1 = cregister.objects.get(name=html_dev,sprint_id=id)
+                        j = story.objects.filter(sprint_id=id, dev_html=dev1)
+                        j1 = story.objects.filter(sprint_id=id, dev_html=html_dev)
+
+                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                            creg.dhtml = creg.sphtml
+                        else:
+                            creg.dhtml = creg.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
+
+                        if j1.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                            creg1.dhtml = creg1.sphtml
+                        else:
+                            creg1.dhtml = creg1.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
+
+                        creg.save()
+                        creg1.save()
+
+                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        for p1 in pr:
+                            p1.dname = html_dev
+                            p1.save()
+
             if 'qa_sel' in request.GET:
                 qa_dev = request.GET.get('qa_sel')
                 p4 = request.GET.get('points4')
@@ -1694,6 +1745,7 @@ def view_story(request):
                 if int(p4)>0:
                     # n = cregister.objects.get(name=qa_dev,sprint_id=id1)
                     p = story.objects.get(sprint_id=id,id=idy)
+                    dev1 = p.dev_qa
                     p.dev_qa = qa_dev
                     p.qas = int(p4)
                     p.qleft = int(p4)
@@ -1709,6 +1761,32 @@ def view_story(request):
                                 p.ostatus='Live'
                             p.save()
                     d=sum(list4)
+
+                    # user change
+                    if dev1 != None and dev1 != qa_dev :
+                        creg = cregister.objects.get(name=dev1,sprint_id=id)
+                        creg1 = cregister.objects.get(name=qa_dev,sprint_id=id)
+                        j = story.objects.filter(sprint_id=id, dev_qa=dev1)
+                        j1 = story.objects.filter(sprint_id=id, dev_qa=qa_dev)
+
+                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                            creg.dqa = creg.spqa
+                        else:
+                            creg.dqa = creg.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
+
+                        if j1.aggregate(Sum('qas'))['qas__sum'] == None:
+                            creg1.dqa = creg1.spqa
+                        else:
+                            creg1.dqa = creg1.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
+
+                        creg.save()
+                        creg1.save()
+
+                        pr = prg.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                        for p1 in pr:
+                            p1.dname = qa_dev
+                            p1.save()
+
                 return(redirect('view_story'))
 
         if request.method=='POST':
