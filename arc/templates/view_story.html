@@ -356,7 +356,7 @@
                               </select>
                           <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
+                              <input class="points" type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
                               {% if dash.javas == 0 %}
                               {% else %}
 
@@ -458,7 +458,7 @@
                               </select>
                         <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
+                              <input class="points" type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
                               {% if dash.phps == 0 %}
                               {% else %}
                               <img src="{% static '/calendar.png' %}" class="php{{forloop.counter0}}" style="width:30px;height:30px;">
@@ -559,7 +559,7 @@
                               </select>
                         <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
+                              <input class="points" type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
                               {% if dash.htmls == 0 %}
                               {% else %}
                               <img src="{% static '/calendar.png' %}" class="html{{forloop.counter0}}" style="width:30px;height:30px;">
@@ -659,7 +659,7 @@
                                 </select>
                           <!-- point selector -->
                                 <input type="hidden" name="idx" value="{{ dash.id }}">
-                                <input type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
+                                <input class="points" type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
                                 {% if dash.qas == 0 %}
                                 {% else %}
                                 <img src="{% static '/calendar.png' %}" class="qa{{forloop.counter0}}" style="width:30px;height:30px;">
