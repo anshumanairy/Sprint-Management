@@ -117,7 +117,7 @@
                         <td><a href="{{d1.5}}" target='_blank'>{{ d1.2 }}</a></td>
                         <td>{{ d1.6 }}</td>
                         <td>{{ d1.7 }}</td>
-                        <td class='col-md-2' id="{{d1.4}}">{{ d1.3 }}</td>
+                        <td><span id="{{d1.4}}" class="dot"></span>{{ d1.3 }}</td>
                         <td>
                           {% if d1.3 == 'Unassigned' %}
                             <button class="btn example_c" type="submit" name="assign_story" onclick="w5_open({{d1.8}})" id="edit"><small>Assign</small></button>
@@ -131,6 +131,56 @@
                 </table>
               </div>
             </div>
+
+            <div id="n">
+            <script>
+            function w5_open(ex) {
+              document.getElementById("n").style.marginTop = "0%";
+              document.getElementById("e").style.display = "block";
+              document.getElementById("edit").style.display = 'none';
+              $(document).ready(function() {
+                var d1  = JSON.parse('{{ jd1x|escapejs }}');
+                var d2  = JSON.parse('{{ jd2x|escapejs }}');
+                var d3  = JSON.parse('{{ jd3x|escapejs }}');
+                var a=""
+                var b=""
+                var j=""
+                var p=""
+                var h=""
+                var q=""
+                for(k in d3){
+                  if(d3[k]=="Java"){
+                    j="Java";
+                  }
+                  if(d3[k]=="PHP"){
+                    j+=", PHP";
+                  }
+                  if(d3[k]=="HTML"){
+                    j+=", HTML";
+                  }
+                  if(d3[k]=="QA"){
+                    j+=", QA";
+                  }
+                }
+                for(i in d2){
+                  if(ex==Object.keys(d2).indexOf(i)){
+                    a=d1[i]
+                    b=d2[i]
+                    break;
+                  }
+                }
+                document.getElementById('a1').value = a;
+                document.getElementById('b1').value = b;
+                document.getElementById('j1').value = j;
+              });
+            }
+            function w5_close() {
+              document.getElementById("n").style.marginTop = "0%";
+              document.getElementById("e").style.display = "none";
+              document.getElementById("edit").style.display = "inline-block";
+            }
+            </script>
+
           </div>
     <!-- End of Page Wrapper -->
 

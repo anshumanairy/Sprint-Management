@@ -49,3 +49,10 @@ td{
 .js-example-basic-single{
   width: 'resolve';
 }
+#points{
+  width: 40px;
+  border: 1px solid white;
+}
+#points:hover{
+  border:1px solid lightgrey;
+}

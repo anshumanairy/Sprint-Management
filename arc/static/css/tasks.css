@@ -8,54 +8,59 @@ body{
   font-family: Montserrat;
   background :#F3F3F3;
 }
-
+.dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  float:left;
+}
 #spr{
   padding-top: 70px;
 }
 #black{
   background-color: black;
   color:white;
-  border: 2px solid black;
+  border: 1px solid black;
 }
 #red{
   background-color: red;
   color:white;
-  border: 2px solid red;
+  border: 1px solid lightgrey;
 }
 #yellow{
   background-color: yellow;
   color:black;
-  border: 2px solid yellow;
+  border: 1px solid lightgrey;
 }
 #green{
   background-color: #1ea84c;
   color: white;
-  border: 2px solid #1ea84c;
+  border: 1px solid lightgrey;
 }
 #purple{
   background-color: purple;
   color: white;
-  border: 2px solid purple;
+  border: 1px solid lightgrey;
 }
 #white{
   background-color: white;
   color: black;
-  border: 2px solid black;
+  border: 1px solid lightgrey;
 }
 #blue{
   background-color: blue;
   color: white;
-  border: 2px solid blue;
+  border: 1px solid lightgrey;
 }
 #pd{
   background-color: lightgreen;
   color: black;
-  border: 2px solid lightgreen;
+  border: 1px solid lightgrey;
 }
 #other{
   background-color: brown;
   color: white;
-  border: 2px solid brown;
+  border: 1px solid lightgrey;
 }
 td,th{
   text-align: center;
