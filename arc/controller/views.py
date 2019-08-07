@@ -282,7 +282,7 @@ def qaprg(request):
             list2[i1.name]={}
             for j1 in st1:
                 if prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                    p1 = prg.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-sdate')
                     list2[i1.name][n]={}
                     for k1 in p1:
                         list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
