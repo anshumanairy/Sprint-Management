@@ -1,5 +1,6 @@
 {% include 'home.html' %}
 {% include 'nav.html' %}
+<!-- {% include 'loader.html' %} -->
 
 {% block content %}
 
@@ -876,6 +877,13 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  var overlay = document.getElementById("overlay");
+  window.addEventListener('load', function(){
+    overlay.style.display = 'none';
+  })
+</script>
+
 <script src="/static/new/sb-admin-2.min.js"></script>
 
 <script>
@@ -885,6 +893,7 @@
     $('#tab3').tablesorter();
   });
 </script>
+
 <script>
   $(document).ready(function($) {
     $('.js-example-basic-single').select2();
