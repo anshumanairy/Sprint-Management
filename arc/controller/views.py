@@ -286,7 +286,7 @@ def qaprg(request):
             for j11 in st1:
                 j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                 if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-sdate')
+                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-id')
                     list2[i1.name][n]={}
                     for k1 in p1:
                         list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -304,7 +304,7 @@ def qaprg(request):
                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                 if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                     r=0
-                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                     list3[i2.name][n]={}
                     for k2 in p1:
                         list3[i2.name][n][str(r)]=k2.status
@@ -324,7 +324,7 @@ def qaprg(request):
             for j22 in st1:
                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                 if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                     for k2 in p1:
                         list4[i2.name][n]=k2.jd
                         n+=1
@@ -464,7 +464,7 @@ def qaprg(request):
                         for j11 in st1:
                             j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                             if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-id')
                                 for k1 in p1:
                                     list2[i1.name][n]={}
                                     list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -481,7 +481,7 @@ def qaprg(request):
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list3[m][n]=k2.status
                                     n+=1
@@ -497,7 +497,7 @@ def qaprg(request):
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list4[m][n]=k2.jd
                                     n+=1
@@ -569,7 +569,7 @@ def qaprg(request):
             for j11 in st1:
                 j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                 if progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
-                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
+                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1).order_by('-id')
                     list2[name1][n]={}
                     for k1 in p1:
                         list2[name1][n][str(k1.sdate)]=str(k1.sdate)
@@ -587,7 +587,7 @@ def qaprg(request):
             j22 = story.objects.get(sprint_id=id1,id=j22.story_id)
             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
                 r=0
-                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
+                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).order_by('-id')
                 list3[name1][n]={}
                 for k2 in p1:
                     list3[name1][n][str(r)]=k2.status
@@ -606,7 +606,7 @@ def qaprg(request):
         for j22 in st1:
             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
-                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
+                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).order_by('-id')
                 for k2 in p1:
                     list4[name1][n]=k2.jd
                     n+=1
@@ -738,7 +738,7 @@ def qaprg(request):
                         for j11 in st1:
                             j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                             if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-id')
                                 for k1 in p1:
                                     list2[i1.name][n]={}
                                     list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
@@ -755,7 +755,7 @@ def qaprg(request):
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list3[m][n]=k2.status
                                     n+=1
@@ -771,7 +771,7 @@ def qaprg(request):
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
+                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list4[m][n]=k2.jd
                                     n+=1
@@ -1654,29 +1654,32 @@ def view_story(request):
                     a=sum(list1)
 
                     # user change
-                    if dev1 != None and dev1 != java_dev :
-                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                        creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
-                        j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
-                        j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
+                    try:
+                        if dev1 != None and dev1 != java_dev :
+                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                            creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
+                            j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
+                            j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
 
-                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                            creg.djava = creg.spjava
-                        else:
-                            creg.djava = creg.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+                            if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                                creg.djava = creg.spjava
+                            else:
+                                creg.djava = creg.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
 
-                        if j1.aggregate(Sum('javas'))['javas__sum'] == None:
-                            creg1.djava = creg1.spjava
-                        else:
-                            creg1.djava = creg1.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+                            if j1.aggregate(Sum('javas'))['javas__sum'] == None:
+                                creg1.djava = creg1.spjava
+                            else:
+                                creg1.djava = creg1.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
 
-                        creg.save()
-                        creg1.save()
+                            creg.save()
+                            creg1.save()
 
-                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
-                        for p1 in pr:
-                            p1.dname = java_dev
-                            p1.save()
+                            pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                            for p1 in pr:
+                                p1.dname = java_dev
+                                p1.save()
+                    except:
+                        pass
 
             if 'php_sel' in request.GET:
                 php_dev = request.GET.get('php_sel')
