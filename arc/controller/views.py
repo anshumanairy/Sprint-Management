@@ -862,7 +862,6 @@ def prod(request):
     sumy=sum2
     list5.append(sum2)
     list6.append(sum2)
-    print(list7)
 
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
@@ -2544,9 +2543,12 @@ def reg(request):
             list2=list(map(str,idtoken.split('.')))
             dec = decryptx(list1[5])
 
-            emp = dec['empId']
+            emp = int(dec['empId'])
             email = dec['email']
             name = dec['name']
+            request.session['emp'] = emp
+            request.session['email'] = email
+            request.session['name'] = name
 
             if User.objects.filter(email=email).exists() == True:
                 regx = User.objects.get(email=email)
@@ -2560,8 +2562,6 @@ def reg(request):
     except:
         pass
 
-    # print(email,emp,name)
-
     if request.method == 'POST':
         dev = Group.objects.get(name='Developer')
         man = Group.objects.get(name='Product Manager')
@@ -2573,18 +2573,21 @@ def reg(request):
             x = user.username
             profile_form.instance.uname= x
             profile = profile_form.save(commit=False)
-            # print(user.email,profile.empid,profile.name)
-            if ((user.email==email) and (profile.empid==emp) and (profile.name==name)):
+            if ((user.email == request.session['email']) and (profile.empid == request.session['emp']) and (profile.name == request.session['name'])):
                 user.set_password('Zehel9999')
-                if profile.roles=='dev':
-                    user.groups.add(dev)
-                    user.groups.add(qa)
-                if profile.roles=='man':
-                    user.groups.add(man)
                 user.save()
+                registered = True
                 profile.user = user
                 profile.save()
-                registered = True
+
+                z1 = user_detail.objects.latest('id')
+                print(z1.roles)
+                if z1.roles=='dev':
+                    user.groups.add(dev)
+                    user.groups.add(qa)
+                else:
+                    user.groups.add(man)
+
                 return redirect('login')
             else:
                 messages.info(request, 'Tampered Account Details!')
