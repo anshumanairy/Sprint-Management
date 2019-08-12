@@ -34,6 +34,7 @@ import hmac
 import jwt
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 
 # sso integration and login security
 BS = AES.block_size
@@ -172,7 +173,11 @@ def blog(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    else:
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
+    if request.user.has_perm("view_detail_story.view_detail_story") or ("view_detail_story") in permission:
         data1 = sprint.objects.filter(pid=pid2)
         sid = request.session['story_id']
         n0 = project.objects.all().exclude(id=0)
@@ -244,7 +249,9 @@ def blog(request):
                 return redirect('story')
 
         return render(request,'blog.html/',{'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
-
+    else:
+        messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
+        return redirect('product')
 
 @login_required(login_url='/')
 def qaprg(request):
@@ -1175,21 +1182,17 @@ def prod(request):
                 d+=y+'@end@'
             n = project.objects.all().exclude(id=0)
             a=0
-            if (request.user.is_superuser) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
-                for i in n:
-                    if name1==i.name:
-                        a+=1
-                        messages.info(request, 'Project Name already taken. Please choose another one!')
-                        return redirect('product')
-                if a==0:
-                    z = project(name = name1)
-                    z.save()
-                    z1 = project.objects.latest('id')
-                    z2 = project_details(project_id=z1.id,creator=user1,devs=c,mans=d)
-                    z2.save()
-            else:
-                messages.info(request, 'You are not Authorized!')
-                return redirect('product')
+            for i in n:
+                if name1==i.name:
+                    a+=1
+                    messages.info(request, 'Project Name already taken. Please choose another one!')
+                    return redirect('product')
+            if a==0:
+                z = project(name = name1)
+                z.save()
+                z1 = project.objects.latest('id')
+                z2 = project_details(project_id=z1.id,creator=user1,devs=c,mans=d)
+                z2.save()
 
             return(redirect('product'))
 
@@ -1427,7 +1430,6 @@ def prod(request):
     return(render(request,'product.html/',context={'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
-# @permission_required('access.access', login_url='qaprg')
 def view_story(request):
     try:
         id = request.session['id']
@@ -1438,7 +1440,11 @@ def view_story(request):
     if id==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
+    if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
         data1 = sprint.objects.filter(pid=pid2)
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -1930,10 +1936,10 @@ def view_story(request):
 
         return render(request,'view_story.html',{'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1})
     else:
-        return(redirect('qaprg'))
+        messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
+        return redirect('product')
 
 @login_required(login_url='/')
-# @permission_required('access.access', login_url='qaprg')
 def bandwidth(request):
     try:
         sprid = request.session['id']
@@ -1944,7 +1950,11 @@ def bandwidth(request):
     if sprid==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True) or (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
+    if request.user.has_perm("view_bandwidth.view_bandwidth") or ("view_bandwidth") in permission:
         data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
@@ -2270,7 +2280,8 @@ def bandwidth(request):
 
         return(render(request,'bandwidth.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
     else:
-        return(redirect(qaprg))
+        messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
+        return redirect('product')
 
 @login_required(login_url='/')
 def tasks(request):
@@ -2283,219 +2294,227 @@ def tasks(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
-    data1 = sprint.objects.filter(pid=pid2)
-    data3 = sprint.objects.filter(pid=pid2).exclude(id=id1)
-    list1x=[]
-    list2x=[]
-    list3x=[]
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
+    if request.user.has_perm("view_report.view_report") or ("view_report") in permission:
+        data1 = sprint.objects.filter(pid=pid2)
+        data3 = sprint.objects.filter(pid=pid2).exclude(id=id1)
+        list1x=[]
+        list2x=[]
+        list3x=[]
 
-    check=0
-    if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
-        check=1
-        pass
-    else:
-        u1 = user_detail.objects.get(uname=request.user.username)
-        for i in data1:
-            st = story.objects.filter(sprint_id=i.id)
-            for j in st:
-                list1x.append(i.name)
-                list2x.append(j.jira)
-        if u1.java==True:
-            list3x.append('Java')
-        if u1.php==True:
-            list3x.append('PHP')
-        if u1.html==True:
-            list3x.append('HTML')
-        if u1.qa==True:
-            list3x.append('QA')
-
-    jd1x=json.dumps(list1x)
-    jd2x=json.dumps(list2x)
-    jd3x=json.dumps(list3x)
-
-    listse=[]
-    k1 = project.objects.all().exclude(id=0)
-    n=0
-    for k2 in k1:
-        listse.append([])
-        k3 = sprint.objects.filter(pid=k2.id).exclude(id=id1)
-        m=0
-        for k4 in k3:
-            if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
-                if k4.sprint_dev_end_date>=datetime.date.today():
-                    listse[n].append([])
-                    listse[n][m].append(k4.name)
-                    listse[n][m].append(k4.id)
-                    m+=1
-            else:
-                if k4.sprint_qa_end_date>=datetime.date.today():
-                    listse[n].append([])
-                    listse[n][m].append(k4.name)
-                    listse[n][m].append(k4.id)
-                    m+=1
-        n+=1
-    n0 = project.objects.all().exclude(id=0)
-    nx = project.objects.get(id=pid2)
-    nx1 = sprint.objects.get(id = id1).name
-    pro = sprint.objects.filter(pid=pid2)
-
-
-    k=0
-    repo=[]
-    c1 = user_sprint_detail.objects.filter(sprint_id=id1,roles='dev')
-    sum3=0
-    for i3 in c1:
-        sum3+=i3.abjava + i3.abphp + i3.abhtml + i3.abqa
-    repo.append(sum3)
-    sum1=0
-    sum2=0
-    nextspr=[]
-    c2 = story_details.objects.filter(sprint_id=id1)
-    for i4 in c2:
-        sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
-        sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
-        if i4.ostatus not in ['Pending Deployment','Complete','Live']:
-            nextspr.append(i4.id)
-
-    repo.append(sum1)
-    repo.append(sum1-sum2)
-    repo.append(sum2)
-
-    list1=[]
-    name = request.user.username
-    xx=0
-    for i in pro:
-        data2 = story_details.objects.filter(sprint_id=i.id)
-        list1.append([])
-        l=0
-        for j in data2:
-            j1 = story.objects.get(sprint_id=i.id,id=j.story_id)
-            list1[k].append([])
-            list1[k][l].append(i.name)
-            list1[k][l].append(j1.story_name)
-            list1[k][l].append(j1.jira)
-            if j.ostatus==None or j.ostatus=='':
-                list1[k][l].append('Unassigned')
-                list1[k][l].append('black')
-            elif j.ostatus in ['Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec']:
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('red')
-            elif j.ostatus=='Live':
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('green')
-            elif j.ostatus=='In Progress':
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('yellow')
-            elif j.ostatus=='Next Sprint':
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('purple')
-            elif j.ostatus in ['HTML Done','PHP Done','API Done','CR']:
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('white')
-            elif j.ostatus=='QA':
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('blue')
-            elif j.ostatus in ['Pending Deployment','Complete']:
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('pd')
-            else:
-                list1[k][l].append(j.ostatus)
-                list1[k][l].append('other')
-            list1[k][l].append(j1.description)
-            list1[k][l].append(j.javas + j.phps + j.htmls + j.qas)
-            list1[k][l].append((j.javas + j.phps + j.htmls + j.qas)-(j.jactual + j.pactual + j.hactual + j.qactual))
-            list1[k][l].append(xx)
-            xx+=1
-            l+=1
-        k+=1
-
-    if request.method=='GET':
-        if 'sprint_name' in request.GET:
-            sprname = request.GET.get('sprint_name')
-            jd = request.GET.get('jira')
-            skill = request.GET.get('skill')
-            skill = skill.lower()
-            pt = request.GET.get('points')
-            if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
-                messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
-            else:
-                if skill in ['java','php','html','qa']:
-                    pro = sprint.objects.get(name=sprname,pid=pid2).id
-                    st = story_details.objects.get(sprint_id=pro,jira=jd)
-                    listz=[]
-                    u1 = user_detail.objects.get(uname=request.user.username)
-                    if u1.java==True:
-                        listz.append('java')
-                    if u1.php==True:
-                        listz.append('php')
-                    if u1.html==True:
-                        listz.append('html')
-                    if u1.qa==True:
-                        listz.append('qa')
-                    if skill in listz:
-                        st.ostatus='In Progress'
-                        if skill=='java':
-                            st.dev_java=u1.name
-                            st.javas=int(pt)
-                        elif skill=='php':
-                            st.dev_php=u1.name
-                            st.phps=int(pt)
-                        elif skill=='html':
-                            st.dev_html=u1.name
-                            st.htmls=int(pt)
-                        elif skill=='qa':
-                            st.dev_qa=u1.name
-                            st.qas=int(pt)
-                        if int(pt)>0:
-                            st.save()
-                        else:
-                            messages.info(request, 'Unable to allocate these points! Please select valid points!')
-                    else:
-                        messages.info(request, 'Wrong Skill Selected! Please select from available skills provided!')
-                else:
-                    messages.info(request, 'Skill Typo! Please retry!')
-
-            return(redirect('tasks'))
-
-
-    if request.method=='POST':
-        if 'select_project' in request.POST:
-            name1 = request.POST.get('select_project')
-            proid = project.objects.get(name=name1).id
-            request.session['pid'] = proid
-            spr = sprint.objects.filter(pid=proid).first()
-            request.session['id'] = spr.id
-            return redirect('tasks')
-
-        if 'select_sprint' in request.POST:
-            select = request.POST.get('select_sprint')
+        check=0
+        if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+            check=1
+            pass
+        else:
+            u1 = user_detail.objects.get(uname=request.user.username)
             for i in data1:
-                if select in i.name:
-                    id=i.id
-                    request.session['id'] = id
-                    break
-            return redirect('tasks')
+                st = story.objects.filter(sprint_id=i.id)
+                for j in st:
+                    list1x.append(i.name)
+                    list2x.append(j.jira)
+            if u1.java==True:
+                list3x.append('Java')
+            if u1.php==True:
+                list3x.append('PHP')
+            if u1.html==True:
+                list3x.append('HTML')
+            if u1.qa==True:
+                list3x.append('QA')
 
-        if 'move_story' in request.POST:
-            if request.user.is_superuser:
-                ss = request.POST.get('select_spr')
-                st1 = story.objects.filter(sprint_id=id1)
-                for i1 in st1:
-                    if i1.ostatus not in ['Pending Deployment','Complete']:
-                        x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
-                        x1.save()
-                        x2 = story.objects.latest('id')
-                        x3 = story_details(sprint_id=ss,jira=x2.jira,story_id=x2.id)
-                        x3.save()
-                        i1.delete()
-                        i1.save()
-                messages.info(request, 'Success!')
-                return redirect('tasks')
-            else:
-                messages.info(request, 'You are not Authorized!')
+        jd1x=json.dumps(list1x)
+        jd2x=json.dumps(list2x)
+        jd3x=json.dumps(list3x)
+
+        listse=[]
+        k1 = project.objects.all().exclude(id=0)
+        n=0
+        for k2 in k1:
+            listse.append([])
+            k3 = sprint.objects.filter(pid=k2.id).exclude(id=id1)
+            m=0
+            for k4 in k3:
+                if k4.sprint_dev_end_date>=k4.sprint_qa_end_date:
+                    if k4.sprint_dev_end_date>=datetime.date.today():
+                        listse[n].append([])
+                        listse[n][m].append(k4.name)
+                        listse[n][m].append(k4.id)
+                        m+=1
+                else:
+                    if k4.sprint_qa_end_date>=datetime.date.today():
+                        listse[n].append([])
+                        listse[n][m].append(k4.name)
+                        listse[n][m].append(k4.id)
+                        m+=1
+            n+=1
+        n0 = project.objects.all().exclude(id=0)
+        nx = project.objects.get(id=pid2)
+        nx1 = sprint.objects.get(id = id1).name
+        pro = sprint.objects.filter(pid=pid2)
+
+
+        k=0
+        repo=[]
+        c1 = user_sprint_detail.objects.filter(sprint_id=id1,roles='dev')
+        sum3=0
+        for i3 in c1:
+            sum3+=i3.abjava + i3.abphp + i3.abhtml + i3.abqa
+        repo.append(sum3)
+        sum1=0
+        sum2=0
+        nextspr=[]
+        c2 = story_details.objects.filter(sprint_id=id1)
+        for i4 in c2:
+            sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
+            sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
+            if i4.ostatus not in ['Pending Deployment','Complete','Live']:
+                nextspr.append(i4.id)
+
+        repo.append(sum1)
+        repo.append(sum1-sum2)
+        repo.append(sum2)
+
+        list1=[]
+        name = request.user.username
+        xx=0
+        for i in pro:
+            data2 = story_details.objects.filter(sprint_id=i.id)
+            list1.append([])
+            l=0
+            for j in data2:
+                j1 = story.objects.get(sprint_id=i.id,id=j.story_id)
+                list1[k].append([])
+                list1[k][l].append(i.name)
+                list1[k][l].append(j1.story_name)
+                list1[k][l].append(j1.jira)
+                if j.ostatus==None or j.ostatus=='':
+                    list1[k][l].append('Unassigned')
+                    list1[k][l].append('black')
+                elif j.ostatus in ['Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec']:
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('red')
+                elif j.ostatus=='Live':
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('green')
+                elif j.ostatus=='In Progress':
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('yellow')
+                elif j.ostatus=='Next Sprint':
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('purple')
+                elif j.ostatus in ['HTML Done','PHP Done','API Done','CR']:
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('white')
+                elif j.ostatus=='QA':
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('blue')
+                elif j.ostatus in ['Pending Deployment','Complete']:
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('pd')
+                else:
+                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append('other')
+                list1[k][l].append(j1.description)
+                list1[k][l].append(j.javas + j.phps + j.htmls + j.qas)
+                list1[k][l].append((j.javas + j.phps + j.htmls + j.qas)-(j.jactual + j.pactual + j.hactual + j.qactual))
+                list1[k][l].append(xx)
+                xx+=1
+                l+=1
+            k+=1
+
+        if request.method=='GET':
+            if 'sprint_name' in request.GET:
+                sprname = request.GET.get('sprint_name')
+                jd = request.GET.get('jira')
+                skill = request.GET.get('skill')
+                skill = skill.lower()
+                pt = request.GET.get('points')
+                if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
+                    messages.info(request, 'Sorry authority only with Developer. Please allocate points from the story board!')
+                else:
+                    if skill in ['java','php','html','qa']:
+                        pro = sprint.objects.get(name=sprname,pid=pid2).id
+                        st = story_details.objects.get(sprint_id=pro,jira=jd)
+                        listz=[]
+                        u1 = user_detail.objects.get(uname=request.user.username)
+                        if u1.java==True:
+                            listz.append('java')
+                        if u1.php==True:
+                            listz.append('php')
+                        if u1.html==True:
+                            listz.append('html')
+                        if u1.qa==True:
+                            listz.append('qa')
+                        if skill in listz:
+                            st.ostatus='In Progress'
+                            if skill=='java':
+                                st.dev_java=u1.name
+                                st.javas=int(pt)
+                            elif skill=='php':
+                                st.dev_php=u1.name
+                                st.phps=int(pt)
+                            elif skill=='html':
+                                st.dev_html=u1.name
+                                st.htmls=int(pt)
+                            elif skill=='qa':
+                                st.dev_qa=u1.name
+                                st.qas=int(pt)
+                            if int(pt)>0:
+                                st.save()
+                            else:
+                                messages.info(request, 'Unable to allocate these points! Please select valid points!')
+                        else:
+                            messages.info(request, 'Wrong Skill Selected! Please select from available skills provided!')
+                    else:
+                        messages.info(request, 'Skill Typo! Please retry!')
+
+                return(redirect('tasks'))
+
+
+        if request.method=='POST':
+            if 'select_project' in request.POST:
+                name1 = request.POST.get('select_project')
+                proid = project.objects.get(name=name1).id
+                request.session['pid'] = proid
+                spr = sprint.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
                 return redirect('tasks')
 
-    return(render(request,'tasks.html/',{'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+            if 'select_sprint' in request.POST:
+                select = request.POST.get('select_sprint')
+                for i in data1:
+                    if select in i.name:
+                        id=i.id
+                        request.session['id'] = id
+                        break
+                return redirect('tasks')
+
+            if 'move_story' in request.POST:
+                if request.user.is_superuser:
+                    ss = request.POST.get('select_spr')
+                    st1 = story.objects.filter(sprint_id=id1)
+                    for i1 in st1:
+                        if i1.ostatus not in ['Pending Deployment','Complete']:
+                            x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
+                            x1.save()
+                            x2 = story.objects.latest('id')
+                            x3 = story_details(sprint_id=ss,jira=x2.jira,story_id=x2.id)
+                            x3.save()
+                            i1.delete()
+                            i1.save()
+                    messages.info(request, 'Success!')
+                    return redirect('tasks')
+                else:
+                    messages.info(request, 'You are not Authorized!')
+                    return redirect('tasks')
+
+        return(render(request,'tasks.html/',{'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+    else:
+        messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
+        return redirect('product')
 
 def home(request):
     return render(request,'home.html/',{})

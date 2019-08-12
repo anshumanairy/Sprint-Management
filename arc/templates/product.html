@@ -30,9 +30,9 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Project</div>
-                      <div class="col-md-12">
-                        <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
-                      </div>
+                        <div class="col-md-12">
+                          <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
+                        </div>
                       <form class="post-form" method='POST' id="h">
                         {% csrf_token %}
                         <div class="container-fluid">
@@ -121,7 +121,6 @@
             </div>
 
           </div>
-
           <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
             {% csrf_token %}
             <div class="container">
@@ -196,9 +195,13 @@
 
           <script>
             function w6_open() {
-              document.getElementById("m1").style.marginTop = "0%";
-              document.getElementById("g").style.display = "block";
-              document.getElementById("project_btn").style.display = 'none';
+              {% if perms.add_project.add_project %}
+                document.getElementById("m1").style.marginTop = "0%";
+                document.getElementById("g").style.display = "block";
+                document.getElementById("project_btn").style.display = 'none';
+              {% else %}
+                alert('UNAUTHORIZED!')
+              {% endif %}
             }
             function w6_close() {
               document.getElementById("m1").style.marginTop = "0%";
@@ -278,10 +281,14 @@
 
           <script>
             function w4_open() {
-              document.getElementById("m").style.marginTop = "0%";
-              document.getElementById("f").style.display = "block";
-              document.getElementById("sprint_btn").style.display = 'none';
-            }
+              {% if perms.add_project.add_project %}
+                document.getElementById("m").style.marginTop = "0%";
+                document.getElementById("f").style.display = "block";
+                document.getElementById("sprint_btn").style.display = 'none';
+              {% else %}
+                alert('UNAUTHORIZED!')
+              {% endif %}
+              }
             function w4_close() {
               document.getElementById("m").style.marginTop = "0%";
               document.getElementById("f").style.display = "none";
