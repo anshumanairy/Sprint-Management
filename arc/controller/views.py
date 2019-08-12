@@ -850,18 +850,19 @@ def prod(request):
     for i1 in s1:
         sum1 += i1.jleft + i1.pleft + i1.hleft + i1.qleft
         sum2 += i1.javas + i1.phps + i1.htmls + i1.qas
-        if i1.ostatus in['QA']:
-            list7[1]+=1
-        if i1.ostatus in['In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
-            list7[2]+=1
-        if i1.ostatus in['Live','Pending Deployment','Complete']:
+        if i1.ostatus in['Pending Deployment','Complete']:
             list7[0]+=1
+        elif i1.ostatus in['QA']:
+            list7[1]+=1
+        elif i1.ostatus in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+            list7[2]+=1
         else:
             list7[3]+=1
     sumx=sum2
     sumy=sum2
     list5.append(sum2)
     list6.append(sum2)
+    print(list7)
 
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
@@ -1634,8 +1635,8 @@ def view_story(request):
                 p1 = request.GET.get('points1')
                 idy = request.GET.get('idx')
                 if int(p1)>0:
-                    p1 = story.objects.get(sprint_id=id,id=idy)
-                    p = story_details.get(story_id=p1.id)
+                    px = story.objects.get(sprint_id=id,id=idy)
+                    p = story_details.objects.get(story_id=px.id)
                     dev1 = p.dev_java
                     p.dev_java = java_dev
                     p.javas = int(p1)
