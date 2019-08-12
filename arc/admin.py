@@ -6,8 +6,10 @@ from arc.models.story_details_mod import story_details
 from arc.models.prg_mod import progress
 from arc.models.project_mod import project
 from arc.models.reg_mod import user_sprint_detail
+from arc.models.project_details_mod import project_details
 from django.contrib.auth.models import Permission
 from django.contrib import admin
+
 admin.site.register(Permission)
 # Register your models here.
 admin.site.register(user_detail)
@@ -16,4 +18,5 @@ admin.site.register(story_details)
 admin.site.register(sprint)
 admin.site.register(progress)
 admin.site.register(project)
+admin.site.register(project_details)
 admin.site.register(user_sprint_detail)

@@ -6,6 +6,7 @@ from arc.models.register_mod import user_detail
 from arc.models.project_mod import project
 from arc.models.story_mod import story
 from arc.models.story_details_mod import story_details
+from arc.models.project_details_mod import project_details
 from arc.models.prod_mod import sprint
 from arc.models.prg_mod import progress
 from arc.models.reg_mod import user_sprint_detail
@@ -85,7 +86,7 @@ def profile(request):
             if request.user.is_superuser:
                 username = request.POST.get('uname')
                 reg1 = User.objects.get(username=request.user.username)
-                create = project.objects.filter(creator=request.user.username)
+                create = project_details.objects.filter(creator=request.user.username)
                 user = authenticate(username = request.user.username , password = 'Zehel9999')
                 if user:
                     if username != request.user.username:
@@ -1181,8 +1182,11 @@ def prod(request):
                         messages.info(request, 'Project Name already taken. Please choose another one!')
                         return redirect('product')
                 if a==0:
-                    z = project(name = name1,devs=c,mans=d,creator=user1)
+                    z = project(name = name1)
                     z.save()
+                    z1 = project.objects.latest('id')
+                    z2 = project_details(project_id=z1.id,creator=user1,devs=c,mans=d)
+                    z2.save()
             else:
                 messages.info(request, 'You are not Authorized!')
                 return redirect('product')
@@ -1399,7 +1403,7 @@ def prod(request):
                     form.save()
                     x = form.instance.id
                     x1 = user_detail.objects.all()
-                    obj = project.objects.get(id=pid2)
+                    obj = project_details.objects.get(project_id=pid2)
                     selected_users = list(map(str,(obj.devs).split('@end@')))
                     selected_mans = list(map(str,(obj.mans).split('@end@')))
                     for i1 in x1:
@@ -2501,59 +2505,59 @@ def reg(request):
     emp=0
     registered = False
 
-    email = 'anshuman.airy@quikr.com'
+    # email = 'anshuman.airy@quikr.com'
+    #
+    # if User.objects.filter(email=email).exists() == True:
+    #     regx = User.objects.get(email=email)
+    #     user = authenticate(username = regx.username, password='Zehel9999')
+    #     login(request,user)
+    #     request.session['pid'] = 0
+    #     request.session['user2'] = ''
+    #     request.session['id'] = 0
+    #     request.session['userx'] = 'Users'
+    #     return redirect('product')
 
-    if User.objects.filter(email=email).exists() == True:
-        regx = User.objects.get(email=email)
-        user = authenticate(username = regx.username, password='Zehel9999')
-        login(request,user)
-        request.session['pid'] = 0
-        request.session['user2'] = ''
-        request.session['id'] = 0
-        request.session['userx'] = 'Users'
-        return redirect('product')
+    try:
+        if request.method =='GET':
+            auth_code = request.GET.get('auth_code', '')
+            encrypt_auth = encryptx(auth_code)
 
-    # try:
-    #     if request.method =='GET':
-    #         auth_code = request.GET.get('auth_code', '')
-    #         encrypt_auth = encryptx(auth_code)
-    #
-    #         # part2 to obtain token
-    #         payload = {
-    #                 'grantType':'authorization_code',
-    #                 'code':encrypt_auth,
-    #                 'clientId':'SprintManagement'
-    #                 }
-    #
-    #         headers = {
-    #                 'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-    #                 'X-Quikr-Client':'Platform',
-    #                 'Content-Type':'application/json'
-    #                 }
-    #
-    #         response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-    #         resp = response.text
-    #         list1=list(map(str,resp.split('"')))
-    #         idtoken = list1[5]
-    #         access_token = auth_code
-    #         list2=list(map(str,idtoken.split('.')))
-    #         dec = decryptx(list1[5])
-    #
-    #         emp = dec['empId']
-    #         email = dec['email']
-    #         name = dec['name']
-    #
-    #         if User.objects.filter(email=email).exists() == True:
-    #             regx = User.objects.get(email=email)
-    #             user = authenticate(username = regx.username, password='Zehel9999')
-    #             login(request,user)
-    #             request.session['pid'] = 0
-    #             request.session['user2'] = ''
-    #             request.session['id'] = 0
-    #             request.session['userx'] = 'Users'
-    #             return redirect('product')
-    # except:
-    #     pass
+            # part2 to obtain token
+            payload = {
+                    'grantType':'authorization_code',
+                    'code':encrypt_auth,
+                    'clientId':'SprintManagement'
+                    }
+
+            headers = {
+                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+                    'X-Quikr-Client':'Platform',
+                    'Content-Type':'application/json'
+                    }
+
+            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+            resp = response.text
+            list1=list(map(str,resp.split('"')))
+            idtoken = list1[5]
+            access_token = auth_code
+            list2=list(map(str,idtoken.split('.')))
+            dec = decryptx(list1[5])
+
+            emp = dec['empId']
+            email = dec['email']
+            name = dec['name']
+
+            if User.objects.filter(email=email).exists() == True:
+                regx = User.objects.get(email=email)
+                user = authenticate(username = regx.username, password='Zehel9999')
+                login(request,user)
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
+                request.session['userx'] = 'Users'
+                return redirect('product')
+    except:
+        pass
 
     # print(email,emp,name)
 
