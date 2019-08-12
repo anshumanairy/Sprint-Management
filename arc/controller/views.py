@@ -5,6 +5,7 @@ from arc.forms.story_forms import storyform
 from arc.models.register_mod import user_detail
 from arc.models.project_mod import project
 from arc.models.story_mod import story
+from arc.models.story_details_mod import story_details
 from arc.models.prod_mod import sprint
 from arc.models.prg_mod import progress
 from arc.models.reg_mod import user_sprint_detail
@@ -177,7 +178,7 @@ def blog(request):
         nx = project.objects.get(id=pid2)
         nx1 = sprint.objects.get(id = id1).name
         name = request.user.username
-        st = story.objects.filter(sprint_id=id1,id=sid)
+        st = story_details.objects.filter(sprint_id=id1,story_id=sid)
         stz = story.objects.get(sprint_id=id1,id=sid)
 
         # for tabular history
@@ -279,9 +280,10 @@ def qaprg(request):
         list2={}
         n=0
         for i1 in data:
-            st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i1.name) | story_details.objects.filter(sprint_id=id1,dev_php=i1.name) | story_details.objects.filter(sprint_id=id1,dev_html=i1.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i1.name)
             list2[i1.name]={}
-            for j1 in st1:
+            for j11 in st1:
+                j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                 if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
                     p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-sdate')
                     list2[i1.name][n]={}
@@ -295,9 +297,10 @@ def qaprg(request):
         list3={}
         n=0
         for i2 in data:
-            st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
             list3[i2.name]={}
-            for j2 in st1:
+            for j22 in st1:
+                j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                 if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                     r=0
                     p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
@@ -315,9 +318,10 @@ def qaprg(request):
         list4={}
         n=0
         for i2 in data:
-            st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
             list4[i2.name]={}
-            for j2 in st1:
+            for j22 in st1:
+                j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                 if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                     p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                     for k2 in p1:
@@ -331,59 +335,60 @@ def qaprg(request):
         for i in data:
             list1.append([])
             k=0
-            st = story.objects.filter(sprint_id=id1,dev_java=i.name) | story.objects.filter(sprint_id=id1,dev_php=i.name) | story.objects.filter(sprint_id=id1,dev_html=i.name) | story.objects.filter(sprint_id=id1,dev_qa=i.name)
-            for r in st:
+            st = story_details.objects.filter(sprint_id=id1,dev_java=i.name) | story_details.objects.filter(sprint_id=id1,dev_php=i.name) | story_details.objects.filter(sprint_id=id1,dev_html=i.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i.name)
+            for r1 in st:
+                r = story.objects.get(sprint_id=id1,id=r1.story_id)
                 list1[j].append([])
                 list1[j][k].append(r.story_name)
                 list1[j][k].append(r.jira)
-                if r.dev_java==i.name:
-                    list1[j][k].append(r.javas)
-                    list1[j][k].append(r.ostatus)
+                if r1.dev_java==i.name:
+                    list1[j][k].append(r1.javas)
+                    list1[j][k].append(r1.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
-                    list1[j][k].append(r.jactual)
-                    list1[j][k].append(float(r.javas)-r.jactual)
-                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
-                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                    list1[j][k].append(r1.jactual)
+                    list1[j][k].append(float(r1.javas)-r1.jactual)
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_java).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_java).latest('id')
                         list1[j][k].append(z1.left)
                     else:
-                        list1[j][k].append(float(r.javas)-r.jactual)
-                elif r.dev_php==i.name:
-                    list1[j][k].append(r.phps)
-                    list1[j][k].append(r.ostatus)
+                        list1[j][k].append(float(r1.javas)-r1.jactual)
+                elif r1.dev_php==i.name:
+                    list1[j][k].append(r1.phps)
+                    list1[j][k].append(r1.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
-                    list1[j][k].append(r.pactual)
-                    list1[j][k].append(float(r.phps)-r.pactual)
-                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
-                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                    list1[j][k].append(r1.pactual)
+                    list1[j][k].append(float(r1.phps)-r1.pactual)
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_php).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_php).latest('id')
                         list1[j][k].append(z1.left)
                     else:
-                        list1[j][k].append(float(r.phps)-r.pactual)
-                elif r.dev_html==i.name:
-                    list1[j][k].append(r.htmls)
-                    list1[j][k].append(r.ostatus)
+                        list1[j][k].append(float(r1.phps)-r1.pactual)
+                elif r1.dev_html==i.name:
+                    list1[j][k].append(r1.htmls)
+                    list1[j][k].append(r1.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
-                    list1[j][k].append(r.hactual)
-                    list1[j][k].append(float(r.htmls)-r.hactual)
-                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
-                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                    list1[j][k].append(r1.hactual)
+                    list1[j][k].append(float(r1.htmls)-r1.hactual)
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_html).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_html).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.htmls)-r.hactual)
-                elif r.dev_qa==i.name:
-                    list1[j][k].append(r.qas)
-                    list1[j][k].append(r.ostatus)
+                elif r1.dev_qa==i.name:
+                    list1[j][k].append(r1.qas)
+                    list1[j][k].append(r1.ostatus)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
-                    list1[j][k].append(r.qactual)
-                    list1[j][k].append(float(r.qas)-r.qactual)
-                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
-                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                    list1[j][k].append(r1.qactual)
+                    list1[j][k].append(float(r1.qas)-r1.qactual)
+                    if progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_qa).exists()==True:
+                        z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r1.dev_qa).latest('id')
                         list1[j][k].append(z1.left)
                     else:
-                        list1[j][k].append(float(r.qas)-r.qactual)
+                        list1[j][k].append(float(r1.qas)-r1.qactual)
 
                 k+=1
                 count=count+1;
@@ -396,7 +401,8 @@ def qaprg(request):
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
-                p = story.objects.get(sprint_id=id1,jira = j)
+                p1 = story.objects.get(sprint_id=id1,jira = j)
+                p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
                 p.ostatus=s
                 p.save()
                 return redirect('qaprg')
@@ -418,7 +424,7 @@ def qaprg(request):
                         frac1=1.5
                     else:
                         frac1=2
-                    st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                    st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
                     cx=0
                     for ix in st:
                         if ix.dev_java==n2:
@@ -451,10 +457,11 @@ def qaprg(request):
 
                     list2={}
                     for i1 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i1.name) | story_details.objects.filter(sprint_id=id1,dev_php=i1.name) | story_details.objects.filter(sprint_id=id1,dev_html=i1.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i1.name)
                         n=0
                         list2[i1.name]={}
-                        for j1 in st1:
+                        for j11 in st1:
+                            j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                             if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                                 for k1 in p1:
@@ -467,10 +474,11 @@ def qaprg(request):
                     list3={}
                     m=0
                     for i2 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
                         n=0
                         list3[m]={}
-                        for j2 in st1:
+                        for j22 in st1:
+                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
@@ -482,10 +490,11 @@ def qaprg(request):
                     list4={}
                     m=0
                     for i2 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
                         n=0
                         list4[m]={}
-                        for j2 in st1:
+                        for j22 in st1:
+                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
@@ -554,9 +563,10 @@ def qaprg(request):
         list2={}
         n=0
         for i1 in data:
-            st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+            st1 = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
             list2[name1]={}
-            for j1 in st1:
+            for j11 in st1:
+                j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                 if progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1).exists()==True:
                     p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=name1)
                     list2[name1][n]={}
@@ -570,9 +580,10 @@ def qaprg(request):
 
         list3={}
         n=0
-        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        st1 = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
         list3[name1]={}
         for j2 in st1:
+            j22 = story.objects.get(sprint_id=id1,id=j22.story_id)
             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
                 r=0
                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
@@ -589,9 +600,10 @@ def qaprg(request):
 
         list4={}
         n=0
-        st1 = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        st1 = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
         list4[name1]={}
-        for j2 in st1:
+        for j22 in st1:
+            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1).exists()==True:
                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=name1)
                 for k2 in p1:
@@ -604,19 +616,20 @@ def qaprg(request):
         count=0
         list1.append([])
         k=0
-        st = story.objects.filter(sprint_id=id1,dev_java=name1) | story.objects.filter(sprint_id=id1,dev_php=name1) | story.objects.filter(sprint_id=id1,dev_html=name1) | story.objects.filter(sprint_id=id1,dev_qa=name1)
+        st = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
         for r in st:
+            r1 = story.objects.get(sprint_id=id1,id=r1.story_id)
             list1[j].append([])
-            list1[j][k].append(r.story_name)
-            list1[j][k].append(r.jira)
+            list1[j][k].append(r1.story_name)
+            list1[j][k].append(r1.jira)
             if r.dev_java==name1:
                 list1[j][k].append(r.javas)
                 list1[j][k].append(r.ostatus)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.jactual)
-                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).exists()==True:
-                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_java).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_java).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_java).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.javas)-r.jactual)
@@ -626,8 +639,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.pactual)
-                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).exists()==True:
-                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_php).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_php).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_php).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.phps)-r.pactual)
@@ -637,8 +650,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.hactual)
-                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).exists()==True:
-                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_html).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_html).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_html).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.htmls)-r.hactual)
@@ -648,8 +661,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qactual)
-                if progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).exists()==True:
-                    z1 = progress.objects.filter(s_id=id1,jd=r.jira,dname=r.dev_qa).latest('id')
+                if progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_qa).exists()==True:
+                    z1 = progress.objects.filter(s_id=id1,jd=r1.jira,dname=r.dev_qa).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.qas)-r.qactual)
@@ -662,7 +675,8 @@ def qaprg(request):
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
-                p = story.objects.get(sprint_id=id1,jira = j)
+                p1 = story.objects.get(sprint_id=id1,jira = j)
+                p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
                 p.ostatus=s
                 p.save()
                 return redirect('qaprg')
@@ -684,7 +698,7 @@ def qaprg(request):
                         frac1=1.5
                     else:
                         frac1=2
-                    st = story.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                    st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
                     cx=0
                     for ix in st:
                         if ix.dev_java==n2:
@@ -717,10 +731,11 @@ def qaprg(request):
 
                     list2={}
                     for i1 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i1.name) | story.objects.filter(sprint_id=id1,dev_php=i1.name) | story.objects.filter(sprint_id=id1,dev_html=i1.name) | story.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i1.name) | story_details.objects.filter(sprint_id=id1,dev_php=i1.name) | story_details.objects.filter(sprint_id=id1,dev_html=i1.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i1.name)
                         n=0
                         list2[i1.name]={}
-                        for j1 in st1:
+                        for j11 in st1:
+                            j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
                             if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name)
                                 for k1 in p1:
@@ -733,10 +748,11 @@ def qaprg(request):
                     list3={}
                     m=0
                     for i2 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
                         n=0
                         list3[m]={}
-                        for j2 in st1:
+                        for j22 in st1:
+                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
@@ -748,10 +764,11 @@ def qaprg(request):
                     list4={}
                     m=0
                     for i2 in data:
-                        st1 = story.objects.filter(sprint_id=id1,dev_java=i2.name) | story.objects.filter(sprint_id=id1,dev_php=i2.name) | story.objects.filter(sprint_id=id1,dev_html=i2.name) | story.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
                         n=0
                         list4[m]={}
-                        for j2 in st1:
+                        for j22 in st1:
+                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
                             if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
                                 p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name)
                                 for k2 in p1:
@@ -825,7 +842,7 @@ def prod(request):
     list7=[0,0,0,0]
     list5=[]
     list6=[]
-    s1 = story.objects.filter(sprint_id=id)
+    s1 = story_details.objects.filter(sprint_id=id)
     sum1=0
     sum2=0
     sumx=0
@@ -876,19 +893,20 @@ def prod(request):
             s4=0
             s6=0
             for i2 in p2:
-                s5 = story.objects.get(sprint_id=id,jira=i2.jd)
-                if s5.dev_java==i2.dname:
-                    s4+=s5.javas
-                elif s5.dev_php==i2.dname:
-                    s4+=s5.phps
-                elif s5.dev_html==i2.dname:
-                    s4+=s5.htmls
-                elif s5.dev_qa==i2.dname:
-                    s4+=s5.qas
+                if story_details.objects.filter(sprint_id=id,jira=i2.jd).exists()==True:
+                    s5 = story_details.objects.get(sprint_id=id,jira=i2.jd)
+                    if s5.dev_java==i2.dname:
+                        s4+=s5.javas
+                    elif s5.dev_php==i2.dname:
+                        s4+=s5.phps
+                    elif s5.dev_html==i2.dname:
+                        s4+=s5.htmls
+                    elif s5.dev_qa==i2.dname:
+                        s4+=s5.qas
 
-                s2+=i2.actual
-                s3+=i2.left
-                s6+=i2.cl
+                    s2+=i2.actual
+                    s3+=i2.left
+                    s6+=i2.cl
 
             if s2+s3==s4:
                 sum2=sum2-s2
@@ -910,7 +928,10 @@ def prod(request):
     user3 = request.session['user2']
     userxx = request.session['userx']
     s22 = user_sprint_detail.objects.filter(sprint_id=id).exclude(sprint_id=0)
-    hx2 = sprint.objects.get(id=id).name
+    if sprint.objects.filter(id=id).exists()==True:
+        hx2 = sprint.objects.get(id=id).name
+    else:
+        hx2=''
     if userxx == user3:
         hx1 = user3
         if user_sprint_detail.objects.filter(sprint_id=id,name=user3).exists()==True:
@@ -918,7 +939,7 @@ def prod(request):
         else:
             s2 = user_sprint_detail.objects.get(sprint_id=0,name='')
 
-        s3 = story.objects.filter(sprint_id=id,dev_java=user3) or story.objects.filter(sprint_id=id,dev_php=user3) or story.objects.filter(sprint_id=id,dev_html=user3) or story.objects.filter(sprint_id=id,dev_qa=user3)
+        s3 = story_details.objects.filter(sprint_id=id,dev_java=user3) or story_details.objects.filter(sprint_id=id,dev_php=user3) or story_details.objects.filter(sprint_id=id,dev_html=user3) or story_details.objects.filter(sprint_id=id,dev_qa=user3)
         list8=[]
         sp=0
         sc=0
@@ -950,7 +971,7 @@ def prod(request):
         list10=[]
         userxx = request.session['userx']
         for s2 in s22:
-            s3 = story.objects.filter(sprint_id=id,dev_java=s2.name) or story.objects.filter(sprint_id=id,dev_php=s2.name) or story.objects.filter(sprint_id=id,dev_html=s2.name) or story.objects.filter(sprint_id=id,dev_qa=s2.name)
+            s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name) or story_details.objects.filter(sprint_id=id,dev_php=s2.name) or story_details.objects.filter(sprint_id=id,dev_html=s2.name) or story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
             sc=0
             ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -981,7 +1002,7 @@ def prod(request):
         list10=[]
         s22 = user_sprint_detail.objects.filter(sprint_id=id,java=True).exclude(sprint_id=0)
         for s2 in s22:
-            s3 = story.objects.filter(sprint_id=id,dev_java=s2.name)
+            s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name)
             sp=0
             sc=0
             ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -1012,7 +1033,7 @@ def prod(request):
         list10=[]
         s22 = user_sprint_detail.objects.filter(sprint_id=id,php=True).exclude(sprint_id=0)
         for s2 in s22:
-            s3 = story.objects.filter(sprint_id=id,dev_php=s2.name)
+            s3 = story_details.objects.filter(sprint_id=id,dev_php=s2.name)
             sp=0
             sc=0
             ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -1043,7 +1064,7 @@ def prod(request):
         list10=[]
         s22 = user_sprint_detail.objects.filter(sprint_id=id,html=True).exclude(sprint_id=0)
         for s2 in s22:
-            s3 = story.objects.filter(sprint_id=id,dev_html=s2.name)
+            s3 = story_details.objects.filter(sprint_id=id,dev_html=s2.name)
             sp=0
             sc=0
             ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -1074,7 +1095,7 @@ def prod(request):
         list10=[]
         s22 = user_sprint_detail.objects.filter(sprint_id=id,qa=True).exclude(sprint_id=0)
         for s2 in s22:
-            s3 = story.objects.filter(sprint_id=id,dev_qa=s2.name)
+            s3 = story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
             sc=0
             ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -1101,7 +1122,10 @@ def prod(request):
 
     data = sprint.objects.filter(pid=pid2)
     n = project.objects.all().exclude(id=0)
-    nx = project.objects.get(id=pid2)
+    if project.objects.filter(id=pid2).exists()==True:
+        nx = project.objects.get(id=pid2)
+    else:
+        nx=''
     form = sprintform(request.POST or None)
     list11=[]
     z1 = User.objects.all()
@@ -1169,8 +1193,11 @@ def prod(request):
             name1 = request.POST.get('select_project')
             proid = project.objects.get(name=name1).id
             request.session['pid'] = proid
-            spr = sprint.objects.filter(pid=proid).first()
-            request.session['id'] = spr.id
+            if sprint.objects.filter(pid=proid).exists()==True:
+                spr = sprint.objects.filter(pid=proid).first()
+                request.session['id'] = spr.id
+            else:
+                request.session['id'] = 0
             return(redirect('product'))
 
         if 'select_user' in request.POST:
@@ -1179,7 +1206,7 @@ def prod(request):
                 request.session['user2'] = user1
                 request.session['userx'] = user1
                 s2 = user_sprint_detail.objects.get(sprint_id=id,name=user1)
-                s3 = story.objects.filter(sprint_id=id,dev_java=user1) or story.objects.filter(sprint_id=id,dev_php=user1) or story.objects.filter(sprint_id=id,dev_html=user1) or story.objects.filter(sprint_id=id,dev_qa=user1)
+                s3 = story_details.objects.filter(sprint_id=id,dev_java=user1) or story_details.objects.filter(sprint_id=id,dev_php=user1) or story_details.objects.filter(sprint_id=id,dev_html=user1) or story_details.objects.filter(sprint_id=id,dev_qa=user1)
                 list8=[]
                 sp=0
                 sc=0
@@ -1210,7 +1237,7 @@ def prod(request):
                 list9=[]
                 list10=[]
                 for s2 in s22:
-                    s3 = story.objects.filter(sprint_id=id,dev_java=s2.name) or story.objects.filter(sprint_id=id,dev_php=s2.name) or story.objects.filter(sprint_id=id,dev_html=s2.name) or story.objects.filter(sprint_id=id,dev_qa=s2.name)
+                    s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name) or story_details.objects.filter(sprint_id=id,dev_php=s2.name) or story_details.objects.filter(sprint_id=id,dev_html=s2.name) or story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
                     sp=0
                     sc=0
                     ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
@@ -1241,7 +1268,7 @@ def prod(request):
                 list9=[]
                 list10=[]
                 for s2 in s22:
-                    s3 = story.objects.filter(sprint_id=id,dev_java=s2.name)
+                    s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name)
                     sc=0
                     ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
                     for i4 in s3:
@@ -1271,7 +1298,7 @@ def prod(request):
                 list9=[]
                 list10=[]
                 for s2 in s22:
-                    s3 = story.objects.filter(sprint_id=id,dev_php=s2.name)
+                    s3 = story_details.objects.filter(sprint_id=id,dev_php=s2.name)
                     sc=0
                     ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
                     for i4 in s3:
@@ -1301,7 +1328,7 @@ def prod(request):
                 list9=[]
                 list10=[]
                 for s2 in s22:
-                    s3 = story.objects.filter(sprint_id=id,dev_html=s2.name)
+                    s3 = story_details.objects.filter(sprint_id=id,dev_html=s2.name)
                     sc=0
                     ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
                     for i4 in s3:
@@ -1331,7 +1358,7 @@ def prod(request):
                 list9=[]
                 list10=[]
                 for s2 in s22:
-                    s3 = story.objects.filter(sprint_id=id,dev_qa=s2.name)
+                    s3 = story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
                     sc=0
                     ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
                     for i4 in s3:
@@ -1378,11 +1405,11 @@ def prod(request):
                     for i1 in x1:
                         if i1.uname in selected_mans:
                             x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                            # x2.save()
+                            x2.save()
                         else:
                             if i1.uname in selected_users:
                                 x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                                # x2.save()
+                                x2.save()
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1412,7 +1439,7 @@ def view_story(request):
         n = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
         nx1 = sprint.objects.get(id = id).name
-        data = story.objects.filter(sprint_id=id)
+        data = story_details.objects.filter(sprint_id=id)
 
         #progress part
         datax = user_sprint_detail.objects.filter(roles='dev',sprint_id=id)
@@ -1430,59 +1457,60 @@ def view_story(request):
         qy=-1
         for i1 in data:
             ny+=1
+            i3 = story.objects.get(id=i1.story_id)
             if i1.dev_java not in ['',None]:
-                list2x[i1.jira]={}
-                list3x[i1.jira]={}
-                if progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira).exists()==True:
-                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i1.jira)
-                    list2x[i1.jira][ny]={}
-                    list3x[i1.jira][ny]={}
+                list2x[i3.jira]={}
+                list3x[i3.jira]={}
+                if progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_java,jd=i3.jira)
+                    list2x[i3.jira][ny]={}
+                    list3x[i3.jira][ny]={}
                     xy=0
                     for i2 in st1:
-                        list2x[i1.jira][ny][str(xy)]=str(i2.sdate)
-                        list3x[i1.jira][ny][str(xy)]=i2.status
+                        list2x[i3.jira][ny][str(xy)]=str(i2.sdate)
+                        list3x[i3.jira][ny][str(xy)]=i2.status
                         xy+=1
 
             py+=1
             if i1.dev_php not in ['',None]:
-                list4x[i1.jira]={}
-                list5x[i1.jira]={}
-                if progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira).exists()==True:
-                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i1.jira)
-                    list4x[i1.jira][py]={}
-                    list5x[i1.jira][py]={}
+                list4x[i3.jira]={}
+                list5x[i3.jira]={}
+                if progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_php,jd=i3.jira)
+                    list4x[i3.jira][py]={}
+                    list5x[i3.jira][py]={}
                     xy=0
                     for i2 in st1:
-                        list4x[i1.jira][py][str(xy)]=str(i2.sdate)
-                        list5x[i1.jira][py][str(xy)]=i2.status
+                        list4x[i3.jira][py][str(xy)]=str(i2.sdate)
+                        list5x[i3.jira][py][str(xy)]=i2.status
                         xy+=1
 
             hy+=1
             if i1.dev_html not in ['',None]:
-                list6x[i1.jira]={}
-                list7x[i1.jira]={}
-                if progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira).exists()==True:
-                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i1.jira)
-                    list6x[i1.jira][hy]={}
-                    list7x[i1.jira][hy]={}
+                list6x[i3.jira]={}
+                list7x[i3.jira]={}
+                if progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_html,jd=i3.jira)
+                    list6x[i3.jira][hy]={}
+                    list7x[i3.jira][hy]={}
                     xy=0
                     for i2 in st1:
-                        list6x[i1.jira][hy][str(xy)]=str(i2.sdate)
-                        list7x[i1.jira][hy][str(xy)]=i2.status
+                        list6x[i3.jira][hy][str(xy)]=str(i2.sdate)
+                        list7x[i3.jira][hy][str(xy)]=i2.status
                         xy+=1
 
             qy+=1
             if i1.dev_qa not in ['',None]:
-                list8x[i1.jira]={}
-                list9x[i1.jira]={}
-                if progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira).exists()==True:
-                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i1.jira)
-                    list8x[i1.jira][qy]={}
-                    list9x[i1.jira][qy]={}
+                list8x[i3.jira]={}
+                list9x[i3.jira]={}
+                if progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(s_id=id,dname=i1.dev_qa,jd=i3.jira)
+                    list8x[i3.jira][qy]={}
+                    list9x[i3.jira][qy]={}
                     xy=0
                     for i2 in st1:
-                        list8x[i1.jira][qy][str(xy)]=str(i2.sdate)
-                        list9x[i1.jira][qy][str(xy)]=i2.status
+                        list8x[i3.jira][qy][str(xy)]=str(i2.sdate)
+                        list9x[i3.jira][qy][str(xy)]=i2.status
                         xy+=1
 
         jd1x=json.dumps(list2x)
@@ -1511,6 +1539,7 @@ def view_story(request):
 
         # allocation part
         dashboard = story.objects.filter(sprint_id=id)
+        dashboard1 = story_details.objects.filter(sprint_id=id)
         d1 = user_sprint_detail.objects.filter(roles='dev',sprint_id=id)
         d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=id)
         d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=id)
@@ -1522,7 +1551,7 @@ def view_story(request):
         sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
         list11=[]
         for i in d1:
-            j = story.objects.filter(sprint_id=id, dev_java=i.name)
+            j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
             if j.aggregate(Sum('javas'))['javas__sum'] == None:
                 list11.append(0)
             else:
@@ -1531,7 +1560,7 @@ def view_story(request):
 
         list21=[]
         for i in d1:
-            j = story.objects.filter(sprint_id=id, dev_php=i.name)
+            j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
             if j.aggregate(Sum('phps'))['phps__sum'] == None:
                 list21.append(0)
             else:
@@ -1540,7 +1569,7 @@ def view_story(request):
 
         list31=[]
         for i in d1:
-            j = story.objects.filter(sprint_id=id, dev_html=i.name)
+            j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
             if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                 list31.append(0)
             else:
@@ -1549,7 +1578,7 @@ def view_story(request):
 
         list41=[]
         for i in d1:
-            j = story.objects.filter(sprint_id=id, dev_qa=i.name)
+            j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
             if j.aggregate(Sum('qas'))['qas__sum'] == None:
                 list41.append(0)
             else:
@@ -1561,7 +1590,8 @@ def view_story(request):
         list2=[]
         list3=[]
         list4=[]
-        for i in data:
+        datay = story.objects.filter(sprint_id=id)
+        for i in datay:
             list1.append(i.id)
             list2.append(i.story_name)
             list3.append(i.description)
@@ -1580,6 +1610,7 @@ def view_story(request):
             if 'delete_story' in request.GET:
                 x = request.GET.get('delete_story')
                 story.objects.filter(sprint_id=id,id=x).delete()
+                story_details.objects.filter(sprint_id=id,story_id=x).delete()
                 return(redirect('view_story'))
                 # print(x)
             if 's_name' in request.GET:
@@ -1599,16 +1630,16 @@ def view_story(request):
                 p1 = request.GET.get('points1')
                 idy = request.GET.get('idx')
                 if int(p1)>0:
-                    p = story.objects.get(sprint_id=id,id=idy)
+                    p1 = story.objects.get(sprint_id=id,id=idy)
+                    p = story_details.get(story_id=p1.id)
                     dev1 = p.dev_java
-                    # n = user_sprint_detail.objects.get(name=java_dev,sprint_id=id1)
                     p.dev_java = java_dev
                     p.javas = int(p1)
                     p.jleft = int(p1)
                     p.save()
                     list1=[]
                     for i in d1:
-                        j = story.objects.filter(sprint_id=id, dev_java=i.name)
+                        j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
                         if j.aggregate(Sum('javas'))['javas__sum'] == None:
                             list1.append(0)
                         else:
@@ -1622,8 +1653,8 @@ def view_story(request):
                     if dev1 != None and dev1 != java_dev :
                         creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                         creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
-                        j = story.objects.filter(sprint_id=id, dev_java=dev1)
-                        j1 = story.objects.filter(sprint_id=id, dev_java=java_dev)
+                        j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
+                        j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
 
                         if j.aggregate(Sum('javas'))['javas__sum'] == None:
                             creg.djava = creg.spjava
@@ -1648,7 +1679,8 @@ def view_story(request):
                 p2 = request.GET.get('points2')
                 idy = request.GET.get('idx')
                 if int(p2)>0:
-                    p = story.objects.get(sprint_id=id,id=idy)
+                    p1 = story.objects.get(sprint_id=id,id=idy)
+                    p = story_details.objects.get(story_id=p1.id)
                     dev1 = p.dev_php
                     # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
                     p.dev_php = php_dev
@@ -1657,7 +1689,8 @@ def view_story(request):
                     p.save()
                     list2=[]
                     for i in d1:
-                        j = story.objects.filter(sprint_id=id, dev_php=i.name)
+                        # j1 = story.objects.filter(sprint_id=id, dev_php=i.name)
+                        j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
                         if j.aggregate(Sum('phps'))['phps__sum'] == None:
                             list2.append(0)
                         else:
@@ -1670,8 +1703,8 @@ def view_story(request):
                     if dev1 != None and dev1 != php_dev :
                         creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                         creg1 = user_sprint_detail.objects.get(name=php_dev,sprint_id=id)
-                        j = story.objects.filter(sprint_id=id, dev_php=dev1)
-                        j1 = story.objects.filter(sprint_id=id, dev_php=php_dev)
+                        j = story_details.objects.filter(sprint_id=id, dev_php=dev1)
+                        j1 = story_details.objects.filter(sprint_id=id, dev_php=php_dev)
 
                         if j.aggregate(Sum('phps'))['phps__sum'] == None:
                             creg.dphp = creg.spphp
@@ -1697,7 +1730,8 @@ def view_story(request):
                 idy = request.GET.get('idx')
                 if int(p3)>0:
                     # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
-                    p = story.objects.get(sprint_id=id,id=idy)
+                    p1 = story.objects.get(sprint_id=id,id=idy)
+                    p = story_details.objects.get(story_id=p1.id)
                     dev1 = p.dev_html
                     p.dev_html = html_dev
                     p.htmls = int(p3)
@@ -1705,7 +1739,7 @@ def view_story(request):
                     p.save()
                     list3=[]
                     for i in d1:
-                        j = story.objects.filter(sprint_id=id, dev_html=i.name)
+                        j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
                         if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                             list3.append(0)
                         else:
@@ -1719,8 +1753,8 @@ def view_story(request):
                     if dev1 != None and dev1 != html_dev :
                         creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                         creg1 = user_sprint_detail.objects.get(name=html_dev,sprint_id=id)
-                        j = story.objects.filter(sprint_id=id, dev_html=dev1)
-                        j1 = story.objects.filter(sprint_id=id, dev_html=html_dev)
+                        j = story_details.objects.filter(sprint_id=id, dev_html=dev1)
+                        j1 = story_details.objects.filter(sprint_id=id, dev_html=html_dev)
 
                         if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                             creg.dhtml = creg.sphtml
@@ -1746,7 +1780,8 @@ def view_story(request):
                 idy = request.GET.get('idx')
                 if int(p4)>0:
                     # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
-                    p = story.objects.get(sprint_id=id,id=idy)
+                    p1 = story.objects.get(sprint_id=id,id=idy)
+                    p = story_details.objects.get(story_id=p1.id)
                     dev1 = p.dev_qa
                     p.dev_qa = qa_dev
                     p.qas = int(p4)
@@ -1754,7 +1789,7 @@ def view_story(request):
                     p.save()
                     list4=[]
                     for i in d1:
-                        j = story.objects.filter(sprint_id=id, dev_qa=i.name)
+                        j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
                         if j.aggregate(Sum('qas'))['qas__sum'] == None:
                             list4.append(0)
                         else:
@@ -1768,8 +1803,8 @@ def view_story(request):
                     if dev1 != None and dev1 != qa_dev :
                         creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                         creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
-                        j = story.objects.filter(sprint_id=id, dev_qa=dev1)
-                        j1 = story.objects.filter(sprint_id=id, dev_qa=qa_dev)
+                        j = story_details.objects.filter(sprint_id=id, dev_qa=dev1)
+                        j1 = story_details.objects.filter(sprint_id=id, dev_qa=qa_dev)
 
                         if j.aggregate(Sum('qas'))['qas__sum'] == None:
                             creg.dqa = creg.spqa
@@ -1857,8 +1892,11 @@ def view_story(request):
                                             fields[i2] = 0
                                         if int(fields[i2])<0:
                                             fields[i2] = 0
-                                    z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]),ostatus=fields[11])
+                                    z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
                                     z1.save()
+                                    z2 = story.objects.get(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
+                                    z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]),ostatus=fields[11])
+                                    z3.save()
                 except:
                     pass
                 return(redirect('view_story'))
@@ -1873,6 +1911,9 @@ def view_story(request):
                             messages.info(request, 'Jira ID already exists. Please choose another one!')
                             return redirect('view_story')
                     form.save()
+                    z4 = story.objects.latest('id')
+                    z5 = story_details(sprint_id=id,story_id=z4.id,jira=z4.jira)
+                    z5.save()
                     return redirect('view_story')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1880,7 +1921,7 @@ def view_story(request):
             else:
                 form = storyform()
 
-        return render(request,'view_story.html',{'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name})
+        return render(request,'view_story.html',{'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1})
     else:
         return(redirect('qaprg'))
 
@@ -1915,7 +1956,7 @@ def bandwidth(request):
 
         list1=[]
         for i in d2:
-            j = story.objects.filter(sprint_id=sprid, dev_java=i.name)
+            j = story_details.objects.filter(sprint_id=sprid, dev_java=i.name)
             r = user_sprint_detail.objects.get(roles='dev',java='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('javas'))['javas__sum'] == None:
                 list1.append(0)
@@ -1928,7 +1969,7 @@ def bandwidth(request):
 
         list2=[]
         for i in d3:
-            j = story.objects.filter(sprint_id=sprid, dev_php=i.name)
+            j = story_details.objects.filter(sprint_id=sprid, dev_php=i.name)
             r = user_sprint_detail.objects.get(roles='dev',php='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('phps'))['phps__sum'] == None:
                 list2.append(0)
@@ -1940,7 +1981,7 @@ def bandwidth(request):
 
         list3=[]
         for i in d4:
-            j = story.objects.filter(sprint_id=sprid, dev_html=i.name)
+            j = story_details.objects.filter(sprint_id=sprid, dev_html=i.name)
             r = user_sprint_detail.objects.get(roles='dev',html='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                 list3.append(0)
@@ -1952,7 +1993,7 @@ def bandwidth(request):
 
         list4=[]
         for i in d5:
-            j = story.objects.filter(sprint_id=sprid, dev_qa=i.name)
+            j = story_details.objects.filter(sprint_id=sprid, dev_qa=i.name)
             r = user_sprint_detail.objects.get(roles='dev',qa='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('qas'))['qas__sum'] == None:
                 list4.append(0)
@@ -1989,7 +2030,7 @@ def bandwidth(request):
                     r.abjava = int(ab)
                     r.spjava = r.abjava * 2
                     sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
                         r.djava = r.spjava
@@ -2005,7 +2046,7 @@ def bandwidth(request):
                     r.abphp = int(ab)
                     r.spphp = r.abphp * 2
                     sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
                         r.dphp = r.spphp
@@ -2021,7 +2062,7 @@ def bandwidth(request):
                     r.abhtml = int(ab)
                     r.sphtml = r.abhtml * 2
                     shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
                         r.dhtml = r.sphtml
@@ -2038,7 +2079,7 @@ def bandwidth(request):
                     r.abqa = int(ab)
                     r.spqa = r.abqa * 2
                     sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
                         r.dqa = r.spqa
@@ -2069,7 +2110,7 @@ def bandwidth(request):
                     r.abjava=ab
                     r.spjava = r.abjava * 2
                     sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
                         r.djava = r.spjava
@@ -2086,7 +2127,7 @@ def bandwidth(request):
                     r.abphp=ab
                     r.spphp = r.abphp * 2
                     sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
                         r.dphp = r.spphp
@@ -2102,7 +2143,7 @@ def bandwidth(request):
                     r.abhtml=ab
                     r.sphtml = r.abhtml * 2
                     shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
                         r.dhtml = r.sphtml
@@ -2117,7 +2158,7 @@ def bandwidth(request):
                     r.abqa=ab
                     r.spqa = r.abqa * 2
                     sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
                         r.dqa = r.spqa
@@ -2146,7 +2187,7 @@ def bandwidth(request):
                     r.abjava=ab
                     r.spjava = r.abjava * 2
                     sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_java=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                     if j.aggregate(Sum('javas'))['javas__sum'] == None:
                         list1.append(0)
                         r.djava = r.spjava
@@ -2162,7 +2203,7 @@ def bandwidth(request):
                     r.abphp=ab
                     r.spphp = r.abphp * 2
                     sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_php=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                     if j.aggregate(Sum('phps'))['phps__sum'] == None:
                         list1.append(0)
                         r.dphp = r.spphp
@@ -2178,7 +2219,7 @@ def bandwidth(request):
                     r.abhtml=ab
                     r.sphtml = r.abhtml * 2
                     shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_html=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                     if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
                         list1.append(0)
                         r.dhtml = r.sphtml
@@ -2193,7 +2234,7 @@ def bandwidth(request):
                     r.abqa=ab
                     r.spqa = r.abqa * 2
                     sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                     if j.aggregate(Sum('qas'))['qas__sum'] == None:
                         list1.append(0)
                         r.dqa = r.spqa
@@ -2302,7 +2343,7 @@ def tasks(request):
     sum1=0
     sum2=0
     nextspr=[]
-    c2 = story.objects.filter(sprint_id=id1)
+    c2 = story_details.objects.filter(sprint_id=id1)
     for i4 in c2:
         sum1+= i4.javas + i4.phps + i4.htmls + i4.qas
         sum2+=i4.jactual + i4.pactual + i4.hactual + i4.qactual
@@ -2317,14 +2358,15 @@ def tasks(request):
     name = request.user.username
     xx=0
     for i in pro:
-        data2 = story.objects.filter(sprint_id=i.id)
+        data2 = story_details.objects.filter(sprint_id=i.id)
         list1.append([])
         l=0
         for j in data2:
+            j1 = story.objects.get(sprint_id=i.id,id=j.story_id)
             list1[k].append([])
             list1[k][l].append(i.name)
-            list1[k][l].append(j.story_name)
-            list1[k][l].append(j.jira)
+            list1[k][l].append(j1.story_name)
+            list1[k][l].append(j1.jira)
             if j.ostatus==None or j.ostatus=='':
                 list1[k][l].append('Unassigned')
                 list1[k][l].append('black')
@@ -2352,7 +2394,7 @@ def tasks(request):
             else:
                 list1[k][l].append(j.ostatus)
                 list1[k][l].append('other')
-            list1[k][l].append(j.description)
+            list1[k][l].append(j1.description)
             list1[k][l].append(j.javas + j.phps + j.htmls + j.qas)
             list1[k][l].append((j.javas + j.phps + j.htmls + j.qas)-(j.jactual + j.pactual + j.hactual + j.qactual))
             list1[k][l].append(xx)
@@ -2372,7 +2414,7 @@ def tasks(request):
             else:
                 if skill in ['java','php','html','qa']:
                     pro = sprint.objects.get(name=sprname,pid=pid2).id
-                    st = story.objects.get(sprint_id=pro,jira=jd)
+                    st = story_details.objects.get(sprint_id=pro,jira=jd)
                     listz=[]
                     u1 = user_detail.objects.get(uname=request.user.username)
                     if u1.java==True:
@@ -2435,6 +2477,9 @@ def tasks(request):
                     if i1.ostatus not in ['Pending Deployment','Complete']:
                         x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
                         x1.save()
+                        x2 = story.objects.latest('id')
+                        x3 = story_details(sprint_id=ss,jira=x2.jira,story_id=x2.id)
+                        x3.save()
                         i1.delete()
                         i1.save()
                 messages.info(request, 'Success!')

@@ -211,7 +211,8 @@
                   </thead>
                   <tbody>
 
-                    {% for d in data %}
+                    {% for d in datay %}{% for d1 in data %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
                     <tr class="row100 head">
                       <form method="GET" target="_blank">
                         <input type="hidden" name="red" value="{{d.id}}">
@@ -219,32 +220,32 @@
                         <td>{{d.jira}}</td>
                       </form>
                       <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
-                      {% if d.ostatus == 'Live' %}
-                        <td><span id="green" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'Live' %}
+                        <td><span id="green" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'In Progress' %}
-                        <td><span id="yellow" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'In Progress' %}
+                        <td><span id="yellow" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'HTML Done' or d.ostatus == 'PHP Done' or d.ostatus == 'API Done' or d.ostatus == 'CR' %}
+                      {% if d1.ostatus == 'HTML Done' or d1.ostatus == 'PHP Done' or d1.ostatus == 'API Done' or d1.ostatus == 'CR' %}
                         <td><span id="white" class="dot"></span>{{ d.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == '' %}
+                      {% if d1.ostatus == '' %}
                         <td><span id="black" class="dot"></span>Unassigned</td>
                       {% endif %}
-                      {% if d.ostatus == 'Blocked' or d.ostatus == 'Blocked on API' or d.ostatus == 'Blocked on HTML' or d.ostatus == 'Blocked on Mock' or d.ostatus == 'Spec' %}
-                        <td><span id="red" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'Blocked' or d1.ostatus == 'Blocked on API' or d1.ostatus == 'Blocked on HTML' or d1.ostatus == 'Blocked on Mock' or d1.ostatus == 'Spec' %}
+                        <td><span id="red" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'Pending Deployment' or d.ostatus == 'Complete' %}
-                        <td><span id="pd" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'Pending Deployment' or d1.ostatus == 'Complete' %}
+                        <td><span id="pd" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'QA' %}
-                        <td><span id="blue" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'QA' %}
+                        <td><span id="blue" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'Next Sprint' %}
-                        <td><span id="purple" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'Next Sprint' %}
+                        <td><span id="purple" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
-                      {% if d.ostatus == 'Not Needed' or d.ostatus == 'Duplicate' %}
-                        <td><span id="other" class="dot"></span>{{ d.ostatus }}</td>
+                      {% if d1.ostatus == 'Not Needed' or d1.ostatus == 'Duplicate' %}
+                        <td><span id="other" class="dot"></span>{{ d1.ostatus }}</td>
                       {% endif %}
                       <td>
                         <!-- <form method="GET"> -->
@@ -278,7 +279,8 @@
                         </script>
                       </td>
                     </tr>
-                    {% endfor %}
+                      {% endif %}
+                    {% endfor %}{% endfor %}
                   </tbody>
                 </table>
                 </div>
@@ -336,7 +338,8 @@
                     <th>Assign</th>
                   </thead>
                   <tbody>
-                    {% for dash in dashboard %}
+                    {% for dash in dashboard %}{% for dash1 in dashboard1 %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
                     <tr class="row100 head" id="br">
                       <tr class="row100 head">
                         <td style="color:black;background:#ededed;"><a href="{{dash.description}}" target="_blank">{{ dash.jira }}</a></td>
@@ -349,15 +352,15 @@
                             <td class="t">
                             <!-- dropdown developer -->
                               <select  name="java_sel" class="js-example-basic-single" style="width:110px;">
-                                <option>{{ dash.dev_java }}</option>
+                                <option>{{ dash1.dev_java }}</option>
                                 {% for d22 in d2 %}
                                   <option>{{ d22.name }}</option>
                                 {% endfor %}
                               </select>
                           <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input class="points" type="number" name="points1" min="0" value="{{ dash.javas }}" id="c">
-                              {% if dash.javas == 0 %}
+                              <input class="points" type="number" name="points1" min="0" value="{{ dash1.javas }}" id="c">
+                              {% if dash1.javas == 0 %}
                               {% else %}
 
                               <img src="{% static '/calendar.png' %}" class="java{{forloop.counter0}}" style="width:30px;height:30px;">
@@ -451,15 +454,15 @@
                             <td class="t">
                               <!-- dropdown developer -->
                               <select name="php_sel" class="js-example-basic-single" style="width:110px;">
-                                <option>{{ dash.dev_php }}</option>
+                                <option>{{ dash1.dev_php }}</option>
                                 {% for d33 in d3 %}
                                   <option>{{ d33.name }}</option>
                                 {% endfor %}
                               </select>
                         <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input class="points" type="number" name="points2" min="0" value="{{ dash.phps }}" id="c">
-                              {% if dash.phps == 0 %}
+                              <input class="points" type="number" name="points2" min="0" value="{{ dash1.phps }}" id="c">
+                              {% if dash1.phps == 0 %}
                               {% else %}
                               <img src="{% static '/calendar.png' %}" class="php{{forloop.counter0}}" style="width:30px;height:30px;">
                                 <input type="text" id="php{{forloop.counter0}}" style="width:1px;border:1px solid white;">
@@ -552,15 +555,15 @@
                             <td class="t">
                               <!-- dropdown developer -->
                               <select name="html_sel" class="js-example-basic-single" style="width:110px;">
-                                <option>{{ dash.dev_html }}</option>
+                                <option>{{ dash1.dev_html }}</option>
                                 {% for d44 in d4 %}
                                   <option>{{ d44.name }}</option>
                                 {% endfor %}
                               </select>
                         <!-- point selector -->
                               <input type="hidden" name="idx" value="{{ dash.id }}">
-                              <input class="points" type="number" name="points3" min="0" value="{{ dash.htmls }}" id="c">
-                              {% if dash.htmls == 0 %}
+                              <input class="points" type="number" name="points3" min="0" value="{{ dash1.htmls }}" id="c">
+                              {% if dash1.htmls == 0 %}
                               {% else %}
                               <img src="{% static '/calendar.png' %}" class="html{{forloop.counter0}}" style="width:30px;height:30px;">
                                 <input type="text" id="html{{forloop.counter0}}" style="width:1px;border:1px solid white;">
@@ -652,15 +655,15 @@
                               <td class="t">
                               <!-- dropdown developer -->
                                 <select name="qa_sel" class="js-example-basic-single" style="width:110px;">
-                                  <option>{{ dash.dev_qa }}</option>
+                                  <option>{{ dash1.dev_qa }}</option>
                                   {% for d55 in d5 %}
                                     <option>{{ d55.name }}</option>
                                   {% endfor %}
                                 </select>
                           <!-- point selector -->
                                 <input type="hidden" name="idx" value="{{ dash.id }}">
-                                <input class="points" type="number" name="points4" min="0" value="{{ dash.qas }}" id="c">
-                                {% if dash.qas == 0 %}
+                                <input class="points" type="number" name="points4" min="0" value="{{ dash1.qas }}" id="c">
+                                {% if dash1.qas == 0 %}
                                 {% else %}
                                 <img src="{% static '/calendar.png' %}" class="qa{{forloop.counter0}}" style="width:30px;height:30px;">
                                   <input type="text" id="qa{{forloop.counter0}}" style="width:1px;border:1px solid white;">
@@ -753,7 +756,8 @@
                             </tr>
                           </form>
                       </tr>
-                    {% endfor %}
+                        {% endif %}
+                    {% endfor %}{% endfor %}
                   </tbody>
                 </table>
               </div>
