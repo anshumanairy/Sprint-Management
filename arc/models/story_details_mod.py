@@ -12,24 +12,22 @@ class story_details(models.Model):
     dev_html = models.CharField(max_length=200)
     dev_qa = models.CharField(max_length=200)
 
-    javas = models.IntegerField(default=0)
-    phps = models.IntegerField(default=0)
-    htmls = models.IntegerField(default=0)
-    qas = models.IntegerField(default=0)
+    assigned_java_points = models.IntegerField(default=0)
+    assigned_php_points = models.IntegerField(default=0)
+    assigned_html_points = models.IntegerField(default=0)
+    assigned_qa_points = models.IntegerField(default=0)
 
     ostatus = models.CharField(max_length=20)
 
-    comments = models.TextField(max_length=10000)
+    java_points_done = models.FloatField(default=0.0)
+    php_points_done = models.FloatField(default=0.0)
+    html_points_done = models.FloatField(default=0.0)
+    qa_points_done = models.FloatField(default=0.0)
 
-    jactual = models.FloatField(default=0.0)
-    pactual = models.FloatField(default=0.0)
-    hactual = models.FloatField(default=0.0)
-    qactual = models.FloatField(default=0.0)
-
-    jleft = models.FloatField(default=0.0)
-    pleft = models.FloatField(default=0.0)
-    hleft = models.FloatField(default=0.0)
-    qleft = models.FloatField(default=0.0)
+    java_points_left = models.FloatField(default=0.0)
+    php_points_left = models.FloatField(default=0.0)
+    html_points_left = models.FloatField(default=0.0)
+    qa_points_left = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.story_id)

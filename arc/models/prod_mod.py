@@ -10,7 +10,7 @@ class sprint(models.Model):
     sprint_qa_end_date=models.DateField(blank=False)
     dev_working=models.IntegerField(default=0)
     qa_working=models.IntegerField(default=0)
-    pid=models.IntegerField()
+    project_id=models.IntegerField()
 
     def __str__(self):
         return str(self.name)

@@ -3,14 +3,14 @@ from django.forms import ModelForm
 from datetime import date
 
 class progress(models.Model):
-    s_id = models.IntegerField()
-    sdate = models.DateField()
-    jd = models.CharField(max_length=20)
+    story_id = models.IntegerField()
+    work_date = models.DateField()
+    jira_id = models.CharField(max_length=20)
     status = models.CharField(max_length = 15)
-    dname = models.CharField(max_length=20)
+    dev_name = models.CharField(max_length=20)
     actual = models.FloatField(default=0.0)
     left = models.FloatField(default=0.0)
-    cl = models.FloatField(default=0.0)
+    calculated_left = models.FloatField(default=0.0)
 
     def __str__(self):
-        return str(self.jd)
+        return str(self.jira_id)
