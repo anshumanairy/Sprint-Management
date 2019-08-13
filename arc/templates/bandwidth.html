@@ -16,7 +16,34 @@
         <div class="container-fluid row">
           <div class="card shadow mb-4">
             <div class="table100 ver3">
-              <table class="table" id="tab2" data-vertable="ver1">
+
+              <table class="table" id="t1" data-vertable="ver1" onclick="w1_open(); w2_close(); w3_close(); w4_close();">
+                <thead class="text-primary">
+                  <th>Skill</th>
+                  <th>Story Points</th>
+                </thead>
+                <tbody>
+                  <tr id="t1">
+                    <td style="color:black;background:#ededed;">JAVA</td>
+                    <td style="color:black;background:#ededed;">{{ sjava }}</td>
+                  </tr>
+                  <div id="n">
+                  <script type="text/javascript">
+                    function w1_open() {
+                      document.getElementById("n").style.marginTop = "0%";
+                      document.getElementById("javablock").style.display = "block";
+                      document.getElementById("t1").style.display = 'none';
+                    }
+                    function w1_close() {
+                      document.getElementById("n").style.marginTop = "0%";
+                      document.getElementById("javablock").style.display = "none";
+                      document.getElementById("t1").style.display = 'block';
+                    }
+                  </script>
+                </tbody>
+              </table>
+
+              <table class="table w3-animate-left" id="javablock" data-vertable="ver1" style="display:none;">
                 <thead class="text-primary">
                   <th>Name</th>
                   <th>Skill</th>
@@ -29,6 +56,7 @@
                   <th>Assigned</th>
                   <th>Delta</th>
                 </thead>
+
                 <tbody>
                   {% for d22 in d2 %}{% for i in list1 %}
                     {% if forloop.counter == forloop.parentloop.counter %}
@@ -129,14 +157,57 @@
                       </tr>
                     {% endif %}
                   {% endfor %}{% endfor %}
-                  <tr>
-                    <td colspan="7" style="color:black;background:#ededed;"></td>
-                    <td style="color:black;background:#ededed;">{{ sjava }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="7"></td>
-                    <td></td>
-                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid row">
+            <div class="card shadow mb-4">
+              <div class="table100 ver3">
+
+                <table class="table" id="t2" data-vertable="ver1" onclick="w1_close(); w2_open(); w3_close(); w4_close();">
+                  <thead class="text-primary">
+                    <th>Skill</th>
+                    <th>Story Points</th>
+                  </thead>
+                  <tbody>
+                    <tr id="t2">
+                      <td style="color:black;background:#ededed;">PHP</td>
+                      <td style="color:black;background:#ededed;">{{ sphp }}</td>
+                    </tr>
+                    <div id="n1">
+                    <script type="text/javascript">
+                      function w2_open() {
+                        document.getElementById("n1").style.marginTop = "0%";
+                        document.getElementById("phpblock").style.display = "block";
+                        document.getElementById("t2").style.display = 'none';
+                      }
+                      function w2_close() {
+                        document.getElementById("n1").style.marginTop = "0%";
+                        document.getElementById("phpblock").style.display = "none";
+                        document.getElementById("t2").style.display = 'block';
+                      }
+                    </script>
+                  </tbody>
+                </table>
+
+                <table class="table w3-animate-left" id="phpblock" data-vertable="ver1" style="display:none;">
+                  <thead class="text-primary">
+                    <th>Name</th>
+                    <th>Skill</th>
+                    <th>Available Days</th>
+                    <th>Planned Leaves</th>
+                    <th>Unplanned Leaves</th>
+                    <th>Velocity Factor</th>
+                    <th>Available Bandwidth</th>
+                    <th>Story Points</th>
+                    <th>Assigned</th>
+                    <th>Delta</th>
+                  </thead>
+
+                  <tbody>
                   {% for d33 in d3 %}{% for i in list2 %}
                     {% if forloop.counter == forloop.parentloop.counter %}
                       <tr id="t">
@@ -239,232 +310,317 @@
                       </tr>
                     {% endif %}
                   {% endfor %}{% endfor %}
-                  <tr>
-                    <td colspan="7" style="color:black;background:#ededed;"></td>
-                    <td style="color:black;background:#ededed;">{{ sphp }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="7"></td>
-                    <td></td>
-                  </tr>
-                  {% for d44 in d4 %}{% for i in list3 %}
-                    {% if forloop.counter == forloop.parentloop.counter %}
-                      <tr id="t">
-                        <td>{{ d44.name }}</td>
-                        <td>HTML</td>
-                        {% for b in band %}
-                        <td>{{ b.dev_working }}</td>
-                        {% endfor %}
-                        <td>
-                          <form method="get" id="html{{d44.id}}">
-                            <input type="number" name="leave1" min="0" value="{{ d44.planned }}" id="points" >
-                            <input type="hidden" value="{{ d44.id }}" name="leave2">
-                            <input type="hidden" value="html" name="leave3">
-                            <p></p>
-                            {% if 'change_bandwidth' in permission %}
-                              <input type="submit" class="btn example_c" value="Submit" id="lvsub">
-                            {% endif %}
-                        </form>
-                          <script type="text/javascript">
-                              jQuery(document).ready(function($){
-                                var frm = $('#html{{d44.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'html{{d44.id}}'){
-                                      $.ajax({
-                                          type: $('#html{{d44.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#html{{d44.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
-                                });
-                              });
-                          </script>
-                        </td>
-                          <td>
-                              <form method="get" id="html1{{d44.id}}">
-                                <input type="number" name="uleave1" min="0" value="{{ d44.unplanned }}" id="points" >
-                                <input type="hidden" value="{{ d44.id }}" name="uleave2">
-                                <input type="hidden" value="html" name="uleave3">
-                                <p></p>
-                                {% if 'change_bandwidth' in permission %}
-                                  <input type="submit" class="btn example_c" value="Submit" id="lvsub">
-                                {% endif %}
-                              </form>
-                              <script type="text/javascript">
-                                  jQuery(document).ready(function($){
-                                    var frm = $('#html1{{d44.id}}');
-                                    frm.submit(function () {
-                                      if (this.id == 'html1{{d44.id}}'){
-                                          $.ajax({
-                                              type: $('#html1{{d44.id}}').attr('method'),
-                                              url: 'bandwidth/',
-                                              data: $('#html1{{d44.id}}').serialize(),
-                                              success: function(data) {
-                                                $("#re").html(data);
-                                              },
-                                          });
-                                        return false;
-                                      }
-                                    });
-                                  });
-                              </script>
-                            </td>
-                        <td>
-                          <form method="get" id="html1{{d44.id}}">
-                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d44.vfhtml }}" id="points" >
-                            <input type="hidden" value="{{ d44.id }}" name="assign2">
-                            <input type="hidden" value="html" name="assign3">
-                            <p></p>
-                            {% if 'change_bandwidth' in permission %}
-                              <input type="submit" class="btn example_c" value="Submit">
-                            {% endif %}
-                          </form>
-                          <script type="text/javascript">
-                              jQuery(document).ready(function($){
-                                var frm = $('#html1{{d44.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'html1{{d44.id}}'){
-                                      $.ajax({
-                                          type: $('#html1{{d44.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#html1{{d44.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
-                                });
-                              });
-                          </script>
-                        </td>
-                        <td>{{ d44.abhtml }}</td>
-                        <td>{{ d44.sphtml }}</td>
-                        <td>{{ i }}</td>
-                        <td>{{ d44.dhtml }}</td>
-                      </tr>
-                    {% endif %}
-                  {% endfor %}{% endfor %}
-                  <tr>
-                    <td colspan="7" style="color:black;background:#ededed;"></td>
+                  </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid row">
+          <div class="card shadow mb-4">
+            <div class="table100 ver3">
+
+              <table class="table" id="t3" data-vertable="ver1" onclick="w1_close(); w2_close(); w3_open(); w4_close();">
+                <thead class="text-primary">
+                  <th>Skill</th>
+                  <th>Story Points</th>
+                </thead>
+                <tbody>
+                  <tr id="t3">
+                    <td style="color:black;background:#ededed;">HTML</td>
                     <td style="color:black;background:#ededed;">{{ shtml }}</td>
                   </tr>
-                  <tr>
-                    <td colspan="7"></td>
-                    <td></td>
-                  </tr>
-                  {% for d55 in d5 %}{% for i in list4 %}
-                    {% if forloop.counter == forloop.parentloop.counter %}
-                      <tr id="t">
-                        <td>{{ d55.name }}</td>
-                        <td>QA</td>
-                        {% for b in band %}
-                        <td>{{ b.qa_working }}</td>
-                        {% endfor %}
-                        <td>
-                          <form method="get" id="qa{{d55.id}}">
-                            <input type="number" name="leave1" min="0" value="{{ d55.planned }}" id="points" >
-                            <input type="hidden" value="{{ d55.id }}" name="leave2">
-                            <input type="hidden" value="qa" name="leave3">
-                            <p></p>
-                            {% if 'change_bandwidth' in permission %}
-                              <input type="submit" class="btn example_c" value="Submit" id="lvsub">
-                            {% endif %}
-                          </form>
-                          <script type="text/javascript">
-                              jQuery(document).ready(function($){
-                                var frm = $('#qa{{d55.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'qa{{d55.id}}'){
-                                      $.ajax({
-                                          type: $('#qa{{d55.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#qa{{d55.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
-                                });
-                              });
-                          </script>
-                        </td>
-                          <td>
-                              <form method="get" id="qa1{{d55.id}}">
-                                <input type="number" name="uleave1" min="0" value="{{ d55.unplanned }}" id="points" >
-                                <input type="hidden" value="{{ d55.id }}" name="uleave2">
-                                <input type="hidden" value="qa" name="uleave3">
-                                <p></p>
-                                {% if 'change_bandwidth' in permission %}
-                                  <input type="submit" class="btn example_c" value="Submit" id="lvsub">
-                                {% endif %}
-                              </form>
-                              <script type="text/javascript">
-                                  jQuery(document).ready(function($){
-                                    var frm = $('#qa1{{d55.id}}');
-                                    frm.submit(function () {
-                                      if (this.id == 'qa1{{d55.id}}'){
-                                          $.ajax({
-                                              type: $('#qa1{{d55.id}}').attr('method'),
-                                              url: 'bandwidth/',
-                                              data: $('#qa1{{d55.id}}').serialize(),
-                                              success: function(data) {
-                                                $("#re").html(data);
-                                              },
-                                          });
-                                        return false;
-                                      }
-                                    });
-                                  });
-                              </script>
-                            </td>
-                        <td>
-                          <form method="get" id="qa1{{d55.id}}">
-                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d55.vfqa }}" id="points" >
-                            <input type="hidden" value="{{ d55.id }}" name="assign2">
-                            <input type="hidden" value="qa" name="assign3">
-                            <p></p>
-                            {% if 'change_bandwidth' in permission %}
-                              <input type="submit" class="btn example_c" value="Submit">
-                            {% endif %}
-                          </form>
-                          <script type="text/javascript">
-                              jQuery(document).ready(function($){
-                                var frm = $('#qa1{{d55.id}}');
-                                frm.submit(function () {
-                                  if (this.id == 'qa1{{d55.id}}'){
-                                      $.ajax({
-                                          type: $('#qa1{{d55.id}}').attr('method'),
-                                          url: 'bandwidth/',
-                                          data: $('#qa1{{d55.id}}').serialize(),
-                                          success: function(data) {
-                                            $("#re").html(data);
-                                          },
-                                      });
-                                    return false;
-                                  }
-                                });
-                              });
-                          </script>
-                        </td>
-                        <td>{{ d55.abqa }}</td>
-                        <td>{{ d55.spqa }}</td>
-                        <td>{{ i }}</td>
-                        <td>{{ d55.dqa }}</td>
-                      </tr>
-                    {% endif %}
-                  {% endfor %}{% endfor %}
-                  <tr>
-                    <td colspan="7" style="color:black;background:#ededed;"></td>
-                    <td style="color:black;background:#ededed;">{{ sqa }}</td>
-                  </tr>
+                  <div id="n2">
+                  <script type="text/javascript">
+                    function w3_open() {
+                      document.getElementById("n1").style.marginTop = "0%";
+                      document.getElementById("htmlblock").style.display = "block";
+                      document.getElementById("t3").style.display = 'none';
+                    }
+                    function w3_close() {
+                      document.getElementById("n1").style.marginTop = "0%";
+                      document.getElementById("htmlblock").style.display = "none";
+                      document.getElementById("t3").style.display = 'block';
+                    }
+                  </script>
                 </tbody>
               </table>
+
+              <table class="table w3-animate-left" id="htmlblock" data-vertable="ver1" style="display:none;">
+                <thead class="text-primary">
+                  <th>Name</th>
+                  <th>Skill</th>
+                  <th>Available Days</th>
+                  <th>Planned Leaves</th>
+                  <th>Unplanned Leaves</th>
+                  <th>Velocity Factor</th>
+                  <th>Available Bandwidth</th>
+                  <th>Story Points</th>
+                  <th>Assigned</th>
+                  <th>Delta</th>
+                </thead>
+                <tbody>
+                {% for d44 in d4 %}{% for i in list3 %}
+                  {% if forloop.counter == forloop.parentloop.counter %}
+                    <tr id="t">
+                      <td>{{ d44.name }}</td>
+                      <td>HTML</td>
+                      {% for b in band %}
+                      <td>{{ b.dev_working }}</td>
+                      {% endfor %}
+                      <td>
+                        <form method="get" id="html{{d44.id}}">
+                          <input type="number" name="leave1" min="0" value="{{ d44.planned }}" id="points" >
+                          <input type="hidden" value="{{ d44.id }}" name="leave2">
+                          <input type="hidden" value="html" name="leave3">
+                          <p></p>
+                          {% if 'change_bandwidth' in permission %}
+                            <input type="submit" class="btn example_c" value="Submit" id="lvsub">
+                          {% endif %}
+                      </form>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function($){
+                              var frm = $('#html{{d44.id}}');
+                              frm.submit(function () {
+                                if (this.id == 'html{{d44.id}}'){
+                                    $.ajax({
+                                        type: $('#html{{d44.id}}').attr('method'),
+                                        url: 'bandwidth/',
+                                        data: $('#html{{d44.id}}').serialize(),
+                                        success: function(data) {
+                                          $("#re").html(data);
+                                        },
+                                    });
+                                  return false;
+                                }
+                              });
+                            });
+                        </script>
+                      </td>
+                        <td>
+                            <form method="get" id="html1{{d44.id}}">
+                              <input type="number" name="uleave1" min="0" value="{{ d44.unplanned }}" id="points" >
+                              <input type="hidden" value="{{ d44.id }}" name="uleave2">
+                              <input type="hidden" value="html" name="uleave3">
+                              <p></p>
+                              {% if 'change_bandwidth' in permission %}
+                                <input type="submit" class="btn example_c" value="Submit" id="lvsub">
+                              {% endif %}
+                            </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#html1{{d44.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'html1{{d44.id}}'){
+                                        $.ajax({
+                                            type: $('#html1{{d44.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#html1{{d44.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
+                          </td>
+                      <td>
+                        <form method="get" id="html1{{d44.id}}">
+                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d44.vfhtml }}" id="points" >
+                          <input type="hidden" value="{{ d44.id }}" name="assign2">
+                          <input type="hidden" value="html" name="assign3">
+                          <p></p>
+                          {% if 'change_bandwidth' in permission %}
+                            <input type="submit" class="btn example_c" value="Submit">
+                          {% endif %}
+                        </form>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function($){
+                              var frm = $('#html1{{d44.id}}');
+                              frm.submit(function () {
+                                if (this.id == 'html1{{d44.id}}'){
+                                    $.ajax({
+                                        type: $('#html1{{d44.id}}').attr('method'),
+                                        url: 'bandwidth/',
+                                        data: $('#html1{{d44.id}}').serialize(),
+                                        success: function(data) {
+                                          $("#re").html(data);
+                                        },
+                                    });
+                                  return false;
+                                }
+                              });
+                            });
+                        </script>
+                      </td>
+                      <td>{{ d44.abhtml }}</td>
+                      <td>{{ d44.sphtml }}</td>
+                      <td>{{ i }}</td>
+                      <td>{{ d44.dhtml }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}{% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid row">
+          <div class="card shadow mb-4">
+            <div class="table100 ver3">
+
+              <table class="table" id="t4" data-vertable="ver1" onclick="w1_close(); w2_close(); w3_close(); w4_open();">
+                <thead class="text-primary">
+                  <th>Skill</th>
+                  <th>Story Points</th>
+                </thead>
+                <tbody>
+                  <tr id="t4">
+                    <td style="color:black;background:#ededed;">QA</td>
+                    <td style="color:black;background:#ededed;">{{ sqa }}</td>
+                  </tr>
+                  <div id="n3">
+                  <script type="text/javascript">
+                    function w4_open() {
+                      document.getElementById("n3").style.marginTop = "0%";
+                      document.getElementById("qablock").style.display = "block";
+                      document.getElementById("t4").style.display = 'none';
+                    }
+                    function w4_close() {
+                      document.getElementById("n3").style.marginTop = "0%";
+                      document.getElementById("qablock").style.display = "none";
+                      document.getElementById("t4").style.display = 'block';
+                    }
+                  </script>
+                </tbody>
+              </table>
+
+              <table class="table w3-animate-left" id="qablock" data-vertable="ver1" style="display:none;">
+                <thead class="text-primary">
+                  <th>Name</th>
+                  <th>Skill</th>
+                  <th>Available Days</th>
+                  <th>Planned Leaves</th>
+                  <th>Unplanned Leaves</th>
+                  <th>Velocity Factor</th>
+                  <th>Available Bandwidth</th>
+                  <th>Story Points</th>
+                  <th>Assigned</th>
+                  <th>Delta</th>
+                </thead>
+                <tbody>
+                  {% for d55 in d5 %}{% for i in list4 %}
+                  {% if forloop.counter == forloop.parentloop.counter %}
+                    <tr id="t">
+                      <td>{{ d55.name }}</td>
+                      <td>QA</td>
+                      {% for b in band %}
+                      <td>{{ b.qa_working }}</td>
+                      {% endfor %}
+                      <td>
+                        <form method="get" id="qa{{d55.id}}">
+                          <input type="number" name="leave1" min="0" value="{{ d55.planned }}" id="points" >
+                          <input type="hidden" value="{{ d55.id }}" name="leave2">
+                          <input type="hidden" value="qa" name="leave3">
+                          <p></p>
+                          {% if 'change_bandwidth' in permission %}
+                            <input type="submit" class="btn example_c" value="Submit" id="lvsub">
+                          {% endif %}
+                        </form>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function($){
+                              var frm = $('#qa{{d55.id}}');
+                              frm.submit(function () {
+                                if (this.id == 'qa{{d55.id}}'){
+                                    $.ajax({
+                                        type: $('#qa{{d55.id}}').attr('method'),
+                                        url: 'bandwidth/',
+                                        data: $('#qa{{d55.id}}').serialize(),
+                                        success: function(data) {
+                                          $("#re").html(data);
+                                        },
+                                    });
+                                  return false;
+                                }
+                              });
+                            });
+                        </script>
+                      </td>
+                        <td>
+                            <form method="get" id="qa1{{d55.id}}">
+                              <input type="number" name="uleave1" min="0" value="{{ d55.unplanned }}" id="points" >
+                              <input type="hidden" value="{{ d55.id }}" name="uleave2">
+                              <input type="hidden" value="qa" name="uleave3">
+                              <p></p>
+                              {% if 'change_bandwidth' in permission %}
+                                <input type="submit" class="btn example_c" value="Submit" id="lvsub">
+                              {% endif %}
+                            </form>
+                            <script type="text/javascript">
+                                jQuery(document).ready(function($){
+                                  var frm = $('#qa1{{d55.id}}');
+                                  frm.submit(function () {
+                                    if (this.id == 'qa1{{d55.id}}'){
+                                        $.ajax({
+                                            type: $('#qa1{{d55.id}}').attr('method'),
+                                            url: 'bandwidth/',
+                                            data: $('#qa1{{d55.id}}').serialize(),
+                                            success: function(data) {
+                                              $("#re").html(data);
+                                            },
+                                        });
+                                      return false;
+                                    }
+                                  });
+                                });
+                            </script>
+                          </td>
+                      <td>
+                        <form method="get" id="qa1{{d55.id}}">
+                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d55.vfqa }}" id="points" >
+                          <input type="hidden" value="{{ d55.id }}" name="assign2">
+                          <input type="hidden" value="qa" name="assign3">
+                          <p></p>
+                          {% if 'change_bandwidth' in permission %}
+                            <input type="submit" class="btn example_c" value="Submit">
+                          {% endif %}
+                        </form>
+                        <script type="text/javascript">
+                            jQuery(document).ready(function($){
+                              var frm = $('#qa1{{d55.id}}');
+                              frm.submit(function () {
+                                if (this.id == 'qa1{{d55.id}}'){
+                                    $.ajax({
+                                        type: $('#qa1{{d55.id}}').attr('method'),
+                                        url: 'bandwidth/',
+                                        data: $('#qa1{{d55.id}}').serialize(),
+                                        success: function(data) {
+                                          $("#re").html(data);
+                                        },
+                                    });
+                                  return false;
+                                }
+                              });
+                            });
+                        </script>
+                      </td>
+                      <td>{{ d55.abqa }}</td>
+                      <td>{{ d55.spqa }}</td>
+                      <td>{{ i }}</td>
+                      <td>{{ d55.dqa }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}{% endfor %}
+                </tbody>
+
+              </table>
+
+
             </div>
           </div>
         </div>
