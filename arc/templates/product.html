@@ -195,7 +195,7 @@
 
           <script>
             function w6_open() {
-              {% if perms.add_project.add_project %}
+              {% if 'add_project' in permission %}
                 document.getElementById("m1").style.marginTop = "0%";
                 document.getElementById("g").style.display = "block";
                 document.getElementById("project_btn").style.display = 'none';
@@ -281,7 +281,7 @@
 
           <script>
             function w4_open() {
-              {% if perms.add_project.add_project %}
+              {% if 'add_sprint' in permission %}
                 document.getElementById("m").style.marginTop = "0%";
                 document.getElementById("f").style.display = "block";
                 document.getElementById("sprint_btn").style.display = 'none';

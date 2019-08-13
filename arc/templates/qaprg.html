@@ -70,7 +70,9 @@
                         <input type="hidden" name="jid" value="{{ k.1 }}">
                         <input type="hidden" name="name1" value="{{ i.name }}">
                         <p></p>
-                        <input class="btn example_c" type="submit" name="as" value="Submit">
+                        {% if 'change_progress' in permission %}
+                          <input class="btn example_c" type="submit" name="as" value="Submit">
+                        {% endif %}
                       </td>
                       </form>
 
@@ -115,7 +117,9 @@
                         <input type="hidden" name="j1" value="{{ k.1 }}">
                         <input type="hidden" name="name2" value="{{ i.name }}">
                         <p></p>
-                        <input class="btn example_c" type="submit" name='as1' value="Submit">
+                        {% if 'change_progress' in permission %}
+                          <input class="btn example_c" type="submit" name='as1' value="Submit">
+                        {% endif %}
                       </td>
                       <td>
                         <div>

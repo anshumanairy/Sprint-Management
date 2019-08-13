@@ -12,7 +12,7 @@
     {% endblock %}
 
     <!-- Content Row -->
-          {% if check == 1 %}
+          {% if 'move_story' in permission %}
             <div class="container-fluid">
               <div class="card shadow mb-4">
                 <table class="table" id="tab2">
@@ -46,7 +46,7 @@
                             {% endfor %}
                           </select>
                           <p></p>
-                          <button class="btn example_c" type="submit" name="move_story"><small>Move Pending Stories to Selected Sprint</small></button>
+                          <button class="btn example_c" type="submit" name="move_story1"><small>Move Pending Stories to Selected Sprint</small></button>
                         </form>
                       </td>
                     </tr>
@@ -55,7 +55,6 @@
               </div>
             </div>
           {% endif %}
-
 
           <div class="container-fluid">
             <div class="card shadow mb-4">

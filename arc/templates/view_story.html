@@ -89,14 +89,22 @@
 
           <script>
           function w13_open() {
-            document.getElementById("m2").style.marginTop = "0%";
-            document.getElementById("hz").style.display = "block";
-            document.getElementById("csv").style.display = 'none';
+            {% if 'add_story' in permission %}
+              document.getElementById("m2").style.marginTop = "0%";
+              document.getElementById("hz").style.display = "block";
+              document.getElementById("csv").style.display = 'none';
+            {% else %}
+              alert('UNAUTHORIZED!')
+            {% endif %}
           }
           function w13_close() {
-            document.getElementById("m2").style.marginTop = "0%";
-            document.getElementById("hz").style.display = "none";
-            document.getElementById("csv").style.display = "inline-block";
+            {% if 'add_story' in permission %}
+              document.getElementById("m2").style.marginTop = "0%";
+              document.getElementById("hz").style.display = "none";
+              document.getElementById("csv").style.display = "inline-block";
+            {% else %}
+              alert('UNAUTHORIZED!')
+            {% endif %}
           }
           </script>
 
@@ -161,9 +169,13 @@
 
           <script>
           function w4_open() {
-            document.getElementById("m").style.marginTop = "0%";
-            document.getElementById("f").style.display = "block";
-            document.getElementById("allocate").style.display = 'none';
+            {% if 'add_story' in permission %}
+              document.getElementById("m").style.marginTop = "0%";
+              document.getElementById("f").style.display = "block";
+              document.getElementById("allocate").style.display = 'none';
+            {% else %}
+              alert('UNAUTHORIZED!')
+            {% endif %}
           }
           function w4_close() {
             document.getElementById("m").style.marginTop = "0%";
@@ -250,14 +262,18 @@
                       <td>
                         <!-- <form method="GET"> -->
                         <div class="ec">
-                          <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:30px;height:30px;">
+                          {% if 'edit_story' in permission %}
+                            <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:30px;height:30px;">
+                          {% endif %}
                         </div>
                         <!-- </form> -->
                         <div class="dc">
                           <form method="get" id="x{{d.id}}">
                             {% csrf_token %}
                             <input type="hidden" name="delete_story" value="{{ d.id }}">
-                            <input type="image" src="{% static '/delete1.png' %}" style="width:30px;height:30px;" id="delete">
+                            {% if 'delete_story' in permission %}
+                              <input type="image" src="{% static '/delete1.png' %}" style="width:30px;height:30px;" id="delete">
+                            {% endif %}
                           </form>
                         </div>
                         <script type="text/javascript">
@@ -752,7 +768,11 @@
                               });
                             </script>
 
-                            <td><input type="submit" name="assign_data" class="btn example_d" id="reg1" value="Assign"></td>
+                            <td>
+                              {% if 'allocate_points' in permission %}
+                                <input type="submit" name="assign_data" class="btn example_d" id="reg1" value="Assign">
+                              {% endif %}
+                            </td>
                             </tr>
                           </form>
                       </tr>

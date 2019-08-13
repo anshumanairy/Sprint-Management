@@ -248,7 +248,7 @@ def blog(request):
                 stx.save()
                 return redirect('story')
 
-        return render(request,'blog.html/',{'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -264,6 +264,10 @@ def qaprg(request):
     if id1==0 or pid2==0:
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
     if request.user.is_superuser or (user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True):
         data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
@@ -412,106 +416,113 @@ def qaprg(request):
                 p1 = story.objects.get(sprint_id=id1,jira = j)
                 p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
                 p.ostatus=s
-                p.save()
+                if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
+                    p.save()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
                 return redirect('qaprg')
 
             if 'as1' in request.GET:
-                stdate = request.GET.get('startdate')
-                prog = request.GET.get('prg')
-                j = request.GET.get('j1')
-                n2 = request.GET.get('name2')
-                frac = request.GET.get('fraction')
-                left1 = request.GET.get('left')
-                frac1=0
-                if stdate not in [None,'']:
-                    if frac=='Quarter Day':
-                        frac1=.5
-                    elif frac=='Half Day':
-                        frac1=1
-                    elif frac=='Three Quarters Day':
-                        frac1=1.5
-                    else:
-                        frac1=2
-                    st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
-                    cx=0
-                    for ix in st:
-                        if ix.dev_java==n2:
-                            if float(left1)==(float(ix.javas)-ix.jactual):
-                                left1 = (float(ix.javas)-(ix.jactual+ frac1))
-                            ix.jactual = ix.jactual + frac1
-                            ix.jleft = left1
-                            cx=float(ix.javas)-float(left1)
-                        elif ix.dev_php==n2:
-                            if float(left1)==(float(ix.phps)-ix.pactual):
-                                left1 = (float(ix.phps)-(ix.pactual+ frac1))
-                            ix.pactual = ix.pactual + frac1
-                            ix.pleft = left1
-                            cx=float(ix.phps)-float(left1)
-                        elif ix.dev_html==n2:
-                            if float(left1)==(float(ix.htmls)-ix.hactual):
-                                left1 = (float(ix.htmls)-(ix.hactual+ frac1))
-                            ix.hactual = ix.hactual + frac1
-                            ix.hleft = left1
-                            cx=float(ix.htmls)-float(left1)
+                if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
+                    stdate = request.GET.get('startdate')
+                    prog = request.GET.get('prg')
+                    j = request.GET.get('j1')
+                    n2 = request.GET.get('name2')
+                    frac = request.GET.get('fraction')
+                    left1 = request.GET.get('left')
+                    frac1=0
+                    if stdate not in [None,'']:
+                        if frac=='Quarter Day':
+                            frac1=.5
+                        elif frac=='Half Day':
+                            frac1=1
+                        elif frac=='Three Quarters Day':
+                            frac1=1.5
                         else:
-                            if float(left1)==(float(ix.qas)-ix.qactual):
-                                left1 = (float(ix.qas)-(ix.qactual+ frac1))
-                            ix.qactual = ix.qactual + frac1
-                            ix.qleft = left1
-                            cx=float(ix.qas)-float(left1)
-                        ix.save()
-                        z = progress(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
-                        z.save()
+                            frac1=2
+                        st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                        cx=0
+                        for ix in st:
+                            if ix.dev_java==n2:
+                                if float(left1)==(float(ix.javas)-ix.jactual):
+                                    left1 = (float(ix.javas)-(ix.jactual+ frac1))
+                                ix.jactual = ix.jactual + frac1
+                                ix.jleft = left1
+                                cx=float(ix.javas)-float(left1)
+                            elif ix.dev_php==n2:
+                                if float(left1)==(float(ix.phps)-ix.pactual):
+                                    left1 = (float(ix.phps)-(ix.pactual+ frac1))
+                                ix.pactual = ix.pactual + frac1
+                                ix.pleft = left1
+                                cx=float(ix.phps)-float(left1)
+                            elif ix.dev_html==n2:
+                                if float(left1)==(float(ix.htmls)-ix.hactual):
+                                    left1 = (float(ix.htmls)-(ix.hactual+ frac1))
+                                ix.hactual = ix.hactual + frac1
+                                ix.hleft = left1
+                                cx=float(ix.htmls)-float(left1)
+                            else:
+                                if float(left1)==(float(ix.qas)-ix.qactual):
+                                    left1 = (float(ix.qas)-(ix.qactual+ frac1))
+                                ix.qactual = ix.qactual + frac1
+                                ix.qleft = left1
+                                cx=float(ix.qas)-float(left1)
+                            ix.save()
+                            z = progress(s_id=id1,jd=j,sdate=stdate,status=prog,dname=n2,actual=frac1,left=left1,cl=cx)
+                            z.save()
 
-                    list2={}
-                    for i1 in data:
-                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i1.name) | story_details.objects.filter(sprint_id=id1,dev_php=i1.name) | story_details.objects.filter(sprint_id=id1,dev_html=i1.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i1.name)
-                        n=0
-                        list2[i1.name]={}
-                        for j11 in st1:
-                            j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
-                            if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-id')
-                                for k1 in p1:
-                                    list2[i1.name][n]={}
-                                    list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
-                                    n+=1
+                        list2={}
+                        for i1 in data:
+                            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i1.name) | story_details.objects.filter(sprint_id=id1,dev_php=i1.name) | story_details.objects.filter(sprint_id=id1,dev_html=i1.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i1.name)
+                            n=0
+                            list2[i1.name]={}
+                            for j11 in st1:
+                                j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
+                                if progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).exists()==True:
+                                    p1 = progress.objects.filter(s_id=id1,jd=j1.jira,dname=i1.name).order_by('-id')
+                                    for k1 in p1:
+                                        list2[i1.name][n]={}
+                                        list2[i1.name][n][str(k1.sdate)]=str(k1.sdate)
+                                        n+=1
 
-                    jd1=json.dumps(list2)
+                        jd1=json.dumps(list2)
 
-                    list3={}
-                    m=0
-                    for i2 in data:
-                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                        n=0
-                        list3[m]={}
-                        for j22 in st1:
-                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
-                                for k2 in p1:
-                                    list3[m][n]=k2.status
-                                    n+=1
-                        m+=1
-                    jd2=json.dumps(list3)
+                        list3={}
+                        m=0
+                        for i2 in data:
+                            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                            n=0
+                            list3[m]={}
+                            for j22 in st1:
+                                j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
+                                if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
+                                    for k2 in p1:
+                                        list3[m][n]=k2.status
+                                        n+=1
+                            m+=1
+                        jd2=json.dumps(list3)
 
-                    list4={}
-                    m=0
-                    for i2 in data:
-                        st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
-                        n=0
-                        list4[m]={}
-                        for j22 in st1:
-                            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                            if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
-                                p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
-                                for k2 in p1:
-                                    list4[m][n]=k2.jd
-                                    n+=1
-                        m+=1
-                    jd3=json.dumps(list4)
+                        list4={}
+                        m=0
+                        for i2 in data:
+                            st1 = story_details.objects.filter(sprint_id=id1,dev_java=i2.name) | story_details.objects.filter(sprint_id=id1,dev_php=i2.name) | story_details.objects.filter(sprint_id=id1,dev_html=i2.name) | story_details.objects.filter(sprint_id=id1,dev_qa=i2.name)
+                            n=0
+                            list4[m]={}
+                            for j22 in st1:
+                                j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
+                                if progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).exists()==True:
+                                    p1 = progress.objects.filter(s_id=id1,jd=j2.jira,dname=i2.name).order_by('-id')
+                                    for k2 in p1:
+                                        list4[m][n]=k2.jd
+                                        n+=1
+                            m+=1
+                        jd3=json.dumps(list4)
+                    else:
+                        messages.info(request, 'Please select a Valid Date!')
+
                 else:
-                    messages.info(request, 'Please select a Valid Date!')
+                    messages.info(request, 'UNAUTHORIZED!')
 
                 return redirect('qaprg')
 
@@ -544,6 +555,10 @@ def qaprg(request):
         if id1==0 or pid2==0:
             messages.info(request, 'Select a valid sprint and project first!')
             return redirect('product')
+        permission=[]
+        per1 = Permission.objects.filter(group__user=request.user)
+        for i in per1:
+            permission.append(i.name)
         name=request.user.username
         data1 = sprint.objects.filter(pid=pid2)
         n0 = project.objects.all().exclude(id=0)
@@ -806,7 +821,7 @@ def qaprg(request):
                 request.session['id'] = spr.id
                 return redirect('qaprg')
 
-    return(render(request,'qaprg.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+    return(render(request,'qaprg.html/',{'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
 @login_required(login_url='/')
 def user_logout(request):
@@ -829,6 +844,10 @@ def prod(request):
     # used to calculate all dates for burndown graph
     list3=[]
     list4=[]
+    permission=[]
+    per1 = Permission.objects.filter(group__user=request.user)
+    for i in per1:
+        permission.append(i.name)
     cal=0
     if sprint.objects.filter(id=id,pid=pid2).exists()==True:
         p1 = sprint.objects.get(id=id,pid=pid2)
@@ -1192,8 +1211,11 @@ def prod(request):
                 z.save()
                 z1 = project.objects.latest('id')
                 z2 = project_details(project_id=z1.id,creator=user1,devs=c,mans=d)
-                z2.save()
-
+                if request.user.has_perm("add_project.add_project") or ("add_project") in permission:
+                    z2.save()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('product')
             return(redirect('product'))
 
         if 'select_project' in request.POST:
@@ -1412,11 +1434,19 @@ def prod(request):
                     for i1 in x1:
                         if i1.uname in selected_mans:
                             x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                            x2.save()
+                            if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
+                                x2.save()
+                            else:
+                                messages.info(request, 'UNAUTHORIZED!')
+                                return redirect('product')
                         else:
                             if i1.uname in selected_users:
                                 x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                                x2.save()
+                                if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
+                                    x2.save()
+                                else:
+                                    messages.info(request, 'UNAUTHORIZED!')
+                                    return redirect('product')
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1427,7 +1457,7 @@ def prod(request):
         else:
             form = sprintform()
 
-    return(render(request,'product.html/',context={'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'permission':permission,'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
 def view_story(request):
@@ -1619,8 +1649,12 @@ def view_story(request):
 
             if 'delete_story' in request.GET:
                 x = request.GET.get('delete_story')
-                story.objects.filter(sprint_id=id,id=x).delete()
-                story_details.objects.filter(sprint_id=id,story_id=x).delete()
+                if request.user.has_perm("delete_story.delete_story") or ("delete_story") in permission:
+                    story.objects.filter(sprint_id=id,id=x).delete()
+                    story_details.objects.filter(sprint_id=id,story_id=x).delete()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('view_story')
                 return(redirect('view_story'))
                 # print(x)
             if 's_name' in request.GET:
@@ -1632,212 +1666,221 @@ def view_story(request):
                 p.story_name = sn
                 p.description = sd
                 p.jira = snj
-                p.save()
+                if request.user.has_perm("edit_story.edit_story") or ("edit_story") in permission:
+                    p.save()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('view_story')
                 return(redirect('view_story'))
 
             if 'assign_data' in request.GET:
-                java_dev = request.GET.get('java_sel')
-                p1 = request.GET.get('points1')
-                idy = request.GET.get('idx')
-                if int(p1)>0:
-                    px = story.objects.get(sprint_id=id,id=idy)
-                    p = story_details.objects.get(story_id=px.id)
-                    dev1 = p.dev_java
-                    p.dev_java = java_dev
-                    p.javas = int(p1)
-                    p.jleft = int(p1)
-                    p.save()
-                    list1=[]
-                    for i in d1:
-                        j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
-                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                            list1.append(0)
-                        else:
-                            list1.append(j.aggregate(Sum('javas'))['javas__sum'])
-                            if p.ostatus in [None,'']:
-                                p.ostatus='Live'
-                            p.save()
-                    a=sum(list1)
-
-                    # user change
-                    try:
-                        if dev1 != None and dev1 != java_dev :
-                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                            creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
-                            j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
-                            j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
-
+                if request.user.has_perm("allocate_points.allocate_points") or ("allocate_points") in permission:
+                    java_dev = request.GET.get('java_sel')
+                    p1 = request.GET.get('points1')
+                    idy = request.GET.get('idx')
+                    if int(p1)>0:
+                        px = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=px.id)
+                        dev1 = p.dev_java
+                        p.dev_java = java_dev
+                        p.javas = int(p1)
+                        p.jleft = int(p1)
+                        p.save()
+                        list1=[]
+                        for i in d1:
+                            j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
                             if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                                creg.djava = creg.spjava
+                                list1.append(0)
                             else:
-                                creg.djava = creg.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+                                list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                                if p.ostatus in [None,'']:
+                                    p.ostatus='Live'
+                                p.save()
+                        a=sum(list1)
 
-                            if j1.aggregate(Sum('javas'))['javas__sum'] == None:
-                                creg1.djava = creg1.spjava
+                        # user change
+                        try:
+                            if dev1 != None and dev1 != java_dev :
+                                creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                                creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
+                                j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
+                                j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
+
+                                if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                                    creg.djava = creg.spjava
+                                else:
+                                    creg.djava = creg.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+
+                                if j1.aggregate(Sum('javas'))['javas__sum'] == None:
+                                    creg1.djava = creg1.spjava
+                                else:
+                                    creg1.djava = creg1.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+
+                                creg.save()
+                                creg1.save()
+
+                                pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                                for p1 in pr:
+                                    p1.dname = java_dev
+                                    p1.save()
+                        except:
+                            pass
+
+                if 'php_sel' in request.GET:
+                    php_dev = request.GET.get('php_sel')
+                    p2 = request.GET.get('points2')
+                    idy = request.GET.get('idx')
+                    if int(p2)>0:
+                        p1 = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=p1.id)
+                        dev1 = p.dev_php
+                        # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
+                        p.dev_php = php_dev
+                        p.phps = int(p2)
+                        p.pleft = int(p2)
+                        p.save()
+                        list2=[]
+                        for i in d1:
+                            # j1 = story.objects.filter(sprint_id=id, dev_php=i.name)
+                            j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
+                            if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                                list2.append(0)
                             else:
-                                creg1.djava = creg1.spjava - (j1.aggregate(Sum('javas'))['javas__sum'])
+                                list2.append(j.aggregate(Sum('phps'))['phps__sum'])
+                                if p.ostatus in [None,'']:
+                                    p.ostatus='Live'
+                                p.save()
+                        b=sum(list2)
+
+                        if dev1 != None and dev1 != php_dev :
+                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                            creg1 = user_sprint_detail.objects.get(name=php_dev,sprint_id=id)
+                            j = story_details.objects.filter(sprint_id=id, dev_php=dev1)
+                            j1 = story_details.objects.filter(sprint_id=id, dev_php=php_dev)
+
+                            if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                                creg.dphp = creg.spphp
+                            else:
+                                creg.dphp = creg.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
+
+                            if j1.aggregate(Sum('phps'))['phps__sum'] == None:
+                                creg1.dphp = creg1.spphp
+                            else:
+                                creg1.dphp = creg1.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
 
                             creg.save()
                             creg1.save()
 
                             pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
                             for p1 in pr:
-                                p1.dname = java_dev
+                                p1.dname = php_dev
                                 p1.save()
-                    except:
-                        pass
 
-            if 'php_sel' in request.GET:
-                php_dev = request.GET.get('php_sel')
-                p2 = request.GET.get('points2')
-                idy = request.GET.get('idx')
-                if int(p2)>0:
-                    p1 = story.objects.get(sprint_id=id,id=idy)
-                    p = story_details.objects.get(story_id=p1.id)
-                    dev1 = p.dev_php
-                    # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
-                    p.dev_php = php_dev
-                    p.phps = int(p2)
-                    p.pleft = int(p2)
-                    p.save()
-                    list2=[]
-                    for i in d1:
-                        # j1 = story.objects.filter(sprint_id=id, dev_php=i.name)
-                        j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
-                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                            list2.append(0)
-                        else:
-                            list2.append(j.aggregate(Sum('phps'))['phps__sum'])
-                            if p.ostatus in [None,'']:
-                                p.ostatus='Live'
-                            p.save()
-                    b=sum(list2)
+                if 'html_sel' in request.GET:
+                    html_dev = request.GET.get('html_sel')
+                    p3 = request.GET.get('points3')
+                    idy = request.GET.get('idx')
+                    if int(p3)>0:
+                        # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
+                        p1 = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=p1.id)
+                        dev1 = p.dev_html
+                        p.dev_html = html_dev
+                        p.htmls = int(p3)
+                        p.hleft = int(p3)
+                        p.save()
+                        list3=[]
+                        for i in d1:
+                            j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
+                            if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                                list3.append(0)
+                            else:
+                                list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                                if p.ostatus in [None,'']:
+                                    p.ostatus='Live'
+                                p.save()
+                        c=sum(list3)
 
-                    if dev1 != None and dev1 != php_dev :
-                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                        creg1 = user_sprint_detail.objects.get(name=php_dev,sprint_id=id)
-                        j = story_details.objects.filter(sprint_id=id, dev_php=dev1)
-                        j1 = story_details.objects.filter(sprint_id=id, dev_php=php_dev)
+                        # user change
+                        if dev1 != None and dev1 != html_dev :
+                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                            creg1 = user_sprint_detail.objects.get(name=html_dev,sprint_id=id)
+                            j = story_details.objects.filter(sprint_id=id, dev_html=dev1)
+                            j1 = story_details.objects.filter(sprint_id=id, dev_html=html_dev)
 
-                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                            creg.dphp = creg.spphp
-                        else:
-                            creg.dphp = creg.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
+                            if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                                creg.dhtml = creg.sphtml
+                            else:
+                                creg.dhtml = creg.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
 
-                        if j1.aggregate(Sum('phps'))['phps__sum'] == None:
-                            creg1.dphp = creg1.spphp
-                        else:
-                            creg1.dphp = creg1.spphp - (j1.aggregate(Sum('phps'))['phps__sum'])
+                            if j1.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                                creg1.dhtml = creg1.sphtml
+                            else:
+                                creg1.dhtml = creg1.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
 
-                        creg.save()
-                        creg1.save()
+                            creg.save()
+                            creg1.save()
 
-                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
-                        for p1 in pr:
-                            p1.dname = php_dev
-                            p1.save()
+                            pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                            for p1 in pr:
+                                p1.dname = html_dev
+                                p1.save()
 
-            if 'html_sel' in request.GET:
-                html_dev = request.GET.get('html_sel')
-                p3 = request.GET.get('points3')
-                idy = request.GET.get('idx')
-                if int(p3)>0:
-                    # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
-                    p1 = story.objects.get(sprint_id=id,id=idy)
-                    p = story_details.objects.get(story_id=p1.id)
-                    dev1 = p.dev_html
-                    p.dev_html = html_dev
-                    p.htmls = int(p3)
-                    p.hleft = int(p3)
-                    p.save()
-                    list3=[]
-                    for i in d1:
-                        j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
-                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                            list3.append(0)
-                        else:
-                            list3.append(j.aggregate(Sum('htmls'))['htmls__sum'])
-                            if p.ostatus in [None,'']:
-                                p.ostatus='Live'
-                            p.save()
-                    c=sum(list3)
+                if 'qa_sel' in request.GET:
+                    qa_dev = request.GET.get('qa_sel')
+                    p4 = request.GET.get('points4')
+                    idy = request.GET.get('idx')
+                    if int(p4)>0:
+                        # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
+                        p1 = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=p1.id)
+                        dev1 = p.dev_qa
+                        p.dev_qa = qa_dev
+                        p.qas = int(p4)
+                        p.qleft = int(p4)
+                        p.save()
+                        list4=[]
+                        for i in d1:
+                            j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
+                            if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                                list4.append(0)
+                            else:
+                                list4.append(j.aggregate(Sum('qas'))['qas__sum'])
+                                if p.ostatus in [None,'']:
+                                    p.ostatus='Live'
+                                p.save()
+                        d=sum(list4)
 
-                    # user change
-                    if dev1 != None and dev1 != html_dev :
-                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                        creg1 = user_sprint_detail.objects.get(name=html_dev,sprint_id=id)
-                        j = story_details.objects.filter(sprint_id=id, dev_html=dev1)
-                        j1 = story_details.objects.filter(sprint_id=id, dev_html=html_dev)
+                        # user change
+                        if dev1 != None and dev1 != qa_dev :
+                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                            creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
+                            j = story_details.objects.filter(sprint_id=id, dev_qa=dev1)
+                            j1 = story_details.objects.filter(sprint_id=id, dev_qa=qa_dev)
 
-                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                            creg.dhtml = creg.sphtml
-                        else:
-                            creg.dhtml = creg.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
+                            if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                                creg.dqa = creg.spqa
+                            else:
+                                creg.dqa = creg.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
 
-                        if j1.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                            creg1.dhtml = creg1.sphtml
-                        else:
-                            creg1.dhtml = creg1.sphtml - (j1.aggregate(Sum('htmls'))['htmls__sum'])
+                            if j1.aggregate(Sum('qas'))['qas__sum'] == None:
+                                creg1.dqa = creg1.spqa
+                            else:
+                                creg1.dqa = creg1.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
 
-                        creg.save()
-                        creg1.save()
+                            creg.save()
+                            creg1.save()
 
-                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
-                        for p1 in pr:
-                            p1.dname = html_dev
-                            p1.save()
+                            pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
+                            for p1 in pr:
+                                p1.dname = qa_dev
+                                p1.save()
 
-            if 'qa_sel' in request.GET:
-                qa_dev = request.GET.get('qa_sel')
-                p4 = request.GET.get('points4')
-                idy = request.GET.get('idx')
-                if int(p4)>0:
-                    # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
-                    p1 = story.objects.get(sprint_id=id,id=idy)
-                    p = story_details.objects.get(story_id=p1.id)
-                    dev1 = p.dev_qa
-                    p.dev_qa = qa_dev
-                    p.qas = int(p4)
-                    p.qleft = int(p4)
-                    p.save()
-                    list4=[]
-                    for i in d1:
-                        j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
-                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                            list4.append(0)
-                        else:
-                            list4.append(j.aggregate(Sum('qas'))['qas__sum'])
-                            if p.ostatus in [None,'']:
-                                p.ostatus='Live'
-                            p.save()
-                    d=sum(list4)
+                    return(redirect('view_story'))
 
-                    # user change
-                    if dev1 != None and dev1 != qa_dev :
-                        creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                        creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
-                        j = story_details.objects.filter(sprint_id=id, dev_qa=dev1)
-                        j1 = story_details.objects.filter(sprint_id=id, dev_qa=qa_dev)
-
-                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                            creg.dqa = creg.spqa
-                        else:
-                            creg.dqa = creg.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
-
-                        if j1.aggregate(Sum('qas'))['qas__sum'] == None:
-                            creg1.dqa = creg1.spqa
-                        else:
-                            creg1.dqa = creg1.spqa - (j1.aggregate(Sum('qas'))['qas__sum'])
-
-                        creg.save()
-                        creg1.save()
-
-                        pr = progress.objects.filter(dname=dev1,s_id=id,jd=p.jira)
-                        for p1 in pr:
-                            p1.dname = qa_dev
-                            p1.save()
-
-                return(redirect('view_story'))
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return(redirect('view_story'))
 
         if request.method=='POST':
             if 'select_sprint' in request.POST:
@@ -1906,10 +1949,18 @@ def view_story(request):
                                         if int(fields[i2])<0:
                                             fields[i2] = 0
                                     z1 = story(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
-                                    z1.save()
+                                    if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
+                                        z1.save()
+                                    else:
+                                        messages.info(request, 'UNAUTHORIZED!')
+                                        return redirect('view_story')
                                     z2 = story.objects.get(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
                                     z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],javas=int(fields[4]),dev_php=fields[5],phps=int(fields[6]),dev_html=fields[7],htmls=int(fields[8]),dev_qa=fields[9],qas=int(fields[10]),ostatus=fields[11])
-                                    z3.save()
+                                    if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
+                                        z3.save()
+                                    else:
+                                        messages.info(request, 'UNAUTHORIZED!')
+                                        return redirect('view_story')
                 except:
                     pass
                 return(redirect('view_story'))
@@ -1926,7 +1977,11 @@ def view_story(request):
                     form.save()
                     z4 = story.objects.latest('id')
                     z5 = story_details(sprint_id=id,story_id=z4.id,jira=z4.jira)
-                    z5.save()
+                    if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
+                        z5.save()
+                    else:
+                        messages.info(request, 'UNAUTHORIZED!')
+                        return redirect('view_story')
                     return redirect('view_story')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1934,7 +1989,7 @@ def view_story(request):
             else:
                 form = storyform()
 
-        return render(request,'view_story.html',{'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1})
+        return render(request,'view_story.html',{'permission':permission,'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -2033,232 +2088,245 @@ def bandwidth(request):
         x.qa_working = z
         x.save()
         name=request.user.username
+
         if request.method=='GET':
             if 'assign1' in request.GET:
-                vf = request.GET.get('assign1')
-                uid = request.GET.get('assign2')
-                skill = request.GET.get('assign3')
-                p = sprint.objects.get(id=sprid)
+                if request.user.has_perm("change_bandwidth.change_bandwidth") or ("change_bandwidth") in permission:
+                    vf = request.GET.get('assign1')
+                    uid = request.GET.get('assign2')
+                    skill = request.GET.get('assign3')
+                    p = sprint.objects.get(id=sprid)
 
-                if skill == 'java':
-                    r = user_sprint_detail.objects.get(id=uid, java='True',sprint_id=sprid)
-                    r.vfjava = vf
-                    ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                    r.abjava = int(ab)
-                    r.spjava = r.abjava * 2
-                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
-                    if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                        list1.append(0)
-                        r.djava = r.spjava
-                    else:
-                        list1.append(j.aggregate(Sum('javas'))['javas__sum'])
-                        r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
-
-
-                if skill == 'php':
-                    r = user_sprint_detail.objects.get(id=uid, php='True',sprint_id=sprid)
-                    r.vfphp = vf
-                    ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                    r.abphp = int(ab)
-                    r.spphp = r.abphp * 2
-                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
-                    if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                        list1.append(0)
-                        r.dphp = r.spphp
-                    else:
-                        list1.append(j.aggregate(Sum('phps'))['phps__sum'])
-                        r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
+                    if skill == 'java':
+                        r = user_sprint_detail.objects.get(id=uid, java='True',sprint_id=sprid)
+                        r.vfjava = vf
+                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
+                        r.abjava = int(ab)
+                        r.spjava = r.abjava * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
+                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                            list1.append(0)
+                            r.djava = r.spjava
+                        else:
+                            list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                            r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
 
 
-                if skill == 'html':
-                    r = user_sprint_detail.objects.get(id=uid, html='True',sprint_id=sprid)
-                    r.vfhtml = vf
-                    ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                    r.abhtml = int(ab)
-                    r.sphtml = r.abhtml * 2
-                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
-                    if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                        list1.append(0)
-                        r.dhtml = r.sphtml
-                    else:
-                        list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
-                        r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
+                    if skill == 'php':
+                        r = user_sprint_detail.objects.get(id=uid, php='True',sprint_id=sprid)
+                        r.vfphp = vf
+                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
+                        r.abphp = int(ab)
+                        r.spphp = r.abphp * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
+                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                            list1.append(0)
+                            r.dphp = r.spphp
+                        else:
+                            list1.append(j.aggregate(Sum('phps'))['phps__sum'])
+                            r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
+
+
+                    if skill == 'html':
+                        r = user_sprint_detail.objects.get(id=uid, html='True',sprint_id=sprid)
+                        r.vfhtml = vf
+                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
+                        r.abhtml = int(ab)
+                        r.sphtml = r.abhtml * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
+                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                            list1.append(0)
+                            r.dhtml = r.sphtml
+                        else:
+                            list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                            r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
 
 
 
-                if skill == 'qa':
-                    r = user_sprint_detail.objects.get(id=uid, qa='True',sprint_id=sprid)
-                    r.vfqa = vf
-                    ab = (float(vf) * (p.qa_working-r.planned-r.unplanned))
-                    r.abqa = int(ab)
-                    r.spqa = r.abqa * 2
-                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
-                    if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                        list1.append(0)
-                        r.dqa = r.spqa
-                    else:
-                        list1.append(j.aggregate(Sum('qas'))['qas__sum'])
-                        r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
+                    if skill == 'qa':
+                        r = user_sprint_detail.objects.get(id=uid, qa='True',sprint_id=sprid)
+                        r.vfqa = vf
+                        ab = (float(vf) * (p.qa_working-r.planned-r.unplanned))
+                        r.abqa = int(ab)
+                        r.spqa = r.abqa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                            list1.append(0)
+                            r.dqa = r.spqa
+                        else:
+                            list1.append(j.aggregate(Sum('qas'))['qas__sum'])
+                            r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
 
-                r.save()
-                return redirect('/bandwidth/')
+                    r.save()
+                    return redirect('/bandwidth/')
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('/bandwidth/')
 
 
             if 'uleave1' in request.GET:
-                pl = request.GET.get('uleave1')
-                uid = request.GET.get('uleave2')
-                skill = request.GET.get('uleave3')
-                r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
-                r.unplanned = int(pl)
-                p = sprint.objects.get(id=sprid)
-                d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
-                d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
-                d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
-                d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
-                r.save()
+                if request.user.has_perm("change_bandwidth.change_bandwidth") or ("change_bandwidth") in permission:
+                    pl = request.GET.get('uleave1')
+                    uid = request.GET.get('uleave2')
+                    skill = request.GET.get('uleave3')
+                    r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
+                    r.unplanned = int(pl)
+                    p = sprint.objects.get(id=sprid)
+                    d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
+                    d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
+                    d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
+                    d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
+                    r.save()
 
-                if skill=='java':
-                    r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
-                    ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
-                    r.abjava=ab
-                    r.spjava = r.abjava * 2
-                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
-                    if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                        list1.append(0)
-                        r.djava = r.spjava
-                    else:
-                        list1.append(j.aggregate(Sum('javas'))['javas__sum'])
-                        r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
+                    if skill=='java':
+                        r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
+                        ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
+                        r.abjava=ab
+                        r.spjava = r.abjava * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
+                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                            list1.append(0)
+                            r.djava = r.spjava
+                        else:
+                            list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                            r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
 
-                        r.save()
-
-
-                if skill=='php':
-                    r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
-                    ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
-                    r.abphp=ab
-                    r.spphp = r.abphp * 2
-                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
-                    if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                        list1.append(0)
-                        r.dphp = r.spphp
-                    else:
-                        list1.append(j.aggregate(Sum('phps'))['phps__sum'])
-                        r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
-                        r.save()
+                            r.save()
 
 
-                if skill=='html':
-                    r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
-                    ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
-                    r.abhtml=ab
-                    r.sphtml = r.abhtml * 2
-                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
-                    if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                        list1.append(0)
-                        r.dhtml = r.sphtml
-                    else:
-                        list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
-                        r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
-                        r.save()
+                    if skill=='php':
+                        r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
+                        ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
+                        r.abphp=ab
+                        r.spphp = r.abphp * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
+                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                            list1.append(0)
+                            r.dphp = r.spphp
+                        else:
+                            list1.append(j.aggregate(Sum('phps'))['phps__sum'])
+                            r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
+                            r.save()
 
-                if skill=='qa':
-                    r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
-                    ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
-                    r.abqa=ab
-                    r.spqa = r.abqa * 2
-                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
-                    if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                        list1.append(0)
-                        r.dqa = r.spqa
-                    else:
-                        list1.append(j.aggregate(Sum('qas'))['qas__sum'])
-                        r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
-                        r.save()
+
+                    if skill=='html':
+                        r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
+                        ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
+                        r.abhtml=ab
+                        r.sphtml = r.abhtml * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
+                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                            list1.append(0)
+                            r.dhtml = r.sphtml
+                        else:
+                            list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                            r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
+                            r.save()
+
+                    if skill=='qa':
+                        r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
+                        ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
+                        r.abqa=ab
+                        r.spqa = r.abqa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                            list1.append(0)
+                            r.dqa = r.spqa
+                        else:
+                            list1.append(j.aggregate(Sum('qas'))['qas__sum'])
+                            r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
+                            r.save()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('bandwidth')
 
 
             if 'leave1' in request.GET:
-                pl = request.GET.get('leave1')
-                uid = request.GET.get('leave2')
-                skill = request.GET.get('leave3')
-                r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
-                r.planned = int(pl)
-                p = sprint.objects.get(id=sprid)
-                d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
-                d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
-                d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
-                d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
-                r.save()
+                if request.user.has_perm("change_bandwidth.change_bandwidth") or ("change_bandwidth") in permission:
+                    pl = request.GET.get('leave1')
+                    uid = request.GET.get('leave2')
+                    skill = request.GET.get('leave3')
+                    r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
+                    r.planned = int(pl)
+                    p = sprint.objects.get(id=sprid)
+                    d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
+                    d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
+                    d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=sprid)
+                    d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=sprid)
+                    r.save()
 
-                if skill=='java':
-                    r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
-                    ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
-                    r.abjava=ab
-                    r.spjava = r.abjava * 2
-                    sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
-                    if j.aggregate(Sum('javas'))['javas__sum'] == None:
-                        list1.append(0)
-                        r.djava = r.spjava
-                    else:
-                        list1.append(j.aggregate(Sum('javas'))['javas__sum'])
-                        r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
-                        r.save()
-
-
-                if skill=='php':
-                    r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
-                    ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
-                    r.abphp=ab
-                    r.spphp = r.abphp * 2
-                    sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
-                    if j.aggregate(Sum('phps'))['phps__sum'] == None:
-                        list1.append(0)
-                        r.dphp = r.spphp
-                    else:
-                        list1.append(j.aggregate(Sum('phps'))['phps__sum'])
-                        r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
-                        r.save()
+                    if skill=='java':
+                        r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
+                        ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
+                        r.abjava=ab
+                        r.spjava = r.abjava * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
+                        if j.aggregate(Sum('javas'))['javas__sum'] == None:
+                            list1.append(0)
+                            r.djava = r.spjava
+                        else:
+                            list1.append(j.aggregate(Sum('javas'))['javas__sum'])
+                            r.djava = r.spjava - (j.aggregate(Sum('javas'))['javas__sum'])
+                            r.save()
 
 
-                if skill=='html':
-                    r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
-                    ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
-                    r.abhtml=ab
-                    r.sphtml = r.abhtml * 2
-                    shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
-                    if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
-                        list1.append(0)
-                        r.dhtml = r.sphtml
-                    else:
-                        list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
-                        r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
-                        r.save()
+                    if skill=='php':
+                        r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
+                        ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
+                        r.abphp=ab
+                        r.spphp = r.abphp * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
+                        if j.aggregate(Sum('phps'))['phps__sum'] == None:
+                            list1.append(0)
+                            r.dphp = r.spphp
+                        else:
+                            list1.append(j.aggregate(Sum('phps'))['phps__sum'])
+                            r.dphp = r.spphp - (j.aggregate(Sum('phps'))['phps__sum'])
+                            r.save()
 
-                if skill=='qa':
-                    r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
-                    ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
-                    r.abqa=ab
-                    r.spqa = r.abqa * 2
-                    sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
-                    j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
-                    if j.aggregate(Sum('qas'))['qas__sum'] == None:
-                        list1.append(0)
-                        r.dqa = r.spqa
-                    else:
-                        list1.append(j.aggregate(Sum('qas'))['qas__sum'])
-                        r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
-                        r.save()
+
+                    if skill=='html':
+                        r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
+                        ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
+                        r.abhtml=ab
+                        r.sphtml = r.abhtml * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
+                        if j.aggregate(Sum('htmls'))['htmls__sum'] == None:
+                            list1.append(0)
+                            r.dhtml = r.sphtml
+                        else:
+                            list1.append(j.aggregate(Sum('htmls'))['htmls__sum'])
+                            r.dhtml = r.sphtml - (j.aggregate(Sum('htmls'))['htmls__sum'])
+                            r.save()
+
+                    if skill=='qa':
+                        r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
+                        ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
+                        r.abqa=ab
+                        r.spqa = r.abqa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
+                        if j.aggregate(Sum('qas'))['qas__sum'] == None:
+                            list1.append(0)
+                            r.dqa = r.spqa
+                        else:
+                            list1.append(j.aggregate(Sum('qas'))['qas__sum'])
+                            r.dqa = r.spqa - (j.aggregate(Sum('qas'))['qas__sum'])
+                            r.save()
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+                    return redirect('bandwidth')
 
         if request.method=='POST':
             if 'select_sprint' in request.POST:
@@ -2278,7 +2346,7 @@ def bandwidth(request):
                 request.session['id'] = spr.id
                 return redirect('bandwidth')
 
-        return(render(request,'bandwidth.html/',{'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
+        return(render(request,'bandwidth.html/',{'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -2492,8 +2560,8 @@ def tasks(request):
                         break
                 return redirect('tasks')
 
-            if 'move_story' in request.POST:
-                if request.user.is_superuser:
+            if 'move_story1' in request.POST:
+                if request.user.has_perm("move_story.move_story") or ("move_story") in permission:
                     ss = request.POST.get('select_spr')
                     st1 = story.objects.filter(sprint_id=id1)
                     for i1 in st1:
@@ -2508,10 +2576,10 @@ def tasks(request):
                     messages.info(request, 'Success!')
                     return redirect('tasks')
                 else:
-                    messages.info(request, 'You are not Authorized!')
+                    messages.info(request, 'UNAUTHORIZED!')
                     return redirect('tasks')
 
-        return(render(request,'tasks.html/',{'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+        return(render(request,'tasks.html/',{'permission':permission,'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
