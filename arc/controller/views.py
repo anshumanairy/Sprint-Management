@@ -8,6 +8,7 @@ from arc.models.story_mod import story
 from arc.models.story_details_mod import story_details
 from arc.models.project_details_mod import project_details
 from arc.models.prod_mod import sprint
+from arc.models.comments_mod import comments
 from arc.models.prg_mod import progress
 from arc.models.reg_mod import user_sprint_detail
 from django.http import HttpResponse,HttpResponseRedirect
@@ -35,6 +36,8 @@ import jwt
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
+from django.utils.timezone import utc
+from django.utils import timezone
 
 # sso integration and login security
 BS = AES.block_size
@@ -186,7 +189,6 @@ def blog(request):
         name = request.user.username
         st = story_details.objects.filter(sprint_id=id1,story_id=sid)
         stz = story.objects.get(sprint_id=id1,id=sid)
-
         # for tabular history
         history=[]
         h=0
@@ -210,15 +212,11 @@ def blog(request):
         comm={}
         n=0
         for i in st:
-            list2=list(map(str,i.comments.split('@change@')))
+            story_comments = comments.objects.filter(story_id=sid)
             comm[n]={}
-            m=0
-            for j in list2:
-                if j!='':
-                    comm[n][m]={}
-                    list3=list(map(str,j.split('=')))
-                    comm[n][m][list3[0]]=list3[1]
-                    m+=1
+            for j in story_comments:
+                comm[n][j.time_of_comment]={}
+                comm[n][j.time_of_comment][j.comment]=j.name
             n+=1
 
         if request.method=='POST':
@@ -241,11 +239,13 @@ def blog(request):
 
         if request.method=='GET':
             if 'comment_holder' in request.GET:
-                comment=request.GET.get('comment_holder')
+                comment_received=request.GET.get('comment_holder')
                 id1 = request.GET.get('sid')
-                stx = story.objects.get(id=id1)
-                stx.comments = stx.comments + '@change@' + comment + '=' + request.user.username
-                stx.save()
+                date_comm = timezone.localtime(timezone.now()).strftime("%a %b %d, %Y")
+                time_comm = timezone.localtime(timezone.now()).strftime("%H:%M:%S")
+                final_time= time_comm+" on "+date_comm
+                comm = comments(story_id=sid,comment=comment_received,name=request.user.username,time_of_comment=final_time)
+                comm.save()
                 return redirect('story')
 
         return render(request,'blog.html/',{'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})

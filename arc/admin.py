@@ -5,6 +5,7 @@ from arc.models.story_mod import story
 from arc.models.story_details_mod import story_details
 from arc.models.prg_mod import progress
 from arc.models.project_mod import project
+from arc.models.comments_mod import comments
 from arc.models.reg_mod import user_sprint_detail
 from arc.models.project_details_mod import project_details
 from django.contrib.auth.models import Permission
@@ -18,5 +19,6 @@ admin.site.register(story_details)
 admin.site.register(sprint)
 admin.site.register(progress)
 admin.site.register(project)
+admin.site.register(comments)
 admin.site.register(project_details)
 admin.site.register(user_sprint_detail)
