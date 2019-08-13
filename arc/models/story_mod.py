@@ -7,6 +7,8 @@ class story(models.Model):
     story_name= models.CharField(max_length=200)
     description= models.URLField(blank=False)
     jira= models.CharField(max_length=20)
+    brief_description = models.TextField(max_length=2000)
+    overall_status = models.CharField(max_length=20)
 
     def __str__(self):
         return str(self.jira)

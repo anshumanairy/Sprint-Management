@@ -17,8 +17,6 @@ class story_details(models.Model):
     assigned_html_points = models.IntegerField(default=0)
     assigned_qa_points = models.IntegerField(default=0)
 
-    ostatus = models.CharField(max_length=20)
-
     java_points_done = models.FloatField(default=0.0)
     php_points_done = models.FloatField(default=0.0)
     html_points_done = models.FloatField(default=0.0)

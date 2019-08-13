@@ -20,7 +20,7 @@ input[type="text"]::placeholder,input[type="password"]::placeholder{
 td{
   border : 1px solid lightgrey;
 }
-#tab2{
+#tab2,#t1{
   text-align: center;
   font-size: 12px;
 }

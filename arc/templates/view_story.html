@@ -131,6 +131,15 @@
                       <div class="row">
                         <div class="col-md-6 pr-1">
                           <div class="form-group">
+                            <label>Brief Description</label>
+                            {{ form.brief_description }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 pr-1">
+                          <div class="form-group">
                             <label>Description Link:</label>
                             {{ form.description }}
                           </div>
@@ -232,32 +241,32 @@
                         <td>{{d.jira}}</td>
                       </form>
                       <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>
-                      {% if d1.ostatus == 'Live' %}
-                        <td><span id="green" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'Live' %}
+                        <td><span id="green" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'In Progress' %}
-                        <td><span id="yellow" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'In Progress' %}
+                        <td><span id="yellow" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'HTML Done' or d1.ostatus == 'PHP Done' or d1.ostatus == 'API Done' or d1.ostatus == 'CR' %}
+                      {% if d.overall_status == 'HTML Done' or d.overall_status == 'PHP Done' or d.overall_status == 'API Done' or d.overall_status == 'CR' %}
                         <td><span id="white" class="dot"></span>{{ d.ostatus }}</td>
                       {% endif %}
-                      {% if d1.ostatus == '' %}
+                      {% if d.overall_status == '' %}
                         <td><span id="black" class="dot"></span>Unassigned</td>
                       {% endif %}
-                      {% if d1.ostatus == 'Blocked' or d1.ostatus == 'Blocked on API' or d1.ostatus == 'Blocked on HTML' or d1.ostatus == 'Blocked on Mock' or d1.ostatus == 'Spec' %}
-                        <td><span id="red" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'Blocked' or d.overall_status == 'Blocked on API' or d.overall_status == 'Blocked on HTML' or d.overall_status == 'Blocked on Mock' or d.overall_status == 'Spec' %}
+                        <td><span id="red" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'Pending Deployment' or d1.ostatus == 'Complete' %}
-                        <td><span id="pd" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'Pending Deployment' or d.overall_status == 'Complete' %}
+                        <td><span id="pd" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'QA' %}
-                        <td><span id="blue" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'QA' %}
+                        <td><span id="blue" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'Next Sprint' %}
-                        <td><span id="purple" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'Next Sprint' %}
+                        <td><span id="purple" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
-                      {% if d1.ostatus == 'Not Needed' or d1.ostatus == 'Duplicate' %}
-                        <td><span id="other" class="dot"></span>{{ d1.ostatus }}</td>
+                      {% if d.overall_status == 'Not Needed' or d.overall_status == 'Duplicate' %}
+                        <td><span id="other" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
                       <td>
                         <!-- <form method="GET"> -->

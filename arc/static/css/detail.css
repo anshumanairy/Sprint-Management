@@ -35,6 +35,12 @@ margin:10px;
     background-color:#fdfdfd;
     padding:10px;
 }
+#brief{
+  border:1px solid white;
+}
+#brief:hover{
+  border: 1px solid lightgrey;
+}
 .titleBox label{
   color:#444;
   margin:0;

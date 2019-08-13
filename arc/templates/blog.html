@@ -18,18 +18,23 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="blog-entry ftco-animate d-md-flex">
+                      <div class="blog-entry ftco-animate d-md-flex" style="float:left;">
                         <div class="text text-2 pl-md-4">
                           <p>{{i.jira}}</p>
-                          <h3><b>{{i.story_name}}</b></h3>
-                          {% if i.ostatus == '' %}
+                          <h3 style="font-size:20px;"><b>{{stz.story_name}}</b></h3>
+                          {% if stz.overall_status == '' %}
                             <p>Unassigned</p>
                           {% else %}
-                            <p>{{i.ostatus}}</p>
+                            <p>{{ stz.overall_status }}</p>
                           {% endif %}
                           <p><a href="{{i.description}}" target="_blank" class="btn-custom">Read More</a></p>
                         </div>
                       </div>
+                      <form method="GET" style="float:right;">
+                        <textarea name="brief_desc" rows="3" cols="50" id="brief" style="font-size:13px;height:20vh;overflow:scroll;">{{stz.brief_description}}</textarea>
+                        <p></p>
+                        <input class="btn example_c" type="submit" value="Change">
+                      </form>
                     </div>
                   </div>
                 </div>

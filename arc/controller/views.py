@@ -238,6 +238,13 @@ def blog(request):
                 return redirect('story')
 
         if request.method=='GET':
+            if 'brief_desc' in request.GET:
+                desc = request.GET.get('brief_desc')
+                change = story.objects.get(id=sid)
+                change.brief_description=desc
+                change.save()
+                return redirect('story')
+
             if 'comment_holder' in request.GET:
                 comment_received=request.GET.get('comment_holder')
                 id1 = request.GET.get('sid')
@@ -248,7 +255,7 @@ def blog(request):
                 comm.save()
                 return redirect('story')
 
-        return render(request,'blog.html/',{'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -355,7 +362,7 @@ def qaprg(request):
                 list1[j][k].append(r.jira)
                 if r1.dev_java==i.name:
                     list1[j][k].append(r1.assigned_java_points)
-                    list1[j][k].append(r1.ostatus)
+                    list1[j][k].append(r.overall_status)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r1.java_points_done)
@@ -367,7 +374,7 @@ def qaprg(request):
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
                 elif r1.dev_php==i.name:
                     list1[j][k].append(r1.assigned_php_points)
-                    list1[j][k].append(r1.ostatus)
+                    list1[j][k].append(r.overall_status)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r1.php_points_done)
@@ -379,7 +386,7 @@ def qaprg(request):
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
                 elif r1.dev_html==i.name:
                     list1[j][k].append(r1.assigned_html_points)
-                    list1[j][k].append(r1.ostatus)
+                    list1[j][k].append(r.overall_status)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r1.html_points_done)
@@ -391,7 +398,7 @@ def qaprg(request):
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
                 elif r1.dev_qa==i.name:
                     list1[j][k].append(r1.assigned_qa_points)
-                    list1[j][k].append(r1.ostatus)
+                    list1[j][k].append(r.overall_status)
                     list1[j][k].append(i.name)
                     list1[j][k].append(count)
                     list1[j][k].append(r1.qa_points_done)
@@ -415,9 +422,10 @@ def qaprg(request):
                 n1 = request.GET.get('name1')
                 p1 = story.objects.get(sprint_id=id1,jira = j)
                 p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
-                p.ostatus=s
+                p1.overall_status=s
                 if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
                     p.save()
+                    p1.save()
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
                 return redirect('qaprg')
@@ -647,7 +655,7 @@ def qaprg(request):
             list1[j][k].append(r1.jira)
             if r.dev_java==name1:
                 list1[j][k].append(r.assigned_java_points)
-                list1[j][k].append(r.ostatus)
+                list1[j][k].append(r1.overall_status)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.java_points_done)
@@ -658,7 +666,7 @@ def qaprg(request):
                     list1[j][k].append(float(r.assigned_java_points)-r.java_points_done)
             elif r.dev_php==name1:
                 list1[j][k].append(r.assigned_php_points)
-                list1[j][k].append(r.ostatus)
+                list1[j][k].append(r1.overall_status)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.php_points_done)
@@ -669,7 +677,7 @@ def qaprg(request):
                     list1[j][k].append(float(r.assigned_php_points)-r.php_points_done)
             elif r.dev_html==name1:
                 list1[j][k].append(r.assigned_html_points)
-                list1[j][k].append(r.ostatus)
+                list1[j][k].append(r1.overall_status)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.html_points_done)
@@ -680,7 +688,7 @@ def qaprg(request):
                     list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
             elif r.dev_qa==name1:
                 list1[j][k].append(r.assigned_qa_points)
-                list1[j][k].append(r.ostatus)
+                list1[j][k].append(r1.overall_status)
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qa_points_done)
@@ -700,7 +708,7 @@ def qaprg(request):
                 n1 = request.GET.get('name1')
                 p1 = story.objects.get(sprint_id=id1,jira = j)
                 p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
-                p.ostatus=s
+                p1.overall_status=s
                 p.save()
                 return redirect('qaprg')
 
@@ -874,13 +882,14 @@ def prod(request):
     sum2=0
     sumx=0
     for i1 in s1:
+        i2 = story.objects.get(id=i1.story_id)
         sum1 += i1.java_points_left + i1.php_points_left + i1.html_points_left + i1.qa_points_left
         sum2 += i1.assigned_java_points + i1.assigned_php_points + i1.assigned_html_points + i1.assigned_qa_points
-        if i1.ostatus in['Pending Deployment','Complete']:
+        if i2.overall_status in['Pending Deployment','Complete']:
             list7[0]+=1
-        elif i1.ostatus in['QA']:
+        elif i2.overall_status in['QA']:
             list7[1]+=1
-        elif i1.ostatus in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+        elif i2.overall_status in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
             list7[2]+=1
         else:
             list7[3]+=1
@@ -1687,14 +1696,15 @@ def view_story(request):
                         p.java_points_left = int(p1)
                         p.save()
                         list1=[]
+                        q = story.objects.get(id=px.id)
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
                             if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                                 list1.append(0)
                             else:
                                 list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                                if p.ostatus in [None,'']:
-                                    p.ostatus='Live'
+                                if q.overall_status in [None,'']:
+                                    q.overall_status='Live'
                                 p.save()
                         a=sum(list1)
 
@@ -1733,6 +1743,7 @@ def view_story(request):
                     if int(p2)>0:
                         p1 = story.objects.get(sprint_id=id,id=idy)
                         p = story_details.objects.get(story_id=p1.id)
+                        q = story.objects.get(id=p1.id)
                         dev1 = p.dev_php
                         # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
                         p.dev_php = php_dev
@@ -1747,8 +1758,8 @@ def view_story(request):
                                 list2.append(0)
                             else:
                                 list2.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                                if p.ostatus in [None,'']:
-                                    p.ostatus='Live'
+                                if q.overall_status in [None,'']:
+                                    q.overall_status='Live'
                                 p.save()
                         b=sum(list2)
 
@@ -1784,6 +1795,7 @@ def view_story(request):
                         # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
                         p1 = story.objects.get(sprint_id=id,id=idy)
                         p = story_details.objects.get(story_id=p1.id)
+                        q = story.objects.get(id=p1.id)
                         dev1 = p.dev_html
                         p.dev_html = html_dev
                         p.assigned_html_points = int(p3)
@@ -1796,8 +1808,8 @@ def view_story(request):
                                 list3.append(0)
                             else:
                                 list3.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                                if p.ostatus in [None,'']:
-                                    p.ostatus='Live'
+                                if q.overall_status in [None,'']:
+                                    q.overall_status='Live'
                                 p.save()
                         c=sum(list3)
 
@@ -1834,6 +1846,7 @@ def view_story(request):
                         # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
                         p1 = story.objects.get(sprint_id=id,id=idy)
                         p = story_details.objects.get(story_id=p1.id)
+                        q = story.objects.get(id=p1.id)
                         dev1 = p.dev_qa
                         p.dev_qa = qa_dev
                         p.assigned_qa_points = int(p4)
@@ -1846,8 +1859,8 @@ def view_story(request):
                                 list4.append(0)
                             else:
                                 list4.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                                if p.ostatus in [None,'']:
-                                    p.ostatus='Live'
+                                if q.overall_status in [None,'']:
+                                    q.overall_status='Live'
                                 p.save()
                         d=sum(list4)
 
@@ -1915,7 +1928,6 @@ def view_story(request):
                             continue
                         else:
                             fields = line.split(",")
-                            # print(fields)
                             stx = story.objects.filter(sprint_id=id)
                             l=0
                             for i in stx:
@@ -1954,8 +1966,8 @@ def view_story(request):
                                     else:
                                         messages.info(request, 'UNAUTHORIZED!')
                                         return redirect('view_story')
-                                    z2 = story.objects.get(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2])
-                                    z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],assigned_java_points=int(fields[4]),dev_php=fields[5],assigned_php_points=int(fields[6]),dev_html=fields[7],assigned_html_points=int(fields[8]),dev_qa=fields[9],assigned_qa_points=int(fields[10]),ostatus=fields[11])
+                                    z2 = story.objects.get(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],overall_status=fields[11])
+                                    z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],assigned_java_points=int(fields[4]),dev_php=fields[5],assigned_php_points=int(fields[6]),dev_html=fields[7],assigned_html_points=int(fields[8]),dev_qa=fields[9],assigned_qa_points=int(fields[10]))
                                     if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
                                         z3.save()
                                     else:
@@ -2436,10 +2448,11 @@ def tasks(request):
         nextspr=[]
         c2 = story_details.objects.filter(sprint_id=id1)
         for i4 in c2:
+            c1 = story.objects.get(id=i4.story_id)
             sum1+= i4.assigned_java_points + i4.assigned_php_points + i4.assigned_html_points + i4.assigned_qa_points
             sum2+=i4.java_points_done + i4.php_points_done + i4.html_points_done + i4.qa_points_done
-            if i4.ostatus not in ['Pending Deployment','Complete','Live']:
-                nextspr.append(i4.id)
+            if c1.overall_status not in ['Pending Deployment','Complete','Live']:
+                nextspr.append(i4.story_id)
 
         repo.append(sum1)
         repo.append(sum1-sum2)
@@ -2458,32 +2471,32 @@ def tasks(request):
                 list1[k][l].append(i.name)
                 list1[k][l].append(j1.story_name)
                 list1[k][l].append(j1.jira)
-                if j.ostatus==None or j.ostatus=='':
+                if j1.overall_status==None or j1.overall_status=='':
                     list1[k][l].append('Unassigned')
                     list1[k][l].append('black')
-                elif j.ostatus in ['Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec']:
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status in ['Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec']:
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('red')
-                elif j.ostatus=='Live':
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status=='Live':
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('green')
-                elif j.ostatus=='In Progress':
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status=='In Progress':
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('yellow')
-                elif j.ostatus=='Next Sprint':
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status=='Next Sprint':
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('purple')
-                elif j.ostatus in ['HTML Done','PHP Done','API Done','CR']:
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status in ['HTML Done','PHP Done','API Done','CR']:
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('white')
-                elif j.ostatus=='QA':
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status=='QA':
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('blue')
-                elif j.ostatus in ['Pending Deployment','Complete']:
-                    list1[k][l].append(j.ostatus)
+                elif j1.overall_status in ['Pending Deployment','Complete']:
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('pd')
                 else:
-                    list1[k][l].append(j.ostatus)
+                    list1[k][l].append(j1.overall_status)
                     list1[k][l].append('other')
                 list1[k][l].append(j1.description)
                 list1[k][l].append(j.assigned_java_points + j.assigned_php_points + j.assigned_html_points + j.assigned_qa_points)
@@ -2506,6 +2519,7 @@ def tasks(request):
                     if skill in ['java','php','html','qa']:
                         pro = sprint.objects.get(name=sprname,project_id=pid2).id
                         st = story_details.objects.get(sprint_id=pro,jira=jd)
+                        stz = story.objects.get(id=st.story_id)
                         listz=[]
                         u1 = user_detail.objects.get(uname=request.user.username)
                         if u1.java==True:
@@ -2517,7 +2531,7 @@ def tasks(request):
                         if u1.qa==True:
                             listz.append('qa')
                         if skill in listz:
-                            st.ostatus='In Progress'
+                            stz.overall_status='In Progress'
                             if skill=='java':
                                 st.dev_java=u1.name
                                 st.assigned_java_points=int(pt)
@@ -2565,7 +2579,7 @@ def tasks(request):
                     ss = request.POST.get('select_spr')
                     st1 = story.objects.filter(sprint_id=id1)
                     for i1 in st1:
-                        if i1.ostatus not in ['Pending Deployment','Complete']:
+                        if i1.overall_status not in ['Pending Deployment','Complete']:
                             x1 = story(sprint_id=ss,story_name=i1.story_name,description=i1.description,jira=i1.jira)
                             x1.save()
                             x2 = story.objects.latest('id')
