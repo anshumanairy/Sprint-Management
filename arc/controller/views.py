@@ -420,7 +420,7 @@ def qaprg(request):
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
-                p1 = story.objects.get(sprint_id=id1,jira = j)
+                p1 = story.objects.filter(sprint_id=id1,jira = j).latest('id')
                 p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
                 p1.overall_status=s
                 if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
@@ -706,7 +706,7 @@ def qaprg(request):
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
                 n1 = request.GET.get('name1')
-                p1 = story.objects.get(sprint_id=id1,jira = j)
+                p1 = story.objects.filter(sprint_id=id1,jira = j).latest('id')
                 p = story_details.objects.get(sprint_id=id1,story_id=p1.id)
                 p1.overall_status=s
                 p.save()
@@ -932,7 +932,7 @@ def prod(request):
             jira=''
             for i2 in p2:
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
-                    s5 = story_details.objects.get(sprint_id=id,jira=i2.jira_id)
+                    s5 = story_details.objects.filter(sprint_id=id,jira=i2.jira_id).latest('id')
                     if i2.jira_id != jira:
                         if s5.dev_java==i2.dev_name:
                             s4+=s5.assigned_java_points
@@ -1678,7 +1678,7 @@ def view_story(request):
                 sd = request.GET.get('desc')
                 soj = request.GET.get('old_jira')
                 snj = request.GET.get('new_jira')
-                p = story.objects.get(sprint_id=id,jira=soj)
+                p = story.objects.filter(sprint_id=id,jira=soj).latest('id')
                 p.story_name = sn
                 p.description = sd
                 p.jira = snj
@@ -1710,8 +1710,9 @@ def view_story(request):
                                 list1.append(0)
                             else:
                                 list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                                if q.overall_status in [None,'']:
+                                if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
+                                    q.save()
                                 p.save()
                         a=sum(list1)
 
@@ -1765,8 +1766,9 @@ def view_story(request):
                                 list2.append(0)
                             else:
                                 list2.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                                if q.overall_status in [None,'']:
+                                if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
+                                    q.save()
                                 p.save()
                         b=sum(list2)
 
@@ -1815,8 +1817,9 @@ def view_story(request):
                                 list3.append(0)
                             else:
                                 list3.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                                if q.overall_status in [None,'']:
+                                if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
+                                    q.save()
                                 p.save()
                         c=sum(list3)
 
@@ -1866,8 +1869,9 @@ def view_story(request):
                                 list4.append(0)
                             else:
                                 list4.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                                if q.overall_status in [None,'']:
+                                if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
+                                    q.save()
                                 p.save()
                         d=sum(list4)
 
@@ -1973,7 +1977,7 @@ def view_story(request):
                                     else:
                                         messages.info(request, 'UNAUTHORIZED!')
                                         return redirect('view_story')
-                                    z2 = story.objects.get(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],overall_status=fields[11])
+                                    z2 = story.objects.filter(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],overall_status=fields[11]).latest('id')
                                     z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],assigned_java_points=int(fields[4]),dev_php=fields[5],assigned_php_points=int(fields[6]),dev_html=fields[7],assigned_html_points=int(fields[8]),dev_qa=fields[9],assigned_qa_points=int(fields[10]))
                                     if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
                                         z3.save()
@@ -1989,10 +1993,10 @@ def view_story(request):
                 if form.is_valid():
                     form.instance.sprint_id=id
                     p = story.objects.all()
-                    for i in p:
-                        if form.instance.jira == i.jira:
-                            messages.info(request, 'Jira ID already exists. Please choose another one!')
-                            return redirect('view_story')
+                    # for i in p:
+                    #     if form.instance.jira == i.jira:
+                    #         messages.info(request, 'Jira ID already exists. Please choose another one!')
+                    #         return redirect('view_story')
                     form.save()
                     z4 = story.objects.latest('id')
                     z5 = story_details(sprint_id=id,story_id=z4.id,jira=z4.jira)
@@ -2525,7 +2529,7 @@ def tasks(request):
                 else:
                     if skill in ['java','php','html','qa']:
                         pro = sprint.objects.get(name=sprname,project_id=pid2).id
-                        st = story_details.objects.get(sprint_id=pro,jira=jd)
+                        st = story_details.objects.filter(sprint_id=pro,jira=jd).latest('id')
                         stz = story.objects.get(id=st.story_id)
                         listz=[]
                         u1 = user_detail.objects.get(uname=request.user.username)
