@@ -30,8 +30,8 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Project</div>
-                        <div class="col-md-12">
-                          <button class="btn example_c" onclick="w6_open()" id="project_btn"><small>New Project</small></button>
+                        <div class="col-md-12" style="margin-left:12%;">
+                          <button class="btn example_c" data-toggle="modal" data-target="#project_Modal" id="project_btn"><small>New Project</small></button>
                         </div>
                       <form class="post-form" method='POST' id="h">
                         {% csrf_token %}
@@ -78,8 +78,8 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sprint</div>
-                        <div class="col-md-12">
-                          <button class="btn example_c" onclick="w4_open()" id="sprint_btn"><small>New Sprint</small></button>
+                        <div class="col-md-12" style="margin-left:12%;">
+                          <button class="btn example_c" data-toggle="modal" data-target="#sprint_Modal" id="sprint_btn"><small>New Sprint</small></button>
                         </div>
 
                       <form class="post-form" method='POST' id="f5">
@@ -121,180 +121,169 @@
             </div>
 
           </div>
-          <form class="post-form w3-animate-top" style="display:none" method='POST' id="g">
-            {% csrf_token %}
-            <div class="container">
-              <div class="col-sm-20">
-                <div class="card card-user" id="back">
-                  <div class="card-header">
-                    <h5 class="card-title">Create Project</h5>
-                  </div>
 
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Project Name</label>
-                          <input type="text" name="pname" placeholder="Project Name">
-                        </div>
-                      </div>
-                    </div>
+          <div class="modal fade" id="project_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="width:850px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Create Project</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
 
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Select Admin</label>
-                            <div>
-                              <select class="js-example-basic-single" name="select_admin">
-                                {% for n2 in list11 %}
-                                  <option>{{ n2 }}</option>
-                                {% endfor %}
-                              </select>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                      <div class="table100 ver3">
+
+                        <form class="post-form w3-animate-top" method='POST' id="g">
+                          {% csrf_token %}
+                            <div class="col-sm-20">
+                              <div class="card card-user" id="back">
+
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label>Project Name</label>
+                                        <input type="text" name="pname" placeholder="Project Name">
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label>Select Admin</label>
+                                          <div>
+                                            <select class="js-example-basic-single" name="select_admin">
+                                              {% for n2 in list11 %}
+                                                <option>{{ n2 }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                          <label>Select Users</label>
+                                          <div>
+                                            <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                                              {% for n2 in z2 %}
+                                                <option>{{ n2.uname }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                          <label>Select Managers</label>
+                                          <div>
+                                            <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
+                                              {% for n2 in z2 %}
+                                                <option>{{ n2.uname }}</option>
+                                              {% endfor %}
+                                            </select>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                      <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
                             </div>
-                            <label>Select Users</label>
-                            <div>
-                              <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
-                                {% for n2 in z2 %}
-                                  <option>{{ n2.uname }}</option>
-                                {% endfor %}
-                              </select>
-                            </div>
-                            <label>Select Managers</label>
-                            <div>
-                              <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
-                                {% for n2 in z2 %}
-                                  <option>{{ n2.uname }}</option>
-                                {% endfor %}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
+                        </form>
+
                       </div>
                     </div>
-
-                    <div class="row">
-                      <div class="update ml-auto mr-auto">
-                        <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="update ml-auto mr-auto">
-                        <button class="btn example_c" onclick="w6_close()" id="project_close">Close</button>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
+
               </div>
             </div>
-          </form>
+          </div>
 
-          <div id="m1">
+          <div class="modal fade" id="sprint_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="width:850px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Create Sprint</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
 
-          <script>
-            function w6_open() {
-              {% if 'add_project' in permission %}
-                document.getElementById("m1").style.marginTop = "0%";
-                document.getElementById("g").style.display = "block";
-                document.getElementById("project_btn").style.display = 'none';
-              {% else %}
-                alert('UNAUTHORIZED!')
-              {% endif %}
-            }
-            function w6_close() {
-              document.getElementById("m1").style.marginTop = "0%";
-              document.getElementById("g").style.display = "none";
-              document.getElementById("project_btn").style.display = "inline-block";
-            }
-          </script>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                      <div class="table100 ver3">
 
-          <form class="post-form w3-animate-top" style="display:none" method='POST' id="f">
-            {% csrf_token %}
-            <div class="container">
-              <div class="col-sm-20">
-                <div class="card card-user" id="back">
-                  <div class="card-header">
-                    <h5 class="card-title">Create Sprint</h5>
-                  </div>
+                        <form class="post-form w3-animate-top" method='POST' id="f">
+                          {% csrf_token %}
+                            <div class="col-sm-20">
+                              <div class="card card-user" id="back">
 
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Sprint Name</label>
-                          {{ form.name }}
-                        </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label>Sprint Name</label>
+                                        {{ form.name }}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class='col-md-6 pr-1'>
+                                        <label>Sprint Start Date</label>
+                                        <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class='col-md-6 pr-1'>
+                                        <label>Sprint Dev End Date</label>
+                                        <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class='col-md-6 pr-1'>
+                                        <label>Sprint QA End Date</label>
+                                        <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                      <div class="form-group">
+                                        <label>Holidays Available</label>
+                                        {{ form.holidays }}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                      <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+
                       </div>
                     </div>
-
-                    <div class="row">
-                        <div class='col-md-6 pr-1'>
-                          <label>Sprint Start Date</label>
-                          <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class='col-md-6 pr-1'>
-                          <label>Sprint Dev End Date</label>
-                          <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class='col-md-6 pr-1'>
-                          <label>Sprint QA End Date</label>
-                          <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Holidays Available</label>
-                          {{ form.holidays }}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="update ml-auto mr-auto">
-                        <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="update ml-auto mr-auto">
-                        <button class="btn example_c" onclick="w4_close()" id="sprint_close">Close</button>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
+
               </div>
             </div>
-          </form>
-
-          <div id="m">
-
-          <script>
-            function w4_open() {
-              {% if 'add_sprint' in permission %}
-                document.getElementById("m").style.marginTop = "0%";
-                document.getElementById("f").style.display = "block";
-                document.getElementById("sprint_btn").style.display = 'none';
-              {% else %}
-                alert('UNAUTHORIZED!')
-              {% endif %}
-              }
-            function w4_close() {
-              document.getElementById("m").style.marginTop = "0%";
-              document.getElementById("f").style.display = "none";
-              document.getElementById("sprint_btn").style.display = "inline-block";
-            }
-          </script>
+          </div>
 
           <!-- Content Row -->
 

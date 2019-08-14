@@ -189,6 +189,7 @@ def blog(request):
         name = request.user.username
         st = story_details.objects.filter(sprint_id=id1,story_id=sid)
         stz = story.objects.get(sprint_id=id1,id=sid)
+
         # for tabular history
         history=[]
         h=0
@@ -949,7 +950,7 @@ def prod(request):
                     s6+=i2.calculated_left
                     s7=i2.left
 
-            # print(s2,s7,s4-z)
+            print(s2,s7,s4-z)
             if s2+s7==s4-z:
                 sum2=sum2-s2
                 list5.append(sum2)

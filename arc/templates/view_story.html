@@ -28,7 +28,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Story</div>
-                            <button class="btn example_d" style="font-size:11px;"  onclick="w4_open()" id="allocate">Add Story Manually</button>
+                            <button class="btn example_d" style="font-size:11px;" data-toggle="modal" data-target="#story_Modal" id="allocate">Add Story Manually</button>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -44,7 +44,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Add Story</div>
-                          <button class="btn example_e" style="font-size:11px;"   onclick="w13_open()" id="csv">Add Story via CSV</button>
+                          <button class="btn example_e" style="font-size:11px;" data-toggle="modal" data-target="#csv_Modal" id="csv">Add Story via CSV</button>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -56,142 +56,128 @@
             </div>
           </div>
 
-          <form class="w3-animate-left" style="display:none" method="POST" enctype="multipart/form-data" id="hz">
-            {% csrf_token %}
-            <div class="container-fluid">
-              <div class="col-sm-20">
-                <div class="card card-user" id="back">
-                  <div class="card-header">
-                    <h5 class="card-title">Add Story via CSV</h5>
-                  </div>
-                  <div class="card-body">
+          <div class="modal fade" id="story_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="width:850px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Story Manually</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
 
-                    <div class="row">
-                      <div class="col-md-6 pr-1">
-                          <input type="file" name="file1">
-                      </div>
-                    </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                      <div class="table100 ver3">
 
-                    <button type="submit" name="csv_button" class="btn example_c" id="reg1"><small>Submit</small></button>
+                        <form class="post-form w3-animate-left" method='POST' id="f">
+                          {% csrf_token %}
+                            <div class="col-sm-20">
+                              <div class="card card-user" id="back">
+                                <div class="card-body">
+                                  <form>
 
-                    <div class="row">
-                      <div class="update ml-auto mr-auto">
-                          <input type="button" class="btn example_c" value="Close" onclick="w13_close()">
+                                    <div class="row">
+                                      <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                          <label>Story Name</label>
+                                          {{ form.story_name }}
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                          <label>Brief Description</label>
+                                          {{ form.brief_description }}
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                          <label>Description Link:</label>
+                                          {{ form.description }}
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                          <label>Jira ID</label>
+                                          {{ form.jira }}
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="update ml-auto mr-auto">
+                                        <input type="hidden" name="spr1" value="1">
+                                        <input type="submit" name="story_button" class="btn example_d" id="reg1" value="Create Story">
+                                      </div>
+                                    </div>
+
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+
                       </div>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
-          </form>
+          </div>
 
-          <div id="m2">
+          <div class="modal fade" id="csv_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="width:850px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Story via CSV</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
 
-          <script>
-          function w13_open() {
-            {% if 'add_story' in permission %}
-              document.getElementById("m2").style.marginTop = "0%";
-              document.getElementById("hz").style.display = "block";
-              document.getElementById("csv").style.display = 'none';
-            {% else %}
-              alert('UNAUTHORIZED!')
-            {% endif %}
-          }
-          function w13_close() {
-            {% if 'add_story' in permission %}
-              document.getElementById("m2").style.marginTop = "0%";
-              document.getElementById("hz").style.display = "none";
-              document.getElementById("csv").style.display = "inline-block";
-            {% else %}
-              alert('UNAUTHORIZED!')
-            {% endif %}
-          }
-          </script>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                      <div class="table100 ver3">
 
-          <form class="post-form w3-animate-left" style="display:none" method='POST' id="f">
-            {% csrf_token %}
-            <div class="container-fluid">
-              <div class="col-sm-20">
-                <div class="card card-user" id="back">
-                  <div class="card-header">
-                    <h5 class="card-title">Add Story Manually</h5>
-                  </div>
-                  <div class="card-body">
-                    <form>
+                        <form class="w3-animate-left" method="POST" enctype="multipart/form-data" id="hz">
+                          {% csrf_token %}
+                            <div class="col-sm-20">
+                              <div class="card card-user" id="back">
+                                <div class="card-body">
 
-                      <div class="row">
-                        <div class="col-md-6 pr-1">
-                          <div class="form-group">
-                            <label>Story Name</label>
-                            {{ form.story_name }}
-                          </div>
-                        </div>
+                                  <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <input type="file" name="file1">
+                                    </div>
+                                  </div>
+
+                                  <button type="submit" name="csv_button" class="btn example_d" id="reg1"><small>Submit</small></button>
+
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+
                       </div>
-
-                      <div class="row">
-                        <div class="col-md-6 pr-1">
-                          <div class="form-group">
-                            <label>Brief Description</label>
-                            {{ form.brief_description }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6 pr-1">
-                          <div class="form-group">
-                            <label>Description Link:</label>
-                            {{ form.description }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6 pr-1">
-                          <div class="form-group">
-                            <label>Jira ID</label>
-                            {{ form.jira }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="update ml-auto mr-auto">
-                          <input type="hidden" name="spr1" value="1">
-                          <input type="submit" name="story_button" class="btn example_c" id="reg1" value="Create Story">
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="update ml-auto mr-auto">
-                          <button class="btn example_c" onclick="w4_close()" id="story_close"><small>Close</small></button>
-                        </div>
-                      </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
+
               </div>
             </div>
-          </form>
-
-          <div id="m">
-
-          <script>
-          function w4_open() {
-            {% if 'add_story' in permission %}
-              document.getElementById("m").style.marginTop = "0%";
-              document.getElementById("f").style.display = "block";
-              document.getElementById("allocate").style.display = 'none';
-            {% else %}
-              alert('UNAUTHORIZED!')
-            {% endif %}
-          }
-          function w4_close() {
-            document.getElementById("m").style.marginTop = "0%";
-            document.getElementById("f").style.display = "none";
-            document.getElementById("allocate").style.display = "inline-block";
-          }
-          </script>
+          </div>
 
           <div class="container-fluid">
             <div class="card shadow mb-4">
