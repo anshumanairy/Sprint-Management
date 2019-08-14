@@ -68,7 +68,7 @@
                         {% endfor %}
                         <td>
                           <form method="get" id="java{{d22.id}}">
-                            <input type="number" name="leave1" min="0" value="{{ d22.planned }}" id="points" >
+                            <input type="number" name="leave1" min="0" value="{{ d22.planned_leaves }}" id="points" >
                             <input type="hidden" value="{{ d22.id }}" name="leave2">
                             <input type="hidden" value="java" name="leave3">
                             <p></p>
@@ -96,7 +96,7 @@
                         </td>
                         <td>
                             <form method="get" id="java1{{d22.id}}">
-                              <input type="number" name="uleave1" min="0" value="{{ d22.unplanned }}" id="points" >
+                              <input type="number" name="uleave1" min="0" value="{{ d22.unplanned_leaves }}" id="points" >
                               <input type="hidden" value="{{ d22.id }}" name="uleave2">
                               <input type="hidden" value="java" name="uleave3">
                               <p></p>
@@ -124,7 +124,7 @@
                         </td>
                         <td>
                           <form method="get" id="java1{{d22.id}}">
-                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d22.vfjava }}" id="points" >
+                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d22.velocity_factor_java }}" id="points" >
                             <input type="hidden" value="{{ d22.id }}" name="assign2">
                             <input type="hidden" value="java" name="assign3">
                             <p></p>
@@ -150,10 +150,10 @@
                               });
                           </script>
                         </td>
-                        <td>{{ d22.abjava }}</td>
-                        <td>{{ d22.spjava }}</td>
+                        <td>{{ d22.available_bandwidth_java }}</td>
+                        <td>{{ d22.story_points_java }}</td>
                         <td>{{ i }}</td>
-                        <td>{{ d22.djava }}</td>
+                        <td>{{ d22.delta_java }}</td>
                       </tr>
                     {% endif %}
                   {% endfor %}{% endfor %}
@@ -218,7 +218,7 @@
                         {% endfor %}
                         <td>
                           <form method="get" id="php{{d33.id}}">
-                            <input type="number" name="leave1" min="0" value="{{ d33.planned }}" id="points" >
+                            <input type="number" name="leave1" min="0" value="{{ d33.planned_leaves }}" id="points" >
                             <input type="hidden" value="{{ d33.id }}" name="leave2">
                             <input type="hidden" value="php" name="leave3">
                             <p></p>
@@ -247,7 +247,7 @@
                         </td>
                           <td>
                               <form method="get" id="php1{{d33.id}}">
-                                <input type="number" name="uleave1" min="0" value="{{ d33.unplanned }}" id="points" >
+                                <input type="number" name="uleave1" min="0" value="{{ d33.unplanned_leaves }}" id="points" >
                                 <input type="hidden" value="{{ d33.id }}" name="uleave2">
                                 <input type="hidden" value="php" name="uleave3">
                                 <p></p>
@@ -276,7 +276,7 @@
                           </td>
                         <td>
                           <form method="get" id="php1{{d33.id}}">
-                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d33.vfphp }}" id="points" >
+                            <input type="number" name="assign1" step="0.1" min="0" value="{{ d33.velocity_factor_php }}" id="points" >
                             <input type="hidden" value="{{ d33.id }}" name="assign2">
                             <input type="hidden" value="php" name="assign3">
                             <p></p>
@@ -303,10 +303,10 @@
                               });
                           </script>
                         </td>
-                        <td>{{ d33.abphp }}</td>
-                        <td>{{ d33.spphp }}</td>
+                        <td>{{ d33.available_bandwidth_php }}</td>
+                        <td>{{ d33.story_points_php }}</td>
                         <td>{{ i }}</td>
-                        <td>{{ d33.dphp }}</td>
+                        <td>{{ d33.delta_php }}</td>
                       </tr>
                     {% endif %}
                   {% endfor %}{% endfor %}
@@ -371,7 +371,7 @@
                       {% endfor %}
                       <td>
                         <form method="get" id="html{{d44.id}}">
-                          <input type="number" name="leave1" min="0" value="{{ d44.planned }}" id="points" >
+                          <input type="number" name="leave1" min="0" value="{{ d44.planned_leaves }}" id="points" >
                           <input type="hidden" value="{{ d44.id }}" name="leave2">
                           <input type="hidden" value="html" name="leave3">
                           <p></p>
@@ -400,7 +400,7 @@
                       </td>
                         <td>
                             <form method="get" id="html1{{d44.id}}">
-                              <input type="number" name="uleave1" min="0" value="{{ d44.unplanned }}" id="points" >
+                              <input type="number" name="uleave1" min="0" value="{{ d44.unplanned_leaves }}" id="points" >
                               <input type="hidden" value="{{ d44.id }}" name="uleave2">
                               <input type="hidden" value="html" name="uleave3">
                               <p></p>
@@ -429,7 +429,7 @@
                           </td>
                       <td>
                         <form method="get" id="html1{{d44.id}}">
-                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d44.vfhtml }}" id="points" >
+                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d44.velocity_factor_html }}" id="points" >
                           <input type="hidden" value="{{ d44.id }}" name="assign2">
                           <input type="hidden" value="html" name="assign3">
                           <p></p>
@@ -456,10 +456,10 @@
                             });
                         </script>
                       </td>
-                      <td>{{ d44.abhtml }}</td>
-                      <td>{{ d44.sphtml }}</td>
+                      <td>{{ d44.available_bandwidth_html }}</td>
+                      <td>{{ d44.story_points_html }}</td>
                       <td>{{ i }}</td>
-                      <td>{{ d44.dhtml }}</td>
+                      <td>{{ d44.delta_html }}</td>
                     </tr>
                   {% endif %}
                 {% endfor %}{% endfor %}
@@ -524,7 +524,7 @@
                       {% endfor %}
                       <td>
                         <form method="get" id="qa{{d55.id}}">
-                          <input type="number" name="leave1" min="0" value="{{ d55.planned }}" id="points" >
+                          <input type="number" name="leave1" min="0" value="{{ d55.planned_leaves }}" id="points" >
                           <input type="hidden" value="{{ d55.id }}" name="leave2">
                           <input type="hidden" value="qa" name="leave3">
                           <p></p>
@@ -553,7 +553,7 @@
                       </td>
                         <td>
                             <form method="get" id="qa1{{d55.id}}">
-                              <input type="number" name="uleave1" min="0" value="{{ d55.unplanned }}" id="points" >
+                              <input type="number" name="uleave1" min="0" value="{{ d55.unplanned_leaves }}" id="points" >
                               <input type="hidden" value="{{ d55.id }}" name="uleave2">
                               <input type="hidden" value="qa" name="uleave3">
                               <p></p>
@@ -582,7 +582,7 @@
                           </td>
                       <td>
                         <form method="get" id="qa1{{d55.id}}">
-                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d55.vfqa }}" id="points" >
+                          <input type="number" name="assign1" step="0.1" min="0" value="{{ d55.velocity_factor_qa }}" id="points" >
                           <input type="hidden" value="{{ d55.id }}" name="assign2">
                           <input type="hidden" value="qa" name="assign3">
                           <p></p>
@@ -609,10 +609,10 @@
                             });
                         </script>
                       </td>
-                      <td>{{ d55.abqa }}</td>
-                      <td>{{ d55.spqa }}</td>
+                      <td>{{ d55.available_bandwidth_qa }}</td>
+                      <td>{{ d55.story_points_qa }}</td>
                       <td>{{ i }}</td>
-                      <td>{{ d55.dqa }}</td>
+                      <td>{{ d55.delta_qa }}</td>
                     </tr>
                   {% endif %}
                 {% endfor %}{% endfor %}

@@ -979,7 +979,7 @@ def prod(request):
         list8=[]
         sp=0
         sc=0
-        ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+        ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
         for i4 in s3:
             if i4.dev_java==user3:
                 sp+=i4.assigned_java_points
@@ -1010,7 +1010,7 @@ def prod(request):
             s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name) or story_details.objects.filter(sprint_id=id,dev_php=s2.name) or story_details.objects.filter(sprint_id=id,dev_html=s2.name) or story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
             sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
             for i4 in s3:
                 if i4.dev_java==s2.name:
                     sp+=i4.assigned_java_points
@@ -1041,7 +1041,7 @@ def prod(request):
             s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name)
             sp=0
             sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
             for i4 in s3:
                 if i4.dev_java==s2.name:
                     sp+=i4.assigned_java_points
@@ -1072,7 +1072,7 @@ def prod(request):
             s3 = story_details.objects.filter(sprint_id=id,dev_php=s2.name)
             sp=0
             sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
             for i4 in s3:
                 if i4.dev_java==s2.name:
                     sp+=i4.assigned_java_points
@@ -1103,7 +1103,7 @@ def prod(request):
             s3 = story_details.objects.filter(sprint_id=id,dev_html=s2.name)
             sp=0
             sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
             for i4 in s3:
                 if i4.dev_java==s2.name:
                     sp+=i4.assigned_java_points
@@ -1134,7 +1134,7 @@ def prod(request):
             s3 = story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
             sp=0
             sc=0
-            ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+            ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
             for i4 in s3:
                 if i4.dev_java==s2.name:
                     sp+=i4.assigned_java_points
@@ -1248,7 +1248,7 @@ def prod(request):
                 list8=[]
                 sp=0
                 sc=0
-                ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                 for i4 in s3:
                     if i4.dev_java==user1:
                         sp+=i4.assigned_java_points
@@ -1278,7 +1278,7 @@ def prod(request):
                     s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name) or story_details.objects.filter(sprint_id=id,dev_php=s2.name) or story_details.objects.filter(sprint_id=id,dev_html=s2.name) or story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
                     sp=0
                     sc=0
-                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                     for i4 in s3:
                         if i4.dev_java==s2.name:
                             sp+=i4.assigned_java_points
@@ -1308,7 +1308,7 @@ def prod(request):
                 for s2 in s22:
                     s3 = story_details.objects.filter(sprint_id=id,dev_java=s2.name)
                     sc=0
-                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                     for i4 in s3:
                         if i4.dev_java==s2.name:
                             sp+=i4.assigned_java_points
@@ -1338,7 +1338,7 @@ def prod(request):
                 for s2 in s22:
                     s3 = story_details.objects.filter(sprint_id=id,dev_php=s2.name)
                     sc=0
-                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                     for i4 in s3:
                         if i4.dev_java==s2.name:
                             sp+=i4.assigned_java_points
@@ -1368,7 +1368,7 @@ def prod(request):
                 for s2 in s22:
                     s3 = story_details.objects.filter(sprint_id=id,dev_html=s2.name)
                     sc=0
-                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                     for i4 in s3:
                         if i4.dev_java==s2.name:
                             sp+=i4.assigned_java_points
@@ -1398,7 +1398,7 @@ def prod(request):
                 for s2 in s22:
                     s3 = story_details.objects.filter(sprint_id=id,dev_qa=s2.name)
                     sc=0
-                    ab = s2.spjava + s2.spphp + s2.sphtml +s2.spqa
+                    ab = s2.story_points_java + s2.story_points_php + s2.story_points_html +s2.story_points_qa
                     for i4 in s3:
                         if i4.dev_java==s2.name:
                             sp+=i4.assigned_java_points
@@ -1594,10 +1594,10 @@ def view_story(request):
         d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=id)
         d4 = user_sprint_detail.objects.filter(roles='dev',html='True',sprint_id=id)
         d5 = user_sprint_detail.objects.filter(roles='dev',qa='True',sprint_id=id)
-        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
-        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
-        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
-        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+        sjava = user_sprint_detail.objects.aggregate(Sum('story_points_java'))['story_points_java__sum']
+        sphp = user_sprint_detail.objects.aggregate(Sum('story_points_php'))['story_points_php__sum']
+        shtml = user_sprint_detail.objects.aggregate(Sum('story_points_html'))['story_points_html__sum']
+        sqa = user_sprint_detail.objects.aggregate(Sum('story_points_qa'))['story_points_qa__sum']
         list11=[]
         for i in d1:
             j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
@@ -1717,14 +1717,14 @@ def view_story(request):
                                 j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
 
                                 if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
-                                    creg.djava = creg.spjava
+                                    creg.delta_java = creg.story_points_java
                                 else:
-                                    creg.djava = creg.spjava - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                                    creg.delta_java = creg.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
                                 if j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
-                                    creg1.djava = creg1.spjava
+                                    creg1.delta_java = creg1.story_points_java
                                 else:
-                                    creg1.djava = creg1.spjava - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                                    creg1.delta_java = creg1.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
                                 creg.save()
                                 creg1.save()
@@ -1770,14 +1770,14 @@ def view_story(request):
                             j1 = story_details.objects.filter(sprint_id=id, dev_php=php_dev)
 
                             if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
-                                creg.dphp = creg.spphp
+                                creg.delta_php = creg.story_points_php
                             else:
-                                creg.dphp = creg.spphp - (j1.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                                creg.delta_php = creg.story_points_php - (j1.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
 
                             if j1.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
-                                creg1.dphp = creg1.spphp
+                                creg1.delta_php = creg1.story_points_php
                             else:
-                                creg1.dphp = creg1.spphp - (j1.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                                creg1.delta_php = creg1.story_points_php - (j1.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
 
                             creg.save()
                             creg1.save()
@@ -1821,14 +1821,14 @@ def view_story(request):
                             j1 = story_details.objects.filter(sprint_id=id, dev_html=html_dev)
 
                             if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
-                                creg.dhtml = creg.sphtml
+                                creg.delta_html = creg.story_points_html
                             else:
-                                creg.dhtml = creg.sphtml - (j1.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                                creg.delta_html = creg.story_points_html - (j1.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
 
                             if j1.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
-                                creg1.dhtml = creg1.sphtml
+                                creg1.delta_html = creg1.story_points_html
                             else:
-                                creg1.dhtml = creg1.sphtml - (j1.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                                creg1.delta_html = creg1.story_points_html - (j1.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
 
                             creg.save()
                             creg1.save()
@@ -1872,14 +1872,14 @@ def view_story(request):
                             j1 = story_details.objects.filter(sprint_id=id, dev_qa=qa_dev)
 
                             if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
-                                creg.dqa = creg.spqa
+                                creg.delta_qa = creg.story_points_qa
                             else:
-                                creg.dqa = creg.spqa - (j1.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                                creg.delta_qa = creg.story_points_qa - (j1.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
 
                             if j1.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
-                                creg1.dqa = creg1.spqa
+                                creg1.delta_qa = creg1.story_points_qa
                             else:
-                                creg1.dqa = creg1.spqa - (j1.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                                creg1.delta_qa = creg1.story_points_qa - (j1.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
 
                             creg.save()
                             creg1.save()
@@ -2026,10 +2026,10 @@ def bandwidth(request):
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)
         nx1 = sprint.objects.get(id = sprid).name
-        sjava = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spjava'))['spjava__sum']
-        sphp = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spphp'))['spphp__sum']
-        shtml = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('sphtml'))['sphtml__sum']
-        sqa = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('spqa'))['spqa__sum']
+        sjava = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('story_points_java'))['story_points_java__sum']
+        sphp = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('story_points_php'))['story_points_php__sum']
+        shtml = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('story_points_html'))['story_points_html__sum']
+        sqa = user_sprint_detail.objects.filter(sprint_id=sprid).aggregate(Sum('story_points_qa'))['story_points_qa__sum']
         band = sprint.objects.filter(id=sprid)
         data = story.objects.filter(sprint_id=sprid)
         d1 = user_sprint_detail.objects.filter(roles='dev')
@@ -2044,10 +2044,10 @@ def bandwidth(request):
             r = user_sprint_detail.objects.get(roles='dev',java='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                 list1.append(0)
-                r.djava = r.spjava
+                r.delta_java = r.story_points_java
             else:
                 list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                r.djava = r.spjava - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                r.delta_java = r.story_points_java - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
             r.save()
 
 
@@ -2057,10 +2057,10 @@ def bandwidth(request):
             r = user_sprint_detail.objects.get(roles='dev',php='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                 list2.append(0)
-                r.dphp = r.spphp
+                r.delta_php = r.story_points_php
             else:
                 list2.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                r.dphp = r.spphp - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                r.delta_php = r.story_points_php - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
             r.save()
 
         list3=[]
@@ -2069,10 +2069,10 @@ def bandwidth(request):
             r = user_sprint_detail.objects.get(roles='dev',html='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                 list3.append(0)
-                r.dhtml = r.sphtml
+                r.delta_html = r.story_points_html
             else:
                 list3.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                r.dhtml = r.sphtml - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                r.delta_html = r.story_points_html - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
             r.save()
 
         list4=[]
@@ -2081,10 +2081,10 @@ def bandwidth(request):
             r = user_sprint_detail.objects.get(roles='dev',qa='True',name=i.name,sprint_id=sprid)
             if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                 list4.append(0)
-                r.dqa = r.spqa
+                r.delta_qa = r.story_points_qa
             else:
                 list4.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                r.dqa = r.spqa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                r.delta_qa = r.story_points_qa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
             r.save()
 
         x = sprint.objects.get(id=sprid)
@@ -2111,67 +2111,67 @@ def bandwidth(request):
 
                     if skill == 'java':
                         r = user_sprint_detail.objects.get(id=uid, java='True',sprint_id=sprid)
-                        r.vfjava = vf
-                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                        r.abjava = int(ab)
-                        r.spjava = r.abjava * 2
-                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        r.velocity_factor_java = vf
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        r.available_bandwidth_java = int(ab)
+                        r.story_points_java = r.available_bandwidth_java * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('story_points_java'))['story_points_java__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                         if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                             list1.append(0)
-                            r.djava = r.spjava
+                            r.delta_java = r.story_points_java
                         else:
                             list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                            r.djava = r.spjava - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                            r.delta_java = r.story_points_java - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
 
                     if skill == 'php':
                         r = user_sprint_detail.objects.get(id=uid, php='True',sprint_id=sprid)
-                        r.vfphp = vf
-                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                        r.abphp = int(ab)
-                        r.spphp = r.abphp * 2
-                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        r.velocity_factor_php = vf
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        r.available_bandwidth_php = int(ab)
+                        r.story_points_php = r.available_bandwidth_php * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('story_points_php'))['story_points_php__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                         if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                             list1.append(0)
-                            r.dphp = r.spphp
+                            r.delta_php = r.story_points_php
                         else:
                             list1.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                            r.dphp = r.spphp - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                            r.delta_php = r.story_points_php - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
 
 
                     if skill == 'html':
                         r = user_sprint_detail.objects.get(id=uid, html='True',sprint_id=sprid)
-                        r.vfhtml = vf
-                        ab = (float(vf) * (p.dev_working-r.planned-r.unplanned))
-                        r.abhtml = int(ab)
-                        r.sphtml = r.abhtml * 2
-                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        r.velocity_factor_html = vf
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        r.available_bandwidth_html = int(ab)
+                        r.story_points_html = r.available_bandwidth_html * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('story_points_html'))['story_points_html__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                         if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                             list1.append(0)
-                            r.dhtml = r.sphtml
+                            r.delta_html = r.story_points_html
                         else:
                             list1.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                            r.dhtml = r.sphtml - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                            r.delta_html = r.story_points_html - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
 
 
 
                     if skill == 'qa':
                         r = user_sprint_detail.objects.get(id=uid, qa='True',sprint_id=sprid)
-                        r.vfqa = vf
-                        ab = (float(vf) * (p.qa_working-r.planned-r.unplanned))
-                        r.abqa = int(ab)
-                        r.spqa = r.abqa * 2
-                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        r.velocity_factor_qa = vf
+                        ab = (float(vf) * (p.qa_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        r.available_bandwidth_qa = int(ab)
+                        r.story_points_qa = r.available_bandwidth_qa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('story_points_qa'))['story_points_qa__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                         if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                             list1.append(0)
-                            r.dqa = r.spqa
+                            r.delta_qa = r.story_points_qa
                         else:
                             list1.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                            r.dqa = r.spqa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                            r.delta_qa = r.story_points_qa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
 
                     r.save()
                     return redirect('/bandwidth/')
@@ -2186,7 +2186,7 @@ def bandwidth(request):
                     uid = request.GET.get('uleave2')
                     skill = request.GET.get('uleave3')
                     r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
-                    r.unplanned = int(pl)
+                    r.unplanned_leaves = int(pl)
                     p = sprint.objects.get(id=sprid)
                     d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
                     d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
@@ -2196,65 +2196,65 @@ def bandwidth(request):
 
                     if skill=='java':
                         r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
-                        ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
-                        r.abjava=ab
-                        r.spjava = r.abjava * 2
-                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        ab = (r.velocity_factor_java)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_java=ab
+                        r.story_points_java = r.available_bandwidth_java * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('story_points_java'))['story_points_java__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                         if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                             list1.append(0)
-                            r.djava = r.spjava
+                            r.delta_java = r.story_points_java
                         else:
                             list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                            r.djava = r.spjava - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                            r.delta_java = r.story_points_java - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
                             r.save()
 
 
                     if skill=='php':
                         r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
-                        ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
-                        r.abphp=ab
-                        r.spphp = r.abphp * 2
-                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        ab = (r.velocity_factor_php)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_php=ab
+                        r.story_points_php = r.available_bandwidth_php * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('story_points_php'))['story_points_php__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                         if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                             list1.append(0)
-                            r.dphp = r.spphp
+                            r.delta_php = r.story_points_php
                         else:
                             list1.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                            r.dphp = r.spphp - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                            r.delta_php = r.story_points_php - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
                             r.save()
 
 
                     if skill=='html':
                         r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
-                        ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
-                        r.abhtml=ab
-                        r.sphtml = r.abhtml * 2
-                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        ab = (r.velocity_factor_html)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_html=ab
+                        r.story_points_html = r.available_bandwidth_html * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('story_points_html'))['story_points_html__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                         if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                             list1.append(0)
-                            r.dhtml = r.sphtml
+                            r.delta_html = r.story_points_html
                         else:
                             list1.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                            r.dhtml = r.sphtml - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                            r.delta_html = r.story_points_html - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
                             r.save()
 
                     if skill=='qa':
                         r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
-                        ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
-                        r.abqa=ab
-                        r.spqa = r.abqa * 2
-                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        ab = (r.velocity_factor_qa)*(p.qa_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_qa=ab
+                        r.story_points_qa = r.available_bandwidth_qa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('story_points_qa'))['story_points_qa__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                         if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                             list1.append(0)
-                            r.dqa = r.spqa
+                            r.delta_qa = r.story_points_qa
                         else:
                             list1.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                            r.dqa = r.spqa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                            r.delta_qa = r.story_points_qa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
                             r.save()
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
@@ -2267,7 +2267,7 @@ def bandwidth(request):
                     uid = request.GET.get('leave2')
                     skill = request.GET.get('leave3')
                     r = user_sprint_detail.objects.get(id=uid,sprint_id=sprid)
-                    r.planned = int(pl)
+                    r.planned_leaves = int(pl)
                     p = sprint.objects.get(id=sprid)
                     d2 = user_sprint_detail.objects.filter(roles='dev',java='True',sprint_id=sprid)
                     d3 = user_sprint_detail.objects.filter(roles='dev',php='True',sprint_id=sprid)
@@ -2277,64 +2277,64 @@ def bandwidth(request):
 
                     if skill=='java':
                         r = user_sprint_detail.objects.get(id=uid,java='True',sprint_id=sprid)
-                        ab = (r.vfjava)*(p.dev_working-r.planned-r.unplanned)
-                        r.abjava=ab
-                        r.spjava = r.abjava * 2
-                        sjava = user_sprint_detail.objects.aggregate(Sum('spjava'))['spjava__sum']
+                        ab = (r.velocity_factor_java)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_java=ab
+                        r.story_points_java = r.available_bandwidth_java * 2
+                        sjava = user_sprint_detail.objects.aggregate(Sum('story_points_java'))['story_points_java__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_java=r.name)
                         if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                             list1.append(0)
-                            r.djava = r.spjava
+                            r.delta_java = r.story_points_java
                         else:
                             list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                            r.djava = r.spjava - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                            r.delta_java = r.story_points_java - (j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
                             r.save()
 
 
                     if skill=='php':
                         r = user_sprint_detail.objects.get(id=uid,php='True',sprint_id=sprid)
-                        ab = (r.vfphp)*(p.dev_working-r.planned-r.unplanned)
-                        r.abphp=ab
-                        r.spphp = r.abphp * 2
-                        sphp = user_sprint_detail.objects.aggregate(Sum('spphp'))['spphp__sum']
+                        ab = (r.velocity_factor_php)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_php=ab
+                        r.story_points_php = r.available_bandwidth_php * 2
+                        sphp = user_sprint_detail.objects.aggregate(Sum('story_points_php'))['story_points_php__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_php=r.name)
                         if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                             list1.append(0)
-                            r.dphp = r.spphp
+                            r.delta_php = r.story_points_php
                         else:
                             list1.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                            r.dphp = r.spphp - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
+                            r.delta_php = r.story_points_php - (j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
                             r.save()
 
 
                     if skill=='html':
                         r = user_sprint_detail.objects.get(id=uid,html='True',sprint_id=sprid)
-                        ab = (r.vfhtml)*(p.dev_working-r.planned-r.unplanned)
-                        r.abhtml=ab
-                        r.sphtml = r.abhtml * 2
-                        shtml = user_sprint_detail.objects.aggregate(Sum('sphtml'))['sphtml__sum']
+                        ab = (r.velocity_factor_html)*(p.dev_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_html=ab
+                        r.story_points_html = r.available_bandwidth_html * 2
+                        shtml = user_sprint_detail.objects.aggregate(Sum('story_points_html'))['story_points_html__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_html=r.name)
                         if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                             list1.append(0)
-                            r.dhtml = r.sphtml
+                            r.delta_html = r.story_points_html
                         else:
                             list1.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                            r.dhtml = r.sphtml - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
+                            r.delta_html = r.story_points_html - (j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
                             r.save()
 
                     if skill=='qa':
                         r = user_sprint_detail.objects.get(id=uid,qa='True',sprint_id=sprid)
-                        ab = (r.vfqa)*(p.qa_working-r.planned-r.unplanned)
-                        r.abqa=ab
-                        r.spqa = r.abqa * 2
-                        sqa = user_sprint_detail.objects.aggregate(Sum('spqa'))['spqa__sum']
+                        ab = (r.velocity_factor_qa)*(p.qa_working-r.planned_leaves-r.unplanned_leaves)
+                        r.available_bandwidth_qa=ab
+                        r.story_points_qa = r.available_bandwidth_qa * 2
+                        sqa = user_sprint_detail.objects.aggregate(Sum('story_points_qa'))['story_points_qa__sum']
                         j = story_details.objects.filter(sprint_id=sprid, dev_qa=r.name)
                         if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                             list1.append(0)
-                            r.dqa = r.spqa
+                            r.delta_qa = r.story_points_qa
                         else:
                             list1.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                            r.dqa = r.spqa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
+                            r.delta_qa = r.story_points_qa - (j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
                             r.save()
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
@@ -2441,7 +2441,7 @@ def tasks(request):
         c1 = user_sprint_detail.objects.filter(sprint_id=id1,roles='dev')
         sum3=0
         for i3 in c1:
-            sum3+=i3.abjava + i3.abphp + i3.abhtml + i3.abqa
+            sum3+=i3.available_bandwidth_java + i3.available_bandwidth_php + i3.available_bandwidth_html + i3.available_bandwidth_qa
         repo.append(sum3)
         sum1=0
         sum2=0
@@ -2609,62 +2609,62 @@ def reg(request):
     emp=0
     registered = False
 
-    email = 'anshuman.airy@quikr.com'
+    # email = 'anshuman.airy@quikr.com'
+    #
+    # if User.objects.filter(email=email).exists() == True:
+    #     regx = User.objects.get(email=email)
+    #     user = authenticate(username = regx.username, password='Zehel9999')
+    #     login(request,user)
+    #     request.session['pid'] = 0
+    #     request.session['user2'] = ''
+    #     request.session['id'] = 0
+    #     request.session['userx'] = 'Users'
+    #     return redirect('product')
 
-    if User.objects.filter(email=email).exists() == True:
-        regx = User.objects.get(email=email)
-        user = authenticate(username = regx.username, password='Zehel9999')
-        login(request,user)
-        request.session['pid'] = 0
-        request.session['user2'] = ''
-        request.session['id'] = 0
-        request.session['userx'] = 'Users'
-        return redirect('product')
+    try:
+        if request.method =='GET':
+            auth_code = request.GET.get('auth_code', '')
+            encrypt_auth = encryptx(auth_code)
 
-    # try:
-    #     if request.method =='GET':
-    #         auth_code = request.GET.get('auth_code', '')
-    #         encrypt_auth = encryptx(auth_code)
-    #
-    #         # part2 to obtain token
-    #         payload = {
-    #                 'grantType':'authorization_code',
-    #                 'code':encrypt_auth,
-    #                 'clientId':'SprintManagement'
-    #                 }
-    #
-    #         headers = {
-    #                 'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-    #                 'X-Quikr-Client':'Platform',
-    #                 'Content-Type':'application/json'
-    #                 }
-    #
-    #         response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-    #         resp = response.text
-    #         list1=list(map(str,resp.split('"')))
-    #         idtoken = list1[5]
-    #         access_token = auth_code
-    #         list2=list(map(str,idtoken.split('.')))
-    #         dec = decryptx(list1[5])
-    #
-    #         emp = int(dec['empId'])
-    #         email = dec['email']
-    #         name = dec['name']
-    #         request.session['emp'] = emp
-    #         request.session['email'] = email
-    #         request.session['name'] = name
-    #
-    #         if User.objects.filter(email=email).exists() == True:
-    #             regx = User.objects.get(email=email)
-    #             user = authenticate(username = regx.username, password='Zehel9999')
-    #             login(request,user)
-    #             request.session['pid'] = 0
-    #             request.session['user2'] = ''
-    #             request.session['id'] = 0
-    #             request.session['userx'] = 'Users'
-    #             return redirect('product')
-    # except:
-    #     pass
+            # part2 to obtain token
+            payload = {
+                    'grantType':'authorization_code',
+                    'code':encrypt_auth,
+                    'clientId':'SprintManagement'
+                    }
+
+            headers = {
+                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+                    'X-Quikr-Client':'Platform',
+                    'Content-Type':'application/json'
+                    }
+
+            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+            resp = response.text
+            list1=list(map(str,resp.split('"')))
+            idtoken = list1[5]
+            access_token = auth_code
+            list2=list(map(str,idtoken.split('.')))
+            dec = decryptx(list1[5])
+
+            emp = int(dec['empId'])
+            email = dec['email']
+            name = dec['name']
+            request.session['emp'] = emp
+            request.session['email'] = email
+            request.session['name'] = name
+
+            if User.objects.filter(email=email).exists() == True:
+                regx = User.objects.get(email=email)
+                user = authenticate(username = regx.username, password='Zehel9999')
+                login(request,user)
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
+                request.session['userx'] = 'Users'
+                return redirect('product')
+    except:
+        pass
 
     if request.method == 'POST':
         dev = Group.objects.get(name='Developer')
