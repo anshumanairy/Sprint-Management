@@ -18,7 +18,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="blog-entry ftco-animate d-md-flex" style="float:left;">
+                      <div class="blog-entry ftco-animate d-md-flex">
                         <div class="text text-2 pl-md-4">
                           <p>{{i.jira}}</p>
                           <h3 style="font-size:20px;"><b>{{stz.story_name}}</b></h3>
@@ -30,11 +30,32 @@
                           <p><a href="{{i.description}}" target="_blank" class="btn-custom">Read More</a></p>
                         </div>
                       </div>
-                      <form method="GET" style="float:right;">
-                        <textarea name="brief_desc" rows="3" cols="50" id="brief" style="font-size:13px;height:20vh;overflow:scroll;">{{stz.brief_description}}</textarea>
+                      <form method="GET">
+                        <textarea name="brief_desc" rows="3" cols="50" id="brief" style="font-size:13px;width:100%;padding-left:2%">{{stz.brief_description}}</textarea>
                         <p></p>
-                        <input class="btn example_c" type="submit" value="Change">
+                        <input class="btn example_c" type="submit" value="Change" style="margin-left:2%">
                       </form>
+                      <script type="text/javascript">
+                        var txt = $('#brief'),
+                            hiddenDiv = $(document.createElement('div')),
+                            content = null;
+
+                        txt.addClass('txtstuff');
+                        hiddenDiv.addClass('hiddendiv common');
+
+                        $('body').append(hiddenDiv);
+
+                        txt.on('mouseover', function () {
+
+                            content = $(this).val();
+
+                            content = content.replace(/\n/g, '<br>');
+                            hiddenDiv.html(content + '<br class="lbr">');
+
+                            $(this).css('height', hiddenDiv.height());
+
+                        });
+                      </script>
                     </div>
                   </div>
                 </div>

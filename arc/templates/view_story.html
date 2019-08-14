@@ -197,29 +197,59 @@
             <div class="card shadow mb-4">
               <div class="table100 ver3">
 
+                <!-- Edit Modal-->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width:850px;">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Story</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
 
-                <table class="w3-animate-left" data-vertable="ver1" style="display:none;font-size:10px;" id="e">
-                  <tbody>
-                    <tr>
-                      <form method="get" id='edit2'>
-                        {% csrf_token %}
-                        <td><label>Story Name</label>
-                        <input type="text" name="s_name" value="" id="a1"></td>
-                        <td><label>Description Link</label>
-                        <input type="url" name="desc" value="" id="b1"></td>
-                        <td><label>Old Jira ID</label>
-                        <input type="text" name ="old_jira" value="" id="c1"></td>
-                        <td><label>New Jira ID</label>
-                        <input type="text" name="new_jira" value="" id="d1"></td>
-                        <td>
-                          <input class ="btn example_d" type="submit" value="Submit">
-                          <p></p>
-                          <input type="button" class="btn example_d" onclick="w5_close()" value="Close">
-                        </td>
-                      </form>
-                    </tr>
-                  </tbody>
-                </table>
+                      <div class="modal-body">
+                        <div class="container-fluid">
+                          <div class="card shadow mb-4">
+                            <div class="table100 ver3">
+
+                              <table class="w3-animate-left" data-vertable="ver1" style="display:none;" id="e">
+                                <thead class="text-primary">
+                                  <!-- <th>Check</th> -->
+                                  <th class="th-sm">Story Name</th>
+                                  <th class="th-sm">Description Link</th>
+                                  <th class="th-sm">Old Jira ID</th>
+                                  <th class="th-sm">New Jira ID</th>
+                                  <th class="th-sm">Assign</th>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <form method="get" id='edit2'>
+                                      {% csrf_token %}
+                                      <td>
+                                      <input type="text" name="s_name" value="" id="a1"></td>
+                                      <td>
+                                      <input type="url" name="desc" value="" id="b1"></td>
+                                      <td>
+                                      <input type="text" name ="old_jira" value="" id="c1"></td>
+                                      <td>
+                                      <input type="text" name="new_jira" value="" id="d1"></td>
+                                      <td>
+                                        <input class ="btn example_d" type="submit" value="Submit">
+                                      </td>
+                                    </form>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
 
                 <table class="table" id="tab2" data-vertable="ver1">
                   <thead class="text-primary">
@@ -272,7 +302,7 @@
                         <!-- <form method="GET"> -->
                         <div class="ec">
                           {% if 'edit_story' in permission %}
-                            <input type="image" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:30px;height:30px;">
+                            <input type="image" data-toggle="modal" data-target="#editModal" src="{% static '/edit.png' %}" onclick="w5_open({{d.id}})" id="edit" style="width:30px;height:30px;">
                           {% endif %}
                         </div>
                         <!-- </form> -->
@@ -317,7 +347,6 @@
           function w5_open(e) {
             document.getElementById("n").style.marginTop = "0%";
             document.getElementById("e").style.display = "block";
-            document.getElementById("edit").style.display = 'none';
             $(document).ready(function() {
               var d1  = JSON.parse('{{ jd1|escapejs }}');
               var d2  = JSON.parse('{{ jd2|escapejs }}');

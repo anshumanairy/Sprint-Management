@@ -1682,8 +1682,11 @@ def view_story(request):
                 p.story_name = sn
                 p.description = sd
                 p.jira = snj
+                p1 = story_details.objects.filter(story_id=p.id).latest('id')
+                p1.jira=snj
                 if request.user.has_perm("edit_story.edit_story") or ("edit_story") in permission:
                     p.save()
+                    p1.save()
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
                     return redirect('view_story')
