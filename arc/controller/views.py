@@ -897,7 +897,7 @@ def prod(request):
     sumy=sum2
     list5.append(sum2)
     list6.append(sum2)
-
+    z=0
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
         listzz=[1,4,4,0,2,5,0,3,6,1,4,6]
@@ -928,23 +928,29 @@ def prod(request):
             s3=0
             s4=0
             s6=0
+            s7=0
+            jira=''
             for i2 in p2:
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
                     s5 = story_details.objects.get(sprint_id=id,jira=i2.jira_id)
-                    if s5.dev_java==i2.dev_name:
-                        s4+=s5.assigned_java_points
-                    elif s5.dev_php==i2.dev_name:
-                        s4+=s5.assigned_php_points
-                    elif s5.dev_html==i2.dev_name:
-                        s4+=s5.assigned_html_points
-                    elif s5.dev_qa==i2.dev_name:
-                        s4+=s5.assigned_qa_points
+                    if i2.jira_id != jira:
+                        if s5.dev_java==i2.dev_name:
+                            s4+=s5.assigned_java_points
+                        elif s5.dev_php==i2.dev_name:
+                            s4+=s5.assigned_php_points
+                        elif s5.dev_html==i2.dev_name:
+                            s4+=s5.assigned_html_points
+                        elif s5.dev_qa==i2.dev_name:
+                            s4+=s5.assigned_qa_points
+                        jira = i2.jira_id
 
                     s2+=i2.actual
                     s3+=i2.left
                     s6+=i2.calculated_left
+                    s7=i2.left
 
-            if s2+s3==s4:
+            # print(s2,s7,s4-z)
+            if s2+s7==s4-z:
                 sum2=sum2-s2
                 list5.append(sum2)
             else:
@@ -953,6 +959,7 @@ def prod(request):
             if (cal+1)!=0:
                 sumx-=(sumy/(cal+1))
                 list6.append(sumx)
+            z=s2
 
     # print(list5)
     # print(list6)
