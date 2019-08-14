@@ -2126,7 +2126,7 @@ def bandwidth(request):
                     if skill == 'java':
                         r = user_sprint_detail.objects.get(id=uid, java='True',sprint_id=sprid)
                         r.velocity_factor_java = vf
-                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves-r.unplanned_leaves))
                         r.available_bandwidth_java = int(ab)
                         r.story_points_java = r.available_bandwidth_java * 2
                         sjava = user_sprint_detail.objects.aggregate(Sum('story_points_java'))['story_points_java__sum']
@@ -2142,7 +2142,7 @@ def bandwidth(request):
                     if skill == 'php':
                         r = user_sprint_detail.objects.get(id=uid, php='True',sprint_id=sprid)
                         r.velocity_factor_php = vf
-                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves-r.unplanned_leaves))
                         r.available_bandwidth_php = int(ab)
                         r.story_points_php = r.available_bandwidth_php * 2
                         sphp = user_sprint_detail.objects.aggregate(Sum('story_points_php'))['story_points_php__sum']
@@ -2158,7 +2158,7 @@ def bandwidth(request):
                     if skill == 'html':
                         r = user_sprint_detail.objects.get(id=uid, html='True',sprint_id=sprid)
                         r.velocity_factor_html = vf
-                        ab = (float(vf) * (p.dev_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        ab = (float(vf) * (p.dev_working-r.planned_leaves-r.unplanned_leaves))
                         r.available_bandwidth_html = int(ab)
                         r.story_points_html = r.available_bandwidth_html * 2
                         shtml = user_sprint_detail.objects.aggregate(Sum('story_points_html'))['story_points_html__sum']
@@ -2175,7 +2175,7 @@ def bandwidth(request):
                     if skill == 'qa':
                         r = user_sprint_detail.objects.get(id=uid, qa='True',sprint_id=sprid)
                         r.velocity_factor_qa = vf
-                        ab = (float(vf) * (p.qa_working-r.planned_leaves_leaves-r.unplanned_leaves))
+                        ab = (float(vf) * (p.qa_working-r.planned_leaves-r.unplanned_leaves))
                         r.available_bandwidth_qa = int(ab)
                         r.story_points_qa = r.available_bandwidth_qa * 2
                         sqa = user_sprint_detail.objects.aggregate(Sum('story_points_qa'))['story_points_qa__sum']
