@@ -950,7 +950,7 @@ def prod(request):
                     s6+=i2.calculated_left
                     s7=i2.left
 
-            print(s2,s7,s4-z)
+            # print(s2,s7,s4-z)
             if s2+s7==s4-z:
                 sum2=sum2-s2
                 list5.append(sum2)

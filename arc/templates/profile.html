@@ -101,94 +101,116 @@
           </div>
         </div>
 
-        <!-- <div style="float:left;">
+        <div style="float:left;">
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-           <input class="btn example_d" type="submit" name='file'>
+            <input type="file" name="profile" value="">
+            <input class="btn example_e" type="submit" name='file' value='Submit'>
           </form>
-        </div> -->
+        </div>
 
         <div align="right">
-          <button class="btn example_d" onclick="w4_open()" id="info_btn">UPDATE INFO</button>
+          <button class="btn example_e" data-toggle="modal" data-target="#update_Modal" id="info_btn">UPDATE INFO</button>
         </div>
       </div>
 
-    </section>
-
-    <div class="container w3-animate-top" style="display:none" align="center" id="x1">
-      <div class="col-sm-5" align="center">
-        <form method="POST" id="log">
-          {% csrf_token %}
-          <div class="card card-user" align="center">
-            <div class="card-header" align="center">
-              <h4>PERSONAL INFORMATION</h4>
+      <div class="modal fade" id="update_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="width:850px;">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Personal Information</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
             </div>
-            <div class="card-body" align="center">
 
-                <div>
-                  <label>Name</label>
-                    <div>
-                      {% if check == 1 %}
-                        <input type="text" name="name" value="{{info.username}}" disabled>
-                      {% else %}
-                        <input type="text" name="name" value="{{info.name}}">
-                      {% endif %}
-                    </div>
-                </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="card shadow mb-4">
+                  <div class="table100 ver3">
 
-                <div>
-                    <label>Username</label>
-                    <div>
-                      {% if check == 1 %}
-                        <input type="text" name="uname" value="{{info.username}}">
-                      {% else %}
-                        <input type="text" name="uname" value="{{info.uname}}">
-                      {% endif %}
-                    </div>
-                </div>
+                    <form method="POST" id="log">
+                      {% csrf_token %}
+                      <div class="card card-user" align="center">
+                        <div class="card-body" align="center">
 
-                <div>
-                  <label>Skills</label>
-                  <div>
-                    <select class="js-example-basic-single" name="skill[]" multiple>
-                      {% if check == 1 %}
-                        <option selected>SUPERUSER</option>
-                      {% else %}
-                        {% if info.java == True %}
-                          <option selected>Java</option>
-                        {% else %}
-                          <option>Java</option>
-                        {% endif %}
-                        {% if info.php == True %}
-                          <option selected>PHP</option>
-                        {% else %}
-                          <option>PHP</option>
-                        {% endif %}
-                        {% if info.html == True %}
-                          <option selected>HTML</option>
-                        {% else %}
-                          <option>HTML</option>
-                        {% endif %}
-                        {% if info.qa == True %}
-                          <option selected>QA</option>
-                        {% else %}
-                          <option>QA</option>
-                        {% endif %}
-                      {% endif %}
-                    </select>
+                            <div>
+                              <label>Name</label>
+                                <div>
+                                  {% if check == 1 %}
+                                    <input type="text" name="name" value="{{info.username}}" disabled>
+                                  {% else %}
+                                    <input type="text" name="name" value="{{info.name}}">
+                                  {% endif %}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label>Username</label>
+                                <div>
+                                  {% if check == 1 %}
+                                    <input type="text" name="uname" value="{{info.username}}">
+                                  {% else %}
+                                    <input type="text" name="uname" value="{{info.uname}}">
+                                  {% endif %}
+                                </div>
+                            </div>
+
+                            <div>
+                              <label>Skills</label>
+                              <div>
+                                <select class="js-example-basic-single" name="skill[]" multiple>
+                                  {% if check == 1 %}
+                                    <option selected>SUPERUSER</option>
+                                  {% else %}
+                                    {% if info.java == True %}
+                                      <option selected>Java</option>
+                                    {% else %}
+                                      <option>Java</option>
+                                    {% endif %}
+                                    {% if info.php == True %}
+                                      <option selected>PHP</option>
+                                    {% else %}
+                                      <option>PHP</option>
+                                    {% endif %}
+                                    {% if info.html == True %}
+                                      <option selected>HTML</option>
+                                    {% else %}
+                                      <option>HTML</option>
+                                    {% endif %}
+                                    {% if info.qa == True %}
+                                      <option selected>QA</option>
+                                    {% else %}
+                                      <option>QA</option>
+                                    {% endif %}
+                                  {% endif %}
+                                </select>
+                              </div>
+                            </div>
+                            <p></p>
+                            <div>
+                              <input type="submit" class="btn example_e" value="UPDATE" name='update'>
+                            </div>
+
+                        </div>
+                      </div>
+                    </form>
+
                   </div>
                 </div>
-
-                <div>
-                  <input type="submit" class="btn example_d" value="UPDATE" name='update'>
-                </div>
-
+              </div>
             </div>
+
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+
+    <!-- <div class="container w3-animate-top" style="display:none" align="center" id="x1">
+      <div class="col-sm-5" align="center">
+
+      </div>
+    </div> -->
 
     <!--================End Welcome Area =================-->
 
