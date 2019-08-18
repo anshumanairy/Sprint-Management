@@ -64,7 +64,6 @@ def decryptx(value):
     return(jwt.decode(value, key_64, algorithms=['HS256']))
 
 # working
-
 @login_required(login_url='/')
 def profile(request):
     var=0
@@ -81,9 +80,12 @@ def profile(request):
         check=0
         if user_sprint_detail.objects.filter(uname = request.user.username,sprint_id = id1).exists()==True:
             info = user_sprint_detail.objects.get(uname = request.user.username,sprint_id = id1)
+            pic = user_detail.objects.get(uname = request.user.username)
         else:
             info = user_detail.objects.get(uname = request.user.username)
+            pic = user_detail.objects.get(uname = request.user.username)
     name = request.user.username
+
     if request.method=='POST':
 
         if 'update' in request.POST:
@@ -161,9 +163,20 @@ def profile(request):
 
                     messages.info(request, 'Success')
 
-            return(redirect('profile'))
+                return(redirect('profile'))
 
-    return render(request,'profile.html/',{'name':name,'info1':info1,'info':info,'check':check,'var':var})
+        if 'image_upload' in request.POST:
+            image = request.FILES['file1']
+            if request.user.is_superuser:
+                messages.info(request, 'Currently SUPERUSER does not have the functionality to save profile picture!')
+                return redirect('profile')
+            else:
+                reg = user_detail.objects.get(uname = request.user.username)
+            reg.profile_picture = image
+            reg.save()
+            return redirect('profile')
+
+    return render(request,'profile.html/',{'pic':pic,'name':name,'info1':info1,'info':info,'check':check,'var':var})
 
 @login_required(login_url='/')
 def blog(request):
@@ -177,6 +190,7 @@ def blog(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
+    pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -256,7 +270,7 @@ def blog(request):
                 comm.save()
                 return redirect('story')
 
-        return render(request,'blog.html/',{'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'pic':pic,'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -273,6 +287,7 @@ def qaprg(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
+    pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -566,6 +581,7 @@ def qaprg(request):
             return redirect('product')
         permission=[]
         per1 = Permission.objects.filter(group__user=request.user)
+        pic = user_detail.objects.get(uname = request.user.username)
         for i in per1:
             permission.append(i.name)
         name=request.user.username
@@ -830,7 +846,7 @@ def qaprg(request):
                 request.session['id'] = spr.id
                 return redirect('qaprg')
 
-    return(render(request,'qaprg.html/',{'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+    return(render(request,'qaprg.html/',{'pic':pic,'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
 
 @login_required(login_url='/')
 def user_logout(request):
@@ -854,6 +870,7 @@ def prod(request):
     list3=[]
     list4=[]
     permission=[]
+    pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -1474,7 +1491,7 @@ def prod(request):
         else:
             form = sprintform()
 
-    return(render(request,'product.html/',context={'permission':permission,'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
+    return(render(request,'product.html/',context={'pic':pic,'permission':permission,'name':name,'z2':z2,'nval':nval,'val':val,'hx2':hx2,'hx1':hx1,'jd8':jd8,'s22':s22,'jd7':jd7,'jd6':jd6,'jd5':jd5,'jd1':jd1,'form':form,'data':data,'n':n,'nx':nx,'list11':list11}))
 
 @login_required(login_url='/')
 def view_story(request):
@@ -1489,6 +1506,7 @@ def view_story(request):
         return redirect('product')
     permission=[]
     per1 = Permission.objects.filter(group__user=request.user)
+    pic = user_detail.objects.get(uname = request.user.username)
     for i in per1:
         permission.append(i.name)
     if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
@@ -2016,7 +2034,7 @@ def view_story(request):
             else:
                 form = storyform()
 
-        return render(request,'view_story.html',{'permission':permission,'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1})
+        return render(request,'view_story.html',{'permission':permission,'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1,'pic':pic})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -2033,6 +2051,7 @@ def bandwidth(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
+    pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2373,7 +2392,7 @@ def bandwidth(request):
                 request.session['id'] = spr.id
                 return redirect('bandwidth')
 
-        return(render(request,'bandwidth.html/',{'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
+        return(render(request,'bandwidth.html/',{'pic':pic,'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'band':band,'d1':d1,'data':data,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'list1':list1,'list2':list2,'list3':list3,'list4':list4}))
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -2390,6 +2409,7 @@ def tasks(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
+    pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2608,7 +2628,7 @@ def tasks(request):
                     messages.info(request, 'UNAUTHORIZED!')
                     return redirect('tasks')
 
-        return(render(request,'tasks.html/',{'permission':permission,'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
+        return(render(request,'tasks.html/',{'pic':pic,'permission':permission,'check':check,'name':name,'jd1x':jd1x,'jd2x':jd2x,'jd3x':jd3x,'listse':listse,'repo':repo,'data1':data1,'nx1':nx1,'n0':n0,'nx':nx,'list1':list1}))
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
