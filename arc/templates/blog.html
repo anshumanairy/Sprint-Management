@@ -80,7 +80,8 @@
                                   <a>{{r}}</a>
                                 </div>
                                 <a class="avatar">
-                                  <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                    <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                  <!-- <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar"> -->
                                 </a>
                                 <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
                               </li>
@@ -93,7 +94,7 @@
                         <form method="get">
                           <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
                           <div>
-                            <img src="/static/profile/pics/empty.png" width="35"/>
+                            <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
                             <input type="hidden" name="sid" value="{{i.id}}">
                             <button class="btn example_c" type="submit">Comment</button>
                           </div>

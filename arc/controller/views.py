@@ -388,6 +388,7 @@ def qaprg(request):
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
+                    list1[j][k].append(r.id)
                 elif r1.dev_php==i.name:
                     list1[j][k].append(r1.assigned_php_points)
                     list1[j][k].append(r.overall_status)
@@ -400,6 +401,7 @@ def qaprg(request):
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
+                    list1[j][k].append(r.id)
                 elif r1.dev_html==i.name:
                     list1[j][k].append(r1.assigned_html_points)
                     list1[j][k].append(r.overall_status)
@@ -412,6 +414,7 @@ def qaprg(request):
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
+                    list1[j][k].append(r.id)
                 elif r1.dev_qa==i.name:
                     list1[j][k].append(r1.assigned_qa_points)
                     list1[j][k].append(r.overall_status)
@@ -424,6 +427,7 @@ def qaprg(request):
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
+                    list1[j][k].append(r.id)
 
                 k+=1
                 count=count+1;
@@ -431,6 +435,10 @@ def qaprg(request):
         # print(list1)
         name = request.user.username
         if request.method=='GET':
+            if 'red' in request.GET:
+                idx = request.GET.get('red')
+                request.session['story_id'] = idx
+                return(redirect('story'))
 
             if 'as' in request.GET:
                 s = request.GET.get('sel')
@@ -570,6 +578,7 @@ def qaprg(request):
 
 
     else:
+
         try:
             id1 = request.session['id']
             pid2 = request.session['pid']
@@ -719,6 +728,11 @@ def qaprg(request):
         j+=1
 
         if request.method=='GET':
+            if 'red' in request.GET:
+                idx = request.GET.get('red')
+                request.session['story_id'] = idx
+                return(redirect('story'))
+
             if 'as' in request.GET:
                 s = request.GET.get('sel')
                 j = request.GET.get('jid')
@@ -870,7 +884,10 @@ def prod(request):
     list3=[]
     list4=[]
     permission=[]
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
