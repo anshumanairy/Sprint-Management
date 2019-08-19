@@ -952,6 +952,7 @@ def prod(request):
     list5.append(sum2)
     list6.append(sum2)
     z=0
+    counter = 0
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
         listzz=[1,4,4,0,2,5,0,3,6,1,4,6]
@@ -986,6 +987,7 @@ def prod(request):
             jira=''
             for i2 in p2:
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
+                    counter=counter+1
                     s5 = story_details.objects.filter(sprint_id=id,jira=i2.jira_id).latest('id')
                     if i2.jira_id != jira:
                         if s5.dev_java==i2.dev_name:
@@ -1004,16 +1006,28 @@ def prod(request):
                     s7=i2.left
 
             # print(s2,s7,s4-z)
-            if s2+s7==s4-z:
-                sum2=sum2-s2
-                list5.append(sum2)
+            if counter!=1:
+                if s2+s7==s4-z:
+                    sum2=sum2-s2
+                    list5.append(sum2)
+                else:
+                    sum2=sum2-s6
+                    list5.append(sum2)
+                if (cal+1)!=0:
+                    sumx-=(sumy/(cal+1))
+                    list6.append(sumx)
+                z=s2
             else:
-                sum2=sum2-s6
-                list5.append(sum2)
-            if (cal+1)!=0:
-                sumx-=(sumy/(cal+1))
-                list6.append(sumx)
-            z=s2
+                if s2+s7==s2+s7:
+                    sum2=sum2-s2
+                    list5.append(sum2)
+                else:
+                    sum2=sum2-s6
+                    list5.append(sum2)
+                if (cal+1)!=0:
+                    sumx-=(sumy/(cal+1))
+                    list6.append(sumx)
+                z=s2
 
     # print(list5)
     # print(list6)
