@@ -32,6 +32,9 @@ body{
   color:black;
   border: 1px solid lightgrey;
 }
+.table{
+  margin-bottom: 0px;
+}
 #green{
   background-color: #1ea84c;
   color: white;

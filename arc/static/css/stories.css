@@ -28,6 +28,9 @@ body{
   text-align:center;
   box-shadow: 2px 2px 3px #999;
 }
+.table{
+  margin-bottom: 0px;
+}
 #spr{
   padding-top: 70px;
 }

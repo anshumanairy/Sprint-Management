@@ -26,6 +26,9 @@ body{
   padding-bottom: 0px;
   padding: 0px;
 }
+.table{
+  margin-bottom: 0px;
+}
 #spr,#bar,#burn,#pie{
   padding-top: 100px;
 }

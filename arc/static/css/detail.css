@@ -24,6 +24,9 @@ body{
   background: #4e73df;
   border: 1px solid #4e73df;
 }
+.table{
+  margin-bottom: 0px;
+}
 .js-example-basic-single{
   width: 100%;
 }

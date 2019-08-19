@@ -19,7 +19,9 @@
     font: normal 13px sans-serif;
     color:  #808080;
 }
-
+.table{
+  margin-bottom: 0px;
+}
 .comment.author-comment{
     font: normal 13px sans-serif;
     color:  #60686d;

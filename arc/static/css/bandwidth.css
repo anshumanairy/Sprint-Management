@@ -17,6 +17,9 @@ input[type="text"]::placeholder,input[type="password"]::placeholder{
 #t{
   border: 1px solid lightgrey;
 }
+.table{
+  margin-bottom: 0px;
+}
 .float{
   position:fixed;
   width:40px;

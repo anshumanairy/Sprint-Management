@@ -13,7 +13,7 @@ body{
   border:1px solid lightgrey;
 }
 #tab2{
-  font-size: 12px;
+  font-size: 10.5px;
 }
 b, sup, sub, u, del{
   color:black;
@@ -29,6 +29,9 @@ b, sup, sub, u, del{
 .select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(3) {
   color:black;
   background-color: orange;
+}
+.table{
+  margin-bottom: 0px;
 }
 .select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(4) {
   color:black;

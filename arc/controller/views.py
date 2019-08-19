@@ -172,7 +172,7 @@ def profile(request):
         if 'image_upload' in request.POST:
             image = request.FILES['file1']
             if request.user.is_superuser:
-                messages.info(request, 'Currently SUPERUSER does not have the functionality to save profile picture!')
+                messages.info(request, 'Currently SUPERUSER does not have the functionality to change profile picture!')
                 return redirect('profile')
             else:
                 reg = user_detail.objects.get(uname = request.user.username)
@@ -2582,11 +2582,17 @@ def tasks(request):
                 list1[k][l].append(j.assigned_java_points + j.assigned_php_points + j.assigned_html_points + j.assigned_qa_points)
                 list1[k][l].append((j.assigned_java_points + j.assigned_php_points + j.assigned_html_points + j.assigned_qa_points)-(j.java_points_done + j.php_points_done + j.html_points_done + j.qa_points_done))
                 list1[k][l].append(xx)
+                list1[k][l].append(j1.id)
                 xx+=1
                 l+=1
             k+=1
 
         if request.method=='GET':
+            if 'red' in request.GET:
+                idx = request.GET.get('red')
+                request.session['story_id'] = idx
+                return(redirect('story'))
+
             if 'sprint_name' in request.GET:
                 sprname = request.GET.get('sprint_name')
                 jd = request.GET.get('jira')
