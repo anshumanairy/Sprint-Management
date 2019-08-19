@@ -157,3 +157,12 @@ color: White !important;
 .table{
   margin-bottom: 0px;
 }
+
+.form-v10-content .form-detail {
+	position: relative;
+	width: 100%;
+	display: flex;
+	display: -webkit-flex;
+	background-image: url("/static/forms/work.jpg");
+	background-size: cover;
+}

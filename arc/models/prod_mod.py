@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from datetime import date
 
 class sprint(models.Model):
-    name=models.CharField(max_length=100,default="Enter Name")
+    name=models.CharField(max_length=100)
     holidays=models.IntegerField(default=0)
     sprint_start_date=models.DateField(blank=False)
     sprint_dev_end_date=models.DateField(blank=False)

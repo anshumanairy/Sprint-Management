@@ -6,6 +6,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
+<link rel="stylesheet" href="/static/forms/style.css"/>
+
 
 <body id="re">
 
@@ -130,164 +133,122 @@
 
           </div>
 
-          <div class="modal fade" id="project_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="project_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-top-left-radius:10px;border-bottom-left-radius:10px;border-top-right-radius:10px;border-bottom-right-radius:10px;">
             <div class="modal-dialog" role="document">
-              <div class="modal-content" style="width:850px;">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Create Project</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
+              <div class="modal-content" style="width:850px;" >
 
-                <div class="modal-body">
-                  <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                      <div class="table100 ver3">
-
-                        <form class="post-form w3-animate-top" method='POST' id="g">
-                          {% csrf_token %}
-                            <div class="col-sm-20">
-                              <div class="card card-user" id="back">
-
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label>Project Name</label>
-                                        <input type="text" name="pname" placeholder="Project Name">
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="card-body">
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <div class="form-group">
-                                          <label>Select Admin</label>
-                                          <div>
-                                            <select class="js-example-basic-single" name="select_admin">
-                                              {% for n2 in list11 %}
-                                                <option>{{ n2 }}</option>
-                                              {% endfor %}
-                                            </select>
-                                          </div>
-                                          <label>Select Users</label>
-                                          <div>
-                                            <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
-                                              {% for n2 in z2 %}
-                                                <option>{{ n2.uname }}</option>
-                                              {% endfor %}
-                                            </select>
-                                          </div>
-                                          <label>Select Managers</label>
-                                          <div>
-                                            <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
-                                              {% for n2 in z2 %}
-                                                <option>{{ n2.uname }}</option>
-                                              {% endfor %}
-                                            </select>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="update ml-auto mr-auto">
-                                      <input type="submit" name="project_button" class="btn example_c" id="reg1" value="Create Project">
-                                    </div>
-                                  </div>
-
-                                </div>
-                              </div>
-                            </div>
-                        </form>
-
+                <div class="page-content">
+                  <div class="form-v10-content">
+                    <form class="form-detail" method="post">
+                      <div class="form-left">
                       </div>
+                        <div class="form-right">
+                          <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          {% csrf_token %}
+                          <h2>Create Project</h2>
+                          <div class="form-row">
+                            <input type="text" name="pname" class="street" placeholder="Project Name" required>
+                          </div>
+                          <div class="form-group">
+                            <div class="form-row form-row-1">
+                              <label style="color:white;"><small>Select Admin</small></label>
+                              <select class="js-example-basic-single" name="select_admin">
+                                {% for n2 in list11 %}
+                                  <option>{{ n2 }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="form-row form-row-1">
+                              <label style="color:white;"><small>Select Developers</small></label>
+                              <select class="js-example-basic-single" name="select_manager[]" style="width:100%;" multiple>
+                                {% for n2 in z2 %}
+                                  <option>{{ n2.uname }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="form-row form-row-1">
+                              <label style="color:white;"><small>Select Managers</small></label>
+                              <select class="js-example-basic-single" name="select_users[]" style="width:100%;" multiple>
+                                {% for n2 in z2 %}
+                                  <option>{{ n2.uname }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="form-row-last">
+                            <input type="submit" name='project_button' id='reg1' class="register" value="Create Project">
+                          </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                </div>
 
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="modal fade" id="sprint_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content" style="width:850px;">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Create Sprint</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
+            <div class="modal fade" id="sprint_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width:850px;">
 
-                <div class="modal-body">
-                  <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                      <div class="table100 ver3">
-
-                        <form class="post-form w3-animate-top" method='POST' id="f">
-                          {% csrf_token %}
-                            <div class="col-sm-20">
-                              <div class="card card-user" id="back">
-
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label>Sprint Name</label>
-                                        {{ form.name }}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class='col-md-6 pr-1'>
-                                        <label>Sprint Start Date</label>
-                                        <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class='col-md-6 pr-1'>
-                                        <label>Sprint Dev End Date</label>
-                                        <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class='col-md-6 pr-1'>
-                                        <label>Sprint QA End Date</label>
-                                        <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6 pr-1">
-                                      <div class="form-group">
-                                        <label>Holidays Available</label>
-                                        {{ form.holidays }}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="update ml-auto mr-auto">
-                                      <input type="submit" name="sprint_button" class="btn example_c" id="reg1" value="Create Sprint">
-                                    </div>
-                                  </div>
-
-                                </div>
+                  <div class="page-content">
+                    <div class="form-v10-content">
+                      <form class="form-detail" method="post">
+                        <div class="form-left">
+                        </div>
+                          <div class="form-right">
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            {% csrf_token %}
+                            <h2>Create Sprint</h2>
+                            <div class="form-row">
+                              <label style="color:white;"><small>Sprint Name</small></label>
+                              {{ form.name }}
+                            </div>
+                            <div class="form-group">
+                              <div class="form-row form-row-1">
+                                <label style="color:white;"><small>Sprint Start Date</small></label>
+                              </div>
+                              <div class="form-row form-row-1">
+                                <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
                               </div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                              <div class="form-row form-row-1">
+                                <label style="color:white;"><small>Sprint Developer End Date</small></label>
+                              </div>
+                              <div class="form-row form-row-1">
+                                <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="form-row form-row-1">
+                                <label style="color:white;"><small>Sprint QA End Date</small></label>
+                              </div>
+                              <div class="form-row form-row-1">
+                                <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <label style="color:white;"><small>Holidays</small></label>
+                              {{ form.holidays }}
+                            </div>
 
+                            <div class="form-row-last">
+                              <input type="submit" name='sprint_button' id='reg1' class="register" value="Create Sprint">
+                            </div>
+                          </div>
+                        </form>
                       </div>
                     </div>
-                  </div>
-                </div>
 
               </div>
             </div>

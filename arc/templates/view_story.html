@@ -8,7 +8,9 @@
 
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 {% load static %}
+  <link rel="stylesheet" href="/static/forms/style.css"/>
   <link rel="stylesheet" href="/static/css/stories.css">
+  <link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
 
   <body id="re">
 
@@ -59,78 +61,43 @@
           <div class="modal fade" id="story_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content" style="width:850px;">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Story Manually</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
 
-                <div class="modal-body">
-                  <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                      <div class="table100 ver3">
-
-                        <form class="post-form w3-animate-left" method='POST' id="f">
-                          {% csrf_token %}
-                            <div class="col-sm-20">
-                              <div class="card card-user" id="back">
-                                <div class="card-body">
-                                  <form>
-
-                                    <div class="row">
-                                      <div class="col-md-6 pr-1">
-                                        <div class="form-group">
-                                          <label>Story Name</label>
-                                          {{ form.story_name }}
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-md-6 pr-1">
-                                        <div class="form-group">
-                                          <label>Brief Description</label>
-                                          {{ form.brief_description }}
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-md-6 pr-1">
-                                        <div class="form-group">
-                                          <label>Description Link:</label>
-                                          {{ form.description }}
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-md-6 pr-1">
-                                        <div class="form-group">
-                                          <label>Jira ID</label>
-                                          {{ form.jira }}
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="update ml-auto mr-auto">
-                                        <input type="hidden" name="spr1" value="1">
-                                        <input type="submit" name="story_button" class="btn example_d" id="reg1" value="Create Story">
-                                      </div>
-                                    </div>
-
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                        </form>
-
+                <div class="page-content">
+                  <div class="form-v10-content">
+                    <form class="form-detail" method="post">
+                      <div class="form-left">
                       </div>
+                        <div class="form-right">
+                          <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          {% csrf_token %}
+                          <h2>Add Story Manually</h2>
+                          <div class="form-row">
+                            <label style="color:white;"><small>Story Name</small></label>
+                            {{ form.story_name }}
+                          </div>
+                          <div class="form-row">
+                            <label style="color:white;"><small>Brief Description</small></label>
+                            {{ form.brief_description }}
+                          </div>
+                          <div class="form-row">
+                            <label style="color:white;"><small>Description</small></label>
+                            {{ form.description }}
+                          </div>
+                          <div class="form-row">
+                            <label style="color:white;"><small>Jira ID</small></label>
+                            {{ form.jira }}
+                          </div>
+
+                          <div class="form-row-last">
+                            <input type="hidden" name="spr1" value="1">
+                            <input type="submit" name='story_button' id='reg1' class="register" value="Create Story">
+                          </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                </div>
 
               </div>
             </div>
@@ -139,41 +106,30 @@
           <div class="modal fade" id="csv_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content" style="width:850px;">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Story via CSV</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
 
-                <div class="modal-body">
-                  <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                      <div class="table100 ver3">
-
-                        <form class="w3-animate-left" method="POST" enctype="multipart/form-data" id="hz">
-                          {% csrf_token %}
-                            <div class="col-sm-20">
-                              <div class="card card-user" id="back">
-                                <div class="card-body">
-
-                                  <div class="row">
-                                    <div class="col-md-6 pr-1">
-                                        <input type="file" name="file1">
-                                    </div>
-                                  </div>
-
-                                  <button type="submit" name="csv_button" class="btn example_d" id="reg1"><small>Submit</small></button>
-
-                                </div>
-                              </div>
-                            </div>
-                        </form>
-
+                <div class="page-content">
+                  <div class="form-v10-content">
+                    <form class="form-detail" method="post" enctype="multipart/form-data" id='hz'>
+                      <div class="form-left">
                       </div>
+                        <div class="form-right">
+                          <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          {% csrf_token %}
+                          <h2>Add Story via CSV</h2>
+                          <div class="form-row">
+                            <input type="file" name="file1">
+                          </div>
+
+                          <div class="form-row-last">
+                            <input type="submit" name='csv_button' id='reg1' class="register" value="Submit">
+                          </div>
+
+                        </div>
+                      </form>
                     </div>
                   </div>
-                </div>
 
               </div>
             </div>
