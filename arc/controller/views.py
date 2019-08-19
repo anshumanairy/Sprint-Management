@@ -73,6 +73,12 @@ def profile(request):
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
     info1 = User.objects.get(username = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+        var=1
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
+        var=0
     if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
         info = User.objects.get(username = request.user.username)
         check = 1
@@ -80,10 +86,8 @@ def profile(request):
         check=0
         if user_sprint_detail.objects.filter(uname = request.user.username,sprint_id = id1).exists()==True:
             info = user_sprint_detail.objects.get(uname = request.user.username,sprint_id = id1)
-            pic = user_detail.objects.get(uname = request.user.username)
         else:
             info = user_detail.objects.get(uname = request.user.username)
-            pic = user_detail.objects.get(uname = request.user.username)
     name = request.user.username
 
     if request.method=='POST':
@@ -190,7 +194,10 @@ def blog(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -224,15 +231,21 @@ def blog(request):
             history[h].append(up.status)
             h+=1
 
+        picture=[]
         comm={}
         n=0
-        for i in st:
-            story_comments = comments.objects.filter(story_id=sid)
-            comm[n]={}
-            for j in story_comments:
-                comm[n][j.time_of_comment]={}
-                comm[n][j.time_of_comment][j.comment]=j.name
-            n+=1
+        story_comments = comments.objects.filter(story_id=sid)
+        comm[n]={}
+        for j in story_comments:
+            name1 = User.objects.get(id=j.user_id).username
+            comm[n][j.time_of_comment]={}
+            comm[n][j.time_of_comment][j.comment]=name1
+            if User.objects.get(id=j.user_id).is_superuser:
+                picture.append('')
+            else:
+                reg1 = user_detail.objects.get(uname = name1).profile_picture
+                picture.append(reg1)
+        n+=1
 
         if request.method=='POST':
             if 'select_project' in request.POST:
@@ -266,11 +279,11 @@ def blog(request):
                 date_comm = timezone.localtime(timezone.now()).strftime("%a %b %d, %Y")
                 time_comm = timezone.localtime(timezone.now()).strftime("%H:%M:%S")
                 final_time= time_comm+" on "+date_comm
-                comm = comments(story_id=sid,comment=comment_received,name=request.user.username,time_of_comment=final_time)
+                comm = comments(story_id=sid,comment=comment_received,user_id=request.user.id,time_of_comment=final_time)
                 comm.save()
                 return redirect('story')
 
-        return render(request,'blog.html/',{'pic':pic,'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'picture':picture,'pic':pic,'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
@@ -287,7 +300,10 @@ def qaprg(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -590,7 +606,10 @@ def qaprg(request):
             return redirect('product')
         permission=[]
         per1 = Permission.objects.filter(group__user=request.user)
-        pic = user_detail.objects.get(uname = request.user.username)
+        if request.user.is_superuser:
+            pic=''
+        else:
+            pic = user_detail.objects.get(uname = request.user.username)
         for i in per1:
             permission.append(i.name)
         name=request.user.username
@@ -1523,7 +1542,10 @@ def view_story(request):
         return redirect('product')
     permission=[]
     per1 = Permission.objects.filter(group__user=request.user)
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     for i in per1:
         permission.append(i.name)
     if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
@@ -2068,7 +2090,10 @@ def bandwidth(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2426,7 +2451,10 @@ def tasks(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    pic = user_detail.objects.get(uname = request.user.username)
+    if request.user.is_superuser:
+        pic=''
+    else:
+        pic = user_detail.objects.get(uname = request.user.username)
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2661,62 +2689,62 @@ def reg(request):
     emp=0
     registered = False
 
-    email = 'anshuman.airy@quikr.com'
+    # email = 'anshuman.airy@quikr.com'
+    #
+    # if User.objects.filter(email=email).exists() == True:
+    #     regx = User.objects.get(email=email)
+    #     user = authenticate(username = regx.username, password='Zehel9999')
+    #     login(request,user)
+    #     request.session['pid'] = 0
+    #     request.session['user2'] = ''
+    #     request.session['id'] = 0
+    #     request.session['userx'] = 'Users'
+    #     return redirect('product')
 
-    if User.objects.filter(email=email).exists() == True:
-        regx = User.objects.get(email=email)
-        user = authenticate(username = regx.username, password='Zehel9999')
-        login(request,user)
-        request.session['pid'] = 0
-        request.session['user2'] = ''
-        request.session['id'] = 0
-        request.session['userx'] = 'Users'
-        return redirect('product')
+    try:
+        if request.method =='GET':
+            auth_code = request.GET.get('auth_code', '')
+            encrypt_auth = encryptx(auth_code)
 
-    # try:
-    #     if request.method =='GET':
-    #         auth_code = request.GET.get('auth_code', '')
-    #         encrypt_auth = encryptx(auth_code)
-    #
-    #         # part2 to obtain token
-    #         payload = {
-    #                 'grantType':'authorization_code',
-    #                 'code':encrypt_auth,
-    #                 'clientId':'SprintManagement'
-    #                 }
-    #
-    #         headers = {
-    #                 'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
-    #                 'X-Quikr-Client':'Platform',
-    #                 'Content-Type':'application/json'
-    #                 }
-    #
-    #         response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
-    #         resp = response.text
-    #         list1=list(map(str,resp.split('"')))
-    #         idtoken = list1[5]
-    #         access_token = auth_code
-    #         list2=list(map(str,idtoken.split('.')))
-    #         dec = decryptx(list1[5])
-    #
-    #         emp = int(dec['empId'])
-    #         email = dec['email']
-    #         name = dec['name']
-    #         request.session['emp'] = emp
-    #         request.session['email'] = email
-    #         request.session['name'] = name
-    #
-    #         if User.objects.filter(email=email).exists() == True:
-    #             regx = User.objects.get(email=email)
-    #             user = authenticate(username = regx.username, password='Zehel9999')
-    #             login(request,user)
-    #             request.session['pid'] = 0
-    #             request.session['user2'] = ''
-    #             request.session['id'] = 0
-    #             request.session['userx'] = 'Users'
-    #             return redirect('product')
-    # except:
-    #     pass
+            # part2 to obtain token
+            payload = {
+                    'grantType':'authorization_code',
+                    'code':encrypt_auth,
+                    'clientId':'SprintManagement'
+                    }
+
+            headers = {
+                    'Authorization':'Basic JaA+KUfutRpIkHY54Scvn9B3XAbg3sq3enrRREIv344=',
+                    'X-Quikr-Client':'Platform',
+                    'Content-Type':'application/json'
+                    }
+
+            response = requests.request("POST",'http://192.168.124.123:13000/identity/v1/token', data=json.dumps(payload), headers=headers)
+            resp = response.text
+            list1=list(map(str,resp.split('"')))
+            idtoken = list1[5]
+            access_token = auth_code
+            list2=list(map(str,idtoken.split('.')))
+            dec = decryptx(list1[5])
+
+            emp = int(dec['empId'])
+            email = dec['email']
+            name = dec['name']
+            request.session['emp'] = emp
+            request.session['email'] = email
+            request.session['name'] = name
+
+            if User.objects.filter(email=email).exists() == True:
+                regx = User.objects.get(email=email)
+                user = authenticate(username = regx.username, password='Zehel9999')
+                login(request,user)
+                request.session['pid'] = 0
+                request.session['user2'] = ''
+                request.session['id'] = 0
+                request.session['userx'] = 'Users'
+                return redirect('product')
+    except:
+        pass
 
     if request.method == 'POST':
         dev = Group.objects.get(name='Developer')

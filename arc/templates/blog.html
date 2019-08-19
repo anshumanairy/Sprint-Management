@@ -73,18 +73,25 @@
                       {% for j,k in comm.items %}
                         {% if forloop.counter == forloop.parentloop.counter %}
                           {% for r,s in k.items %}
-                            {% for y,z in s.items %}
-                              <li class="comment user-comment">
-                                <div class="info" style="background:White;width:20%;">
-                                  <a>{{z}}</a>
-                                  <a>{{r}}</a>
-                                </div>
-                                <a class="avatar">
-                                    <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
-                                  <!-- <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar"> -->
-                                </a>
-                                <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
-                              </li>
+                            {% for p1 in picture %}
+                              {% if forloop.counter == forloop.parentloop.counter %}
+                                {% for y,z in s.items %}
+                                  <li class="comment user-comment">
+                                    <div class="info" style="background:White;width:20%;">
+                                      <a>{{z}}</a>
+                                      <a>{{r}}</a>
+                                    </div>
+                                    <a class="avatar">
+                                      {% if p1 == '' %}
+                                        <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                      {% else %}
+                                        <img src="/media/{{p1}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                      {% endif %}
+                                    </a>
+                                    <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
+                                  </li>
+                                {% endfor %}
+                              {% endif %}
                             {% endfor %}
                           {% endfor %}
                         {% endif %}
@@ -94,7 +101,11 @@
                         <form method="get">
                           <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
                           <div>
-                            <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
+                            {% if request.user.is_superuser %}
+                              <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;">
+                            {% else %}
+                              <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
+                            {% endif %}
                             <input type="hidden" name="sid" value="{{i.id}}">
                             <button class="btn example_c" type="submit">Comment</button>
                           </div>
