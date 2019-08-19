@@ -83,7 +83,7 @@
                                     </div>
                                     <a class="avatar">
                                       {% if p1 == '' %}
-                                        <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                        <img src="/static/profile/pics/empty.png" alt="" style="height:500px;width:500px;">
                                       {% else %}
                                         <img src="/media/{{p1}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
                                       {% endif %}
@@ -101,8 +101,8 @@
                         <form method="get">
                           <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
                           <div>
-                            {% if request.user.is_superuser %}
-                              <img src="/static/profile/pics/empty.png" style="height:35px;width:35px;">
+                            {% if pic == '' %}
+                              <img src="/static/profile/pics/empty.png" alt="" style="height:500px;width:500px;">
                             {% else %}
                               <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
                             {% endif %}

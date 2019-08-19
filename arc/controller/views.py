@@ -10,6 +10,7 @@ from arc.models.project_details_mod import project_details
 from arc.models.prod_mod import sprint
 from arc.models.comments_mod import comments
 from arc.models.prg_mod import progress
+from arc.models.profile_mod import display_picture
 from arc.models.reg_mod import user_sprint_detail
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import login,authenticate,logout,get_user_model
@@ -73,12 +74,11 @@ def profile(request):
         messages.info(request, 'Session expired for this ID! Please login again!')
         return(redirect('login'))
     info1 = User.objects.get(username = request.user.username)
-    if request.user.is_superuser:
-        pic=''
-        var=1
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
-        var=0
+        pass
     if (User.objects.filter(username=request.user.username, groups__name='Admin').exists() == True):
         info = User.objects.get(username = request.user.username)
         check = 1
@@ -171,13 +171,13 @@ def profile(request):
 
         if 'image_upload' in request.POST:
             image = request.FILES['file1']
-            if request.user.is_superuser:
-                messages.info(request, 'Currently SUPERUSER does not have the functionality to change profile picture!')
-                return redirect('profile')
+            if display_picture.objects.filter(idx=request.user.id).exists():
+                z = display_picture.objects.get(idx=request.user.id)
+                z.profile_picture = image
+                z.save()
             else:
-                reg = user_detail.objects.get(uname = request.user.username)
-            reg.profile_picture = image
-            reg.save()
+                z = display_picture(idx=request.user.id,profile_picture=image)
+                z.save()
             return redirect('profile')
 
     return render(request,'profile.html/',{'pic':pic,'name':name,'info1':info1,'info':info,'check':check,'var':var})
@@ -194,10 +194,11 @@ def blog(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -237,14 +238,11 @@ def blog(request):
         story_comments = comments.objects.filter(story_id=sid)
         comm[n]={}
         for j in story_comments:
-            name1 = User.objects.get(id=j.user_id).username
+            name1 = User.objects.get(id=j.user_id)
             comm[n][j.time_of_comment]={}
-            comm[n][j.time_of_comment][j.comment]=name1
-            if User.objects.get(id=j.user_id).is_superuser:
-                picture.append('')
-            else:
-                reg1 = user_detail.objects.get(uname = name1).profile_picture
-                picture.append(reg1)
+            comm[n][j.time_of_comment][j.comment]=name1.username
+            reg1 = display_picture.objects.get(idx = name1.id).profile_picture
+            picture.append(reg1)
         n+=1
 
         if request.method=='POST':
@@ -300,10 +298,11 @@ def qaprg(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -606,10 +605,11 @@ def qaprg(request):
             return redirect('product')
         permission=[]
         per1 = Permission.objects.filter(group__user=request.user)
-        if request.user.is_superuser:
-            pic=''
+        pic=''
+        if display_picture.objects.filter(idx = request.user.id).exists()==True:
+            pic = display_picture.objects.get(idx = request.user.id)
         else:
-            pic = user_detail.objects.get(uname = request.user.username)
+            pass
         for i in per1:
             permission.append(i.name)
         name=request.user.username
@@ -903,10 +903,11 @@ def prod(request):
     list3=[]
     list4=[]
     permission=[]
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -1556,10 +1557,11 @@ def view_story(request):
         return redirect('product')
     permission=[]
     per1 = Permission.objects.filter(group__user=request.user)
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     for i in per1:
         permission.append(i.name)
     if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
@@ -2104,10 +2106,11 @@ def bandwidth(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2465,10 +2468,11 @@ def tasks(request):
         messages.info(request, 'Select a valid sprint and project first!')
         return redirect('product')
     permission=[]
-    if request.user.is_superuser:
-        pic=''
+    pic=''
+    if display_picture.objects.filter(idx = request.user.id).exists()==True:
+        pic = display_picture.objects.get(idx = request.user.id)
     else:
-        pic = user_detail.objects.get(uname = request.user.username)
+        pass
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
@@ -2785,7 +2789,6 @@ def reg(request):
                 profile.save()
 
                 z1 = user_detail.objects.latest('id')
-                print(z1.roles)
                 if z1.roles=='dev':
                     user.groups.add(dev)
                     user.groups.add(qa)

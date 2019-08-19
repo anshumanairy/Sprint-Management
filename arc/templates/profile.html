@@ -26,8 +26,8 @@
           <div class="banner_content">
             <div class="media">
               <div class="d-flex" style="padding-right:70px;">
-                {% if var == 1 %}
-                  <img src="/static/profile/pics/empty.png" alt="">
+                {% if pic == '' %}
+                  <img src="/static/profile/pics/empty.png" alt="" style="height:500px;width:500px;">
                 {% else %}
                   <img src="/media/{{pic.profile_picture}}" alt="" style="height:500px;width:500px;">
                 {% endif %}
@@ -100,6 +100,8 @@
             </div>
           </div>
         </div>
+
+        <p></p>
 
         <div style="float:left;">
           <form method="POST" enctype="multipart/form-data">
