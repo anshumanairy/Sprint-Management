@@ -32,9 +32,6 @@ input[type="text"]::placeholder,input[type="password"]::placeholder{
   text-align:center;
   box-shadow: 2px 2px 3px #999;
 }
-td{
-  border : 1px solid lightgrey;
-}
 #tab2,#t1,#javablock,#t2,#t3,#t4,#phpblock,#htmlblock,#qablock{
   text-align: center;
   font-size: 12px;

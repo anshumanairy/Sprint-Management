@@ -28,9 +28,6 @@ body{
   text-align:center;
   box-shadow: 2px 2px 3px #999;
 }
-.table{
-  margin-bottom: 0px;
-}
 #spr{
   padding-top: 70px;
 }
@@ -155,4 +152,8 @@ color: White !important;
   color: white;
   background: #1cc88a !important;
   border: 1px solid #1cc88a !important;
+}
+
+.table{
+  margin-bottom: 0px;
 }
