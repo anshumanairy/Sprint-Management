@@ -58,6 +58,10 @@
                                     data: frm.serialize(),
                                     success: function(data) {
                                       $("#re").html(data);
+                                      if ($(".pre-loader").length > 0)
+                                      {
+                                          $(".pre-loader").fadeOut("slow");
+                                      }
                                     },
                                 });
                             });
@@ -106,6 +110,10 @@
                                     data: frm.serialize(),
                                     success: function(data) {
                                       $("#re").html(data);
+                                      if ($(".pre-loader").length > 0)
+                                      {
+                                          $(".pre-loader").fadeOut("slow");
+                                      }
                                     },
                                 });
                             });
@@ -322,6 +330,10 @@
                                 data: frm.serialize(),
                                 success: function(data) {
                                   $("#re").html(data);
+                                  if ($(".pre-loader").length > 0)
+                                  {
+                                      $(".pre-loader").fadeOut("slow");
+                                  }
                                 },
                             });
                         });

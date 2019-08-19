@@ -1,7 +1,23 @@
-<!-- <link href="/static/css/loader.css" rel="stylesheet">
 
-{% block loader %}
-{% endblock %} -->
+<link href="/static/css/loader.css" rel="stylesheet">
+
+<div class="pre-loader">
+  <div class="loader">
+    <img src="/static/loader_files/loader.gif" style="width:300px;height:300px;">
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function($){
+  'use strict';
+    $(window).on('load', function () {
+        if ($(".pre-loader").length > 0)
+        {
+            $(".pre-loader").fadeOut("slow");
+        }
+    });
+  })(jQuery)
+</script>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -124,6 +140,10 @@
                                 data: frm.serialize(),
                                 success: function(data) {
                                   $("#re").html(data);
+                                  if ($(".pre-loader").length > 0)
+                                  {
+                                      $(".pre-loader").fadeOut("slow");
+                                  }
                                 },
                             });
                         });
@@ -150,6 +170,10 @@
                                 data: frm.serialize(),
                                 success: function(data) {
                                   $("#re").html(data);
+                                  if ($(".pre-loader").length > 0)
+                                  {
+                                      $(".pre-loader").fadeOut("slow");
+                                  }
                                 },
                             });
                         });
@@ -190,6 +214,10 @@
                                 data: frm.serialize(),
                                 success: function(data) {
                                   $("#re").html(data);
+                                  if ($(".pre-loader").length > 0)
+                                  {
+                                      $(".pre-loader").fadeOut("slow");
+                                  }
                                 },
                             });
                         });
@@ -216,6 +244,10 @@
                                 data: frm.serialize(),
                                 success: function(data) {
                                   $("#re").html(data);
+                                  if ($(".pre-loader").length > 0)
+                                  {
+                                      $(".pre-loader").fadeOut("slow");
+                                  }
                                 },
                             });
                         });
