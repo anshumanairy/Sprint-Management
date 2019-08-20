@@ -33,22 +33,18 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Project</div>
-                        <div class="col-md-12" style="margin-left:12%;">
-                          <button class="btn example_c" data-toggle="modal" data-target="#project_Modal" id="project_btn"><small>New Project</small></button>
-                        </div>
+                      <p></p>
+                      <button style="font-size: 15px; color: white; background: #4e73df; border: 1px solid #4e73df;border-radius:5px 5px 5px 5px;" data-toggle="modal" data-target="#project_Modal" id="project_btn"><small>New Project</small></button>
+                        <p></p>
                       <form class="post-form" method='POST' id="h">
                         {% csrf_token %}
-                        <div class="container-fluid">
-                            <div class="col-md-12">
-                              <!-- onchange="myFunction(this.value)" -->
-                                <select class="js-example-basic-single" name="select_project">
-                                    <option selected="true" disabled>{{ nx }}</option>
-                                  {% for n1 in n %}
-                                    <option>{{ n1.name }}</option>
-                                  {% endfor %}
-                                </select>
-                            </div>
-                        </div>
+                        <!-- onchange="myFunction(this.value)" -->
+                          <select class="js-example-basic-single" name="select_project">
+                              <option selected="true" disabled>{{ nx }}</option>
+                            {% for n1 in n %}
+                              <option>{{ n1.name }}</option>
+                            {% endfor %}
+                          </select>
                       </form>
 
                       <script>
@@ -85,22 +81,17 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sprint</div>
-                        <div class="col-md-12" style="margin-left:12%;">
-                          <button class="btn example_c" data-toggle="modal" data-target="#sprint_Modal" id="sprint_btn"><small>New Sprint</small></button>
-                        </div>
-
+                      <p></p>
+                      <button style="font-size: 15px; color: white; background: #1cc88a; border: 1px solid #1cc88a; border-radius:5px 5px 5px 5px;" data-toggle="modal" data-target="#sprint_Modal" id="sprint_btn"><small>New Sprint</small></button>
+                      <p></p>
                       <form class="post-form" method='POST' id="f5">
                         {% csrf_token %}
-                        <div class="container-fluid">
-                            <div class="col-md-12" >
-                                <select class="js-example-basic-single" name="select_sprint">
-                                  <option selected="true" disabled>{{ hx2 }}</option>
-                                  {% for product in data %}
-                                  <option> {{ product.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
+                          <select class="js-example-basic-single" name="select_sprint">
+                            <option selected="true" disabled>{{ hx2 }}</option>
+                            {% for product in data %}
+                            <option> {{ product.name }}</option>
+                              {% endfor %}
+                          </select>
                       </form>
 
                       <script>

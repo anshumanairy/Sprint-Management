@@ -66,19 +66,33 @@ background: #303D39;
 border: 1px solid #303D39;
 transition: all 0.4s ease 0s;
 }
+.example_e{
+  font-size: 12px;
+  color: white;
+  background: #1cc88a !important;
+  border: 1px solid #1cc88a !important;
+}
+
+.example_e:hover {
+  font-size: 12px;
+  color: white;
+  background: #1cc88a !important;
+  border: 1px solid #1cc88a !important;
+}
 .js-example-basic-single{
   width: 'resolve';
 }
 .example_d {
-color: white;
-background: black;
-border: 1px solid black;
-transition: all 0.4s ease 0s;
+  font-size: 12px;
+  color: white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 .example_d:hover {
-background: white;
-border: 1px solid white;
-transition: all 0.4s ease 0s;
+  font-size: 12px;
+  color:white;
+  background: #4e73df;
+  border: 1px solid #4e73df;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus, .show > .btn-primary.dropdown-toggle:hover{
   background-color:#343a40 !important;
