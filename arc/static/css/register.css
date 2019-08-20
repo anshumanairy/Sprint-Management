@@ -1,0 +1,36 @@
+.container{
+  padding-top: 20px;
+}
+body{
+  font-family: Montserrat;
+}
+.dropdown{
+  display: inline-block;
+}
+#reg{
+  padding-left: 10px;
+  padding-top: 5px;
+}
+#reg1{
+  background-color:  #4ebe4b;
+}
+#reg2{
+  padding-left: 15px;
+  padding-top: 5px;
+}
+.example_c {
+color: black;
+background: lightgrey;
+border: 1px solid lightgrey;
+transition: all 0.4s ease 0s;
+}
+.example_c:hover {
+background: #303D39;
+border: 1px solid #303D39;
+transition: all 0.4s ease 0s;
+}
+#x1{
+  position: relative;
+  padding-top: 150px;
+  left:11%;
+}
