@@ -131,7 +131,7 @@
                                             <img src="/media/{{p1}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
                                           {% endif %}
                                         </a>
-                                        <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
+                                        <p style="background:white;color:black;width:70%;">{{y}}</p>
                                       </li>
                                     {% endfor %}
                                   {% endif %}
@@ -164,11 +164,13 @@
             </div>
         </div>
 
+        {% endfor %}
         <script type="text/javascript">
           $('.comment-section').scrollTop($('.comment-section')[0].scrollHeight);
         </script>
-
-        {% endfor %}
+        <script type="text/javascript">
+          $('#panel').scrollTop($('.comment-section')[0].scrollHeight);
+        </script>
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#">
