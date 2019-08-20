@@ -8,22 +8,18 @@
 }
 
 .comment{
-    font: normal 13px sans-serif;
     display: flex;
     border-radius: 3px;
-    margin-bottom: 45px;
     flex-wrap: wrap;
 }
 
 .comment.user-comment{
-    font: normal 13px sans-serif;
     color:  #808080;
 }
 .table{
   margin-bottom: 0px;
 }
 .comment.author-comment{
-    font: normal 13px sans-serif;
     color:  #60686d;
     justify-content: flex-end;
 }
@@ -31,23 +27,19 @@
 /* User and time info */
 
 .comment .info{
-    font: normal 13px sans-serif;
     width: 17%;
 }
 
 .comment.user-comment .info{
-    font: normal 13px sans-serif;
     text-align: right;
 }
 
 .comment.author-comment .info{
-    font: normal 13px sans-serif;
     order: 3;
 }
 
 
 .comment .info a{	/* User name */
-    font: normal 13px sans-serif;
     display: block;
     text-decoration: none;
     color: #656c71;
@@ -59,7 +51,6 @@
 }
 
 .comment .info span{	/* Time */
-    font: normal 13px sans-serif;
     font-size: 11px;
     color:  #9ca7af;
 }
@@ -142,8 +133,9 @@
 /* Comment form */
 
 .write-new{
-    margin: 80px auto 0;
+    margin: 30px auto 0;
     width: 50%;
+    margin-left: 28%;
 }
 
 .write-new textarea{

@@ -3,8 +3,11 @@
 
 {% block content %}
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <link rel="stylesheet" href="/static/css/detail.css">
 <link rel="stylesheet" href="/static/css/comment.css">
+<link rel="stylesheet" href="/static/css/chatbox.css">
+
 
   <body id="re">
 
@@ -31,7 +34,7 @@
                         </div>
                       </div>
                       <form method="GET">
-                        <textarea name="brief_desc" rows="3" cols="50" id="brief" style="font-size:13px;width:100%;padding-left:2%">{{stz.brief_description}}</textarea>
+                        <textarea name="brief_desc" rows="3" cols="50" id="brief" style="font-size:13px;width:95%;margin-left:2%">{{stz.brief_description}}</textarea>
                         <p></p>
                         <input class="btn example_c" type="submit" value="Change" style="margin-left:2%">
                       </form>
@@ -63,68 +66,7 @@
             </div>
           </div>
 
-          <div class="container-fluid">
-            <div style="padding-bottom:2%;padding-top:2%;">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <ul class="comment-section" style="height: 60vh; overflow:scroll">
-
-                      {% for j,k in comm.items %}
-                        {% if forloop.counter == forloop.parentloop.counter %}
-                          {% for r,s in k.items %}
-                            {% for p1 in picture %}
-                              {% if forloop.counter == forloop.parentloop.counter %}
-                                {% for y,z in s.items %}
-                                  <li class="comment user-comment">
-                                    <div class="info" style="background:White;width:20%;">
-                                      <a>{{z}}</a>
-                                      <a>{{r}}</a>
-                                    </div>
-                                    <a class="avatar">
-                                      {% if p1 == '' %}
-                                        <img src="/static/profile/pics/empty.png" alt="" style="height:500px;width:500px;">
-                                      {% else %}
-                                        <img src="/media/{{p1}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
-                                      {% endif %}
-                                    </a>
-                                    <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
-                                  </li>
-                                {% endfor %}
-                              {% endif %}
-                            {% endfor %}
-                          {% endfor %}
-                        {% endif %}
-                      {% endfor %}
-
-                      <li class="write-new">
-                        <form method="get">
-                          <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
-                          <div>
-                            {% if pic == '' %}
-                              <img src="/static/profile/pics/empty.png" alt="" style="height:500px;width:500px;">
-                            {% else %}
-                              <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
-                            {% endif %}
-                            <input type="hidden" name="sid" value="{{i.id}}">
-                            <button class="btn example_c" type="submit">Comment</button>
-                          </div>
-                        </form>
-                      </li>
-
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <script type="text/javascript">
-            $('.comment-section').scrollTop($('.comment-section')[0].scrollHeight);
-          </script>
-
-          {% endfor %}
-
+          <p></p>
 
           <div class="container-fluid">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -152,6 +94,81 @@
               </div>
             </div>
           </div>
+
+          <div class="panel-heading" id="accordion">
+              <div class="btn-group pull-right">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="position:fixed;top:1.7%;z-index:999;left:23%;">
+                    <img src="/static/svg/comment.png" style="height:45px;width:45px;">
+                  </a>
+              </div>
+          </div>
+
+          <!-- Collapsible chat box -->
+          <div class="container" style="position:fixed;top:4%;left:24%;">
+            <div class="row">
+                <div style="background-color:rgba(0, 0, 0, .7);color:white;max-width:70%;margin-right:0px;">
+                    <div class="panel panel-primary">
+                    <div class="panel-collapse collapse" id="collapseOne">
+
+                      <div class="row no-gutters align-items-center">
+                        <ul class="comment-section" style="font-size:12px;height: 60vh; overflow:scroll">
+
+                          {% for j,k in comm.items %}
+                            {% if forloop.counter == forloop.parentloop.counter %}
+                              {% for r,s in k.items %}
+                                {% for p1 in picture %}
+                                  {% if forloop.counter == forloop.parentloop.counter %}
+                                    {% for y,z in s.items %}
+                                      <li class="comment user-comment">
+                                        <div class="info" style="background:none;width:20%;font-size:10px;">
+                                          <a style="color:white;">{{z}}</a>
+                                          <a style="color:white;">{{r}}</a>
+                                        </div>
+                                        <a class="avatar">
+                                          {% if p1 == '' %}
+                                            <img src="/static/profile/pics/empty.png" alt="" style="height:35px;width:35px;border-radius: 50%;">
+                                          {% else %}
+                                            <img src="/media/{{p1}}" style="height:35px;width:35px;border-radius: 50%;" alt="Profile Avatar">
+                                          {% endif %}
+                                        </a>
+                                        <p style="background:linear-gradient(180deg,#4e73df 10%,#224abe 100%);color:white;">{{y}}</p>
+                                      </li>
+                                    {% endfor %}
+                                  {% endif %}
+                                {% endfor %}
+                              {% endfor %}
+                            {% endif %}
+                          {% endfor %}
+
+                          <li class="write-new">
+                            <form method="get">
+                              <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
+                              <div>
+                                {% if pic == '' %}
+                                  <img src="/static/profile/pics/empty.png" alt="" style="height:35px;width:35px;border-radius: 50%;">
+                                {% else %}
+                                  <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
+                                {% endif %}
+                                <input type="hidden" name="sid" value="{{i.id}}">
+                                <button class="btn example_c" type="submit">Comment</button>
+                              </div>
+                            </form>
+                          </li>
+
+                        </ul>
+                      </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+          $('.comment-section').scrollTop($('.comment-section')[0].scrollHeight);
+        </script>
+
+        {% endfor %}
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#">
