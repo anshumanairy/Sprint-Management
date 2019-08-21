@@ -8,7 +8,8 @@
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
 <link rel="stylesheet" href="/static/forms/style.css"/>
-
+<link rel="stylesheet" href="/static/datepicker/datepicker.css"/>
+<link rel="stylesheet" href="/static/datepicker/jquery.css"/>
 
 <body id="re">
 
@@ -209,7 +210,7 @@
                                 <label style="color:white;"><small>Sprint Start Date</small></label>
                               </div>
                               <div class="form-row form-row-1">
-                                <input type="text" name="start" class="datepicker1" id="datepicker1" style="width:140px;">
+                                <input type="text" name="start" class="datepicker ll-skin-nigran" id="datepicker1" style="width:140px;">
                               </div>
                             </div>
                             <div class="form-group">
@@ -217,7 +218,7 @@
                                 <label style="color:white;"><small>Sprint Developer End Date</small></label>
                               </div>
                               <div class="form-row form-row-1">
-                                <input type="text" name="dev" class="datepicker1" id="datepicker2" style="width:140px;">
+                                <input type="text" name="dev" class="datepicker ll-skin-nigran" id="datepicker2" style="width:140px;">
                               </div>
                             </div>
                             <div class="form-group">
@@ -225,7 +226,7 @@
                                 <label style="color:white;"><small>Sprint QA End Date</small></label>
                               </div>
                               <div class="form-row form-row-1">
-                                <input type="text" name="qa" class="datepicker1" id="datepicker3" style="width:140px;">
+                                <input type="text" name="qa" class="datepicker ll-skin-nigran" id="datepicker3" style="width:140px;">
                               </div>
                             </div>
                             <div class="form-row">
@@ -576,13 +577,13 @@
     $( function() {
       $( "#datepicker1" ).datepicker({
         dateFormat: 'yy-mm-dd'
-      });
+      }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
       $( "#datepicker2" ).datepicker({
         dateFormat: 'yy-mm-dd'
-      });
+      }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
       $( "#datepicker3" ).datepicker({
         dateFormat: 'yy-mm-dd'
-      });
+      }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
     } );
   </script>
   <script>

@@ -148,7 +148,7 @@ a:hover {
   z-index: 1;
   text-align: center;
   display: table-cell;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   width: 100%;
 }
 

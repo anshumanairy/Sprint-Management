@@ -30,10 +30,10 @@ $(document).ready(function() {
   });
 
   // Initiate superfish on nav menu
-  $('.nav-menu').superfish({
-    animation: {opacity:'show'},
-    speed: 400
-  });
+  // $('.nav-menu').superfish({
+  //   animation: {opacity:'show'},
+  //   speed: 400
+  // });
 
   // Mobile Navigation
   if( $('#nav-menu-container').length ) {
@@ -71,18 +71,18 @@ $(document).ready(function() {
   }
 
   // Stick the header at top on scroll
-  $("#header").sticky({topSpacing:0, zIndex: '50'});
+  // $("#header").sticky({topSpacing:0, zIndex: '50'});
 
   // Counting numbers
 
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000
-  });
+  // $('[data-toggle="counter-up"]').counterUp({
+  //   delay: 10,
+  //   time: 1000
+  // });
 
   // Tooltip & popovers
-  $('[data-toggle="tooltip"]').tooltip();
-  $('[data-toggle="popover"]').popover();
+  // $('[data-toggle="tooltip"]').tooltip();
+  // $('[data-toggle="popover"]').popover();
 
   // Background image via data tag
   $('[data-block-bg-img]').each(function() {

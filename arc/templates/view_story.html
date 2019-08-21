@@ -5,12 +5,14 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 {% load static %}
   <link rel="stylesheet" href="/static/forms/style.css"/>
   <link rel="stylesheet" href="/static/css/stories.css">
   <link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="/static/datepicker/datepicker2/datepicker.css"/>
+  <link rel="stylesheet" href="/static/datepicker/jquery.css"/>
 
   <body id="re">
 
@@ -446,7 +448,7 @@
                                 }).attr('readonly','readonly');
                                 $('.java{{forloop.counter0}}').click(function() {
                                   $("#java{{forloop.counter0}}").focus();
-                                });
+                                }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
                             });
                           </script>
 
@@ -547,7 +549,7 @@
                                 }).attr('readonly','readonly');
                                 $('.php{{forloop.counter0}}').click(function() {
                                   $("#php{{forloop.counter0}}").focus();
-                                });
+                                }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
                             });
                           </script>
 
@@ -648,7 +650,7 @@
                                 }).attr('readonly','readonly');
                                 $('.html{{forloop.counter0}}').click(function() {
                                   $("#html{{forloop.counter0}}").focus();
-                                });
+                                }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
                             });
                           </script>
 
@@ -748,7 +750,7 @@
                                   }).attr('readonly','readonly');
                                   $('.qa{{forloop.counter0}}').click(function() {
                                     $("#qa{{forloop.counter0}}").focus();
-                                  });
+                                  }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
                               });
                             </script>
 
@@ -884,12 +886,6 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  var overlay = document.getElementById("overlay");
-  window.addEventListener('load', function(){
-    overlay.style.display = 'none';
-  })
-</script>
 
 <script src="/static/new/sb-admin-2.min.js"></script>
 
