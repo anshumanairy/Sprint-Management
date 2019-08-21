@@ -215,7 +215,8 @@ def blog(request):
         # for tabular history
         history=[]
         h=0
-        update = progress.objects.filter(story_id=id1,jira_id=stz.jira).order_by('work_date')
+        dev=''
+        update = progress.objects.filter(story_id=sid,jira_id=stz.jira).order_by('work_date')
         for up in update:
             history.append([])
             dt = up.work_date
@@ -223,15 +224,21 @@ def blog(request):
             history[h].append(up.dev_name)
             if up.actual==0.5:
                 history[h].append('Quarter Day')
+                history[h].append(up.status)
             elif up.actual==1.0:
                 history[h].append('Half Day')
+                history[h].append(up.status)
             elif up.actual==1.5:
                 history[h].append('Three Quarters Day')
-            else:
+                history[h].append(up.status)
+            elif up.actual==2.0:
                 history[h].append('Full Day')
-            history[h].append(up.status)
+                history[h].append(up.status)
+            elif dev != up.dev_name:
+                dev = up.dev_name
+                history[h].append('')
+                history[h].append('Developer Changed')
             h+=1
-
         picture=[]
         comm={}
         n=0
@@ -334,8 +341,8 @@ def qaprg(request):
             list2[i1.name]={}
             for j11 in st1:
                 j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
-                if progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).exists()==True:
-                    p1 = progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
+                if progress.objects.filter(story_id=j1.id,jira_id=j1.jira,dev_name=i1.name).exists()==True:
+                    p1 = progress.objects.filter(story_id=j1.id,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
                     list2[i1.name][n]={}
                     for k1 in p1:
                         list2[i1.name][n][str(k1.work_date)]=str(k1.work_date)
@@ -351,9 +358,9 @@ def qaprg(request):
             list3[i2.name]={}
             for j22 in st1:
                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
                     r=0
-                    p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                    p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                     list3[i2.name][n]={}
                     for k2 in p1:
                         list3[i2.name][n][str(r)]=k2.status
@@ -372,8 +379,8 @@ def qaprg(request):
             list4[i2.name]={}
             for j22 in st1:
                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
-                    p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                    p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                     for k2 in p1:
                         list4[i2.name][n]=k2.jira_id
                         n+=1
@@ -398,8 +405,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.java_points_done)
                     list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
-                    if progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_java).exists()==True:
-                        z1 = progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_java).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
@@ -411,8 +418,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.php_points_done)
                     list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
-                    if progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_php).exists()==True:
-                        z1 = progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_php).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
@@ -424,8 +431,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.html_points_done)
                     list1[j][k].append(float(r1.assigned_html_points)-r1.html_points_done)
-                    if progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_html).exists()==True:
-                        z1 = progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_html).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
@@ -437,8 +444,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.qa_points_done)
                     list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
-                    if progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_qa).exists()==True:
-                        z1 = progress.objects.filter(story_id=id1,jira_id=r.jira,dev_name=r1.dev_qa).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
@@ -515,7 +522,7 @@ def qaprg(request):
                                 ix.qa_points_left = left1
                                 cx=float(ix.assigned_qa_points)-float(left1)
                             ix.save()
-                            z = progress(story_id=id1,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,left=left1,calculated_left=cx)
+                            z = progress(story_id=ix.story_id,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,left=left1,calculated_left=cx)
                             z.save()
 
                         list2={}
@@ -525,8 +532,8 @@ def qaprg(request):
                             list2[i1.name]={}
                             for j11 in st1:
                                 j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
-                                if progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).exists()==True:
-                                    p1 = progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
+                                if progress.objects.filter(story_id=ix.story_id,jira_id=j1.jira,dev_name=i1.name).exists()==True:
+                                    p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
                                     for k1 in p1:
                                         list2[i1.name][n]={}
                                         list2[i1.name][n][str(k1.work_date)]=str(k1.work_date)
@@ -542,8 +549,8 @@ def qaprg(request):
                             list3[m]={}
                             for j22 in st1:
                                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                                if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
-                                    p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                                if progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                                    p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                                     for k2 in p1:
                                         list3[m][n]=k2.status
                                         n+=1
@@ -558,8 +565,8 @@ def qaprg(request):
                             list4[m]={}
                             for j22 in st1:
                                 j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                                if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
-                                    p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                                if progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                                    p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                                     for k2 in p1:
                                         list4[m][n]=k2.jira_id
                                         n+=1
@@ -643,8 +650,8 @@ def qaprg(request):
             list2[name1]={}
             for j11 in st1:
                 j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
-                if progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=name1).exists()==True:
-                    p1 = progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=name1).order_by('-id')
+                if progress.objects.filter(story_id=j1.id,jira_id=j1.jira,dev_name=name1).exists()==True:
+                    p1 = progress.objects.filter(story_id=j1.id,jira_id=j1.jira,dev_name=name1).order_by('-id')
                     list2[name1][n]={}
                     for k1 in p1:
                         list2[name1][n][str(k1.work_date)]=str(k1.work_date)
@@ -660,9 +667,9 @@ def qaprg(request):
         list3[name1]={}
         for j2 in st1:
             j22 = story.objects.get(sprint_id=id1,id=j22.story_id)
-            if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=name1).exists()==True:
+            if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).exists()==True:
                 r=0
-                p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=name1).order_by('-id')
+                p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
                 list3[name1][n]={}
                 for k2 in p1:
                     list3[name1][n][str(r)]=k2.status
@@ -680,8 +687,8 @@ def qaprg(request):
         list4[name1]={}
         for j22 in st1:
             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-            if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=name1).exists()==True:
-                p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=name1).order_by('-id')
+            if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).exists()==True:
+                p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
                 for k2 in p1:
                     list4[name1][n]=k2.jira_id
                     n+=1
@@ -694,7 +701,7 @@ def qaprg(request):
         k=0
         st = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
         for r in st:
-            r1 = story.objects.get(sprint_id=id1,id=r1.story_id)
+            r1 = story.objects.get(sprint_id=id1,id=r.story_id)
             list1[j].append([])
             list1[j][k].append(r1.story_name)
             list1[j][k].append(r1.jira)
@@ -704,8 +711,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.java_points_done)
-                if progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_java).exists()==True:
-                    z1 = progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_java).latest('id')
+                if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_java).exists()==True:
+                    z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_java).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.assigned_java_points)-r.java_points_done)
@@ -715,8 +722,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.php_points_done)
-                if progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_php).exists()==True:
-                    z1 = progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_php).latest('id')
+                if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_php).exists()==True:
+                    z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_php).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.assigned_php_points)-r.php_points_done)
@@ -726,8 +733,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.html_points_done)
-                if progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_html).exists()==True:
-                    z1 = progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_html).latest('id')
+                if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_html).exists()==True:
+                    z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_html).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
@@ -737,8 +744,8 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qa_points_done)
-                if progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_qa).exists()==True:
-                    z1 = progress.objects.filter(story_id=id1,jira_id=r1.jira,dev_name=r.dev_qa).latest('id')
+                if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_qa).exists()==True:
+                    z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_qa).latest('id')
                     list1[j][k].append(z1.left)
                 else:
                     list1[j][k].append(float(r.assigned_qa_points)-r.qa_points_done)
@@ -807,7 +814,7 @@ def qaprg(request):
                             ix.qa_points_left = left1
                             cx=float(ix.assigned_qa_points)-float(left1)
                         ix.save()
-                        z = progress(story_id=id1,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,left=left1,calculated_left=cx)
+                        z = progress(story_id=ix.story_id,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,left=left1,calculated_left=cx)
                         z.save()
 
                     list2={}
@@ -817,8 +824,8 @@ def qaprg(request):
                         list2[i1.name]={}
                         for j11 in st1:
                             j1 = story.objects.get(sprint_id=id1,id=j11.story_id)
-                            if progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).exists()==True:
-                                p1 = progress.objects.filter(story_id=id1,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
+                            if progress.objects.filter(story_id=ix.story_id,jira_id=j1.jira,dev_name=i1.name).exists()==True:
+                                p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j1.jira,dev_name=i1.name).order_by('-id')
                                 for k1 in p1:
                                     list2[i1.name][n]={}
                                     list2[i1.name][n][str(k1.work_date)]=str(k1.work_date)
@@ -834,8 +841,8 @@ def qaprg(request):
                         list3[m]={}
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                            if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
-                                p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                            if progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                                p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list3[m][n]=k2.status
                                     n+=1
@@ -850,8 +857,8 @@ def qaprg(request):
                         list4[m]={}
                         for j22 in st1:
                             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-                            if progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).exists()==True:
-                                p1 = progress.objects.filter(story_id=id1,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
+                            if progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).exists()==True:
+                                p1 = progress.objects.filter(story_id=ix.story_id,jira_id=j2.jira,dev_name=i2.name).order_by('-id')
                                 for k2 in p1:
                                     list4[m][n]=k2.jira_id
                                     n+=1
@@ -1516,22 +1523,25 @@ def prod(request):
                     obj = project_details.objects.get(project_id=pid2)
                     selected_users = list(map(str,(obj.devs).split('@end@')))
                     selected_mans = list(map(str,(obj.mans).split('@end@')))
+                    print(selected_mans)
+                    print(selected_users)
                     for i1 in x1:
                         if i1.uname in selected_mans:
                             x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                             if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
                                 x2.save()
+                                print(i1.uname,'man')
                             else:
                                 messages.info(request, 'UNAUTHORIZED!')
                                 return redirect('product')
-                        else:
-                            if i1.uname in selected_users:
-                                x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles=i1.roles,java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
-                                if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
-                                    x2.save()
-                                else:
-                                    messages.info(request, 'UNAUTHORIZED!')
-                                    return redirect('product')
+                        elif i1.uname in selected_users:
+                            x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='dev',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
+                            if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
+                                x2.save()
+                                print(i1.uname,'dev')
+                            else:
+                                messages.info(request, 'UNAUTHORIZED!')
+                                return redirect('product')
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
@@ -1771,6 +1781,7 @@ def view_story(request):
                     java_dev = request.GET.get('java_sel')
                     p1 = request.GET.get('points1')
                     idy = request.GET.get('idx')
+                    dt = datetime.date.today()
                     if int(p1)>0:
                         px = story.objects.get(sprint_id=id,id=idy)
                         p = story_details.objects.get(story_id=px.id)
@@ -1790,36 +1801,44 @@ def view_story(request):
                                 if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
                                     q.save()
+                                    pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                    pr2.save()
                                 p.save()
                         a=sum(list1)
 
                         # user change
-                        try:
-                            if dev1 != None and dev1 != java_dev :
-                                creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
-                                creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
-                                j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
-                                j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
+                        if dev1 != java_dev and dev1 not in [' ','',None] :
+                            creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
+                            creg1 = user_sprint_detail.objects.get(name=java_dev,sprint_id=id)
+                            j = story_details.objects.filter(sprint_id=id, dev_java=dev1)
+                            j1 = story_details.objects.filter(sprint_id=id, dev_java=java_dev)
 
-                                if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
-                                    creg.delta_java = creg.story_points_java
-                                else:
-                                    creg.delta_java = creg.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                            if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
+                                creg.delta_java = creg.story_points_java
+                            else:
+                                creg.delta_java = creg.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
-                                if j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
-                                    creg1.delta_java = creg1.story_points_java
-                                else:
-                                    creg1.delta_java = creg1.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
+                            if j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
+                                creg1.delta_java = creg1.story_points_java
+                            else:
+                                creg1.delta_java = creg1.story_points_java - (j1.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
 
-                                creg.save()
-                                creg1.save()
+                            creg.save()
+                            creg1.save()
 
-                                pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
-                                for p1 in pr:
-                                    p1.dev_name = java_dev
-                                    p1.save()
-                        except:
-                            pass
+                            # pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).latest('id')
+                            # pr1 = progress(story_id=id,jira_id=pr.jira_id,dev_name=java_dev,actual = pr.actual,left=pr.left,calculated_left=pr.left)
+                            # pr1.save()
+                            # pr = story_details.objects.filter(sprint_id=id,jira=).latest('id')
+                            dt = datetime.date.today()
+                            if progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).exists():
+                                pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).latest('id')
+                                pr1 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,actual = pr.actual,left=pr.left,calculated_left=pr.left,work_date=dt.strftime("%Y-%m-%d"))
+                                pr1.save()
+                            else:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
+
 
                 if 'php_sel' in request.GET:
                     php_dev = request.GET.get('php_sel')
@@ -1846,6 +1865,8 @@ def view_story(request):
                                 if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
                                     q.save()
+                                    pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                    pr2.save()
                                 p.save()
                         b=sum(list2)
 
@@ -1868,10 +1889,18 @@ def view_story(request):
                             creg.save()
                             creg1.save()
 
-                            pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
-                            for p1 in pr:
-                                p1.dev_name = php_dev
-                                p1.save()
+                            # pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
+                            # for p1 in pr:
+                            #     p1.dev_name = php_dev
+                            #     p1.save()
+                            dt = datetime.date.today()
+                            if progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).exists():
+                                pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).latest('id')
+                                pr1 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,actual = pr.actual,left=pr.left,calculated_left=pr.left,work_date=dt.strftime("%Y-%m-%d"))
+                                pr1.save()
+                            else:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
 
                 if 'html_sel' in request.GET:
                     html_dev = request.GET.get('html_sel')
@@ -1897,6 +1926,8 @@ def view_story(request):
                                 if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
                                     q.save()
+                                    pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                    pr2.save()
                                 p.save()
                         c=sum(list3)
 
@@ -1920,10 +1951,18 @@ def view_story(request):
                             creg.save()
                             creg1.save()
 
-                            pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
-                            for p1 in pr:
-                                p1.dev_name = html_dev
-                                p1.save()
+                            # pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
+                            # for p1 in pr:
+                            #     p1.dev_name = html_dev
+                            #     p1.save()
+                            dt = datetime.date.today()
+                            if progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).exists():
+                                pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).latest('id')
+                                pr1 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,actual = pr.actual,left=pr.left,calculated_left=pr.left,work_date=dt.strftime("%Y-%m-%d"))
+                                pr1.save()
+                            else:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
 
                 if 'qa_sel' in request.GET:
                     qa_dev = request.GET.get('qa_sel')
@@ -1949,6 +1988,8 @@ def view_story(request):
                                 if q.overall_status in [None,'',' ']:
                                     q.overall_status='Live'
                                     q.save()
+                                    pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                    pr2.save()
                                 p.save()
                         d=sum(list4)
 
@@ -1972,10 +2013,18 @@ def view_story(request):
                             creg.save()
                             creg1.save()
 
-                            pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
-                            for p1 in pr:
-                                p1.dev_name = qa_dev
-                                p1.save()
+                            # pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira)
+                            # for p1 in pr:
+                            #     p1.dev_name = qa_dev
+                            #     p1.save()
+                            dt = datetime.date.today()
+                            if progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).exists():
+                                pr = progress.objects.filter(dev_name=dev1,story_id=id,jira_id=p.jira).latest('id')
+                                pr1 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,actual = pr.actual,left=pr.left,calculated_left=pr.left,work_date=dt.strftime("%Y-%m-%d"))
+                                pr1.save()
+                            else:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
 
                     return(redirect('view_story'))
 
@@ -2055,8 +2104,23 @@ def view_story(request):
                                         messages.info(request, 'UNAUTHORIZED!')
                                         return redirect('view_story')
                                     z2 = story.objects.filter(sprint_id=id,story_name=fields[0],description=fields[1],jira=fields[2],overall_status=fields[11]).latest('id')
+                                    dt = datetime.date.today()
                                     z3 = story_details(sprint_id=id,jira=fields[2],story_id=z2.id,dev_java=fields[3],assigned_java_points=int(fields[4]),dev_php=fields[5],assigned_php_points=int(fields[6]),dev_html=fields[7],assigned_html_points=int(fields[8]),dev_qa=fields[9],assigned_qa_points=int(fields[10]))
+                                    dt = datetime.date.today()
                                     if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
+                                        # check developer skillwise check 4 times using if conditions
+                                        if fields[3] not in ['',' ',None]:
+                                            pr2 = progress(story_id=z2.id,jira_id=fields[2],dev_name=fields[3],work_date=dt.strftime("%Y-%m-%d"))
+                                            pr2.save()
+                                        if fields[5] not in ['',' ',None]:
+                                            pr2 = progress(story_id=z2.id,jira_id=fields[2],dev_name=fields[5],work_date=dt.strftime("%Y-%m-%d"))
+                                            pr2.save()
+                                        if fields[7] not in ['',' ',None]:
+                                            pr2 = progress(story_id=z2.id,jira_id=fields[2],dev_name=fields[7],work_date=dt.strftime("%Y-%m-%d"))
+                                            pr2.save()
+                                        if fields[9] not in ['',' ',None]:
+                                            pr2 = progress(story_id=z2.id,jira_id=fields[2],dev_name=fields[9],work_date=dt.strftime("%Y-%m-%d"))
+                                            pr2.save()
                                         z3.save()
                                     else:
                                         messages.info(request, 'UNAUTHORIZED!')
@@ -2076,6 +2140,7 @@ def view_story(request):
                     #         return redirect('view_story')
                     form.save()
                     z4 = story.objects.latest('id')
+                    dt = datetime.date.today()
                     z5 = story_details(sprint_id=id,story_id=z4.id,jira=z4.jira)
                     if request.user.has_perm("add_story.add_story") or ("add_story") in permission:
                         z5.save()
