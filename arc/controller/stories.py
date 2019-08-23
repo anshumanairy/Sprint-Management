@@ -284,16 +284,20 @@ def view_story(request):
                         q = story.objects.get(id=px.id)
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_java=i.name)
+                            j1 = story_details.objects.get(story_id=px.id)
                             if j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'] == None:
                                 list1.append(0)
                             else:
                                 list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
-                                if q.overall_status in [None,'',' ']:
+                                if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
                                     q.overall_status='Live'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
                                 p.save()
+                            if j1.dev_java in [' ','',None]:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
                         a=sum(list1)
 
                         # user change
@@ -348,19 +352,23 @@ def view_story(request):
                         for i in d1:
                             # j1 = story.objects.filter(sprint_id=id, dev_php=i.name)
                             j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
+                            j1 = story_details.objects.get(story_id=p1.id)
                             if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                                 list2.append(0)
                             else:
                                 list2.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
-                                if q.overall_status in [None,'',' ']:
+                                if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
                                     q.overall_status='Live'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
                                 p.save()
+                            if j1.dev_php in [' ','',None]:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
                         b=sum(list2)
 
-                        if dev1 != None and dev1 != php_dev :
+                        if dev1 != php_dev and dev1 not in [' ','',None] :
                             creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                             creg1 = user_sprint_detail.objects.get(name=php_dev,sprint_id=id)
                             j = story_details.objects.filter(sprint_id=id, dev_php=dev1)
@@ -409,20 +417,24 @@ def view_story(request):
                         list3=[]
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
+                            j1 = story_details.objects.get(story_id=p1.id)
                             if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                                 list3.append(0)
                             else:
                                 list3.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
-                                if q.overall_status in [None,'',' ']:
+                                if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
                                     q.overall_status='Live'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
                                 p.save()
+                            if j1.dev_html in [' ','',None]:
+                                pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,work_date=dt.strftime("%Y-%m-%d"))
+                                pr2.save()
                         c=sum(list3)
 
                         # user change
-                        if dev1 != None and dev1 != html_dev :
+                        if dev1 != html_dev and dev1 not in [' ','',None]:
                             creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                             creg1 = user_sprint_detail.objects.get(name=html_dev,sprint_id=id)
                             j = story_details.objects.filter(sprint_id=id, dev_html=dev1)
@@ -468,23 +480,28 @@ def view_story(request):
                         p.assigned_qa_points = int(p4)
                         p.qa_points_left = int(p4)
                         p.save()
+                        if j1.dev_qa == '':
+                            pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
+                            pr2.save()
+                        if q.overall_status in [None,'',' ']:
+                            q.overall_status='Live'
+                            q.save()
+                            pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
+                            pr2.save()
                         list4=[]
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
+                            j1 = story_details.objects.get(story_id=p1.id)
                             if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                                 list4.append(0)
                             else:
                                 list4.append(j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'])
-                                if q.overall_status in [None,'',' ']:
-                                    q.overall_status='Live'
-                                    q.save()
-                                    pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
-                                    pr2.save()
                                 p.save()
                         d=sum(list4)
 
                         # user change
-                        if dev1 != None and dev1 != qa_dev :
+                        if dev1 != qa_dev and dev1 not in [' ','',None]:
+                            print('hey2')
                             creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                             creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
                             j = story_details.objects.filter(sprint_id=id, dev_qa=dev1)
