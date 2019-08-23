@@ -92,7 +92,36 @@
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
-      <button class="rounded-circle border-0" id="sidebarToggle"><img src="/static/svg/code-solid-white.svg"></button>
+      <button class="rounded-circle border-2" id="sidebarToggle"><img src="/static/svg/code-solid-white.svg"></button>
+    </div>
+
+  </ul>
+
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar" style="max-width:5%;">
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link" style="padding-top:200%;" class="nav-link"href="{% url 'profile' %}"><img src="/static/svg/portrait-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'product' %}"><img src="/static/svg/home-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'view_story' %}"><img src="/static/svg/poll-h-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'qaprg' %}"><img src="/static/svg/chart-line-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'bandwidth' %}"><img src="/static/svg/calculator-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'tasks' %}l"><img src="/static/svg/flag-checkered-solid.svg" style="width:25px;height:25px;"></a>
+    </li>
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline" style="padding-top:70%;">
+      <button class="rounded-circle border-2" id="sidebarToggle"><img src="/static/svg/code-solid-white.svg"></button>
     </div>
 
   </ul>
@@ -108,7 +137,7 @@
       <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
         <!-- Sidebar Toggle (Topbar) -->
-        <button class="rounded-circle border-0" id="sidebarToggleTop"><img src="/static/svg/code-solid.svg"></button>
+        <button class="rounded-circle border-2" id="sidebarToggleTop"><img src="/static/svg/code-solid.svg"></button>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
