@@ -405,8 +405,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.java_points_done)
                     list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
-                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).exists()==True:
-                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).exclude(status='').exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_java).exclude(status='').latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
@@ -418,8 +418,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.php_points_done)
                     list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
-                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).exists()==True:
-                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).exclude(status='').exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_php).exclude(status='').latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
@@ -431,8 +431,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.html_points_done)
                     list1[j][k].append(float(r1.assigned_html_points)-r1.html_points_done)
-                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).exists()==True:
-                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).exclude(status='').exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_html).exclude(status='').latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
@@ -444,8 +444,8 @@ def qaprg(request):
                     list1[j][k].append(count)
                     list1[j][k].append(r1.qa_points_done)
                     list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
-                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).exists()==True:
-                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).latest('id')
+                    if progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).exclude(status='').exists()==True:
+                        z1 = progress.objects.filter(story_id=r.id,jira_id=r.jira,dev_name=r1.dev_qa).exclude(status='').latest('id')
                         list1[j][k].append(z1.left)
                     else:
                         list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
@@ -454,7 +454,7 @@ def qaprg(request):
                 k+=1
                 count=count+1;
             j+=1
-        # print(list1)
+        print(list1)
         name = request.user.username
         if request.method=='GET':
             if 'red' in request.GET:
@@ -476,6 +476,51 @@ def qaprg(request):
                     messages.info(request, 'UNAUTHORIZED!')
                 return redirect('qaprg')
 
+            if 'bs1' in request.GET:
+                if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
+                    j = request.GET.get('j1')
+                    n2 = request.GET.get('name2')
+                    left1 = request.GET.get('left')
+                    st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
+                    for ix in st:
+                        if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                            pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                            if ix.dev_java==n2:
+                                if left1 == (float(ix.assigned_java_points)-ix.java_points_done):
+                                    pr1.left= (float(ix.assigned_java_points)-ix.java_points_done)
+                                    pr1.save()
+                                else:
+                                    pr1.left=left1
+                                    pr1.save()
+                            elif ix.dev_php==n2:
+                                if left1 == (float(ix.assigned_php_points)-ix.php_points_done):
+                                    pr1.left= (float(ix.assigned_php_points)-ix.php_points_done)
+                                    pr1.save()
+                                else:
+                                    pr1.left=left1
+                                    pr1.save()
+                            elif ix.dev_html==n2:
+                                if left1 == (float(ix.assigned_html_points)-ix.html_points_done):
+                                    pr1.left= (float(ix.assigned_html_points)-ix.html_points_done)
+                                    pr1.save()
+                                else:
+                                    pr1.left=left1
+                                    pr1.save()
+                            else:
+                                if left1 == (float(ix.assigned_qa_points)-ix.qa_points_done):
+                                    pr1.left= (float(ix.assigned_qa_points)-ix.qa_points_done)
+                                    pr1.save()
+                                else:
+                                    pr1.left=left1
+                                    pr1.save()
+                        else:
+                            messages.info(request, 'No progress recorded as of yet, cannot change points!')
+                            return redirect('qaprg')
+                else:
+                    messages.info(request, 'UNAUTHORIZED!')
+
+                return redirect('qaprg')
+
             if 'as1' in request.GET:
                 if request.user.has_perm("change_progress.change_progress") or ("change_progress") in permission:
                     stdate = request.GET.get('startdate')
@@ -483,7 +528,7 @@ def qaprg(request):
                     j = request.GET.get('j1')
                     n2 = request.GET.get('name2')
                     frac = request.GET.get('fraction')
-                    left1 = request.GET.get('left')
+                    # left1 = request.GET.get('left')
                     frac1=0
                     if stdate not in [None,'']:
                         if frac=='Quarter Day':
@@ -496,33 +541,59 @@ def qaprg(request):
                             frac1=2
                         st = story_details.objects.filter(sprint_id=id1,dev_java=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_php=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_html=n2,jira=j) | story_details.objects.filter(sprint_id=id1,dev_qa=n2,jira=j)
                         cx=0
+                        left1 = 0
                         for ix in st:
+                            if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                                pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                                left1 = pr1.left-frac1
                             if ix.dev_java==n2:
-                                if float(left1)==(float(ix.assigned_java_points)-ix.java_points_done):
-                                    left1 = (float(ix.assigned_java_points)-(ix.java_points_done+ frac1))
+                                # if pr1.left==(float(ix.assigned_java_points)-ix.java_points_done):
+                                #     left1 = (float(ix.assigned_java_points)-(ix.java_points_done))
                                 ix.java_points_done = ix.java_points_done + frac1
-                                ix.java_points_left = left1
-                                cx=float(ix.assigned_java_points)-float(left1)
+                                if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                                    pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                                    cx = pr1.calculated_left - frac1
+                                else:
+                                    cx = float(ix.assigned_java_points)-frac1
+                                ix.java_points_left = cx
                             elif ix.dev_php==n2:
-                                if float(left1)==(float(ix.assigned_php_points)-ix.php_points_done):
-                                    left1 = (float(ix.assigned_php_points)-(ix.php_points_done+ frac1))
+                                # if pr1.left==(float(ix.assigned_php_points)-ix.php_points_done):
+                                #     left1 = (float(ix.assigned_php_points)-(ix.php_points_done))
                                 ix.php_points_done = ix.php_points_done + frac1
                                 ix.php_points_left = left1
-                                cx=float(ix.assigned_php_points)-float(left1)
+                                # cx=float(ix.assigned_php_points)-float(left1)
+                                if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                                    pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                                    cx = pr1.calculated_left - frac1
+                                else:
+                                    cx = float(ix.assigned_php_points)-frac1
+                                ix.php_points_left = cx
                             elif ix.dev_html==n2:
-                                if float(left1)==(float(ix.assigned_html_points)-ix.html_points_done):
-                                    left1 = (float(ix.assigned_html_points)-(ix.html_points_done+ frac1))
+                                # if pr1.left==(float(ix.assigned_html_points)-ix.html_points_done):
+                                #     left1 = (float(ix.assigned_html_points)-(ix.html_points_done))
                                 ix.html_points_done = ix.html_points_done + frac1
                                 ix.html_points_left = left1
-                                cx=float(ix.assigned_html_points)-float(left1)
+                                # cx=float(ix.assigned_html_points)-float(left1)
+                                if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                                    pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                                    cx = pr1.calculated_left - frac1
+                                else:
+                                    cx = float(ix.assigned_html_points)-frac1
+                                ix.html_points_left = cx
                             else:
-                                if float(left1)==(float(ix.assigned_qa_points)-ix.qa_points_done):
-                                    left1 = (float(ix.assigned_qa_points)-(ix.qa_points_done+ frac1))
+                                # if pr1.left==(float(ix.assigned_qa_points)-ix.qa_points_done):
+                                #     left1 = (float(ix.assigned_qa_points)-(ix.qa_points_done))
                                 ix.qa_points_done = ix.qa_points_done + frac1
                                 ix.qa_points_left = left1
-                                cx=float(ix.assigned_qa_points)-float(left1)
+                                # cx=float(ix.assigned_qa_points)-float(left1)
+                                if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
+                                    pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
+                                    cx = pr1.calculated_left - frac1
+                                else:
+                                    cx = float(ix.assigned_qa_points)-frac1
+                                ix.qa_points_left = cx
                             ix.save()
-                            z = progress(story_id=ix.story_id,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,left=left1,calculated_left=cx)
+                            z = progress(story_id=ix.story_id,jira_id=j,work_date=stdate,status=prog,dev_name=n2,actual=frac1,calculated_left=cx,left=left1)
                             z.save()
 
                         list2={}
@@ -574,7 +645,6 @@ def qaprg(request):
                         jd3=json.dumps(list4)
                     else:
                         messages.info(request, 'Please select a Valid Date!')
-
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
 
@@ -1578,7 +1648,7 @@ def view_story(request):
     if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
         data1 = sprint.objects.filter(project_id=pid2)
         n = project.objects.all().exclude(id=0)
-        if project.objects.get(id=pid2).exists()==True:
+        if project.objects.filter(id=pid2).exists()==True:
             nx = project.objects.get(id=pid2)
         else:
             messages.info(request, 'Select a valid sprint and project first!')

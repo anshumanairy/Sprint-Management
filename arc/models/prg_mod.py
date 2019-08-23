@@ -9,7 +9,9 @@ class progress(models.Model):
     status = models.CharField(max_length = 15)
     dev_name = models.CharField(max_length=20)
     actual = models.FloatField(default=0.0)
+    # whatever the user calculates to be left
     left = models.FloatField(default=0.0)
+    # actually calculated by calculation
     calculated_left = models.FloatField(default=0.0)
 
     def __str__(self):
