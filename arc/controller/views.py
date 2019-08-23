@@ -546,6 +546,15 @@ def qaprg(request):
                             if progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').exists()==True:
                                 pr1 = progress.objects.filter(story_id=ix.story_id,dev_name=n2).exclude(status='').latest('id')
                                 left1 = pr1.left-frac1
+                            else:
+                                if ix.dev_java==n2:
+                                    left1 = (float(ix.assigned_java_points)-ix.java_points_done)-frac1
+                                elif ix.dev_php==n2:
+                                    left1 = (float(ix.assigned_php_points)-ix.php_points_done)-frac1
+                                elif ix.dev_html==n2:
+                                    left1 = (float(ix.assigned_html_points)-ix.html_points_done)-frac1
+                                else:
+                                    left1 = (float(ix.assigned_qa_points)-ix.qa_points_done)-frac1
                             if ix.dev_java==n2:
                                 # if pr1.left==(float(ix.assigned_java_points)-ix.java_points_done):
                                 #     left1 = (float(ix.assigned_java_points)-(ix.java_points_done))
