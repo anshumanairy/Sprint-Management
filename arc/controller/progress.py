@@ -487,11 +487,11 @@ def qaprg(request):
         n=0
         st1 = story_details.objects.filter(sprint_id=id1,dev_java=name1) | story_details.objects.filter(sprint_id=id1,dev_php=name1) | story_details.objects.filter(sprint_id=id1,dev_html=name1) | story_details.objects.filter(sprint_id=id1,dev_qa=name1)
         list3[name1]={}
-        for j2 in st1:
-            j22 = story.objects.get(sprint_id=id1,id=j22.story_id)
-            if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).exists()==True:
+        for j22 in st1:
+            j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
+            if progress.objects.filter(story_id=j2.id,jira_id=j2.jira,dev_name=name1).exists()==True:
                 r=0
-                p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
+                p1 = progress.objects.filter(story_id=j2.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
                 list3[name1][n]={}
                 for k2 in p1:
                     list3[name1][n][str(r)]=k2.status
@@ -509,8 +509,8 @@ def qaprg(request):
         list4[name1]={}
         for j22 in st1:
             j2 = story.objects.get(sprint_id=id1,id=j22.story_id)
-            if progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).exists()==True:
-                p1 = progress.objects.filter(story_id=j1.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
+            if progress.objects.filter(story_id=j2.id,jira_id=j2.jira,dev_name=name1).exists()==True:
+                p1 = progress.objects.filter(story_id=j2.id,jira_id=j2.jira,dev_name=name1).order_by('-id')
                 for k2 in p1:
                     list4[name1][n]=k2.jira_id
                     n+=1
@@ -533,6 +533,7 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.java_points_done)
+                list1[j][k].append(float(r.assigned_java_points)-r.java_points_done)
                 if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_java).exclude(status='').exists()==True:
                     z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_java).exclude(status='').latest('id')
                     list1[j][k].append(z1.left)
@@ -545,6 +546,7 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.php_points_done)
+                list1[j][k].append(float(r.assigned_php_points)-r.php_points_done)
                 if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_php).exclude(status='').exists()==True:
                     z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_php).exclude(status='').latest('id')
                     list1[j][k].append(z1.left)
@@ -557,6 +559,7 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.html_points_done)
+                list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
                 if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_html).exclude(status='').exists()==True:
                     z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_html).exclude(status='').latest('id')
                     list1[j][k].append(z1.left)
@@ -569,6 +572,7 @@ def qaprg(request):
                 list1[j][k].append(name1)
                 list1[j][k].append(count)
                 list1[j][k].append(r.qa_points_done)
+                list1[j][k].append(float(r.assigned_qa_points)-r.qa_points_done)
                 if progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_qa).exclude(status='').exists()==True:
                     z1 = progress.objects.filter(story_id=r1.id,jira_id=r1.jira,dev_name=r.dev_qa).exclude(status='').latest('id')
                     list1[j][k].append(z1.left)
