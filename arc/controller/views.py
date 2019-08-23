@@ -986,7 +986,7 @@ def prod(request):
             pass
         else:
             list3.append(dt.strftime("%Y-%m-%d"))
-            p2 = progress.objects.filter(story_id=id,work_date=dt.strftime("%Y-%m-%d"))
+            p2 = progress.objects.filter(work_date=dt.strftime("%Y-%m-%d"))
             s2=0
             s3=0
             s4=0
@@ -994,6 +994,7 @@ def prod(request):
             s7=0
             jira=''
             for i2 in p2:
+                print(i2.dev_name,i2.status)
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
                     counter=counter+1
                     s5 = story_details.objects.filter(sprint_id=id,jira=i2.jira_id).latest('id')
@@ -1013,7 +1014,7 @@ def prod(request):
                     s6+=i2.calculated_left
                     s7=i2.left
 
-            # print(s2,s7,s4-z)
+            print(s2,s7,s4-z)
             if counter!=1:
                 if s2+s7==s4-z:
                     sum2=sum2-s2
@@ -1577,7 +1578,11 @@ def view_story(request):
     if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
         data1 = sprint.objects.filter(project_id=pid2)
         n = project.objects.all().exclude(id=0)
-        nx = project.objects.get(id=pid2)
+        if project.objects.get(id=pid2).exists()==True:
+            nx = project.objects.get(id=pid2)
+        else:
+            messages.info(request, 'Select a valid sprint and project first!')
+            return redirect('product')
         nx1 = sprint.objects.get(id = id).name
         data = story_details.objects.filter(sprint_id=id)
 
