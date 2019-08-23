@@ -1031,6 +1031,7 @@ def prod(request):
     list6.append(sum2)
     z=0
     counter = 0
+    left2=0
     for dt in daterange(start, end):
         listz = list(map(str,dt.strftime("%Y-%m-%d").split('-')))
         listzz=[1,4,4,0,2,5,0,3,6,1,4,6]
@@ -1056,7 +1057,7 @@ def prod(request):
             pass
         else:
             list3.append(dt.strftime("%Y-%m-%d"))
-            p2 = progress.objects.filter(work_date=dt.strftime("%Y-%m-%d"))
+            p2 = progress.objects.filter(work_date=dt.strftime("%Y-%m-%d")).exclude(status='')
             s2=0
             s3=0
             s4=0
@@ -1064,9 +1065,8 @@ def prod(request):
             s7=0
             jira=''
             for i2 in p2:
-                print(i2.dev_name,i2.status)
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
-                    counter=counter+1
+                #     counter=counter+1
                     s5 = story_details.objects.filter(sprint_id=id,jira=i2.jira_id).latest('id')
                     if i2.jira_id != jira:
                         if s5.dev_java==i2.dev_name:
@@ -1080,33 +1080,27 @@ def prod(request):
                         jira = i2.jira_id
 
                     s2+=i2.actual
-                    s3+=i2.left
-                    s6+=i2.calculated_left
-                    s7=i2.left
-
-            print(s2,s7,s4-z)
-            if counter!=1:
-                if s2+s7==s4-z:
-                    sum2=sum2-s2
-                    list5.append(sum2)
-                else:
-                    sum2=sum2-s6
-                    list5.append(sum2)
-                if (cal+1)!=0:
-                    sumx-=(sumy/(cal+1))
-                    list6.append(sumx)
-                z=s2
-            else:
-                if s2+s7==s2+s7:
-                    sum2=sum2-s2
-                    list5.append(sum2)
-                else:
-                    sum2=sum2-s6
-                    list5.append(sum2)
-                if (cal+1)!=0:
-                    sumx-=(sumy/(cal+1))
-                    list6.append(sumx)
-                z=s2
+                    if i2.left != i2.calculated_left and (abs(i2.left-left2)!=i2.actual):
+                        s3+=i2.left
+                        # sum2=sum2-i2.actual
+                        if (i2.calculated_left-i2.left)>0:
+                            sum2=sum2-i2.actual-(i2.calculated_left-i2.left)
+                            left2 = i2.left
+                        else:
+                            sum2=sum2-i2.actual+(i2.calculated_left-i2.left)
+                            left2 = i2.left
+                    else:
+                        s3+=i2.calculated_left
+                        sum2=sum2-i2.actual
+                        left2 = i2.left
+                    # s3+=i2.left
+                    # s6+=i2.calculated_left
+                    # s7=i2.left
+            list5.append(sum2)
+            if (cal+1)!=0:
+                sumx-=(sumy/(cal+1))
+                list6.append(sumx)
+            # print(list5)
 
     # print(list5)
     # print(list6)
