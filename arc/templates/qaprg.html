@@ -102,7 +102,9 @@
                       <form method="GET" id="a{{k.1}}">
                       {% csrf_token %}
                         <td>
-                          <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:1px solid white;">
+                          <div>
+                            <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:1px solid white;">
+                          </div>
                           <img src="{% static '/images/calendar.png' %}" class="datepickerx{{k.5}}" style="width:30px;height:30px;">
                         </td>
                         <script>
