@@ -53,7 +53,7 @@
                             content = $(this).val();
 
                             content = content.replace(/\n/g, '<br>');
-                            hiddenDiv.html(content + '<br class="lbr">');
+                            hiddenDiv.html(content + '<br class="lbr">' + '<br class="lbr">');
 
                             $(this).css('height', hiddenDiv.height());
 
@@ -132,6 +132,31 @@
                                           {% endif %}
                                         </a>
                                         <p style="background:white;color:black;width:70%;">{{y}}</p>
+                                        <button class="close" href="#" data-toggle="modal" data-target="#deleteModal" aria-label="Close">
+                                          <span aria-hidden="true" style="color:white;margin-left:10%;">×</span>
+                                        </button>
+                                        <!-- <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete the comment?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">×</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">Select "Delete" below if you want to delete this comment.</div>
+                                              <div class="modal-footer">
+                                                <form method="get">
+                                                  {% csrf_token %}
+                                                  <input type="hidden" name="developer" value="{{z}}">
+                                                  <input type="hidden" name="time" value="{{r}}">
+                                                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                  <button class="btn btn-primary" type="submit" name="delete">Delete</button>
+                                                </form>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div> -->
                                       </li>
                                     {% endfor %}
                                   {% endif %}
@@ -139,6 +164,7 @@
                               {% endfor %}
                             {% endif %}
                           {% endfor %}
+
 
                           <li class="write-new">
                             <form method="get">
