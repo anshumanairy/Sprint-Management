@@ -443,6 +443,9 @@ def prod(request):
                 z2 = project_details(project_id=z1.id,creator=user1,devs=c,mans=d)
                 if request.user.has_perm("add_project.add_project") or ("add_project") in permission:
                     z2.save()
+                    pr = project.objects.all().latest('id')
+                    request.session['pid'] = pr.id
+                    request.session['id'] = 0
                 else:
                     messages.info(request, 'UNAUTHORIZED!')
                     return redirect('product')
@@ -661,14 +664,14 @@ def prod(request):
                     obj = project_details.objects.get(project_id=pid2)
                     selected_users = list(map(str,(obj.devs).split('@end@')))
                     selected_mans = list(map(str,(obj.mans).split('@end@')))
-                    print(selected_mans)
-                    print(selected_users)
+                    # print(selected_mans)
+                    # print(selected_users)
                     for i1 in x1:
                         if i1.uname in selected_mans:
                             x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='man',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                             if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
                                 x2.save()
-                                print(i1.uname,'man')
+                                # print(i1.uname,'man')
                             else:
                                 messages.info(request, 'UNAUTHORIZED!')
                                 return redirect('product')
@@ -676,10 +679,12 @@ def prod(request):
                             x2 = user_sprint_detail(sprint_id=x,uname=i1.uname,name=i1.name,roles='dev',java=i1.java,html=i1.html,php=i1.php,qa=i1.php)
                             if request.user.has_perm("add_sprint.add_sprint") or ("add_sprint") in permission:
                                 x2.save()
-                                print(i1.uname,'dev')
+                                # print(i1.uname,'dev')
                             else:
                                 messages.info(request, 'UNAUTHORIZED!')
                                 return redirect('product')
+                    sp = sprint.objects.all().latest('id')
+                    request.session['id'] = sp.id
                     return redirect('product')
                 else:
                     messages.info(request, 'Data Not Stored!')
