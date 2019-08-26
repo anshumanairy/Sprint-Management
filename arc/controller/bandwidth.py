@@ -60,7 +60,7 @@ def bandwidth(request):
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
-    if request.user.has_perm("view_bandwidth.view_bandwidth") or ("view_bandwidth") in permission:
+    if request.user.has_perm("view_bandwidth.view_bandwidth") or ("view_bandwidth") in permission or user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=sprid,roles='man').exists()==True:
         data1 = sprint.objects.filter(project_id=pid2)
         n0 = project.objects.all().exclude(id=0)
         nx = project.objects.get(id=pid2)

@@ -61,7 +61,7 @@ def tasks(request):
     per1 = Permission.objects.filter(group__user=request.user)
     for i in per1:
         permission.append(i.name)
-    if request.user.has_perm("view_report.view_report") or ("view_report") in permission:
+    if request.user.has_perm("view_report.view_report") or ("view_report") in permission or user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id1,roles='man').exists()==True:
         data1 = sprint.objects.filter(project_id=pid2)
         data3 = sprint.objects.filter(project_id=pid2).exclude(id=id1)
         list1x=[]

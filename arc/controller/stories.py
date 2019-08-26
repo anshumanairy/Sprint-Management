@@ -60,7 +60,7 @@ def view_story(request):
         pass
     for i in per1:
         permission.append(i.name)
-    if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission:
+    if request.user.has_perm("view_stories.view_stories") or ("view_stories") in permission or user_sprint_detail.objects.filter(uname=request.user.username,sprint_id=id,roles='man').exists()==True:
         data1 = sprint.objects.filter(project_id=pid2)
         n = project.objects.all().exclude(id=0)
         if project.objects.filter(id=pid2).exists()==True:
