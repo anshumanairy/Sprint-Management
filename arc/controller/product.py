@@ -90,11 +90,11 @@ def prod(request):
         i2 = story.objects.get(id=i1.story_id)
         sum1 += i1.java_points_left + i1.php_points_left + i1.html_points_left + i1.qa_points_left
         sum2 += i1.assigned_java_points + i1.assigned_php_points + i1.assigned_html_points + i1.assigned_qa_points
-        if i2.overall_status in['Pending Deployment','Complete']:
+        if i2.overall_status in['Pending Deployment','Complete','Live']:
             list7[0]+=1
         elif i2.overall_status in['QA']:
             list7[1]+=1
-        elif i2.overall_status in['Live','In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
+        elif i2.overall_status in['In Progress','HTML Done','PHP Done','API Done','Blocked','Blocked on API','Blocked on HTML','Blocked on Mock','Blocked on Spec','CR']:
             list7[2]+=1
         else:
             list7[3]+=1

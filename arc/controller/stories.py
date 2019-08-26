@@ -290,7 +290,7 @@ def view_story(request):
                             else:
                                 list1.append(j.aggregate(Sum('assigned_java_points'))['assigned_java_points__sum'])
                                 if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
-                                    q.overall_status='Live'
+                                    q.overall_status='In Progress'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=java_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
@@ -358,7 +358,7 @@ def view_story(request):
                             else:
                                 list2.append(j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'])
                                 if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
-                                    q.overall_status='Live'
+                                    q.overall_status='In Progress'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=php_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
@@ -423,7 +423,7 @@ def view_story(request):
                             else:
                                 list3.append(j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'])
                                 if q.overall_status in [None,'',' '] or i.name in [' ','',None]:
-                                    q.overall_status='Live'
+                                    q.overall_status='In Progress'
                                     q.save()
                                     pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=html_dev,work_date=dt.strftime("%Y-%m-%d"))
                                     pr2.save()
@@ -484,7 +484,7 @@ def view_story(request):
                             pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
                             pr2.save()
                         if q.overall_status in [None,'',' ']:
-                            q.overall_status='Live'
+                            q.overall_status='In Progress'
                             q.save()
                             pr2 = progress(story_id=px.id,jira_id=px.jira,dev_name=qa_dev,work_date=dt.strftime("%Y-%m-%d"))
                             pr2.save()

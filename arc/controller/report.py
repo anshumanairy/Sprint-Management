@@ -221,6 +221,7 @@ def tasks(request):
                             listz.append('qa')
                         if skill in listz:
                             stz.overall_status='In Progress'
+                            stz.save()
                             if skill=='java':
                                 st.dev_java=u1.name
                                 st.assigned_java_points=int(pt)
