@@ -91,8 +91,8 @@ def view_story(request):
             if i1.dev_java not in ['',None]:
                 list2x[i3.jira]={}
                 list3x[i3.jira]={}
-                if progress.objects.filter(story_id=id,dev_name=i1.dev_java,jira_id=i3.jira).exists()==True:
-                    st1 = progress.objects.filter(story_id=id,dev_name=i1.dev_java,jira_id=i3.jira)
+                if progress.objects.filter(story_id=i3.id,dev_name=i1.dev_java,jira_id=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(story_id=i3.id,dev_name=i1.dev_java,jira_id=i3.jira)
                     list2x[i3.jira][ny]={}
                     list3x[i3.jira][ny]={}
                     xy=0
@@ -105,8 +105,8 @@ def view_story(request):
             if i1.dev_php not in ['',None]:
                 list4x[i3.jira]={}
                 list5x[i3.jira]={}
-                if progress.objects.filter(story_id=id,dev_name=i1.dev_php,jira_id=i3.jira).exists()==True:
-                    st1 = progress.objects.filter(story_id=id,dev_name=i1.dev_php,jira_id=i3.jira)
+                if progress.objects.filter(story_id=i3.id,dev_name=i1.dev_php,jira_id=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(story_id=i3.id,dev_name=i1.dev_php,jira_id=i3.jira)
                     list4x[i3.jira][py]={}
                     list5x[i3.jira][py]={}
                     xy=0
@@ -119,8 +119,8 @@ def view_story(request):
             if i1.dev_html not in ['',None]:
                 list6x[i3.jira]={}
                 list7x[i3.jira]={}
-                if progress.objects.filter(story_id=id,dev_name=i1.dev_html,jira_id=i3.jira).exists()==True:
-                    st1 = progress.objects.filter(story_id=id,dev_name=i1.dev_html,jira_id=i3.jira)
+                if progress.objects.filter(story_id=i3.id,dev_name=i1.dev_html,jira_id=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(story_id=i3.id,dev_name=i1.dev_html,jira_id=i3.jira)
                     list6x[i3.jira][hy]={}
                     list7x[i3.jira][hy]={}
                     xy=0
@@ -133,8 +133,8 @@ def view_story(request):
             if i1.dev_qa not in ['',None]:
                 list8x[i3.jira]={}
                 list9x[i3.jira]={}
-                if progress.objects.filter(story_id=id,dev_name=i1.dev_qa,jira_id=i3.jira).exists()==True:
-                    st1 = progress.objects.filter(story_id=id,dev_name=i1.dev_qa,jira_id=i3.jira)
+                if progress.objects.filter(story_id=i3.id,dev_name=i1.dev_qa,jira_id=i3.jira).exists()==True:
+                    st1 = progress.objects.filter(story_id=i3.id,dev_name=i1.dev_qa,jira_id=i3.jira)
                     list8x[i3.jira][qy]={}
                     list9x[i3.jira][qy]={}
                     xy=0
