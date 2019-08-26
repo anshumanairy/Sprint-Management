@@ -7,6 +7,8 @@
 
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/profile.css">
+<link rel="stylesheet" href="/static/forms/style.css"/>
+<link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
 
   <body id="re">
 
@@ -120,6 +122,89 @@
       <div class="modal fade" id="update_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content" style="width:850px;">
+
+            <div class="page-content">
+              <div class="form-v10-content">
+                <form class="form-detail" method="POST">
+                  <div class="form-left">
+                  </div>
+                    <div class="form-right">
+                      <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                      {% csrf_token %}
+                      <h2>Update Personal Information</h2>
+
+                      <div class='form-row'>
+                        <label style="color:white;"><small>Name</small></label>
+                        {% if check == 1 %}
+                          <input type="text" name="name" value="{{info.username}}" disabled>
+                        {% else %}
+                          <input type="text" name="name" value="{{info.name}}">
+                        {% endif %}
+                      </div>
+
+                      <div class='form-row'>
+                        <label style="color:white;"><small>Username</small></label>
+                        {% if check == 1 %}
+                          <input type="text" name="uname" value="{{info.username}}">
+                        {% else %}
+                          <input type="text" name="uname" value="{{info.uname}}">
+                        {% endif %}
+                      </div>
+
+                      <div class="form-group">
+                        <div class="form-row form-row-1">
+                          <label style="color:white;"><small>Skills</small></label>
+                          <select class="js-example-basic-single" name="skill[]" style="width:100%;" multiple>
+                            {% if check == 1 %}
+                              <option selected>SUPERUSER</option>
+                            {% else %}
+                              {% if info.java == True %}
+                                <option selected>Java</option>
+                              {% else %}
+                                <option>Java</option>
+                              {% endif %}
+                              {% if info.php == True %}
+                                <option selected>PHP</option>
+                              {% else %}
+                                <option>PHP</option>
+                              {% endif %}
+                              {% if info.html == True %}
+                                <option selected>HTML</option>
+                              {% else %}
+                                <option>HTML</option>
+                              {% endif %}
+                              {% if info.qa == True %}
+                                <option selected>QA</option>
+                              {% else %}
+                                <option>QA</option>
+                              {% endif %}
+                            {% endif %}
+                          </select>
+                        </div>
+                      </div>
+
+                      <p></p>
+
+                      <div class='form-row-last'>
+                        <input type="submit" class="register" value="UPDATE" name='update'>
+                      </div>
+
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div class="modal fade" id="update_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="width:850px;">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Update Personal Information</h5>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -206,7 +291,7 @@
 
           </div>
         </div>
-      </div>
+      </div> -->
 
 
     <!-- <div class="container w3-animate-top" style="display:none" align="center" id="x1">
