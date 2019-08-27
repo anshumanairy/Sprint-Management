@@ -96,7 +96,7 @@
 
           <div class="panel-heading" id="accordion">
               <div class="btn-group pull-right">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="position:fixed;bottom:1.7%;z-index:999;right:1.2%;">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="position:fixed;bottom:1.7%;z-index:999;right:1.2%;" onclick="scrollToBottom()">
                     <img src="/static/images/comment.png" style="height:50px;width:50px;">
                   </a>
               </div>
@@ -110,7 +110,7 @@
                     <div class="panel-collapse collapse" id="collapseOne">
 
                       <div class="row no-gutters align-items-center">
-                        <ul class="comment-section" style="font-size:12px;height: 80vh; overflow:auto" onload="scrollToBottom()" id='pan'>
+                        <ul class="comment-section" style="font-size:12px;height: 80vh; overflow:auto" id='pan'>
 
                           {% for j,k in comm.items %}
                             {% if forloop.counter == forloop.parentloop.counter %}
@@ -160,16 +160,22 @@
                           </li>
                         </ul>
                       </div>
+                      <script>
+                        function scrollToBottom() {
+                          $(".comment-section").scrollTop($(".comment-section")[0].scrollHeight);
+                        }
+                      </script>
+                      <!-- <script type="text/javascript">
+                        $( document ).ready(function() {
+                          $(".comment-section").scrollTop($(".comment-section")[0].scrollHeight);
+                        });
+                      </script> -->
                     </div>
                     </div>
                 </div>
             </div>
         </div>
-
         {% endfor %}
-        <script type="text/javascript">
-          $(".comment-section").scrollTop($(".comment-section")[0].scrollHeight);
-        </script>
 
   <!-- Scroll to Top Button-->
   <!-- <a class="scroll-to-top rounded" href="#re">

@@ -160,7 +160,7 @@ def prod(request):
                             sum2=sum2-i2.actual-(i2.calculated_left-i2.left)
                             left2 = i2.left
                         else:
-                            sum2=sum2-i2.actual+(i2.calculated_left-i2.left)
+                            sum2=sum2-i2.actual-(i2.calculated_left-i2.left)
                             left2 = i2.left
                     else:
                         s3+=i2.calculated_left
