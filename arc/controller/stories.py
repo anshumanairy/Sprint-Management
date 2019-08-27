@@ -342,9 +342,9 @@ def view_story(request):
                     p2 = request.GET.get('points2')
                     idy = request.GET.get('idx')
                     if int(p2)>0:
-                        p1 = story.objects.get(sprint_id=id,id=idy)
-                        p = story_details.objects.get(story_id=p1.id)
-                        q = story.objects.get(id=p1.id)
+                        px = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=px.id)
+                        q = story.objects.get(id=px.id)
                         dev1 = p.dev_php
                         # n = user_sprint_detail.objects.get(name=php_dev,sprint_id=id1)
                         p.dev_php = php_dev
@@ -355,7 +355,7 @@ def view_story(request):
                         for i in d1:
                             # j1 = story.objects.filter(sprint_id=id, dev_php=i.name)
                             j = story_details.objects.filter(sprint_id=id, dev_php=i.name)
-                            j1 = story_details.objects.get(story_id=p1.id)
+                            j1 = story_details.objects.get(story_id=px.id)
                             if j.aggregate(Sum('assigned_php_points'))['assigned_php_points__sum'] == None:
                                 list2.append(0)
                             else:
@@ -409,9 +409,9 @@ def view_story(request):
                     idy = request.GET.get('idx')
                     if int(p3)>0:
                         # n = user_sprint_detail.objects.get(name=html_dev,sprint_id=id1)
-                        p1 = story.objects.get(sprint_id=id,id=idy)
-                        p = story_details.objects.get(story_id=p1.id)
-                        q = story.objects.get(id=p1.id)
+                        px = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=px.id)
+                        q = story.objects.get(id=px.id)
                         dev1 = p.dev_html
                         p.dev_html = html_dev
                         p.assigned_html_points = int(p3)
@@ -420,7 +420,7 @@ def view_story(request):
                         list3=[]
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_html=i.name)
-                            j1 = story_details.objects.get(story_id=p1.id)
+                            j1 = story_details.objects.get(story_id=px.id)
                             if j.aggregate(Sum('assigned_html_points'))['assigned_html_points__sum'] == None:
                                 list3.append(0)
                             else:
@@ -475,9 +475,9 @@ def view_story(request):
                     idy = request.GET.get('idx')
                     if int(p4)>0:
                         # n = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id1)
-                        p1 = story.objects.get(sprint_id=id,id=idy)
-                        p = story_details.objects.get(story_id=p1.id)
-                        q = story.objects.get(id=p1.id)
+                        px = story.objects.get(sprint_id=id,id=idy)
+                        p = story_details.objects.get(story_id=px.id)
+                        q = story.objects.get(id=px.id)
                         dev1 = p.dev_qa
                         p.dev_qa = qa_dev
                         p.assigned_qa_points = int(p4)
@@ -494,7 +494,7 @@ def view_story(request):
                         list4=[]
                         for i in d1:
                             j = story_details.objects.filter(sprint_id=id, dev_qa=i.name)
-                            j1 = story_details.objects.get(story_id=p1.id)
+                            j1 = story_details.objects.get(story_id=px.id)
                             if j.aggregate(Sum('assigned_qa_points'))['assigned_qa_points__sum'] == None:
                                 list4.append(0)
                             else:
