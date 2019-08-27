@@ -129,6 +129,16 @@ def blog(request):
                 return redirect('story')
 
         if request.method=='GET':
+            if 'time' in request.GET:
+                developer = request.GET.get('developer')
+                time = request.GET.get('time')
+                print(developer)
+                print(time)
+                id_of_user = User.objects.get(username=developer)
+                comms = comments.objects.get(user_id=id_of_user.id,time_of_comment=time)
+                # comms.delete()
+                return redirect('story')
+
             if 'brief_desc' in request.GET:
                 desc = request.GET.get('brief_desc')
                 change = story.objects.get(id=sid)

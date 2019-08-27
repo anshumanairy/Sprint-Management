@@ -121,11 +121,11 @@ def tasks(request):
 
         k=0
         repo=[]
-        c1 = user_sprint_detail.objects.filter(sprint_id=id1,roles='dev')
+        c1 = user_sprint_detail.objects.filter(sprint_id=id1)
         sum3=0
         for i3 in c1:
             sum3+=i3.available_bandwidth_java + i3.available_bandwidth_php + i3.available_bandwidth_html + i3.available_bandwidth_qa
-        repo.append(sum3)
+        repo.append(2*sum3)
         sum1=0
         sum2=0
         nextspr=[]
@@ -134,12 +134,13 @@ def tasks(request):
             c1 = story.objects.get(id=i4.story_id)
             sum1+= i4.assigned_java_points + i4.assigned_php_points + i4.assigned_html_points + i4.assigned_qa_points
             sum2+=i4.java_points_done + i4.php_points_done + i4.html_points_done + i4.qa_points_done
-            if c1.overall_status not in ['Pending Deployment','Complete','Live']:
+            if c1.overall_status not in ['Complete','Live']:
                 nextspr.append(i4.story_id)
 
         repo.append(sum1)
-        repo.append(sum1-sum2)
         repo.append(sum2)
+        repo.append(sum1-sum2)
+        print(sum3,sum1,sum1-sum2,sum2)
 
         list1=[]
         name = request.user.username
