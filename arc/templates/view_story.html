@@ -141,55 +141,43 @@
             <div class="card shadow mb-4">
               <div class="table100 ver3">
 
-                <!-- Edit Modal-->
+
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content" style="width:850px;">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Story</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">×</span>
-                        </button>
-                      </div>
 
-                      <div class="modal-body">
-                        <div class="container-fluid">
-                          <div class="card shadow mb-4">
-                            <div class="table100 ver3">
-
-                              <table class="w3-animate-left" data-vertable="ver1" style="display:none;" id="e">
-                                <thead class="text-primary">
-                                  <!-- <th>Check</th> -->
-                                  <th class="th-sm">Story Name</th>
-                                  <th class="th-sm">Description Link</th>
-                                  <th class="th-sm">Old Jira ID</th>
-                                  <th class="th-sm">New Jira ID</th>
-                                  <th class="th-sm">Assign</th>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <form method="get" id='edit2'>
-                                      {% csrf_token %}
-                                      <td>
-                                      <input type="text" name="s_name" value="" id="a1"></td>
-                                      <td>
-                                      <input type="url" name="desc" value="" id="b1"></td>
-                                      <td>
-                                      <input type="text" name ="old_jira" value="" id="c1"></td>
-                                      <td>
-                                      <input type="text" name="new_jira" value="" id="d1"></td>
-                                      <td>
-                                        <input class ="btn example_d" type="submit" value="Submit">
-                                      </td>
-                                    </form>
-                                  </tr>
-                                </tbody>
-                              </table>
-
+                      <div class="page-content">
+                        <div class="form-v10-content">
+                          <form class="form-detail" method="get">
+                            <div class="form-left">
                             </div>
+                              <div class="form-right" id='e'>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="color:white; padding-right:4%;padding-top:3%;">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                {% csrf_token %}
+                                <h2>Edit Story</h2>
+                                <div class="form-row">
+                                  <label style="color:white;"><small>Story Name</small></label>
+                                  <input type="text" name="s_name" value="" id="a1">
+                                </div>
+                                <div class="form-row">
+                                  <label style="color:white;"><small>Description Link</small></label>
+                                  <input type="url" name="desc" value="" id="b1">
+                                </div>
+                                <div class="form-row">
+                                  <label style="color:white;"><small>Jira ID</small></label>
+                                  <input type="text" name="new_jira" value="" id="d1">
+                                </div>
+
+                                <div class="form-row-last">
+                                  <input type="hidden" name="old_jira" value="" id='c1'>
+                                  <input type="submit" id='reg1' class="register" value="Submit">
+                                </div>
+                              </div>
+                            </form>
                           </div>
                         </div>
-                      </div>
 
                     </div>
                   </div>
@@ -222,7 +210,7 @@
                         <td><span id="yellow" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
                       {% if d.overall_status == 'HTML Done' or d.overall_status == 'PHP Done' or d.overall_status == 'API Done' or d.overall_status == 'CR' %}
-                        <td><span id="white" class="dot"></span>{{ d.ostatus }}</td>
+                        <td><span id="white" class="dot"></span>{{ d.overall_status }}</td>
                       {% endif %}
                       {% if d.overall_status == '' %}
                         <td><span id="black" class="dot"></span>Unassigned</td>
@@ -349,7 +337,7 @@
                       </tr>
                       <form method="GET" id="form_id{{dash.id}}">
                         {% csrf_token %}
-                        <tr class="row100 head">
+                        <tr class="row100 head" align='left'>
                           <td></td>
                             <td class="t">
                             <!-- dropdown developer -->

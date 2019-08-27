@@ -139,7 +139,7 @@ def prod(request):
             jira=''
             for i2 in p2:
                 if story_details.objects.filter(sprint_id=id,jira=i2.jira_id).exists()==True:
-                #     counter=counter+1
+                # counter=counter+1
                     s5 = story_details.objects.filter(sprint_id=id,jira=i2.jira_id).latest('id')
                     if i2.jira_id != jira:
                         if s5.dev_java==i2.dev_name:
