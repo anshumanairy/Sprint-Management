@@ -23,7 +23,6 @@
 
           <!-- Content Row -->
           <div class="container-fluid">
-
             <div class="row">
 
               <div class="col-xl-3 col-md-6 mb-4">
@@ -192,14 +191,14 @@
                     <th class="th-sm">Status</th>
                     <th class="th-sm" style="border-top-right-radius:7px;">Action</th>
                   </thead>
-                  <tbody>
+                  <tbody style="color:black;background:#f2f2f2;">
 
                     {% for d in datay %}{% for d1 in data %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                     <tr class="row100 head">
                       <form method="GET" target="_blank">
                         <input type="hidden" name="red" value="{{d.id}}">
-                        <td><a href="#"><input type="submit" style="border:1px solid white;background-color:white;border-radius:5px 5px 5px 5px;" value="{{ d.story_name }}"></a></td>
+                        <td><a href="#"><input type="submit" style="border:1px solid #f2f2f2;background-color:#f2f2f2;border-radius:5px 5px 5px 5px;" value="{{ d.story_name }}"></a></td>
                         <td>{{d.jira}}</td>
                       </form>
                       <td><a href="{{ d.description }}" target="_blank">{{ d.description }}</a></td>

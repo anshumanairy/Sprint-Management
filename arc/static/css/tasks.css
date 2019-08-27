@@ -2,7 +2,9 @@ th{
   cursor: pointer;
 }
 #tab2{
-  font-size: 14px;
+  text-align: center;
+  font-size: 12px;
+  border: solid lightgrey .5px;
 }
 body{
   font-family: Montserrat;

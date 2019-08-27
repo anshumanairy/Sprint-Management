@@ -6,10 +6,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/tasks.css">
-  <body id="re">
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/static/new/tables.css">
+
+<body id="re">
 
     {% block nav %}
     {% endblock %}
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datatable').dataTable();
+     $("[data-toggle=tooltip]").tooltip();
+   });
+</script>
 
     <!-- Content Row -->
           {% if 'move_story' in permission %}
@@ -59,7 +69,6 @@
           <div class="container-fluid">
             <div class="card shadow mb-4">
               <div class="table100 ver3">
-
                 <table class="w3-animate-left" id="e" style="display:none;font-size:10px;">
                   <tbody>
                     <tr>
@@ -95,7 +104,7 @@
                   </tbody>
                 </table>
 
-                <table class='table' id="tab2" data-vertable="ver1">
+                <table class='table' data-vertable="ver1" id='tab2'>
                   <thead>
                     <tr>
                       <th id="una" style="border-top-left-radius:7px;">Sprint Name</th>

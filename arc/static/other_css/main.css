@@ -102,15 +102,19 @@
 .table100.ver3 tbody tr {
   border-bottom: 1px solid #e5e5e5;
 }
-
+a{
+  color:black;
+}
 .table100.ver3 td {
   color: #808080;
+  border : 1px solid #e3e6f0;
 }
 
 .table100.ver3 th {
-  color: white;
-  background-color: #6c7ae0;
+  color: black;
+  background-color: white;
   text-transform: uppercase;
+  border : 1px solid #e3e6f0;
 }
 
 .table100.ver3 .row100:hover{
