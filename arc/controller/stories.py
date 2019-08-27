@@ -155,6 +155,7 @@ def view_story(request):
         px = sprint.objects.get(id=id)
         xx = px.sprint_start_date
         yy = px.sprint_dev_end_date
+        zz = px.sprint_qa_end_date
         xx=str(xx)
         aa,bb,cc = xx.split('-')
         yy=str(yy)
@@ -165,6 +166,8 @@ def view_story(request):
         dd=int(dd)
         ee=int(ee)
         ff=int(ff)
+        zz=str(zz)
+        dx,ex,fx=zz.split('-')
 
 
         # allocation part
@@ -661,7 +664,7 @@ def view_story(request):
             else:
                 form = storyform()
 
-        return render(request,'view_story.html',{'permission':permission,'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1,'pic':pic})
+        return render(request,'view_story.html',{'permission':permission,'datay':datay,'jd8x':jd8x,'jd7x':jd7x,'jd6x':jd6x,'jd5x':jd5x,'jd4x':jd4x,'jd3x':jd3x,'aa':aa,'bb':bb,'cc':cc,'dd':dd,'ee':ee,'ff':ff,'jd1x':jd1x,'jd2x':jd2x,'d2':d2,'d3':d3,'d4':d4,'d5':d5,'dashboard':dashboard,'list11':list11,'list21':list21,'list31':list31,'list41':list41,'a':a,'b':b,'c':c,'d':d,'sjava':sjava,'sphp':sphp,'shtml':shtml,'sqa':sqa,'d1':d1,'form':form,'data':data,'jd1':jd1,'jd2':jd2,'jd3':jd3,'jd4':jd4,'n':n,'nx':nx,'data1':data1,'nx1':nx1,'name':name,'dashboard1':dashboard1,'pic':pic,'dx':dx,'ex':ex,'fx':fx})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')

@@ -71,16 +71,22 @@ def qaprg(request):
         p = sprint.objects.get(id=id1)
         x = p.sprint_start_date
         y = p.sprint_dev_end_date
+        y1 = p.sprint_qa_end_date
         x=str(x)
         a,b,c = x.split('-')
         y=str(y)
         d,e,f = y.split('-')
+        y1=str(y1)
+        d1,e1,f1 = y1.split('-')
         a=int(a)
         b=int(b)
         c=int(c)
         d=int(d)
         e=int(e)
         f=int(f)
+        dx=int(d1)
+        ex=int(e1)
+        fx=int(f1)
         list2={}
         n=0
         for i1 in data:
@@ -158,6 +164,7 @@ def qaprg(request):
                     else:
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
                     list1[j][k].append(r.id)
+                    list1[j][k].append('dev')
                 elif r1.dev_php==i.name:
                     list1[j][k].append(r1.assigned_php_points)
                     list1[j][k].append(r.overall_status)
@@ -171,6 +178,7 @@ def qaprg(request):
                     else:
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
                     list1[j][k].append(r.id)
+                    list1[j][k].append('dev')
                 elif r1.dev_html==i.name:
                     list1[j][k].append(r1.assigned_html_points)
                     list1[j][k].append(r.overall_status)
@@ -184,6 +192,7 @@ def qaprg(request):
                     else:
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
                     list1[j][k].append(r.id)
+                    list1[j][k].append('dev')
                 elif r1.dev_qa==i.name:
                     list1[j][k].append(r1.assigned_qa_points)
                     list1[j][k].append(r.overall_status)
@@ -197,10 +206,12 @@ def qaprg(request):
                     else:
                         list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
                     list1[j][k].append(r.id)
+                    list1[j][k].append('qa')
 
                 k+=1
                 count=count+1;
             j+=1
+
         name = request.user.username
         if request.method=='GET':
             if 'red' in request.GET:
@@ -461,6 +472,11 @@ def qaprg(request):
         d=int(d)
         e=int(e)
         f=int(f)
+        y1=str(y)
+        d1,e1,f1 = y1.split('-')
+        dx=int(d1)
+        ex=int(e1)
+        fx=int(f1)
         x=request.user.username
         name1 = user_detail.objects.get(uname=x).name
         data = user_sprint_detail.objects.filter(roles='dev',name=name1,sprint_id=id1)
@@ -540,6 +556,7 @@ def qaprg(request):
                 else:
                     list1[j][k].append(float(r.assigned_java_points)-r.java_points_done)
                 list1[j][k].append(r1.id)
+                list1[j][k].append('dev')
             elif r.dev_php==name1:
                 list1[j][k].append(r.assigned_php_points)
                 list1[j][k].append(r1.overall_status)
@@ -553,6 +570,7 @@ def qaprg(request):
                 else:
                     list1[j][k].append(float(r.assigned_php_points)-r.php_points_done)
                 list1[j][k].append(r1.id)
+                list1[j][k].append('dev')
             elif r.dev_html==name1:
                 list1[j][k].append(r.assigned_html_points)
                 list1[j][k].append(r1.overall_status)
@@ -566,6 +584,7 @@ def qaprg(request):
                 else:
                     list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
                 list1[j][k].append(r1.id)
+                list1[j][k].append('dev')
             elif r.dev_qa==name1:
                 list1[j][k].append(r.assigned_qa_points)
                 list1[j][k].append(r1.overall_status)
@@ -579,6 +598,7 @@ def qaprg(request):
                 else:
                     list1[j][k].append(float(r.assigned_qa_points)-r.qa_points_done)
                 list1[j][k].append(r1.id)
+                list1[j][k].append('qa')
             k+=1
             count=count+1;
         j+=1
@@ -781,4 +801,4 @@ def qaprg(request):
                 request.session['id'] = spr.id
                 return redirect('qaprg')
 
-    return(render(request,'qaprg.html/',{'pic':pic,'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))
+    return(render(request,'qaprg.html/',{'dx':dx,'ex':ex,'fx':fx,'pic':pic,'permission':permission,'name':name,'data1':data1,'n0':n0,'nx':nx,'nx1':nx1,'data':data,'list1':list1,'p':p,'a':a,'b':b,'c':c,'d':d,'e':e,'f':f,'d1':jd1,'d2':jd2,'d3':jd3}))

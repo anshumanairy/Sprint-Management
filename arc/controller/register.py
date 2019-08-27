@@ -87,7 +87,7 @@ def reg(request):
 
     try:
         if request.method =='GET':
-            
+
             #part1 to obtain authorization code
             auth_code = request.GET.get('auth_code', '')
             encrypt_auth = encryptx(auth_code)

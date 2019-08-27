@@ -107,19 +107,39 @@
                           </div>
                           <img src="{% static '/images/calendar.png' %}" class="datepickerx{{k.5}}" style="width:30px;height:30px;">
                         </td>
-                        <script>
-                          $( function() {
-                            $( "#datepickerx{{k.5}}" ).datepicker({
-                              dateFormat: 'yy-mm-dd',
-                              minDate: new Date({{a}},{{b}}-1,{{c}}),
-                              maxDate: new Date({{d}},{{e}}-1,{{f}}),
-                              beforeShowDay: $.datepicker.noWeekends
-                            }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
-                            $('.datepickerx{{k.5}}').click(function() {
-                              $("#datepickerx{{k.5}}").focus();
+                        {% if k.10 == 'dev' %}
+                          <script>
+                            $( function() {
+                              d={{d}};
+                              e={{e}};
+                              f={{f}};
+                              $( "#datepickerx{{k.5}}" ).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                maxDate: new Date(d,e-1,f),
+                                beforeShowDay: $.datepicker.noWeekends
+                              }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                              $('.datepickerx{{k.5}}').click(function() {
+                                $("#datepickerx{{k.5}}").focus();
+                              });
                             });
-                          });
-                        </script>
+                          </script>
+                        {% endif %}
+                        {% if k.10 == 'qa' %}
+                          <script>
+                            $( function() {
+                              $( "#datepickerx{{k.5}}" ).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                maxDate: new Date({{dx}},{{ex}}-1,{{fx}}),
+                                beforeShowDay: $.datepicker.noWeekends
+                              }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                              $('.datepickerx{{k.5}}').click(function() {
+                                $("#datepickerx{{k.5}}").focus();
+                              });
+                            });
+                          </script>
+                        {% endif %}
                         <td>
                           <select class="js-example-basic-single" style="width:100%;" name="fraction">
                             <option>Quarter Day</option>
@@ -223,30 +243,56 @@
                                 }
                             }
 
-
-                            $("#datepicker{{k.5}}").datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                minDate: new Date({{a}},{{b}}-1,{{c}}),
-                                maxDate: new Date({{d}},{{e}}-1,{{f}}),
-                                beforeShowDay: function (date) {
-                                    var dev1 = nDates[date];
-                                    var color="";
-                                    if (dev1) {
-                                        if(dev1==1)
-                                          color='dev';
-                                        if(dev1==2)
-                                          color='cr';
-                                        if(dev1==3)
-                                          color='qa';
-                                        if(dev1==4)
-                                          color='rel';
-                                        return [true, color, 'Tooltip text'];
-                                    }
-                                    else {
-                                        return [false, '', ''];
-                                    }
-                                }
-                            }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                            if('{{k.10}}' == 'dev'){
+                              $("#datepicker{{k.5}}").datepicker({
+                                  dateFormat: 'yy-mm-dd',
+                                  minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                  maxDate: new Date({{d}},{{e}}-1,{{f}}),
+                                  beforeShowDay: function (date) {
+                                      var dev1 = nDates[date];
+                                      var color="";
+                                      if (dev1) {
+                                          if(dev1==1)
+                                            color='dev';
+                                          if(dev1==2)
+                                            color='cr';
+                                          if(dev1==3)
+                                            color='qa';
+                                          if(dev1==4)
+                                            color='rel';
+                                          return [true, color, 'Tooltip text'];
+                                      }
+                                      else {
+                                          return [false, '', ''];
+                                      }
+                                  }
+                              }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                            }
+                            else{
+                              $("#datepicker{{k.5}}").datepicker({
+                                  dateFormat: 'yy-mm-dd',
+                                  minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                  maxDate: new Date({{dx}},{{ex}}-1,{{fx}}),
+                                  beforeShowDay: function (date) {
+                                      var dev1 = nDates[date];
+                                      var color="";
+                                      if (dev1) {
+                                          if(dev1==1)
+                                            color='dev';
+                                          if(dev1==2)
+                                            color='cr';
+                                          if(dev1==3)
+                                            color='qa';
+                                          if(dev1==4)
+                                            color='rel';
+                                          return [true, color, 'Tooltip text'];
+                                      }
+                                      else {
+                                          return [false, '', ''];
+                                      }
+                                  }
+                              }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                            }
                             $('.datepicker{{k.5}}').click(function() {
                               $("#datepicker{{k.5}}").focus();
                             });
