@@ -102,13 +102,19 @@ def blog(request):
         n=0
         story_comments = comments.objects.filter(story_id=sid)
         comm[n]={}
+        names=[]
+        time=[]
         for j in story_comments:
             name1 = User.objects.get(id=j.user_id)
             comm[n][j.time_of_comment]={}
             comm[n][j.time_of_comment][j.comment]=name1.username
+            names.append(name1.username)
+            time.append(j.time_of_comment)
             reg1 = display_picture.objects.get(idx = name1.id).profile_picture
             picture.append(reg1)
         n+=1
+        names=json.dumps(names)
+        time=json.dumps(time)
 
         if request.method=='POST':
             if 'select_project' in request.POST:
@@ -132,11 +138,9 @@ def blog(request):
             if 'time' in request.GET:
                 developer = request.GET.get('developer')
                 time = request.GET.get('time')
-                print(developer)
-                print(time)
                 id_of_user = User.objects.get(username=developer)
                 comms = comments.objects.get(user_id=id_of_user.id,time_of_comment=time)
-                # comms.delete()
+                comms.delete()
                 return redirect('story')
 
             if 'brief_desc' in request.GET:
@@ -156,7 +160,7 @@ def blog(request):
                 comm.save()
                 return redirect('story')
 
-        return render(request,'blog.html/',{'picture':picture,'pic':pic,'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
+        return render(request,'blog.html/',{'names':names,'time':time,'picture':picture,'pic':pic,'stz':stz,'permission':permission,'history':history,'name':name,'comm':comm,'st':st,'n0':n0,'nx':nx,'nx1':nx1,'data1':data1})
     else:
         messages.info(request, 'You are unauthorized to view this page! Redirecting to home page.')
         return redirect('product')
