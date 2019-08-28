@@ -152,6 +152,8 @@ def prod(request):
                         jira = i2.jira_id
 
                     s2+=i2.actual
+                    
+                    # Main Part where the left points are compared for the sprint burndown graph
                     if i2.left != i2.calculated_left and (abs(i2.left-left2)!=i2.actual):
                         s3+=i2.left
                         # sum2=sum2-i2.actual
