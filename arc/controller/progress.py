@@ -512,7 +512,7 @@ def qaprg(request):
                 for k2 in p1:
                     list3[name1][n][str(r)]=k2.status
                     r+=1
-                    print(k2.status)
+                    # print(k2.status)
                 n+=1
             else:
                     n+=1

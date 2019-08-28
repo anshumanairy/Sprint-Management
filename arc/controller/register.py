@@ -65,6 +65,7 @@ def decryptx(value):
     key_64 = decode64(key)
     return(jwt.decode(value, key_64, algorithms=['HS256']))
 
+# Main View Function
 def reg(request):
     total=story.objects.all().count()
     d1=User.objects.all().count()

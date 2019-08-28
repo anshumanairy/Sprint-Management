@@ -504,7 +504,7 @@ def view_story(request):
 
                         # user change
                         if dev1 != qa_dev and dev1 not in [' ','',None]:
-                            print('hey2')
+                            # print('hey2')
                             creg = user_sprint_detail.objects.get(name=dev1,sprint_id=id)
                             creg1 = user_sprint_detail.objects.get(name=qa_dev,sprint_id=id)
                             j = story_details.objects.filter(sprint_id=id, dev_qa=dev1)

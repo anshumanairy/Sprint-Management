@@ -61,33 +61,6 @@
   <body>
 
     <div id="re">
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-      <button class="w3-bar-item w3-button w3-large"
-      onclick="w3_close()">Close &times;</button>
-      <a href="{% url 'register' %}" class="w3-bar-item w3-button">Register</a>
-      <a href="{% url 'login' %}" class="w3-bar-item w3-button">Login</a>
-      <a href="{% url 'admin' %}" class="w3-bar-item w3-button">Admin Login</a>
-    </div>
-
-    <div id="main">
-
-    <div class="w3-teal">
-      <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-    </div>
-
-    <script>
-    function w3_open() {
-      document.getElementById("main").style.marginLeft = "25%";
-      document.getElementById("mySidebar").style.width = "25%";
-      document.getElementById("mySidebar").style.display = "block";
-    }
-    function w3_close() {
-      document.getElementById("main").style.marginLeft = "0%";
-      document.getElementById("mySidebar").style.display = "none";
-      document.getElementById("openNav").style.display = "inline-block";
-    }
-    </script>
-
 
     <section class="hero">
       <div class="container text-center">
@@ -101,7 +74,11 @@
           <h1 style="font-size:400%;">
             Jira Management System
           </h1>
-          <a class="btn btn-full" href="#register">Register</a>
+          <div style="margin-top:8%;">
+            <a class="btn btn-full" href="#register" style="font-size:13px;font-family:Montserrat;">Register</a>
+            <a class="btn btn-full" href="{% url 'login' %}" style="margin-left:1%;margin-right:1%;font-size:13px;font-family:Montserrat;">Login</a>
+            <a class="btn btn-full" href="{% url 'admin' %}" style="font-size:13px;font-family:Montserrat;">Admin Login</a>
+          </div>
         </div>
       </div>
 

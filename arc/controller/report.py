@@ -140,7 +140,7 @@ def tasks(request):
         repo.append(sum1)
         repo.append(sum2)
         repo.append(sum1-sum2)
-        print(sum3,sum1,sum1-sum2,sum2)
+        # print(sum3,sum1,sum1-sum2,sum2)
 
         list1=[]
         name = request.user.username
