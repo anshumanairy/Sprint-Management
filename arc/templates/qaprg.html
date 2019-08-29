@@ -55,6 +55,7 @@
 
                             <!-- Modal content-->
                             <div class="modal-content">
+                              <div class='left'>
                               <div class="modal-header">
                                 <h4 class="modal-title">Update Progress</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -63,11 +64,11 @@
                                 <form class="form-detail" method="GET" id="a{{k.1}}">
                                     {% csrf_token %}
                                     <div class="form-row">
-                                        <label><small>Work Date</small></label>
-                                        <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:1px solid transparent;">
+                                        <label><small>Work Date : </small></label>
+                                        <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:0px;">
                                         <img src="{% static '/images/calendar.png' %}" class="datepickerx{{k.5}}" style="width:30px;height:30px;">
                                       </div>
-                                      <div class="form-row">
+                                      <div class="form-row" style="padding-top:10px;">
                                         <label><small>Work Time</small></label>
                                         <select class="js-example-basic-single" style="width:100%" name="fraction">
                                           <option>Quarter Day</option>
@@ -76,7 +77,7 @@
                                           <option>Full Day</option>
                                         </select>
                                       </div>
-                                      <div class="form-row">
+                                      <div class="form-row" style="padding-top:10px;">
                                         <label><small>Work Status</small></label>
                                         <select class="js-example-basic-single" style="width:100%" name="prg">
                                           <option>Dev</option>
@@ -85,17 +86,15 @@
                                           <option>Release Support</option>
                                         </select>
                                       </div>
-
+                                      <div class="form-row" style="padding-top:30px;padding-bottom:30px;">
+                                        <input type="hidden" name="j1" value="{{ k.1 }}" id='b1'>
+                                        <input type="hidden" name="name2" value="{{ i.name }}" id='c1'>
+                                        {% if 'change_progress' in permission %}
+                                          <input class="register" type="submit" name='as1' value="Submit" style="border:0px;border-radius:10px 10px 10px 10px;">
+                                        {% endif %}
+                                      </div>
                                     </form>
                               </div>
-                              <div class="modal-footer">
-                                <div class="form-row">
-                                  <input type="hidden" name="j1" value="{{ k.1 }}" id='b1'>
-                                  <input type="hidden" name="name2" value="{{ i.name }}" id='c1'>
-                                  {% if 'change_progress' in permission %}
-                                    <input class="register" type="submit" name='as1' value="Submit" style="margin-top:7px;">
-                                  {% endif %}
-                                </div>
                               </div>
                             </div>
 

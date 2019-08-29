@@ -113,7 +113,10 @@
                       <th>Assigned SP</th>
                       <th>Pending SP</th>
                       <th>Status</th>
-                      <th style="border-top-right-radius:7px;">Assign</th>
+                      {% if user.is_superuser %}
+                      {% else %}
+                        <th style="border-top-right-radius:7px;">Assign</th>
+                      {% endif %}
                     </tr>
                   </thead>
                   <tbody>
@@ -129,12 +132,15 @@
                           <td>{{ d1.6 }}</td>
                           <td>{{ d1.7 }}</td>
                           <td><span id="{{d1.4}}" class="dot"></span>{{ d1.3 }}</td>
-                          <td>
-                            {% if d1.3 == 'Unassigned' %}
-                              <button class="btn example_c" type="submit" name="assign_story" onclick="w5_open({{d1.8}})" id="edit"><small>Assign</small></button>
-                            {% else %}
-                            {% endif %}
-                          </td>
+                          {% if user.is_superuser %}
+                          {% else %}
+                            <td>
+                              {% if d1.3 == 'Unassigned' %}
+                                <button class="btn example_c" type="submit" name="assign_story" onclick="w5_open({{d1.8}})" id="edit"><small>Assign</small></button>
+                              {% else %}
+                              {% endif %}
+                            </td>
+                          {% endif %}
                         </tr>
                         {% endfor %}
                       {% endfor %}

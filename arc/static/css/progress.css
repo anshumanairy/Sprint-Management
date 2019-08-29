@@ -18,6 +18,14 @@ body{
 b, sup, sub, u, del{
   color:black;
 }
+.modal-content{
+  background-image: url("/static/forms/project.jpg");
+  background-size: cover;
+  color:white;
+}
+.left{
+  background: rgba(0, 0, 0, 0.7);
+}
 .select2-results__options[id*="select2-prg"] .select2-results__option:nth-child(1) {
   color:black;
   background-color: lightyellow;
