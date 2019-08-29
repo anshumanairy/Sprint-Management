@@ -40,7 +40,6 @@ from django.contrib.auth.models import Permission
 from django.utils.timezone import utc
 from django.utils import timezone
 
-
 @login_required(login_url='/')
 def tasks(request):
     try:
