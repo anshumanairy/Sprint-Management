@@ -5,9 +5,11 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.js" integrity="sha256-ZIgVXws0JSyxy1OmqGeFYUsfoNr22H2o4dMlFBrKLUU=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
 {% load static %}
-  <link href="/static/new/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/forms/style.css"/>
   <link rel="stylesheet" href="/static/css/progress.css">
+  <link rel="stylesheet" href="/static/forms/material-design-iconic-font.min.css">
   <link rel="stylesheet" href="/static/datepicker/datepicker2/datepicker.css"/>
   <link rel="stylesheet" href="/static/datepicker/datepicker2/jquery.css"/>
 
@@ -17,11 +19,11 @@
     {% endblock %}
 
     <!-- Content Row -->
-
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <div class="card shadow mb-4">
               <div class="table100 ver3">
+
                 <table class="table" id="tab2" data-vertable="ver1" style="text-align:center;">
                   <thead class=" text-primary">
                     <!-- <th>Check</th> -->
@@ -30,10 +32,11 @@
                     <th>Overall Status</th>
                     <th>Estimate</th>
                     <th>Completed/Left</th>
-                    <th>Change Left</th>
-                    <th>Date</th>
+                    <th>Work Left</th>
+                    <th>Update Progress</th>
+                    <!-- <th>Date</th>
                     <th>Estimate/Day</th>
-                    <th>Progress</th>
+                    <th>Progress</th> -->
                     <th style="border-top-right-radius:7px;">Check</th>
                   </thead>
                   <tbody>
@@ -42,264 +45,297 @@
                       <td style="color:black;background:#ededed;"><b>{{ i.name }}</b></td>
                       <td colspan='9' style="color:black;background:#ededed;"></td>
                     </tr>
+
                     {% for j in list1 %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                         {% for k in j %}
-                    <tr class="row100 head">
-                      <form method="GET" target="_blank">
-                        {% csrf_token %}
-                        <input type="hidden" name="red" value="{{k.9}}">
-                        <td><a href="#"><input style="border:1px solid white;background-color:white;border-radius:5px 5px 5px 5px;" type="submit" value="{{ k.0 }}"></a></td>
-                      </form>
-                      <td>{{ k.1 }}</td>
-                      <form method="GET">
-                        {% csrf_token %}
+
+                        <div id="a{{k.11}}b{{i.name}}" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Update Progress</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              </div>
+                              <div class="modal-body">
+                                <form class="form-detail" method="GET" id="a{{k.1}}">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <label><small>Work Date</small></label>
+                                        <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:1px solid transparent;">
+                                        <img src="{% static '/images/calendar.png' %}" class="datepickerx{{k.5}}" style="width:30px;height:30px;">
+                                      </div>
+                                      <div class="form-row">
+                                        <label><small>Work Time</small></label>
+                                        <select class="js-example-basic-single" style="width:100%" name="fraction">
+                                          <option>Quarter Day</option>
+                                          <option>Half Day</option>
+                                          <option>Three Quarters Day</option>
+                                          <option>Full Day</option>
+                                        </select>
+                                      </div>
+                                      <div class="form-row">
+                                        <label><small>Work Status</small></label>
+                                        <select class="js-example-basic-single" style="width:100%" name="prg">
+                                          <option>Dev</option>
+                                          <option>CR Fix</option>
+                                          <option>QA Support</option>
+                                          <option>Release Support</option>
+                                        </select>
+                                      </div>
+
+                                    </form>
+                              </div>
+                              <div class="modal-footer">
+                                <div class="form-row">
+                                  <input type="hidden" name="j1" value="{{ k.1 }}" id='b1'>
+                                  <input type="hidden" name="name2" value="{{ i.name }}" id='c1'>
+                                  {% if 'change_progress' in permission %}
+                                    <input class="register" type="submit" name='as1' value="Submit" style="margin-top:7px;">
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                        <tr class="row100 head">
+                          <form method="GET" target="_blank">
+                            {% csrf_token %}
+                            <input type="hidden" name="red" value="{{k.9}}">
+                            <td><a href="#"><input style="border:1px solid white;background-color:white;border-radius:5px 5px 5px 5px;" type="submit" value="{{ k.0 }}"></a></td>
+                          </form>
+                          <td>{{ k.1 }}</td>
+                          <form method="GET">
+                            {% csrf_token %}
+                              <td>
+                                <select class="js-example-basic-single" style="width:100%;" name="sel">
+                                  <option selected="true" disabled>{{ k.3 }}</option>
+                                  <option>Live</option>
+                                  <option>In Progress</option>
+                                  <option>HTML Done</option>
+                                  <option>PHP Done</option>
+                                  <option>API Done</option>
+                                  <option>QA</option>
+                                  <option>Pending Deployment</option>
+                                  <option>Blocked</option>
+                                  <option>BLocked on API</option>
+                                  <option>Blocked on HTML</option>
+                                  <option>Blocked on Mock</option>
+                                  <option>Blocked on Spec</option>
+                                  <option>Not Needed</option>
+                                  <option>Next Sprint</option>
+                                  <option>Duplicate</option>
+                                  <option>CR</option>
+                                  <option>Complete</option>
+                                </select>
+                                <input type="hidden" name="jid" value="{{ k.1 }}">
+                                <input type="hidden" name="name1" value="{{ i.name }}">
+                                <!-- <p></p> -->
+                                {% if 'change_progress' in permission %}
+                                  <input class="btn example_c" type="submit" name="as" value="Submit" style="margin-top:7px;">
+                                {% endif %}
+                              </td>
+                          </form>
+                          <td>{{ k.2 }}</td>
+                          <td>{{ k.6 }} / {{k.7}}</td>
+
+                          <form method="GET" id="b{{k.1}}">
+                            {% csrf_token %}
+                            <td>
+                              <input type="number" name="left" min=0 value="{{k.8}}" step="0.5" style="width:70px;" id="points">
+                              <input type="hidden" name="j1" value="{{ k.1 }}">
+                              <input type="hidden" name="name2" value="{{ i.name }}">
+                              <!-- <p></p> -->
+                              <div>
+                                {% if 'change_progress' in permission %}
+                                  <input class="btn example_c" type="submit" name='bs1' value="Submit" style="margin-top:10px;">
+                                {% endif %}
+                              </div>
+                            </td>
+                          </form>
                           <td>
-                            <select class="js-example-basic-single" style="width:100%;" name="sel">
-                              <option selected="true" disabled>{{ k.3 }}</option>
-                              <option>Live</option>
-                              <option>In Progress</option>
-                              <option>HTML Done</option>
-                              <option>PHP Done</option>
-                              <option>API Done</option>
-                              <option>QA</option>
-                              <option>Pending Deployment</option>
-                              <option>Blocked</option>
-                              <option>BLocked on API</option>
-                              <option>Blocked on HTML</option>
-                              <option>Blocked on Mock</option>
-                              <option>Blocked on Spec</option>
-                              <option>Not Needed</option>
-                              <option>Next Sprint</option>
-                              <option>Duplicate</option>
-                              <option>CR</option>
-                              <option>Complete</option>
-                            </select>
-                            <input type="hidden" name="jid" value="{{ k.1 }}">
-                            <input type="hidden" name="name1" value="{{ i.name }}">
-                            <!-- <p></p> -->
-                            {% if 'change_progress' in permission %}
-                              <input class="btn example_c" type="submit" name="as" value="Submit" style="margin-top:7px;">
-                            {% endif %}
+                            <p></p>
+                            <!-- onclick="value('{{k.5}}','{{k.1}}','{{i.name}}')" -->
+                            <a href="#" data-toggle="modal" data-target="#a{{k.11}}b{{i.name}}" ><img src="/static/images/change.png" style="height:30px;width:30px;"></a>
                           </td>
-                      </form>
-                      <td>{{ k.2 }}</td>
-                      <td>{{ k.6 }} / {{k.7}}</td>
-
-                      <form method="GET" id="b{{k.1}}">
-                        {% csrf_token %}
-                        <td>
-                          <input type="number" name="left" min=0 value="{{k.8}}" step="0.5" style="width:70px;" id="points">
-                          <input type="hidden" name="j1" value="{{ k.1 }}">
-                          <input type="hidden" name="name2" value="{{ i.name }}">
-                          <!-- <p></p> -->
-                          {% if 'change_progress' in permission %}
-                            <input class="btn example_c" type="submit" name='bs1' value="Submit" style="margin-top:10px;">
-                          {% endif %}
-                        </td>
-                      </form>
-
-                      <form method="GET" id="a{{k.1}}">
-                      {% csrf_token %}
-                        <td>
-                          <div>
-                            <input type="text" name="startdate" id="datepickerx{{k.5}}" style="width:1px;height:1px;border:1px solid white;">
-                          </div>
-                          <img src="{% static '/images/calendar.png' %}" class="datepickerx{{k.5}}" style="width:30px;height:30px;">
-                        </td>
-                        {% if k.10 == 'dev' %}
-                          <script>
-                            $( function() {
-                              d={{d}};
-                              e={{e}};
-                              f={{f}};
-                              $( "#datepickerx{{k.5}}" ).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                minDate: new Date({{a}},{{b}}-1,{{c}}),
-                                maxDate: new Date(d,e-1,f),
-                                beforeShowDay: $.datepicker.noWeekends
-                              }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
-                              $('.datepickerx{{k.5}}').click(function() {
-                                $("#datepickerx{{k.5}}").focus();
-                              });
-                            });
-                          </script>
-                        {% endif %}
-                        {% if k.10 == 'qa' %}
-                          <script>
-                            $( function() {
-                              $( "#datepickerx{{k.5}}" ).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                minDate: new Date({{a}},{{b}}-1,{{c}}),
-                                maxDate: new Date({{dx}},{{ex}}-1,{{fx}}),
-                                beforeShowDay: $.datepicker.noWeekends
-                              }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
-                              $('.datepickerx{{k.5}}').click(function() {
-                                $("#datepickerx{{k.5}}").focus();
-                              });
-                            });
-                          </script>
-                        {% endif %}
-                        <td>
-                          <select class="js-example-basic-single" style="width:100%;" name="fraction">
-                            <option>Quarter Day</option>
-                            <option>Half Day</option>
-                            <option>Three Quarters Day</option>
-                            <option>Full Day</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="js-example-basic-single" style="50%" name="prg">
-                            <option>Dev</option>
-                            <option>CR Fix</option>
-                            <option>QA Support</option>
-                            <option>Release Support</option>
-                          </select>
-                          <input type="hidden" name="j1" value="{{ k.1 }}">
-                          <input type="hidden" name="name2" value="{{ i.name }}">
-                          <!-- <p></p> -->
-                          {% if 'change_progress' in permission %}
-                            <input class="btn example_c" type="submit" name='as1' value="Submit" style="margin-top:7px;">
-                          {% endif %}
-                        </td>
-                        <td>
-                          <div>
-                            <input type="text" class="datepicker1" id="datepicker{{k.5}}" style="width:1px;height:1px;border:1px solid white;">
-                          </div>
-                          <img src="{% static '/images/calendar.png' %}" class="datepicker{{k.5}}" style="width:30px;height:30px;">
-                        </td>
-                        <script>
-                          $(document).ready(function() {
-                              var nDates = {};
-                              var data  = JSON.parse('{{ d1|escapejs }}');
-                              var stat = JSON.parse('{{ d2|escapejs }}');
-                              var jid = JSON.parse('{{ d3|escapejs }}');
-                              var arr1=[];
-                              var arr3=[];
-                              var j_id=[];
-                              var dev_name=[];
-
-                              for(i in data){
-                                if(i=="{{i.name}}"){
-                                  for(j in data[i]){
-                                    if(j=="{{k.5}}"){
-                                      for(k in data[i][j]){
-                                        if(data[i][j].hasOwnProperty(k)){
-                                            arr1.push(k);
-                                        }
-                                      }
-                                      dev_name.push(i);
-                                    }
-                                  }
-                                }
-                              }
-                              // console.log(arr1);
-
-                              for(i in stat){
-                                if(i=="{{i.name}}"){
-                                  for(j in stat[i]){
-                                    if(j=="{{k.5}}"){
-                                      for(k in stat[i][j]){
-                                        if(stat[i][j].hasOwnProperty(k)){
-                                          arr3.push(stat[i][j][k]);
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                              // console.log(arr3);
-
-                            for(i in jid){
-                              if(i=="{{i.name}}"){
-                                for(j in jid[i]){
-                                  if(j=="{{k.5}}"){
-                                    j_id.push(jid[i][j]);
-                                  }
-                                }
-                              }
-                            }
-                            // console.log(j_id);
-
-                            for(var i =0 ;i<arr1.length;i++){
-                                var day = 1000*60*60*24;
-                                date1 = new Date(arr1[i]);
-                                   var xx = date1.getTime();
-                                   var yy = new Date(xx);
-                                   z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
-                                   if(yy.getDay()!=0 && yy.getDay()!=6){
-                                       if(arr3[i]=='Dev'){
-                                         nDates[new Date(z)] = 1;
-                                       }
-                                       if(arr3[i]=='CR Fix'){
-                                         nDates[new Date(z)] = 2;
-                                       }
-                                       if(arr3[i]=='QA Support'){
-                                         nDates[new Date(z)] = 3;
-                                       }
-                                       if(arr3[i]=='Release Support'){
-                                         nDates[new Date(z)] = 4;
-                                       }
-                                }
-                            }
-
-                            if('{{k.10}}' == 'dev'){
-                              $("#datepicker{{k.5}}").datepicker({
+                          {% if k.10 == 'dev' %}
+                            <script>
+                              $( function() {
+                                d={{d}};
+                                e={{e}};
+                                f={{f}};
+                                $( "#datepickerx{{k.5}}" ).datepicker({
                                   dateFormat: 'yy-mm-dd',
                                   minDate: new Date({{a}},{{b}}-1,{{c}}),
-                                  maxDate: new Date({{d}},{{e}}-1,{{f}}),
-                                  beforeShowDay: function (date) {
-                                      var dev1 = nDates[date];
-                                      var color="";
-                                      if (dev1) {
-                                          if(dev1==1)
-                                            color='dev';
-                                          if(dev1==2)
-                                            color='cr';
-                                          if(dev1==3)
-                                            color='qa';
-                                          if(dev1==4)
-                                            color='rel';
-                                          return [true, color, 'Tooltip text'];
-                                      }
-                                      else {
-                                          return [false, '', ''];
-                                      }
-                                  }
-                              }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
-                            }
-                            else{
-                              $("#datepicker{{k.5}}").datepicker({
+                                  maxDate: new Date(d,e-1,f),
+                                  beforeShowDay: $.datepicker.noWeekends
+                                }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                                $('.datepickerx{{k.5}}').click(function() {
+                                  $("#datepickerx{{k.5}}").focus();
+                                });
+                              });
+                            </script>
+                          {% endif %}
+                          {% if k.10 == 'qa' %}
+                            <script>
+                              $( function() {
+                                $( "#datepickerx{{k.5}}" ).datepicker({
                                   dateFormat: 'yy-mm-dd',
                                   minDate: new Date({{a}},{{b}}-1,{{c}}),
                                   maxDate: new Date({{dx}},{{ex}}-1,{{fx}}),
-                                  beforeShowDay: function (date) {
-                                      var dev1 = nDates[date];
-                                      var color="";
-                                      if (dev1) {
-                                          if(dev1==1)
-                                            color='dev';
-                                          if(dev1==2)
-                                            color='cr';
-                                          if(dev1==3)
-                                            color='qa';
-                                          if(dev1==4)
-                                            color='rel';
-                                          return [true, color, 'Tooltip text'];
+                                  beforeShowDay: $.datepicker.noWeekends
+                                }).datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                                $('.datepickerx{{k.5}}').click(function() {
+                                  $("#datepickerx{{k.5}}").focus();
+                                });
+                              });
+                            </script>
+                          {% endif %}
+
+                          <td>
+                            <div>
+                              <input type="text" class="datepicker1" id="datepicker{{k.5}}" style="width:1px;height:1px;border:1px solid white;">
+                            </div>
+                            <img src="{% static '/images/calendar.png' %}" class="datepicker{{k.5}}" style="width:30px;height:30px;">
+                          </td>
+                            <script>
+                              $(document).ready(function() {
+                                  var nDates = {};
+                                  var data  = JSON.parse('{{ d1|escapejs }}');
+                                  var stat = JSON.parse('{{ d2|escapejs }}');
+                                  var jid = JSON.parse('{{ d3|escapejs }}');
+                                  var arr1=[];
+                                  var arr3=[];
+                                  var j_id=[];
+                                  var dev_name=[];
+
+                                  for(i in data){
+                                    if(i=="{{i.name}}"){
+                                      for(j in data[i]){
+                                        if(j=="{{k.5}}"){
+                                          for(k in data[i][j]){
+                                            if(data[i][j].hasOwnProperty(k)){
+                                                arr1.push(k);
+                                            }
+                                          }
+                                          dev_name.push(i);
+                                        }
                                       }
-                                      else {
-                                          return [false, '', ''];
-                                      }
+                                    }
                                   }
-                              }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
-                            }
-                            $('.datepicker{{k.5}}').click(function() {
-                              $("#datepicker{{k.5}}").focus();
+                                  // console.log(arr1);
+
+                                  for(i in stat){
+                                    if(i=="{{i.name}}"){
+                                      for(j in stat[i]){
+                                        if(j=="{{k.5}}"){
+                                          for(k in stat[i][j]){
+                                            if(stat[i][j].hasOwnProperty(k)){
+                                              arr3.push(stat[i][j][k]);
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                  // console.log(arr3);
+
+                                for(i in jid){
+                                  if(i=="{{i.name}}"){
+                                    for(j in jid[i]){
+                                      if(j=="{{k.5}}"){
+                                        j_id.push(jid[i][j]);
+                                      }
+                                    }
+                                  }
+                                }
+                                // console.log(j_id);
+
+                                for(var i =0 ;i<arr1.length;i++){
+                                    var day = 1000*60*60*24;
+                                    date1 = new Date(arr1[i]);
+                                       var xx = date1.getTime();
+                                       var yy = new Date(xx);
+                                       z=(yy.getFullYear()+"/"+(yy.getMonth()+1)+"/"+yy.getDate());
+                                       if(yy.getDay()!=0 && yy.getDay()!=6){
+                                           if(arr3[i]=='Dev'){
+                                             nDates[new Date(z)] = 1;
+                                           }
+                                           if(arr3[i]=='CR Fix'){
+                                             nDates[new Date(z)] = 2;
+                                           }
+                                           if(arr3[i]=='QA Support'){
+                                             nDates[new Date(z)] = 3;
+                                           }
+                                           if(arr3[i]=='Release Support'){
+                                             nDates[new Date(z)] = 4;
+                                           }
+                                    }
+                                }
+
+                                if('{{k.10}}' == 'dev'){
+                                  $("#datepicker{{k.5}}").datepicker({
+                                      dateFormat: 'yy-mm-dd',
+                                      minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                      maxDate: new Date({{d}},{{e}}-1,{{f}}),
+                                      beforeShowDay: function (date) {
+                                          var dev1 = nDates[date];
+                                          var color="";
+                                          if (dev1) {
+                                              if(dev1==1)
+                                                color='dev';
+                                              if(dev1==2)
+                                                color='cr';
+                                              if(dev1==3)
+                                                color='qa';
+                                              if(dev1==4)
+                                                color='rel';
+                                              return [true, color, 'Tooltip text'];
+                                          }
+                                          else {
+                                              return [false, '', ''];
+                                          }
+                                      }
+                                  }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                                }
+                                else{
+                                  $("#datepicker{{k.5}}").datepicker({
+                                      dateFormat: 'yy-mm-dd',
+                                      minDate: new Date({{a}},{{b}}-1,{{c}}),
+                                      maxDate: new Date({{dx}},{{ex}}-1,{{fx}}),
+                                      beforeShowDay: function (date) {
+                                          var dev1 = nDates[date];
+                                          var color="";
+                                          if (dev1) {
+                                              if(dev1==1)
+                                                color='dev';
+                                              if(dev1==2)
+                                                color='cr';
+                                              if(dev1==3)
+                                                color='qa';
+                                              if(dev1==4)
+                                                color='rel';
+                                              return [true, color, 'Tooltip text'];
+                                          }
+                                          else {
+                                              return [false, '', ''];
+                                          }
+                                      }
+                                  }).attr('readonly','readonly').datepicker('widget').wrap('<div class="ll-skin-nigran"/>');
+                                }
+                                $('.datepicker{{k.5}}').click(function() {
+                                  $("#datepicker{{k.5}}").focus();
+                                });
                             });
-                        });
-                      </script>
-                    </form>
-                    </tr>
+                          </script>
+                        <!-- </form> -->
+                        </tr>
+
                         {% endfor %}
                       {% endif %}
                     {% endfor %}

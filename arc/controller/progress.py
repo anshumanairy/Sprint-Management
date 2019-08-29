@@ -165,6 +165,7 @@ def qaprg(request):
                         list1[j][k].append(float(r1.assigned_java_points)-r1.java_points_done)
                     list1[j][k].append(r.id)
                     list1[j][k].append('dev')
+                    list1[j][k].append(r.id)
                 elif r1.dev_php==i.name:
                     list1[j][k].append(r1.assigned_php_points)
                     list1[j][k].append(r.overall_status)
@@ -179,6 +180,7 @@ def qaprg(request):
                         list1[j][k].append(float(r1.assigned_php_points)-r1.php_points_done)
                     list1[j][k].append(r.id)
                     list1[j][k].append('dev')
+                    list1[j][k].append(r.id)
                 elif r1.dev_html==i.name:
                     list1[j][k].append(r1.assigned_html_points)
                     list1[j][k].append(r.overall_status)
@@ -193,6 +195,7 @@ def qaprg(request):
                         list1[j][k].append(float(r.assigned_html_points)-r.html_points_done)
                     list1[j][k].append(r.id)
                     list1[j][k].append('dev')
+                    list1[j][k].append(r.id)
                 elif r1.dev_qa==i.name:
                     list1[j][k].append(r1.assigned_qa_points)
                     list1[j][k].append(r.overall_status)
@@ -207,6 +210,7 @@ def qaprg(request):
                         list1[j][k].append(float(r1.assigned_qa_points)-r1.qa_points_done)
                     list1[j][k].append(r.id)
                     list1[j][k].append('qa')
+                    list1[j][k].append(r.id)
 
                 k+=1
                 count=count+1;

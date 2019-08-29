@@ -110,7 +110,7 @@
                     <div class="panel-collapse collapse" id="collapseOne">
 
                       <div class="row no-gutters align-items-center">
-                        <ul class="comment-section" style="font-size:12px;height: 80vh; overflow:auto" id='pan'>
+                        <ul class="comment-section" style="font-size:12px;height:60vh; overflow:auto;margin-bottom:0px;" id='pan'>
 
                           {% for j,k in comm.items %}
                             {% if forloop.counter == forloop.parentloop.counter %}
@@ -166,24 +166,8 @@
                               {% endfor %}
                             {% endif %}
                           {% endfor %}
-
-
-                          <li class="write-new">
-                            <form method="get">
-                              <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
-                              <div>
-                                {% if pic == '' %}
-                                  <img src="/static/profile/pics/empty.png" alt="" style="height:35px;width:35px;border-radius: 50%;">
-                                {% else %}
-                                  <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
-                                {% endif %}
-                                <input type="hidden" name="sid" value="{{i.id}}">
-                                <button class="btn example_c" type="submit">Comment</button>
-                              </div>
-                            </form>
-                          </li>
-
                         </ul>
+
                       </div>
 
                       <script>
@@ -196,7 +180,22 @@
                           $(".comment-section").scrollTop($(".comment-section")[0].scrollHeight);
                         });
                       </script> -->
-
+                      <ul class='comment-section' style="font-size:12px;margin:0px;padding-bottom:0px;margin-bottom:30px;">
+                        <li class="write-new">
+                          <form method="get">
+                            <textarea placeholder="Write your comment here." name="comment_holder"></textarea>
+                            <div>
+                              {% if pic == '' %}
+                                <img src="/static/profile/pics/empty.png" alt="" style="height:35px;width:35px;border-radius: 50%;">
+                              {% else %}
+                                <img src="/media/{{pic.profile_picture}}" style="height:35px;width:35px;border-radius: 50%;">
+                              {% endif %}
+                              <input type="hidden" name="sid" value="{{i.id}}">
+                              <button class="btn example_c" type="submit">Comment</button>
+                            </div>
+                          </form>
+                        </li>
+                      </ul>
                     </div>
                     </div>
                 </div>
