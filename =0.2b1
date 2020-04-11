@@ -1,7 +1,0 @@
-Requirement already satisfied: xhtml2pdf in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (0.2.3)
-Requirement already satisfied: Pillow in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from xhtml2pdf) (6.1.0)
-Requirement already satisfied: reportlab>=3.0 in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from xhtml2pdf) (3.5.23)
-Requirement already satisfied: six in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from xhtml2pdf) (1.12.0)
-Requirement already satisfied: html5lib>=1.0 in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from xhtml2pdf) (1.0.1)
-Requirement already satisfied: pyPdf2 in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from xhtml2pdf) (1.26.0)
-Requirement already satisfied: webencodings in /Users/anshuman.airy/Desktop/Project/check/lib/python3.7/site-packages (from html5lib>=1.0->xhtml2pdf) (0.5.1)
