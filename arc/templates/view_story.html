@@ -30,8 +30,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Story</div>
-                          <button class="btn example_d" style="font-size:11px;" data-toggle="modal" data-target="#story_Modal" id="allocate">Add Story Manually</button>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Add Ticket</div>
+                          <button class="btn example_d" style="font-size:11px;" data-toggle="modal" data-target="#story_Modal" id="allocate">Add Ticket Manually</button>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -46,8 +46,24 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Add Story</div>
-                          <button class="btn example_e" style="font-size:11px;" data-toggle="modal" data-target="#csv_Modal" id="csv">Add Story via CSV</button>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Add Ticket</div>
+                          <button class="btn example_e" style="font-size:11px;" data-toggle="modal" data-target="#csv_Modal" id="csv">Add Ticket via CSV</button>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Delete Ticket</div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -73,13 +89,13 @@
                             <span aria-hidden="true">×</span>
                           </button>
                           {% csrf_token %}
-                          <h2>Add Story Manually</h2>
+                          <h2>Add Ticket Manually</h2>
                           <div class="form-row">
-                            <label style="color:white;"><small>Story Name</small></label>
+                            <label style="color:white;"><small>Ticket Name</small></label>
                             {{ form.story_name }}
                           </div>
                           <div class="form-row">
-                            <label style="color:white;"><small>Brief Description</small></label>
+                            <label style="color:white;"><small>Overview</small></label>
                             {{ form.brief_description }}
                           </div>
                           <div class="form-row">
@@ -116,7 +132,7 @@
                             <span aria-hidden="true">×</span>
                           </button>
                           {% csrf_token %}
-                          <h2>Add Story via CSV</h2>
+                          <h2>Add Ticket via CSV</h2>
                           <div class="form-row">
                             <input type="file" name="file1">
                           </div>
@@ -151,9 +167,9 @@
                                   <span aria-hidden="true">×</span>
                                 </button>
                                 {% csrf_token %}
-                                <h2>Edit Story</h2>
+                                <h2>Edit Ticket</h2>
                                 <div class="form-row">
-                                  <label style="color:white;"><small>Story Name</small></label>
+                                  <label style="color:white;"><small>Ticket Name</small></label>
                                   <input type="text" name="s_name" value="" id="a1">
                                 </div>
                                 <div class="form-row">
@@ -181,7 +197,7 @@
                 <table class='table' id="tab2" data-vertable="ver1" style="border-top-left-radius:7px;">
                   <thead class="text-primary">
                     <!-- <th>Check</th> -->
-                    <th class="th-sm" style="border-top-left-radius:7px;">Story Name</th>
+                    <th class="th-sm" style="border-top-left-radius:7px;">Ticket Name</th>
                     <th class="th-sm">Jira ID</th>
                     <th class="th-sm">Description</th>
                     <th class="th-sm">Status</th>
